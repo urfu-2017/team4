@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import LoginPage from './components/LoginPage';
@@ -9,11 +10,19 @@ import './index.css';
 
 @observer
 class Application extends React.Component {
+
+    @observable isAppLoaded = false;
+
     componentDidMount() {
-        UsersStore.fetchCurrentUser();
+        UsersStore.fetchCurrentUser()
+            .then(() => { this.isAppLoaded = true; });
     }
 
     render() {
+        if (!this.isAppLoaded) {
+            return <div />;
+        }
+
         if (!UsersStore.isAuth) {
             return <LoginPage />;
         }

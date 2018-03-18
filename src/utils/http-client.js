@@ -1,6 +1,7 @@
 import UsersStore from '../domain/users-store';
 import UIStore from '../domain/ui-store';
 
+const SERVER_UNAVAILABLE_MESSAGE = 'Server doesn\'t respond';
 const defaultOptions = {
     mode: 'cors',
     credentials: 'include',
@@ -21,11 +22,9 @@ export default async (url, options = null) => {
     try {
         response = await fetch(url, { ...options, ...defaultOptions });
     } catch (e) {
-        const message = 'Server doesn\'t respond';
+        UIStore.showError(SERVER_UNAVAILABLE_MESSAGE);
 
-        UIStore.showError(message);
-
-        return { status: 0, statusText: message, body: null };
+        return { status: 0, statusText: SERVER_UNAVAILABLE_MESSAGE, body: null };
     }
 
     const { status, statusText } = response;
@@ -36,7 +35,9 @@ export default async (url, options = null) => {
         return { status, statusText, body: null };
     }
 
-    const body = await response.json();
-
-    return { status, statusText, body };
+    return {
+        status,
+        statusText,
+        body: await response.json()
+    };
 };

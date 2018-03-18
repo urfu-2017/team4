@@ -10,10 +10,8 @@ class SessionStore {
     }
 
     async fetchCurrentUser() {
-        console.info('TEST');
         const response = await httpClient('/api/me');
         const user = response.body;
-        console.info('TEST', response);
 
         if (user === null) {
             return;
