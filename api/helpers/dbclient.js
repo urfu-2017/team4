@@ -7,9 +7,6 @@ const got = require('got');
 const DB_URL = 'https://hrudb.herokuapp.com/storage/';
 
 class DbError extends Error {
-    constructor(response) {
-        super(response.json().error.message);
-    }
 }
 
 class DbClient {
@@ -19,59 +16,65 @@ class DbClient {
 
     async put(key, value){
         let response = await this._request('PUT', key, value);
-        if (response.statusCode !== 201) {
-            throw new DbError(response);
-        }
+        DbClient._assertStatus(response, 201);
     }
 
     async post(key, value){
-        let response = this._request('POST', key, value);
-        if (response.statusCode === 204) {
-            throw new DbError(response);
-        }
+        let response = await this._request('POST', key, value);
+        DbClient._assertStatus(response, 204);
     }
 
     async get(key){
-        let response = this._request('GET', key);
-        if (response.statusCode === 400) {
-            throw new DbError(response);
-        }
+        let response = await this._request('GET', key);
+        DbClient._assertStatus(response, 204, 404);
 
-        return response.statusCode === 200 ? response.json() : null;
+        return response.statusCode === 200 ? JSON.parse(response.body) : null;
     }
 
-    async getall(key, from = '', to = '', sort, limit, offset){
+    async getall(key, options){
+        DbClient._convertDateField(options, 'from');
+        DbClient._convertDateField(options, 'to');
 
-        from = from instanceof Date ? from.getTime() : from;
-        to = to instanceof Date ? to.getTime() : to;
+        let path = key + '/all/?' + querystring.stringify(options);
 
-        let path = key + '/all/?' + querystring.stringify({
-            from, to, sort, limit, offset
-        });
+        let response = await this._request('GET', path);
+        DbClient._assertStatus(response, 200);
 
-        let response = this._request('GET', path);
-        if (response.statusCode === 400) {
-            throw new DbError(response);
-        }
-
-        return response.statusCode === 200 ? response.json() : null;
+        return JSON.parse(response.body);
     }
 
-    async del(key, value){
-        let response = this._request('GET', key, value);
-        if (response.statusCode !== 204) {
-            throw new DbError(response);
+    async del(key){
+        let response = await this._request('DELETE', key);
+        DbClient._assertStatus(response, 204);
+    }
+
+    async _request(method, path, body){
+        try{
+            return await got(DB_URL + path, {
+                method,
+                headers: {
+                    'authorization': this._token,
+                    'content-type': 'plain/text'
+                },
+                body,
+                throwHttpErrors: false
+            });
+        } catch (e){
+            throw new DbError(e.message);
         }
     }
 
-    _request(method, path, body){
-        return got(DB_URL + path, {
-            method,
-            headers: {
-                'authorization': this._token,
-                'content-type': 'plain/text'
-            },
-            body
-        });
+    static _assertStatus(response, ...allowedStatuses) {
+        if (!allowedStatuses.includes(response.statusCode)) {
+            throw new DbError('Unexpected HTTP status: ' + response.statusCode);
+        }
+    }
+
+    static _convertDateField(options, field){
+        if (options && options[field] && options[field] instanceof Date){
+            options[field] = options[field].getDate();
+        }
     }
 }
+
+module.exports = { DbClient, DbError };
