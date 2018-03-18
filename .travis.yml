@@ -8,7 +8,6 @@ script:
   - npm run client:test
   - npm run server:test
   - npm run client:build
-  - npm run server:start
 deploy:
   skip_cleanup: true
   provider: script
