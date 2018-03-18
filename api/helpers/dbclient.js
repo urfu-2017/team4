@@ -16,24 +16,24 @@ class DbClient {
         this._token = token;
     }
 
-    async put(key, value, retries = DEFAULT_RETRIES_COUNT) {
-        return await DbClient._try(() => this._put(key, value), retries);
+    put(key, value, retries = DEFAULT_RETRIES_COUNT) {
+        return DbClient._try(() => this._put(key, value), retries);
     }
 
-    async post(key, value, retries = DEFAULT_RETRIES_COUNT) {
-        return await DbClient._try(() => this._post(key, value), retries);
+    post(key, value, retries = DEFAULT_RETRIES_COUNT) {
+        return DbClient._try(() => this._post(key, value), retries);
     }
 
-    async get(key, retries = DEFAULT_RETRIES_COUNT) {
-        return await DbClient._try(() => this._get(key), retries);
+    get(key, retries = DEFAULT_RETRIES_COUNT) {
+        return DbClient._try(() => this._get(key), retries);
     }
 
-    async getall(key, options, retries = DEFAULT_RETRIES_COUNT) {
-        return await DbClient._try(() => this._getall(key, options), retries);
+    getAll(key, options, retries = DEFAULT_RETRIES_COUNT) {
+        return DbClient._try(() => this._getAll(key, options), retries);
     }
 
-    async del(key, retries = DEFAULT_RETRIES_COUNT) {
-        return await DbClient._try(() => this._del(key), retries);
+    del(key, retries = DEFAULT_RETRIES_COUNT) {
+        return DbClient._try(() => this._del(key), retries);
     }
 
     async _put(key, value) {
@@ -53,7 +53,7 @@ class DbClient {
         return response.statusCode === 200 ? JSON.parse(response.body) : null;
     }
 
-    async _getall(key, options) {
+    async _getAll(key, options) {
         DbClient._convertDateField(options, 'from');
         DbClient._convertDateField(options, 'to');
 

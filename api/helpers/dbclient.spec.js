@@ -22,24 +22,24 @@ describe('dbclient tests', function () {
 
     it('put должен создавать запись с одним значением', async function () {
         await client.put(testKey, testValues[0]);
-        assert.deepStrictEqual(await client.getall(testKey), [testValues[0]]);
+        assert.deepStrictEqual(await client.getAll(testKey), [testValues[0]]);
     });
 
     it('post должен добавлять новые значения', async function () {
         await client.post(testKey, testValues[1]);
         await client.post(testKey, testValues[2]);
-        assert.deepStrictEqual(await client.getall(testKey), testValues);
+        assert.deepStrictEqual(await client.getAll(testKey), testValues);
     });
 
-    it('getall должен учитывать параметры, когда они есть', async function () {
+    it('getAll должен учитывать параметры, когда они есть', async function () {
         assert.deepStrictEqual(
-            await client.getall(testKey, {offset: 1, limit: 1}),
+            await client.getAll(testKey, {offset: 1, limit: 1}),
             [testValues[1]]
         );
     });
 
     it('del должен удалять все значения', async function () {
         await client.del(testKey);
-        assert.deepStrictEqual(await client.getall(testKey), []);
+        assert.deepStrictEqual(await client.getAll(testKey), []);
     });
 });
