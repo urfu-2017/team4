@@ -9,7 +9,9 @@ const client = new DbClient('1b702299628663048463f13db00fcdf82e818372');
 const testKey = 'test';
 const testValues = ['test1', 'test2', 'test3'];
 
-describe('dbclient tests', () => {
+describe('dbclient tests', function () {
+    this.timeout(6000);
+
     before(async function () {
         await client.del(testKey);
     });
