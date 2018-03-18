@@ -18,5 +18,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(8080, () => {
-    console.info('Backend server started at http://localhost:8080');
+    console.info('Backend api started at http://localhost:8080');
 });
