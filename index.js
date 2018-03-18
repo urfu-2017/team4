@@ -1,21 +1,39 @@
 'use strict';
+require('dotenv').config();
 
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const app = express();
-const publicDir = path.join(__dirname, 'build');
-const indexFile = path.resolve(publicDir, 'index.html');
+const expressSession = require('express-session');
+const cookieParser = require('cookie-parser');
 
+const passport = require('./api/utils/passport');
+const authMiddleware = require('./api/middlewares/auth');
+const authController = require('./api/controllers/auth');
+
+const app = express();
+
+app.use(express.static(path.resolve(__dirname, 'build')));
 app.use(cors());
-app.use(express.static(publicDir));
+app.use(cookieParser());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.sendFile(indexFile);
-});
+app.use(expressSession({
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(authMiddleware);
+
+const clientEntry = path.resolve(__dirname, 'build/index.html');
+
+app.get('/', (req, res) => res.sendFile(clientEntry));
+app.use('/auth', authController);
 
 app.listen(8080, () => {
     console.info('Backend api started at http://localhost:8080');
