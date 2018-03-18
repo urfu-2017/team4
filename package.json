@@ -5,8 +5,10 @@
   "proxy": "http://localhost:8080",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.3",
     "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "got": "8.3.0",
+    "mocha": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
@@ -17,7 +19,8 @@
     "test-client": "react-scripts test --env=jsdom",
     "start": "node index.js",
     "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public",
-    "alias": "now alias --token=$NOW_TOKEN"
+    "alias": "now alias --token=$NOW_TOKEN",
+    "test": "mocha api/**/*.spec.js"
   },
   "now": {
     "name": "k1logram",
