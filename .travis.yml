@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - node
+cache: npm
+install:
+  - npm install
+script:
+  - npm run test-client
+  - npm run build-client
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash ./deploy.sh
+  on: master
+env:
+  global:
+    secure: JupsbULjPr1Ug86NmrFkOw7SNMWygMgzC4CZsF0aQ2SXbYmfYT2JmPTapvTE0IwpS8d6UYHKhm/1ZQQ2avQeNpMgVHWPQyReDr0tXRLX4ivj1Zb4toEg9aACYdyE97verYXbis8/9hmOSCKcZRGgMUiv3BMFKSPbWA1Bk5gruvFnm0Gnbg4yyuG/0nRcMIqhohdwI9Tc/NXvVN4VVmD7cs0ufoCSZ7ZgFD3dPKYx9l80DT3NLqoby91kbHzDwXaZrHD43Zsp58pST5hGJvalxBNEly9nIyS0vaw6ODX8Ljvy2BmLECzH/WEwpKBWctvSrCHYvGosgDGtUi/IN8Joa8VrVG5WWDusNModEp8Dh2t4wU19B6LIqDM3VQWI4ZgsH7gKNHDaAg3WlKV3VrjupBga+RUqbiBiZz/j+a1/gDGzDUS+E1YFEvOC3XB4AB2jkO6g3gahPXiJbtTY1jp9CoG5bBCj8N58Fp057d9S9LWs6MkmmOYgIIP7rswK42eDMBGlHMgeaLCf/YSnwD/lFHwB+NDgciDHIRHvIvLoxmC2Ak8m7p4MydbpHRpHfVRSrnu+4sZ/06vQ4nMAzF2s2BhHUT6OtAT7MYEeBqUlUknjHCfXsj8geINOB3Z7lkqcn7h4RB/d24KtZGyBcc87433T1brRIMDapaPYD6ERtvk=

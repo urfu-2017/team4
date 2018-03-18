@@ -15,6 +15,12 @@
     "start-client": "react-scripts start",
     "build-client": "react-scripts build",
     "test-client": "react-scripts test --env=jsdom",
-    "start-server": "node index.js"
+    "start": "node index.js",
+    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public",
+    "alias": "now alias --token=$NOW_TOKEN"
+  },
+  "now": {
+    "name": "k1logram",
+    "alias": "k1logram.now.sh"
   }
 }
