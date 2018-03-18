@@ -15,7 +15,7 @@ const authController = require('./api/controllers/auth');
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, 'build')));
+app.use(express.static(path.resolve(__dirname, 'build'), { redirect: false }));
 app.use(cors());
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -33,6 +33,7 @@ app.use(authMiddleware);
 const clientEntry = path.resolve(__dirname, 'build/index.html');
 
 app.get('/', (req, res) => res.sendFile(clientEntry));
+app.get('/api/me', (req, res) => res.json(req.session.passport.user));
 app.use('/auth', authController);
 
 app.listen(8080, () => {
