@@ -1,19 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import AddContact from '../add-contact';
+import Overlay from '../overlay';
+import HeadingBtn from '../heading-btn';
+import MainBtn from '../main-btn';
 import './index.css';
 
-const Head = () => (
+const Head = props => (
     <header className="contacts__head">
         <h2 className="contacts__title">Контакты</h2>
         <div className="contacts__header-buttons">
-            <button className="contacts__edit button_light">Редактировать</button>
-            <button className="contacts__close button_light">Закрыть</button>
+            <HeadingBtn className="contacts__edit">
+                Редактировать
+            </HeadingBtn>
+            <HeadingBtn className="contacts__close" onClick={props.closeHandler}>
+                Закрыть
+            </HeadingBtn>
         </div>
     </header>
 );
 
+Head.propTypes = {
+    closeHandler: PropTypes.func.isRequired
+};
+
 const Contact = ({ avatar, name, id, login }) => (
-    <a href={`/chat/${id}`} className="contacts__contact contact">
+    <a key={id} href={`/chat/${id}`} className="contacts__contact contact">
         <img src={avatar} alt="Аватар" className="contact__avatar" />
         <div className="contact__info">
             <span className="contact__name">{name}</span>
@@ -29,35 +42,61 @@ Contact.propTypes = {
     avatar: PropTypes.string.isRequired
 };
 
-const AddContact = () => (
-    <section className="contacts__add-contact add-contact">
-        <h2 className="add-contact__heading">Добавить контакт</h2>
-        <input type="text" className="add-contact__phone" id="add-phone" />
-        <label htmlFor="add-phone" className="add-contact__label">Номер телефона</label>
-        <input type="text" className="add-contact__first-name" id="add-first" />
-        <label htmlFor="add-first" className="add-contact__label">Номер телефона</label>
-        <input type="text" className="add-contact__last-name" id="add-last" />
-        <label htmlFor="add-last" className="add-contact__label">Номер телефона</label>
-        <div className="add-contact__buttons">
-            <button className="add-contact__cancel">Отмена</button>
-            <button className="add-contact__add">Добавить</button>
-        </div>
-    </section>
-);
+class Contacts extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            displayAddContact: false
+        };
+        this.showAddContact = this.showAddContact.bind(this);
+        this.hideAddContact = this.hideAddContact.bind(this);
+    }
 
-const Contacts = ({ contactsList }) => (
-    <section className="contacts">
-        <Head />
-        <input className="contacts__search" type="search" />
-        <section className="contacts__list">
-            {contactsList.map(Contact)}
-        </section>
-        <button className="contacts__new">Новый контакт</button>
-    </section>
-);
+    showAddContact() {
+        this.setState({
+            displayAddContact: true
+        });
+    }
+
+    hideAddContact() {
+        this.setState({
+            displayAddContact: false
+        });
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <section className="contacts">
+                    <Head closeHandler={this.props.closeContacts} />
+                    <div className="contacts__search-wrapper">
+                        <input className="contacts__search" type="search" placeholder="Поиск..." />
+                    </div>
+                    <ul className="contacts__list">
+                        {this.props.contactsList.map(Contact)}
+                    </ul>
+                    <MainBtn className="contacts__new" onClick={this.showAddContact}>
+                        Добавить контакт
+                    </MainBtn>
+                </section>
+                {
+                    this.state.displayAddContact ? (
+                        <AddContact closeHandler={this.hideAddContact} />
+                    ) : (
+                        <Overlay
+                            closeHandler={this.props.closeContacts}
+                            className="contacts__overlay"
+                            />
+                    )
+                }
+            </React.Fragment>
+        );
+    }
+}
 
 Contacts.propTypes = {
-    contactsList: PropTypes.arrayOf(PropTypes.shape(Contact.propTypes))
+    contactsList: PropTypes.arrayOf(PropTypes.shape(Contact.propTypes)).isRequired,
+    closeContacts: PropTypes.func.isRequired
 };
 
 export default Contacts;
