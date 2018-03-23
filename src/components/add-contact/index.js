@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Overlay from '../overlay';
 import MainBtn from '../main-btn';
+import './index.css';
 
 class AddContact extends React.Component {
     constructor() {
