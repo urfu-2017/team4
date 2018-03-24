@@ -5,8 +5,9 @@ cache: npm
 install:
   - npm install
 script:
-  - npm run test-client
-  - npm run build-client
+  - npm run client:test
+  - npm run server:test
+  - npm run client:build
 deploy:
   skip_cleanup: true
   provider: script
