@@ -1,0 +1,54 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.overlay__close {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: block;
+
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+
+    outline: none;
+    cursor: pointer;
+}
+
+.overlay__close::before,
+.overlay__close::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    right: 43px;
+
+    width: 3px;
+    height: 26px;
+
+    background: #aaa;
+    visibility: visible;
+
+    transition: background-color 0.2s;
+}
+
+.overlay__close:hover::before,
+.overlay__close:hover::after {
+    background: #fff;
+}
+
+.overlay__close::before {
+    transform: rotate(-45deg);
+}
+
+.overlay__close::after {
+    transform: rotate(45deg);
+}

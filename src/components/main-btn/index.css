@@ -1,0 +1,19 @@
+.btn_main {
+    border: none;
+    padding: 6px 10px;
+
+    background: #fff;
+    color: #5580a3;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+
+    transition: background-color 0.2s;
+}
+
+.btn_main:hover {
+    background: #f2f6fa;
+}
