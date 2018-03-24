@@ -15,20 +15,22 @@ class Application extends React.Component {
 
     componentDidMount() {
         UsersStore.fetchCurrentUser()
-            .then(() => { this.isAppLoaded = true; });
+            .then(() => {
+                this.isAppLoaded = true;
+            });
     }
 
     render() {
         if (!this.isAppLoaded) {
-            return <div />;
+            return <div/>;
         }
 
         if (!UsersStore.isAuth) {
-            return <LoginPage />;
+            return <LoginPage/>;
         }
 
         return (<h1>App</h1>);
     }
 }
 
-ReactDOM.render(<Application />, document.getElementById('root'));
+ReactDOM.render(<Application/>, document.getElementById('root'));
