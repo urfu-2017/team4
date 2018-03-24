@@ -3,22 +3,20 @@ import ReactDOM from 'react-dom';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
-import LoginPage from './components/LoginPage';
-
-import UsersStore from './domain/users-store';
 import './index.css';
+import UsersStore from './domain/users-store';
+import LoginPage from './components/LoginPage';
 
 @observer
 class Application extends React.Component {
-
-    @observable isAppLoaded = false;
-
     componentDidMount() {
         UsersStore.fetchCurrentUser()
             .then(() => {
                 this.isAppLoaded = true;
             });
     }
+
+    @observable isAppLoaded = false;
 
     render() {
         if (!this.isAppLoaded) {

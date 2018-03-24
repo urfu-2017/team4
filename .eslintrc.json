@@ -4,5 +4,16 @@
     "es6": true,
     "node": true,
     "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "script"
+  },
+  "rules": {
+    "no-use-before-define": ["error", {"functions": false}],
+    "comma-dangle": ["warn", "never"],
+    "no-param-reassign": "warn",
+    "indent": ["warn", 4],
+    "no-console": "off"
   }
 }

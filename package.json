@@ -22,6 +22,8 @@
     "react-scripts": "1.1.1"
   },
   "devDependencies": {
+    "jest": "22.4.3",
+    "@types/jest": "22.2.2",
     "@types/got": "7.1.8",
     "@types/node": "9.6.0",
     "@types/express": "4.11.1",
@@ -32,16 +34,17 @@
     "react-app-rewire-mobx": "1.0.7",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
-    "eslint-config-airbnb-base": "12.1.0"
+    "eslint-config-airbnb-base": "12.1.0",
+    "babel-eslint": "8.2.2"
   },
   "scripts": {
     "client:start": "react-app-rewired start",
     "client:build": "react-app-rewired build",
     "client:test": "react-app-rewired test --env=jsdom",
-    "client:lint": "eslint ./src",
+    "client:lint": "eslint src",
     "server:start": "node index.js",
     "server:test": "jest api/**/*.spec.js",
-    "server:lint": "eslint ./api",
+    "server:lint": "eslint api",
     "alias": "now alias --token=$NOW_TOKEN",
     "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public"
   },
