@@ -1,5 +1,3 @@
-'use strict';
-
 const passport = require('passport');
 const passportGithub = require('passport-github');
 
@@ -7,7 +5,7 @@ const strategy = new passportGithub.Strategy(
     {
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/auth/callback'
+        callbackURL: 'http://localhost:8080/auth/callback',
     },
     // eslint-disable-next-line
     (accessToken, refreshToken, profile, done) => {
@@ -21,7 +19,7 @@ const strategy = new passportGithub.Strategy(
         // Чтобы завершить процесс аутентификации необходимо вызвать `done`
         // И передать туда профиль пользователя – исходный или дополненный из базы
         done(null, profile);
-    }
+    },
 );
 
 passport.use(strategy);

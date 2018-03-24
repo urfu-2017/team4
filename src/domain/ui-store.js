@@ -13,7 +13,9 @@ class UIStore {
     showError(message) {
         this.error = message;
         setTimeout(
-            runInAction(() => { this.error = null; }),
+            runInAction(() => {
+                this.error = null;
+            }),
             TIMEOUT_ERROR
         );
     }
