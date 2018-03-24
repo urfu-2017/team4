@@ -8,7 +8,7 @@ const LoginPage = () => (
             <a
                 href="http://localhost:8080/auth"
                 className="login-page__button"
-                >
+            >
                 Войти через GitHub
             </a>
         </div>
