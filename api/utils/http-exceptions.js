@@ -1,3 +1,5 @@
+'use strict';
+
 class HttpError extends Error {
     constructor(message, code) {
         super(message);
@@ -24,5 +26,8 @@ class ServerError extends HttpError {
 }
 
 module.exports = {
-    HttpError, BadRequest, NotFound, ServerError,
+    HttpError,
+    BadRequest,
+    NotFound,
+    ServerError
 };

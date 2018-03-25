@@ -1,5 +1,6 @@
-const querystring = require('querystring');
+'use strict';
 
+const querystring = require('querystring');
 const got = require('got');
 
 const DB_URL = 'https://hrudb.herokuapp.com/storage/';
@@ -74,11 +75,11 @@ class DbClient {
                 method,
                 headers: {
                     authorization: this._token,
-                    'content-type': 'plain/text',
+                    'content-type': 'plain/text'
                 },
                 body,
                 throwHttpErrors: false,
-                timeout: REQUEST_TIMEOUT,
+                timeout: REQUEST_TIMEOUT
             });
         } catch (e) {
             throw new DbError(e.message);
