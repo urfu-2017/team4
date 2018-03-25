@@ -1,15 +1,17 @@
+'use strict';
+
 const assert = require('assert');
+
+const config = require('../config');
 const { DbClient } = require('./dbclient');
 
-const client = new DbClient('1b702299628663048463f13db00fcdf82e818372');
+const client = new DbClient(config.HRUDB_TOKEN);
 
 const testKey = 'test';
 const testValues = ['test1', 'test2', 'test3'];
 
-describe('dbclient tests', function () {
-    this.timeout(6000);
-
-    before(async () => {
+describe('dbclient tests', () => {
+    beforeEach(async () => {
         await client.del(testKey);
     });
 

@@ -1,15 +1,12 @@
 'use strict';
 
-require('dotenv').config();
-
 const path = require('path');
+const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-
 const expressSession = require('express-session');
-const cookieParser = require('cookie-parser');
 
+const config = require('./api/config');
 const passport = require('./api/utils/passport');
 const authMiddleware = require('./api/middlewares/auth');
 const authController = require('./api/controllers/auth');
@@ -18,13 +15,12 @@ const app = express();
 
 app.use(express.static(path.resolve(__dirname, 'build'), { redirect: false }));
 app.use(cors());
-app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(expressSession({
-    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    secret: config.SECRET_KEY
 }));
 
 app.use(passport.initialize());

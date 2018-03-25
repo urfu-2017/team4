@@ -2,7 +2,6 @@ import { observable, computed, action } from 'mobx';
 import httpClient from '../utils/http-client';
 
 class SessionStore {
-
     @observable currentUser = null;
 
     @computed get isAuth() {
