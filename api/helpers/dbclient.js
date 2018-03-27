@@ -61,7 +61,7 @@ class DbClient {
         const response = await this._request('GET', path);
         DbClient._assertStatus(response, 200);
 
-        return JSON.parse(response.body);
+        return JSON.parse(response.body).map(JSON.parse);
     }
 
     async _del(key) {
@@ -77,7 +77,7 @@ class DbClient {
                     authorization: this._token,
                     'content-type': 'plain/text'
                 },
-                body,
+                body: body ? JSON.stringify(body) : undefined,
                 throwHttpErrors: false,
                 timeout: REQUEST_TIMEOUT
             });

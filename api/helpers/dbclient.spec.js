@@ -8,7 +8,7 @@ const { DbClient } = require('./dbclient');
 const client = new DbClient(config.HRUDB_TOKEN);
 
 const testKey = 'test';
-const testValues = ['test1', 'test2', 'test3'];
+const testValues = [{test: 'test1'}, {test: 'test2'}, {test: 'test3'}];
 
 describe('dbclient tests', () => {
     beforeEach(async () => {
