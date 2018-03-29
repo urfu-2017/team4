@@ -23,7 +23,7 @@ Button.propTypes = {
 Button.defaultProps = {
     className: '',
     children: [],
-    type: types.main,
+    type: 'main',
     onClick: () => {}
 };
 
