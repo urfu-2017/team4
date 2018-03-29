@@ -1,8 +1,7 @@
 class Message {
-    constructor({ id, dialogId, senderId, text, attachments }){
+    constructor({ id, senderName, text, attachments }){
         this.id = id;
-        this.dialogId = dialogId;
-        this.senderId = senderId;
+        this.senderName = senderName;
         this.text = text;
         this.attachments = attachments;
     }
