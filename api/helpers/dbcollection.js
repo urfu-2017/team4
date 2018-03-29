@@ -1,6 +1,6 @@
 const config = require('../config');
 
-const { DbClient } = new require('../helpers/dbclient');
+const { DbClient } = require('../helpers/dbclient');
 
 const REPLACE_RETRIES = 10;
 
@@ -10,14 +10,18 @@ class DbCollection {
         this._client = new DbClient(config.HRUDB_TOKEN);
     }
 
-    add(item){
-        return this._client.post(this._key, item);
+    add(item, retries){
+        return this._client.post(this._key, item, retries);
     }
 
     async addRange(items, retries){
         for (const item of items) {
-            await this._client.post(this._key, item, retries);
+            await this.add(item, retries);
         }
+    }
+
+    getLast() {
+        return this._client.get(this._key);
     }
 
     getAll(options){

@@ -47,7 +47,7 @@ class DbClient {
 
     async _get(key) {
         const response = await this._request('GET', key);
-        DbClient._assertStatus(response, 204, 404);
+        DbClient._assertStatus(response, 200, 404);
 
         return response.statusCode === 200 ? JSON.parse(response.body) : null;
     }
