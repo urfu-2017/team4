@@ -1,3 +1,21 @@
+.btn_modal-heading {
+    border: none;
+
+    color: #fff;
+    background: #5580a3;
+    font-weight: bold;
+    opacity: 0.8;
+    cursor: pointer;
+    outline: none;
+    border-radius: 2px;
+
+    transition: opacity 0.2s;
+}
+
+.btn_modal-heading:hover {
+    opacity: 1;
+}
+
 .btn_main {
     border: none;
     padding: 6px 10px;

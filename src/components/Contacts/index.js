@@ -1,22 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AddContact from '../add-contact';
-import Overlay from '../overlay';
-import HeadingBtn from '../heading-btn';
-import MainBtn from '../main-btn';
-import './index.css';
+import AddContact from '../AddContact';
+import Overlay from '../Overlay';
+import Button from '../Button';
+import './Contacts.css';
 
-const Head = props => (
+const Head = ({ closeHandler }) => (
     <header className="contacts__head">
-        <h2 className="contacts__title">Контакты</h2>
+        <h2 className="contacts__title header3">Контакты</h2>
         <div className="contacts__header-buttons">
-            <HeadingBtn className="contacts__edit">
+            <Button className="contacts__edit" type="heading">
                 Редактировать
-            </HeadingBtn>
-            <HeadingBtn className="contacts__close" onClick={props.closeHandler}>
+            </Button>
+            <Button className="contacts__close" onClick={closeHandler} type="heading">
                 Закрыть
-            </HeadingBtn>
+            </Button>
         </div>
     </header>
 );
@@ -27,7 +26,7 @@ Head.propTypes = {
 
 const Contact = ({ avatar, name, id, login }) => (
     <a key={id} href={`/chat/${id}`} className="contacts__contact contact">
-        <img src={avatar} alt="Аватар" className="contact__avatar" />
+        <img src={avatar} alt="Аватар" className="contact__avatar"/>
         <div className="contact__info">
             <span className="contact__name">{name}</span>
             <span className="contact__login">{`@${login}`}</span>
@@ -68,25 +67,25 @@ class Contacts extends React.Component {
         return (
             <React.Fragment>
                 <section className="contacts">
-                    <Head closeHandler={this.props.closeContacts} />
+                    <Head closeHandler={this.props.closeContacts}/>
                     <div className="contacts__search-wrapper">
-                        <input className="contacts__search" type="search" placeholder="Поиск..." />
+                        <input className="contacts__search" type="search" placeholder="Поиск..."/>
                     </div>
                     <ul className="contacts__list">
                         {this.props.contactsList.map(Contact)}
                     </ul>
-                    <MainBtn className="contacts__new" onClick={this.showAddContact}>
+                    <Button className="contacts__new" onClick={this.showAddContact}>
                         Добавить контакт
-                    </MainBtn>
+                    </Button>
                 </section>
                 {
                     this.state.displayAddContact ? (
-                        <AddContact closeHandler={this.hideAddContact} />
+                        <AddContact closeHandler={this.hideAddContact}/>
                     ) : (
                         <Overlay
                             closeHandler={this.props.closeContacts}
                             className="contacts__overlay"
-                            />
+                        />
                     )
                 }
             </React.Fragment>
