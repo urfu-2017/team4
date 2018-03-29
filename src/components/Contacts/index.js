@@ -6,14 +6,14 @@ import Overlay from '../Overlay';
 import Button from '../Button';
 import './Contacts.css';
 
-const Head = props => (
+const Head = ({ closeHandler }) => (
     <header className="contacts__head">
         <h2 className="contacts__title header3">Контакты</h2>
         <div className="contacts__header-buttons">
             <Button className="contacts__edit" type="heading">
                 Редактировать
             </Button>
-            <Button className="contacts__close" onClick={props.closeHandler} type="heading">
+            <Button className="contacts__close" onClick={closeHandler} type="heading">
                 Закрыть
             </Button>
         </div>
@@ -74,7 +74,7 @@ class Contacts extends React.Component {
                     <ul className="contacts__list">
                         {this.props.contactsList.map(Contact)}
                     </ul>
-                    <Button className="contacts__new" onClick={this.showAddContact} type="main">
+                    <Button className="contacts__new" onClick={this.showAddContact}>
                         Добавить контакт
                     </Button>
                 </section>

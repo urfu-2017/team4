@@ -18,10 +18,10 @@ class AddContact extends React.Component {
                         ref={(input) => { this.usernameInput = input; }}
                     />
                     <div className="add-contact__buttons">
-                        <Button className="add-contact__cancel" onClick={this.props.closeHandler} type="main">
+                        <Button className="add-contact__cancel" onClick={this.props.closeHandler}>
                             Отмена
                         </Button>
-                        <Button className="add-contact__add" type="main">
+                        <Button className="add-contact__add">
                             Добавить
                         </Button>
                     </div>

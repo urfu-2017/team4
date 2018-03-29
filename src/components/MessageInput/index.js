@@ -11,7 +11,7 @@ class MessageInput extends React.Component {
                     placeholder="Введите сообщение..."
                     ref={(input) => { this.messageInput = input; }}
                 />
-                <Button className="message-input__send" type="main">Отправить</Button>
+                <Button className="message-input__send">Отправить</Button>
             </section>
         );
     }
