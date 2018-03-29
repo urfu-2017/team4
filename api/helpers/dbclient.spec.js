@@ -38,12 +38,16 @@ describe('dbclient tests', () => {
     });
 
     it('post должен добавлять новые значения', async () => {
-        await client.post(testKey, testValues[1]);
-        await client.post(testKey, testValues[2]);
+        for (let i = 0; i < 3; i++) {
+            await client.post(testKey, testValues[i]);
+        }
         assert.deepStrictEqual(await client.getAll(testKey), testValues);
     });
 
     it('getAll должен учитывать параметры, когда они есть', async () => {
+        for (let i = 0; i < 3; i++) {
+            await client.post(testKey, testValues[i]);
+        }
         assert.deepStrictEqual(
             await client.getAll(testKey, { offset: 1, limit: 1 }),
             [testValues[1]],

@@ -8,7 +8,7 @@ const collection = new DbCollection('testCollection');
 const testValues = [{test: 'test1'}, {test: 'test2'}, {test: 'test3'}];
 
 describe('dbcollection tests', function () {
-    this.timeout(10000);
+    jest.setTimeout(10000);
 
     beforeEach(async function () {
         await collection.clear();
