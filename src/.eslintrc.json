@@ -24,6 +24,7 @@
     "react/jsx-indent-props": ["warn", 4],
     "react/jsx-filename-extension": ["error", {"extensions": [".js", ".jsx"]}],
     "react/jsx-tag-spacing": ["warn", {"beforeSelfClosing": "never"}],
-    "react/prefer-stateless-function": "off"
+    "react/prefer-stateless-function": "off",
+    "object-curly-newline": "off"
   }
 }
