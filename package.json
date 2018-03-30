@@ -48,7 +48,8 @@
     "server:test": "jest api/**/*.spec.js",
     "server:lint": "eslint api",
     "alias": "now alias --token=$NOW_TOKEN",
-    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public"
+    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public",
+    "start": "node index.js"
   },
   "now": {
     "name": "k1logram",
