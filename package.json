@@ -16,27 +16,28 @@
     "now": "10.2.1",
     "passport": "0.4.0",
     "passport-github": "1.1.0",
-    "prop-types": "^15.6.1",
+    "prop-types": "15.6.1",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-router-dom": "4.2.2",
     "react-scripts": "1.1.1"
   },
   "devDependencies": {
-    "jest": "22.4.3",
-    "@types/jest": "22.2.2",
-    "@types/got": "7.1.8",
-    "@types/node": "9.6.0",
     "@types/express": "4.11.1",
+    "@types/got": "7.1.8",
+    "@types/jest": "22.2.2",
+    "@types/node": "9.6.0",
+    "@types/passport": "0.4.3",
     "@types/react": "16.0.40",
     "@types/react-router-dom": "4.2.5",
-    "@types/passport": "0.4.3",
-    "react-app-rewired": "1.5.0",
-    "react-app-rewire-mobx": "1.0.7",
+    "babel-eslint": "8.2.2",
     "eslint": "4.19.1",
     "eslint-config-airbnb": "16.1.0",
     "eslint-config-airbnb-base": "12.1.0",
-    "babel-eslint": "8.2.2"
+    "jest": "22.4.3",
+    "now": "10.2.1",
+    "react-app-rewire-mobx": "1.0.7",
+    "react-app-rewired": "1.5.0"
   },
   "scripts": {
     "client:start": "react-app-rewired start",
@@ -47,10 +48,18 @@
     "server:test": "jest api/**/*.spec.js",
     "server:lint": "eslint api",
     "alias": "now alias --token=$NOW_TOKEN",
-    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public"
+    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm --public",
+    "start": "node index.js"
   },
   "now": {
     "name": "k1logram",
-    "alias": "k1logram.now.sh"
+    "alias": "k1logram.now.sh",
+    "env": {
+      "NODE_ENV": "production",
+      "SECRET_KEY": "@secret_key",
+      "GITHUB_CLIENT_ID": "@gh_client_id",
+      "GITHUB_CLIENT_SECRET": "@gh_client_secret",
+      "HRUDB_TOKEN": "@hrudb_token"
+    }
   }
 }
