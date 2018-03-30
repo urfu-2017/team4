@@ -1,0 +1,9 @@
+.header {
+    width: 100%;
+    height: 48px;
+    background: #5682a3;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+}
