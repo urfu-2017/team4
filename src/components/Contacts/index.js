@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 
+import ContactsList from './ContactsList';
 import AddContact from '../AddContact';
 import Overlay from '../Overlay';
 import Button from '../Button';
 import './Contacts.css';
 
-const Head = ({ closeHandler }) => (
+const Head = ({ closeHandler, isContactsListLoaded }) => (
     <header className="contacts__head">
         <h2 className="contacts__title header3">Контакты</h2>
         <div className="contacts__header-buttons">
-            <Button className="contacts__edit" type="heading">
-                Редактировать
-            </Button>
+            {isContactsListLoaded ? (
+                <Button className="contacts__edit" type="heading">
+                    Редактировать
+                </Button>
+            ) : (
+                null
+            )}
             <Button className="contacts__close" onClick={closeHandler} type="heading">
                 Закрыть
             </Button>
@@ -21,7 +27,8 @@ const Head = ({ closeHandler }) => (
 );
 
 Head.propTypes = {
-    closeHandler: PropTypes.func.isRequired
+    closeHandler: PropTypes.func.isRequired,
+    isContactsListLoaded: PropTypes.bool.isRequired
 };
 
 const Contact = ({ avatar, name, id, login }) => (
@@ -41,6 +48,11 @@ Contact.propTypes = {
     avatar: PropTypes.string.isRequired
 };
 
+const Preloader = () => (
+    <p className="contacts__preloader text">Загружаем контакты</p>
+);
+
+@observer
 class Contacts extends React.Component {
     constructor() {
         super();
@@ -50,6 +62,12 @@ class Contacts extends React.Component {
         this.showAddContact = this.showAddContact.bind(this);
         this.hideAddContact = this.hideAddContact.bind(this);
     }
+
+    componentDidMount() {
+        this.contactsList.loadList();
+    }
+
+    contactsList = new ContactsList();
 
     showAddContact() {
         this.setState({
@@ -67,13 +85,32 @@ class Contacts extends React.Component {
         return (
             <React.Fragment>
                 <section className="contacts">
-                    <Head closeHandler={this.props.closeContacts}/>
-                    <div className="contacts__search-wrapper">
-                        <input className="contacts__search" type="search" placeholder="Поиск..."/>
-                    </div>
-                    <ul className="contacts__list">
-                        {this.props.contactsList.map(Contact)}
-                    </ul>
+                    <Head
+                        closeHandler={this.props.closeContacts}
+                        isContactsListLoaded={this.contactsList.isLoaded}
+                    />
+                    {
+                        this.contactsList.isLoaded ? (
+                            <React.Fragment>
+                                <div className="contacts__search-wrapper">
+                                    <input className="contacts__search" type="search" placeholder="Поиск..."/>
+                                </div>
+                                {
+                                    this.contactsList.isEmpty ? (
+                                        <p className="text contacts__empty">
+                                            Похоже вы еще никого не добавили
+                                        </p>
+                                    ) : (
+                                        <ul className="contacts__list">
+                                            {this.contactsList.list.map(Contact)}
+                                        </ul>
+                                    )
+                                }
+                            </React.Fragment>
+                        ) : (
+                            <Preloader/>
+                        )
+                    }
                     <Button className="contacts__new" onClick={this.showAddContact}>
                         Добавить контакт
                     </Button>
@@ -94,7 +131,6 @@ class Contacts extends React.Component {
 }
 
 Contacts.propTypes = {
-    contactsList: PropTypes.arrayOf(PropTypes.shape(Contact.propTypes)).isRequired,
     closeContacts: PropTypes.func.isRequired
 };
 
