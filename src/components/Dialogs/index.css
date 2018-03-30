@@ -1,0 +1,16 @@
+.dialogs {
+    /* width: 100%;*/
+    width: 300px;
+    padding: 5px;
+    overflow-y: auto;
+    background: whitesmoke;
+    overflow-y: scroll;
+}
+
+.dialogs::-webkit-scrollbar-track {border-radius: 4px;}
+.dialogs::-webkit-scrollbar {width: 6px;}
+.dialogs::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #f0f2f5;
+}
+.dialogs:hover::-webkit-scrollbar-thumb {background: #6a7d9bab;}
