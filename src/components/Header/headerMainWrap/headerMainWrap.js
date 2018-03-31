@@ -1,5 +1,3 @@
-'use surict';
-
 import React from 'react';
 
 import './headerMainWrap.css';
