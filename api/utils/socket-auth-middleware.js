@@ -7,7 +7,9 @@ const config = require('../config');
 const UserManager = require('../managers/users');
 
 module.exports = sessionStore => (socket, next) => {
-    const cookies = cookie.parse(socket.handshake.headers.cookie || '');
+    const { handshake } = socket;
+
+    const cookies = cookie.parse(handshake.headers.cookie || '');
     const sid = cookieParser.signedCookie(cookies['connect.sid'], config.SECRET_KEY);
 
     sessionStore.get(sid, async (err, session) => {
@@ -16,8 +18,8 @@ module.exports = sessionStore => (socket, next) => {
             return;
         }
 
-        socket.handshake.session = session.passport.user;
-        socket.handshake.user = await UserManager.getUser(session.passport.user);
+        handshake.session = session.passport.user;
+        handshake.user = await UserManager.getUser(session.passport.user);
 
         next();
     });

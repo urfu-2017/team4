@@ -39,6 +39,7 @@ describe('dbclient tests', () => {
         for (let i = 0; i < 3; i++) {
             await DbClient.post(testKey, testValues[i]);
         }
+
         assert.deepStrictEqual(await DbClient.getAll(testKey), testValues);
     });
 

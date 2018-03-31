@@ -18,13 +18,13 @@ class Application extends React.Component {
             this.name = `${user.firstName} ${user.lastName}`;
             this.isAppLoaded = true;
         } catch (e) {
-            this.isRequiredAuth = true;
+            this.isAuthRequired = true;
             this.isAppLoaded = true;
         }
     }
 
     @observable isAppLoaded = false;
-    @observable isRequiredAuth = false;
+    @observable isAuthRequired = false;
     @observable name;
     @observable user;
 
@@ -33,7 +33,7 @@ class Application extends React.Component {
             return (<div/>);
         }
 
-        if (this.isRequiredAuth) {
+        if (this.isAuthRequired) {
             return <LoginPage/>;
         }
 

@@ -34,6 +34,7 @@ class DbCollection {
                 throw new Error(`Trying to replace db record ${this._key}[${index}]. Index too large.`);
             }
 
+            // eslint-disable-next-line
             items[index] = item;
 
             return items;
