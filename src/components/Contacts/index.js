@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
-import ContactsList from './ContactsList';
+import contactsList from '../../domain/contacts-store';
+import Preloader from '../Preloader';
 import AddContact from '../AddContact';
 import Overlay from '../Overlay';
 import Button from '../Button';
@@ -12,13 +13,15 @@ const Head = ({ closeHandler, isContactsListLoaded }) => (
     <header className="contacts__head">
         <h2 className="contacts__title header3">Контакты</h2>
         <div className="contacts__header-buttons">
-            {isContactsListLoaded ? (
-                <Button className="contacts__edit" type="heading">
-                    Редактировать
-                </Button>
-            ) : (
-                null
-            )}
+            {
+                isContactsListLoaded ? (
+                    <Button className="contacts__edit" type="heading">
+                        Изменить
+                    </Button>
+                ) : (
+                    null
+                )
+            }
             <Button className="contacts__close" onClick={closeHandler} type="heading">
                 Закрыть
             </Button>
@@ -48,10 +51,6 @@ Contact.propTypes = {
     avatar: PropTypes.string.isRequired
 };
 
-const Preloader = () => (
-    <p className="contacts__preloader text">Загружаем контакты</p>
-);
-
 @observer
 class Contacts extends React.Component {
     constructor() {
@@ -64,10 +63,8 @@ class Contacts extends React.Component {
     }
 
     componentDidMount() {
-        this.contactsList.loadList();
+        contactsList.loadList();
     }
-
-    contactsList = new ContactsList();
 
     showAddContact() {
         this.setState({
@@ -87,28 +84,28 @@ class Contacts extends React.Component {
                 <section className="contacts">
                     <Head
                         closeHandler={this.props.closeContacts}
-                        isContactsListLoaded={this.contactsList.isLoaded}
+                        isContactsListLoaded={contactsList.isLoaded}
                     />
                     {
-                        this.contactsList.isLoaded ? (
+                        contactsList.isLoaded ? (
                             <React.Fragment>
                                 <div className="contacts__search-wrapper">
                                     <input className="contacts__search" type="search" placeholder="Поиск..."/>
                                 </div>
                                 {
-                                    this.contactsList.isEmpty ? (
+                                    contactsList.isEmpty ? (
                                         <p className="text contacts__empty">
                                             Похоже вы еще никого не добавили
                                         </p>
                                     ) : (
                                         <ul className="contacts__list">
-                                            {this.contactsList.list.map(Contact)}
+                                            {contactsList.list.map(Contact)}
                                         </ul>
                                     )
                                 }
                             </React.Fragment>
                         ) : (
-                            <Preloader/>
+                            <Preloader size={50} className="contacts__preloader"/>
                         )
                     }
                     <Button className="contacts__new" onClick={this.showAddContact}>

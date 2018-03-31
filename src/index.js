@@ -6,8 +6,7 @@ import { observer } from 'mobx-react';
 import './index.css';
 import './hacks.css';
 import UsersStore from './domain/users-store';
-// import LoginPage from './components/LoginPage';
-import Contacts from './components/Contacts';
+import LoginPage from './components/LoginPage';
 
 @observer
 class Application extends React.Component {
@@ -26,7 +25,7 @@ class Application extends React.Component {
         }
 
         if (!UsersStore.isAuth) {
-            return <Contacts closeContacts={() => {}}/>;
+            return <LoginPage/>;
         }
 
         return (<h1>App</h1>);
