@@ -2,7 +2,6 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import './headerLogoWrap.css';
-import mainData from '../index.json';
 import Menu from '../menu/menu';
 import MenuStore from '../../../domain/menu-store';
 
@@ -12,13 +11,11 @@ export default class HeaderLogoWrap extends React.Component {
         MenuStore.toggleLeftPanel();
     }
 
-    /*  eslint-disable */
     render() {
-        console.info(MenuStore.isShow);
         return (
             <div className="header__logo-wrap">
                 {!MenuStore.isShow ? (
-                    <div 
+                    <div
                         onClick={this.toogle}
                         className="header__menu"
                         children={'☰'}
@@ -32,7 +29,7 @@ export default class HeaderLogoWrap extends React.Component {
                         <Menu/>
                     </React.Fragment>
                 )}
-                <div className="header__logo">{mainData[0].title}</div>
+                <div className="header__logo"></div>
             </div>
         );
     }

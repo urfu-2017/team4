@@ -30,10 +30,10 @@ class Application extends React.Component {
         }
 
         return (
-            <div>
+            <React.Fragment>
                 <Header/>
                 <h1>App</h1>
-            </div>
+            </React.Fragment>
         );
     }
 }
