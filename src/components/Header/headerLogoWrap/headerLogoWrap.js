@@ -10,7 +10,6 @@ import MenuStore from '../../../domain/menu-store';
 
 @observer
 export default class HeaderLogoWrap extends React.Component {
-
     toogle = () => {
         MenuStore.toggleLeftPanel();
     }
