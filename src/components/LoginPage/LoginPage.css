@@ -9,12 +9,12 @@
 .login-page__container {
     margin: auto;
     padding: 24px 12px;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .login-page__title {
-    margin: 0 0 36px 0;
+    margin: 0 0 36px;
     font-size: 24px;
     font-weight: normal;
     text-align: center;
@@ -23,7 +23,7 @@
 .login-page__lead {
     font-size: 12px;
     margin-bottom: 24px;
-    color: #666666;
+    color: #666;
 }
 
 .login-page__button {
@@ -34,6 +34,6 @@
     text-decoration: none;
     padding: 8px 16px;
     background: #e6b73f;
-    color: #ffffff;
+    color: #fff;
     border-radius: 5px;
 }
