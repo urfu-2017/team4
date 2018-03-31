@@ -70,7 +70,7 @@ a,
 .link {
     color: #3757c5;
     text-decoration: none;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
 }
 
 a:hover,
