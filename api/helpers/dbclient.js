@@ -2,6 +2,7 @@
 
 const querystring = require('querystring');
 const got = require('got');
+const config = require('../config');
 
 const DB_URL = 'https://hrudb.herokuapp.com/storage/';
 const DEFAULT_RETRIES_COUNT = 5;
@@ -11,8 +12,8 @@ class DbError extends Error {
 }
 
 class DbClient {
-    constructor(token) {
-        this._token = token;
+    constructor() {
+        this._token = config.HRUDB_TOKEN;
     }
 
     put(key, value, retries = DEFAULT_RETRIES_COUNT) {
@@ -114,4 +115,4 @@ class DbClient {
     }
 }
 
-module.exports = { DbClient, DbError };
+module.exports = new DbClient();

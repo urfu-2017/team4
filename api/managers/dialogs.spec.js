@@ -6,12 +6,12 @@ const Dialog = require('../models/dialog');
 const Message = require('../models/message');
 const DialogsManager = require('./dialogs');
 
-const manager = new DialogsManager('test-dialogs');
+const manager = DialogsManager;
 
 const dialogId = '123';
 const messageId = '987';
 
-describe('DialogsManager tests', function () {
+describe('DialogsManager tests', () => {
     jest.setTimeout(10000);
 
     beforeEach(async () => {

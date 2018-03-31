@@ -1,16 +1,18 @@
+'use strict';
+
 const uuid = require('uuid/v4');
 
-const config = require('../config');
-const { DbClient } = require('../helpers/dbclient');
+const DbClient = require('../helpers/dbclient');
 const DbCollection = require('../helpers/dbcollection');
+const DialogsManager = require('./dialogs');
 
 const User = require('../models/user');
 
 class UsersManager {
-    constructor(dialogsManager, keyPrefix = 'users') {
-        this._dialogsManager = dialogsManager;
+    constructor(keyPrefix = 'users') {
+        this._dialogsManager = DialogsManager;
         this._keyPrefix = keyPrefix;
-        this._dbclient = new DbClient(config.HRUDB_TOKEN);
+        this._dbclient = DbClient;
     }
 
     async createUser(userInfo) {
@@ -34,7 +36,7 @@ class UsersManager {
         await this._getContactsCollection(username).clear();
     }
 
-    getDialogsIds(username){
+    getDialogsIds(username) {
         return this._getDialogsCollection(username).getAll();
     }
 
@@ -43,11 +45,17 @@ class UsersManager {
     }
 
     getDialogs(username) {
-        return this._getObjectsByIds(() => this.getDialogsIds(username), id => this._dialogsManager.getDialog(id));
+        return this._getObjectsByIds(
+            () => this.getDialogsIds(username),
+            id => this._dialogsManager.getDialog(id)
+        );
     }
 
     getContacts(username) {
-        return this._getObjectsByIds(() => this.getContactsNames(username), id => this.getUser(id));
+        return this._getObjectsByIds(
+            () => this.getContactsNames(username),
+            id => this.getUser(id)
+        );
     }
 
     async addDialog({ username, dialogId = uuid(), dialogName, participantsNames }) {
@@ -56,9 +64,12 @@ class UsersManager {
             name: dialogName,
             participantsNames
         });
+
+        // eslint-disable-next-line
         for (const participantName of [username, ...participantsNames]) {
             await this._getDialogsCollection(participantName).add(dialogId);
         }
+
         return dialog;
     }
 
@@ -74,7 +85,7 @@ class UsersManager {
         return this._getContactsCollection(username).removeItem(contactName);
     }
 
-    _getContactsCollection(username){
+    _getContactsCollection(username) {
         return new DbCollection(`${this._getUserKey(username)}_contactsNames`);
     }
 
@@ -87,8 +98,8 @@ class UsersManager {
     }
 
     _getObjectsByIds(idsGetter, objectGetter) {
-        return idsGetter().then(ids => Promise.all(ids.map(objectGetter)))
+        return idsGetter().then(ids => Promise.all(ids.map(objectGetter)));
     }
 }
 
-module.exports = UsersManager;
+module.exports = new UsersManager();

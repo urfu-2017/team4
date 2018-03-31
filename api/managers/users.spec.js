@@ -6,15 +6,15 @@ const User = require('../models/user');
 const DialogsManager = require('./dialogs');
 const UsersManager = require('./users');
 
-const dialogsManager = new DialogsManager('test-dialogs');
-const usersManager = new UsersManager(dialogsManager, 'test-users');
+const dialogsManager = DialogsManager;
+const usersManager = UsersManager;
 
 const username1 = 'user1';
 const username2 = 'user2';
 const firstName = 'User';
 const dialogId = '123';
 
-describe('UsersManager tests', function () {
+describe('UsersManager tests', () => {
     jest.setTimeout(15000);
 
     beforeEach(async () => {

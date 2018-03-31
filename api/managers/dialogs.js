@@ -1,3 +1,5 @@
+'use strict';
+
 const uuid = require('uuid/v4');
 
 const DbCollection = require('../helpers/dbcollection');
@@ -19,8 +21,7 @@ class DialogsManager {
     }
 
     getDialog(id) {
-        return this._dialogs
-            .getAll()
+        return this._dialogs.getAll()
             .then(dialogs => dialogs.find(dialog => dialog.id === id))
             .then(dialog => new Dialog(dialog));
     }
@@ -31,12 +32,15 @@ class DialogsManager {
         await this._getMessagesCollection(id).clear();
     }
 
-    getParticipantsNames(dialogId){
-        return this._getParticipantsCollection(dialogId).getAll();
+    getParticipantsNames(dialogId) {
+        return this._getParticipantsCollection(dialogId)
+            .getAll();
     }
 
     getLastMessage(dialogId) {
-        return this._getMessagesCollection(dialogId).getLast().then(msg => new Message(msg));
+        return this._getMessagesCollection(dialogId)
+            .getLast()
+            .then(msg => new Message(msg));
     }
 
     getLastMessages(dialogId, count, offset) {
@@ -48,12 +52,18 @@ class DialogsManager {
     }
 
     async addMessage({ dialogId, messageId = uuid(), senderName, text, attachments }) {
-        const message = new Message({ id:messageId, senderName, text, attachments });
+        const message = new Message({
+            id: messageId,
+            senderName,
+            text,
+            attachments
+        });
+
         await this._getMessagesCollection(dialogId).add(message);
         return message;
     }
 
-    _getParticipantsCollection(id){
+    _getParticipantsCollection(id) {
         return new DbCollection(`${this._keyPrefix}_${id}_participantsNames`);
     }
 
@@ -62,4 +72,4 @@ class DialogsManager {
     }
 }
 
-module.exports = DialogsManager;
+module.exports = new DialogsManager();

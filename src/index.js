@@ -13,8 +13,9 @@ class Application extends React.Component {
     async componentDidMount() {
         try {
             await RPCClient.connect();
-            const response = await RPCClient.request('fetchUser');
-            this.name = response.displayName;
+            const user = await RPCClient.request('fetchUser');
+            this.user = user;
+            this.name = `${user.firstName} ${user.lastName}`;
             this.isAppLoaded = true;
         } catch (e) {
             this.isRequiredAuth = true;
@@ -25,6 +26,7 @@ class Application extends React.Component {
     @observable isAppLoaded = false;
     @observable isRequiredAuth = false;
     @observable name;
+    @observable user;
 
     render() {
         if (!this.isAppLoaded) {
@@ -35,7 +37,12 @@ class Application extends React.Component {
             return <LoginPage/>;
         }
 
-        return (<h1>Hello {this.name}</h1>);
+        return (
+            <div>
+                <h1>Hello {this.name}</h1>
+                <pre style={{ fontSize: '16px' }}>{JSON.stringify(this.user, null, 2)}</pre>
+            </div>
+        );
     }
 }
 

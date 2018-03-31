@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
-import RPCBuilder from 'jsonrpc-lite/jsonrpc';
+// eslint-disable-next-line import/extensions
+import RPCBuilder from 'jsonrpc-lite';
 import uuid from 'uuid4';
 
 const pendingRequests = new Map();

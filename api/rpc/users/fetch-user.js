@@ -1,5 +1,15 @@
 'use strict';
 
-module.exports = (params, response) => {
-    response.success(response.socket.handshake.user);
+const UserManager = require('../../managers/users');
+
+module.exports = async (params, response) => {
+    const user = params.username ?
+        await UserManager.getUser(params.username) : response.socket.handshake.user;
+
+    if (user) {
+        response.success(user);
+        return;
+    }
+
+    response.error(new Error('User not found'));
 };

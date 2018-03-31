@@ -3,17 +3,20 @@
 const path = require('path');
 const sio = require('socket.io');
 const express = require('express');
-const expressSession = require('express-session');
 
 const expressAuth = require('./utils/auth');
+const DbClient = require('./helpers/dbclient');
+
+const SessionStore = require('./utils/sessions-store');
 const socketAuth = require('./utils/socket-auth-middleware');
+
 const RPC = require('./utils/rpc');
 const fetchUser = require('./rpc/users/fetch-user');
 
 RPC.Registry.register('fetchUser', fetchUser);
 
 const app = express();
-const sessionStore = new expressSession.MemoryStore();
+const sessionStore = new SessionStore(DbClient);
 
 app.use(express.static(path.resolve(__dirname, '..', 'build'), { redirect: false }));
 expressAuth(app, sessionStore);
@@ -40,6 +43,6 @@ io.on('connection', (socket) => {
             return;
         }
 
-        method(payload.params, response);
+        method(payload.params || {}, response);
     });
 });

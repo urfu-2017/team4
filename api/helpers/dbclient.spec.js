@@ -2,10 +2,7 @@
 
 const assert = require('assert');
 
-const config = require('../config');
-const { DbClient } = require('./dbclient');
-
-const client = new DbClient(config.HRUDB_TOKEN);
+const client = require('./dbclient');
 
 const testKey = `test_${getRandomStr(10)}`;
 const testValues = ['test1', 'test2', 'test3'];

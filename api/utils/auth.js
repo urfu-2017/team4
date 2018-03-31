@@ -6,6 +6,7 @@ const passportGithub = require('passport-github');
 const expressSession = require('express-session');
 
 const config = require('../config');
+const UserManager = require('../managers/users');
 
 const strategy = new passportGithub.Strategy(
     {
@@ -13,19 +14,25 @@ const strategy = new passportGithub.Strategy(
         clientSecret: config.GITHUB_CLIENT_SECRET,
         callbackURL: 'http://localhost:8080/auth/callback'
     },
-    (accessToken, refreshToken, profile, done) => {
-        // TODO: Save user to DB
-        done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+        const username = profile.username.toLowerCase();
+        const [firstName = '', lastName = ''] = profile.displayName.split(/\s+/);
+
+        let user = await UserManager.getUser(username);
+
+        if (!user) {
+            user = await UserManager.createUser({ username, firstName, lastName });
+        }
+
+        done(null, user);
     },
 );
 
 passport.serializeUser((profile, done) => {
-    // TODO: Save user id
-    done(null, profile);
+    done(null, profile.username);
 });
 
 passport.deserializeUser((profile, done) => {
-    // TODO: Get user from DB by id
     done(null, profile);
 });
 
