@@ -4,13 +4,11 @@ import './index.css';
 import HeaderMainWrap from './HeaderMainWrap/index';
 import HeaderLogoWrap from './HeaderLogoWrap/index';
 
-export default class Header extends React.Component {
-    render() {
-        return (
-            <header className="header">
-                <HeaderLogoWrap/>
-                <HeaderMainWrap/>
-            </header>
-        );
-    }
-}
+const Header = () => (
+    <header className="header">
+        <HeaderLogoWrap/>
+        <HeaderMainWrap/>
+    </header>
+);
+
+export default Header;

@@ -6,31 +6,25 @@ import Menu from '../Menu/index';
 import MenuStore from '../../../domain/menu-store';
 
 @observer
-export default class HeaderLogoWrap extends React.Component {
-    toogle = () => {
-        MenuStore.toggleLeftPanel();
-    }
+const HeaderLogoWrap = () => (
+    <div className="header__logo-wrap">
+        {!MenuStore.isShow ? (
+            <div
+                onClick={MenuStore.toggleLeftPanel()}
+                className="header__menu"
+                children={'☰'}
+            />
+        ) : (
+            <React.Fragment>
+                <div
+                    className="header__menu"
+                    onClick={MenuStore.toggleLeftPanel()}
+                >✖</div>
+                <Menu/>
+            </React.Fragment>
+        )}
+        <div className="header__logo">Ki1logram</div>
+    </div>
+);
 
-    render() {
-        return (
-            <div className="header__logo-wrap">
-                {!MenuStore.isShow ? (
-                    <div
-                        onClick={this.toogle}
-                        className="header__menu"
-                        children={'☰'}
-                    />
-                ) : (
-                    <React.Fragment>
-                        <div
-                            className="header__menu"
-                            onClick={this.toogle}
-                        >✖</div>
-                        <Menu/>
-                    </React.Fragment>
-                )}
-                <div className="header__logo">Ki1logram</div>
-            </div>
-        );
-    }
-}
+export default HeaderLogoWrap;
