@@ -6,9 +6,6 @@ const User = require('../models/user');
 const DialogsManager = require('./dialogs');
 const UsersManager = require('./users');
 
-const dialogsManager = DialogsManager;
-const usersManager = UsersManager;
-
 const username1 = 'user1';
 const username2 = 'user2';
 const firstName = 'User';
@@ -18,50 +15,50 @@ describe('UsersManager tests', () => {
     jest.setTimeout(15000);
 
     beforeEach(async () => {
-        await usersManager.removeUser(username1);
-        await usersManager.removeUser(username2);
+        await UsersManager.removeUser(username1);
+        await UsersManager.removeUser(username2);
     });
 
     it('createUser должен создавать нового пользователя и возвращать его', async () => {
-        const user = await usersManager.createUser({ username: username1, firstName });
+        const user = await UsersManager.createUser({ username: username1, firstName });
 
         assert.deepStrictEqual(user, new User({ username: username1, firstName }));
-        assert.deepStrictEqual(await usersManager.getUser(username1), user);
+        assert.deepStrictEqual(await UsersManager.getUser(username1), user);
     });
 
     it('saveUser должен перезаписывать информацию пользователя', async () => {
-        const user = await usersManager.createUser({ username: username1, firstName });
+        const user = await UsersManager.createUser({ username: username1, firstName });
         user.lastName = 'LastName';
-        await usersManager.saveUser(user);
+        await UsersManager.saveUser(user);
 
-        assert.deepStrictEqual(await usersManager.getUser(username1), user);
+        assert.deepStrictEqual(await UsersManager.getUser(username1), user);
     });
 
     it('addDialog должен создавать новый диалог и добавлять его всем участникам', async () => {
         const dialogName = 'some dialog';
 
-        await dialogsManager.removeDialog(dialogId);
+        await DialogsManager.removeDialog(dialogId);
 
-        const user1 = await usersManager.createUser({ username: username1 });
-        const user2 = await usersManager.createUser({ username: username2 });
+        const user1 = await UsersManager.createUser({ username: username1 });
+        const user2 = await UsersManager.createUser({ username: username2 });
 
-        const dialog = await usersManager.addDialog({
+        const dialog = await UsersManager.addDialog({
             username: user1.username,
             dialogId,
             dialogName,
             participantsNames: [user2.username]
         });
 
-        assert.deepStrictEqual(await dialogsManager.getDialog(dialog.id), dialog);
-        assert.deepStrictEqual(await usersManager.getDialogs(user1.username), [dialog]);
-        assert.deepStrictEqual(await usersManager.getDialogs(user2.username), [dialog]);
+        assert.deepStrictEqual(await DialogsManager.getDialog(dialog.id), dialog);
+        assert.deepStrictEqual(await UsersManager.getDialogs(user1.username), [dialog]);
+        assert.deepStrictEqual(await UsersManager.getDialogs(user2.username), [dialog]);
     });
 
     it('addContact должен добавлять пользователя в список контактов', async () => {
-        const user1 = await usersManager.createUser({ username: username1 });
-        const user2 = await usersManager.createUser({ username: username2 });
+        const user1 = await UsersManager.createUser({ username: username1 });
+        const user2 = await UsersManager.createUser({ username: username2 });
 
-        await usersManager.addContact(user1.username, user2.username);
-        assert.deepStrictEqual(await usersManager.getContacts(user1.username), [user2]);
+        await UsersManager.addContact(user1.username, user2.username);
+        assert.deepStrictEqual(await UsersManager.getContacts(user1.username), [user2]);
     });
 });

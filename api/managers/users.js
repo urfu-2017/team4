@@ -10,9 +10,7 @@ const User = require('../models/user');
 
 class UsersManager {
     constructor(keyPrefix = 'users') {
-        this._dialogsManager = DialogsManager;
         this._keyPrefix = keyPrefix;
-        this._dbclient = DbClient;
     }
 
     async createUser(userInfo) {
@@ -22,16 +20,16 @@ class UsersManager {
     }
 
     async getUser(username) {
-        const user = await this._dbclient.get(this._getUserKey(username));
+        const user = await DbClient.get(this._getUserKey(username));
         return user ? new User(user) : null;
     }
 
     saveUser(user) {
-        return this._dbclient.put(this._getUserKey(user.username), user);
+        return DbClient.put(this._getUserKey(user.username), user);
     }
 
     async removeUser(username) {
-        await this._dbclient.del(this._getUserKey(username));
+        await DbClient.del(this._getUserKey(username));
         await this._getDialogsCollection(username).clear();
         await this._getContactsCollection(username).clear();
     }
@@ -47,7 +45,7 @@ class UsersManager {
     getDialogs(username) {
         return this._getObjectsByIds(
             () => this.getDialogsIds(username),
-            id => this._dialogsManager.getDialog(id)
+            id => DialogsManager.getDialog(id)
         );
     }
 
@@ -59,7 +57,7 @@ class UsersManager {
     }
 
     async addDialog({ username, dialogId = uuid(), dialogName, participantsNames }) {
-        const dialog = await this._dialogsManager.createDialog({
+        const dialog = await DialogsManager.createDialog({
             id: dialogId,
             name: dialogName,
             participantsNames

@@ -16,6 +16,7 @@ describe('dbcollection tests', () => {
     it('addRange должен добавлять несколько элементов в коллекцию', async () => {
         await collection.addRange(testValues);
         assert.deepStrictEqual(await collection.getAll(), testValues);
+        await collection.clear();
     });
 
     it('replaceAll должен заменять коллекцию целиком', async () => {

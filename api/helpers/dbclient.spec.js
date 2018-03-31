@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 
-const client = require('./dbclient');
+const DbClient = require('./dbclient');
 
 const testKey = `test_${getRandomStr(10)}`;
 const testValues = ['test1', 'test2', 'test3'];
@@ -18,41 +18,42 @@ function getRandomStr(len) {
 
 describe('dbclient tests', () => {
     beforeAll(async () => {
-        await client.del(testKey);
+        await DbClient.del(testKey);
     });
 
     afterAll(async () => {
-        await client.del(testKey);
+        await DbClient.del(testKey);
     });
 
     it('get должен возвращать null, если запись по данному ключу отсутствует', async () => {
-        assert.strictEqual(await client.get(testKey), null);
+        assert.strictEqual(await DbClient.get(testKey), null);
     });
 
     it('put должен создавать запись с одним значением', async () => {
-        await client.put(testKey, testValues[0]);
-        assert.deepStrictEqual(await client.getAll(testKey), [testValues[0]]);
+        await DbClient.put(testKey, testValues[0]);
+        assert.deepStrictEqual(await DbClient.getAll(testKey), [testValues[0]]);
+        await DbClient.del(testKey);
     });
 
     it('post должен добавлять новые значения', async () => {
         for (let i = 0; i < 3; i++) {
-            await client.post(testKey, testValues[i]);
+            await DbClient.post(testKey, testValues[i]);
         }
-        assert.deepStrictEqual(await client.getAll(testKey), testValues);
+        assert.deepStrictEqual(await DbClient.getAll(testKey), testValues);
     });
 
     it('getAll должен учитывать параметры, когда они есть', async () => {
         for (let i = 0; i < 3; i++) {
-            await client.post(testKey, testValues[i]);
+            await DbClient.post(testKey, testValues[i]);
         }
         assert.deepStrictEqual(
-            await client.getAll(testKey, { offset: 1, limit: 1 }),
+            await DbClient.getAll(testKey, { offset: 1, limit: 1 }),
             [testValues[1]],
         );
     });
 
     it('del должен удалять все значения', async () => {
-        await client.del(testKey);
-        assert.deepStrictEqual(await client.getAll(testKey), []);
+        await DbClient.del(testKey);
+        assert.deepStrictEqual(await DbClient.getAll(testKey), []);
     });
 });

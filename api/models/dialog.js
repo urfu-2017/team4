@@ -1,3 +1,5 @@
+'use strict';
+
 class Dialog {
     constructor({ id, name }) {
         this.id = id;

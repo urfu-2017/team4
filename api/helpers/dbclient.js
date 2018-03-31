@@ -78,7 +78,7 @@ class DbClient {
                     authorization: this._token,
                     'content-type': 'plain/text'
                 },
-                body: body ? JSON.stringify(body) : undefined,
+                body: body && JSON.stringify(body),
                 throwHttpErrors: false,
                 timeout: REQUEST_TIMEOUT
             });

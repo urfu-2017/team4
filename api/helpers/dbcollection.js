@@ -7,11 +7,10 @@ const REPLACE_RETRIES = 10;
 class DbCollection {
     constructor(key) {
         this._key = key;
-        this._client = DbClient;
     }
 
     add(item, retries) {
-        return this._client.post(this._key, item, retries);
+        return DbClient.post(this._key, item, retries);
     }
 
     async addRange(items, retries) {
@@ -22,11 +21,11 @@ class DbCollection {
     }
 
     getLast() {
-        return this._client.get(this._key);
+        return DbClient.get(this._key);
     }
 
     getAll(options) {
-        return this._client.getAll(this._key, options);
+        return DbClient.getAll(this._key, options);
     }
 
     replace(index, item) {
@@ -34,6 +33,7 @@ class DbCollection {
             if (index >= items.length) {
                 throw new Error(`Trying to replace db record ${this._key}[${index}]. Index too large.`);
             }
+
             items[index] = item;
 
             return items;
@@ -47,12 +47,12 @@ class DbCollection {
     async replaceAll(replaceFn) {
         const items = await this.getAll();
         const replacedItems = replaceFn(items);
-        await this._client.del(this._key);
+        await DbClient.del(this._key);
         await this.addRange(replacedItems, REPLACE_RETRIES);
     }
 
     clear() {
-        return this._client.del(this._key);
+        return DbClient.del(this._key);
     }
 }
 
