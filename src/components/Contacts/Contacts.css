@@ -49,11 +49,10 @@
 }
 
 .contacts__search-wrapper {
-    padding: 7px 12px;
-    /* Чтобы не перекрывалась тень */
     z-index: 1;
+    padding: 7px 12px;
 
-    box-shadow: 0 1px 1px rgba(0,0,0,.15);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
 
 .contacts__new {
