@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import './headerLogoWrap.css';
-import Menu from '../menu/menu';
+import Menu from '../Menu/index';
 import MenuStore from '../../../domain/menu-store';
 
 @observer
@@ -29,7 +29,7 @@ export default class HeaderLogoWrap extends React.Component {
                         <Menu/>
                     </React.Fragment>
                 )}
-                <div className="header__logo"></div>
+                <div className="header__logo">Ki1logram</div>
             </div>
         );
     }
