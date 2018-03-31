@@ -29,7 +29,7 @@
 
 .dialog-list__last-msg-date {
     grid-area: d;
-    color: gray;
+    color: #808080;
     font-size: .85em;
     text-align: right;
 }

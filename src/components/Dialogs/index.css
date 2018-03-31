@@ -3,17 +3,26 @@
     width: 300px;
     padding: 5px;
     overflow-y: auto;
-    background: whitesmoke;
+    background: #f5f5f5;
     overflow-y: scroll;
     -moz-user-select: none;
     -khtml-user-select: none;
     user-select: none;
 }
 
-.dialogs::-webkit-scrollbar-track {border-radius: 4px;}
-.dialogs::-webkit-scrollbar {width: 6px;}
+.dialogs::-webkit-scrollbar-track {
+    border-radius: 4px;
+}
+
+.dialogs::-webkit-scrollbar {
+    width: 6px;
+}
+
 .dialogs::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background: #f0f2f5;
 }
-.dialogs:hover::-webkit-scrollbar-thumb {background: #6a7d9bab;}
+
+.dialogs:hover::-webkit-scrollbar-thumb {
+    background: #6a7d9bab;
+}
