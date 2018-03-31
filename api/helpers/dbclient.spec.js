@@ -7,11 +7,24 @@ const { DbClient } = require('./dbclient');
 
 const client = new DbClient(config.HRUDB_TOKEN);
 
-const testKey = 'test';
-const testValues = [{test: 'test1'}, {test: 'test2'}, {test: 'test3'}];
+const testKey = `test_${getRandomStr(10)}`;
+const testValues = ['test1', 'test2', 'test3'];
+
+function getRandomStr(len) {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < len; i += 1) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
 
 describe('dbclient tests', () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
+        await client.del(testKey);
+    });
+
+    afterAll(async () => {
         await client.del(testKey);
     });
 

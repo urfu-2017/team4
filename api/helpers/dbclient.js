@@ -4,7 +4,7 @@ const querystring = require('querystring');
 const got = require('got');
 
 const DB_URL = 'https://hrudb.herokuapp.com/storage/';
-const DEFAULT_RETRIES_COUNT = 2;
+const DEFAULT_RETRIES_COUNT = 5;
 const REQUEST_TIMEOUT = 2000;
 
 class DbError extends Error {
@@ -99,16 +99,18 @@ class DbClient {
     }
 
     static async _try(method, retries) {
-        for (let retry = 1; retry <= retries; retry++) {
+        let result;
+        for (let retry = 1; retry <= retries; retry += 1) {
             try {
-                return await method();
+                result = await method(); /* eslint-disable-line */
+                break;
             } catch (e) {
-                if (e instanceof DbError && retry !== retries) {
-                    continue;
+                if (retry === retries || !(e instanceof DbError)) {
+                    throw e;
                 }
-                throw e;
             }
         }
+        return result;
     }
 }
 
