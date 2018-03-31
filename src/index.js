@@ -7,6 +7,7 @@ import './index.css';
 import './hacks.css';
 import UsersStore from './domain/users-store';
 import LoginPage from './components/LoginPage';
+import Header from './components/Header';
 
 @observer
 class Application extends React.Component {
@@ -28,7 +29,12 @@ class Application extends React.Component {
             return <LoginPage/>;
         }
 
-        return (<h1>App</h1>);
+        return (
+            <React.Fragment>
+                <Header/>
+                <h1>App</h1>
+            </React.Fragment>
+        );
     }
 }
 
