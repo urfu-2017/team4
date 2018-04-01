@@ -12,7 +12,7 @@ const strategy = new passportGithub.Strategy(
     {
         clientID: config.GITHUB_CLIENT_ID,
         clientSecret: config.GITHUB_CLIENT_SECRET,
-        callbackURL: 'http://localhost:8080/auth/callback'
+        callbackURL: config.GITHUB_AUTH_CALLBACK
     },
     async (accessToken, refreshToken, profile, done) => {
         const username = profile.username.toLowerCase();
@@ -37,12 +37,11 @@ passport.deserializeUser((profile, done) => {
 });
 
 const router = express.Router();
-const redirectUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '/';
 
 router.get('/', passport.authenticate('github'));
 router.get('/callback', passport.authenticate('github', {
-    failureRedirect: redirectUrl,
-    successRedirect: redirectUrl
+    failureRedirect: config.AUTH_REDIRECT_URL,
+    successRedirect: config.AUTH_REDIRECT_URL
 }));
 
 module.exports = (app, sessionStore) => {
