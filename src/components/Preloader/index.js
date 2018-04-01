@@ -5,7 +5,7 @@ import './Preloader.css';
 
 const Preloader = props => (
     <div
-        className={`loader ${props.modifier} ${props.className}`}
+        className={`loader ${props.className}`}
         style={{ width: props.size, height: props.size }}
     >
         <svg className="loader__image" viewBox="25 25 50 50">
@@ -26,13 +26,11 @@ const Preloader = props => (
 Preloader.propTypes = {
     size: PropTypes.number,
     color: PropTypes.string,
-    modifier: PropTypes.oneOf(['loader_block', 'loader_fixed', 'loader_absolute']),
     className: PropTypes.string
 };
 
 Preloader.defaultProps = {
     size: 'auto',
-    modifier: '',
     className: '',
     color: '#5682a3'
 };

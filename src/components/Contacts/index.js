@@ -2,19 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
-import contactsList from '../../domain/contacts-store';
+import Search from './Search';
 import Preloader from '../Preloader';
 import AddContact from '../AddContact';
 import Overlay from '../Overlay';
 import Button from '../Button';
 import './Contacts.css';
 
-const Head = ({ closeHandler, isContactsListLoaded }) => (
+import contactsStore from '../../domain/contacts-store';
+
+const Head = ({ closeHandler }) => (
     <header className="contacts__head">
-        <h2 className="contacts__title header3">Контакты</h2>
+        <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
-                isContactsListLoaded ? (
+                !contactsStore.isEmpty ? (
                     <Button className="contacts__edit" type="heading">
                         Изменить
                     </Button>
@@ -30,12 +32,11 @@ const Head = ({ closeHandler, isContactsListLoaded }) => (
 );
 
 Head.propTypes = {
-    closeHandler: PropTypes.func.isRequired,
-    isContactsListLoaded: PropTypes.bool.isRequired
+    closeHandler: PropTypes.func.isRequired
 };
 
-const Contact = ({ avatar, name, id, login }) => (
-    <a key={id} href={`/chat/${id}`} className="contacts__contact contact">
+const Contact = ({ avatar, name, login }) => (
+    <a key={login} href={`/chat/${login}`} className="contacts__contact contact">
         <img src={avatar} alt="Аватар" className="contact__avatar"/>
         <div className="contact__info">
             <span className="contact__name">{name}</span>
@@ -45,11 +46,22 @@ const Contact = ({ avatar, name, id, login }) => (
 );
 
 Contact.propTypes = {
-    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     login: PropTypes.string.isRequired,
     avatar: PropTypes.string.isRequired
 };
+
+const List = observer(() => (
+    contactsStore.isEmpty ? (
+        <p className="text contacts__empty">
+            Похоже, вы еще никого не добавили.
+        </p>
+    ) : (
+        <ul className="contacts__list">
+            {contactsStore.filteredList.map(Contact)}
+        </ul>
+    )
+));
 
 @observer
 class Contacts extends React.Component {
@@ -58,63 +70,42 @@ class Contacts extends React.Component {
         this.state = {
             displayAddContact: false
         };
-        this.showAddContact = this.showAddContact.bind(this);
-        this.hideAddContact = this.hideAddContact.bind(this);
     }
 
     componentDidMount() {
-        contactsList.loadList();
+        if (!contactsStore.isLoaded) {
+            contactsStore.loadList();
+        }
     }
 
-    showAddContact() {
-        this.setState({
-            displayAddContact: true
-        });
-    }
-
-    hideAddContact() {
-        this.setState({
-            displayAddContact: false
-        });
-    }
+    toggleAddContact = () => {
+        this.setState(prev => ({
+            displayAddContact: !prev.displayAddContact
+        }));
+    };
 
     render() {
         return (
             <React.Fragment>
                 <section className="contacts">
-                    <Head
-                        closeHandler={this.props.closeContacts}
-                        isContactsListLoaded={contactsList.isLoaded}
-                    />
+                    <Head closeHandler={this.props.closeContacts}/>
                     {
-                        contactsList.isLoaded ? (
-                            <React.Fragment>
-                                <div className="contacts__search-wrapper">
-                                    <input className="contacts__search" type="search" placeholder="Поиск..."/>
-                                </div>
-                                {
-                                    contactsList.isEmpty ? (
-                                        <p className="text contacts__empty">
-                                            Похоже вы еще никого не добавили
-                                        </p>
-                                    ) : (
-                                        <ul className="contacts__list">
-                                            {contactsList.list.map(Contact)}
-                                        </ul>
-                                    )
-                                }
-                            </React.Fragment>
-                        ) : (
+                        !contactsStore.isLoaded ? (
                             <Preloader size={50} className="contacts__preloader"/>
+                        ) : (
+                            <React.Fragment>
+                                <Search/>
+                                <List/>
+                                <Button className="contacts__new" onClick={this.toggleAddContact}>
+                                    Добавить контакт
+                                </Button>
+                            </React.Fragment>
                         )
                     }
-                    <Button className="contacts__new" onClick={this.showAddContact}>
-                        Добавить контакт
-                    </Button>
                 </section>
                 {
                     this.state.displayAddContact ? (
-                        <AddContact closeHandler={this.hideAddContact}/>
+                        <AddContact closeHandler={this.toggleAddContact}/>
                     ) : (
                         <Overlay
                             closeHandler={this.props.closeContacts}

@@ -6,6 +6,10 @@ import Button from '../Button';
 import './AddContact.css';
 
 class AddContact extends React.Component {
+    componentDidMount() {
+        this.usernameInput.focus();
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -22,7 +26,7 @@ class AddContact extends React.Component {
                             Отмена
                         </Button>
                         <Button className="add-contact__add">
-                            Добавить
+                            Найти
                         </Button>
                     </div>
                 </section>

@@ -2,8 +2,6 @@
     position: relative;
     display: inline-block;
     vertical-align: middle;
-
-    align-self: center;
 }
 
 .loader_block {

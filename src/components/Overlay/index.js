@@ -2,20 +2,43 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Overlay.css';
 
-function Overlay(props) {
-    return (
-        /* eslint-disable-next-line */
-        <div className={`${props.className} overlay`} onClick={props.closeHandler}>
-            <button className="overlay__close" onClick={props.closeHandler}/>
-        </div>
-    );
+class Overlay extends React.Component {
+    componentDidMount() {
+        window.addEventListener('keydown', this.onEscPress);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.onEscPress);
+    }
+
+    onEscPress = (event) => {
+        if (event.key === 'Escape') {
+            this.props.closeHandler();
+        }
+    };
+
+    onCloseButtonPress = (event) => {
+        event.stopPropagation();
+        this.props.closeHandler();
+    };
+
+    render() {
+        return (
+            // eslint-disable-next-line
+            <div className={`overlay ${this.props.className}`} onClick={this.props.closeHandler}>
+                <button className="overlay__close" onClick={this.onCloseButtonPress}/>
+            </div>
+        );
+    }
 }
 
 Overlay.propTypes = {
-    /* eslint-disable */
-    closeHandler: PropTypes.func,
+    closeHandler: PropTypes.func.isRequired,
     className: PropTypes.string
-    /* eslint-enable */
+};
+
+Overlay.defaultProps = {
+    className: ''
 };
 
 export default Overlay;

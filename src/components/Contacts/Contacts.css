@@ -8,7 +8,7 @@
     flex-direction: column;
     width: 94%;
     max-width: 420px;
-    max-height: 80vh;
+    max-height: 86vh;
     padding-bottom: 15px;
     box-sizing: border-box;
 
@@ -37,7 +37,7 @@
     color: #fff;
 }
 
-.contacts__title {
+.contacts__heading {
     margin: 0;
 }
 
@@ -100,6 +100,7 @@
 }
 
 .contacts__preloader {
+    align-self: center;
     margin: 30px;
 }
 
