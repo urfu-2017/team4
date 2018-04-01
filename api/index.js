@@ -18,7 +18,7 @@ RPC.Registry.register('fetchUser', fetchUser);
 const app = express();
 const sessionStore = new SessionStore(DbClient);
 
-app.use(express.static(path.resolve(__dirname, '..', 'build'), { redirect: false }));
+app.use(express.static(path.resolve(__dirname, '..', 'prod_build'), { redirect: false }));
 expressAuth(app, sessionStore);
 
 const server = app.listen(8080);
