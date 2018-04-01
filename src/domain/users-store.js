@@ -1,22 +1,11 @@
-import { observable, computed, action } from 'mobx';
-import httpClient from '../utils/http-client';
+import { observable, action } from 'mobx';
+import RPC from '../utils/rpc-client';
 
-class SessionStore {
+class UsersStore {
     @observable currentUser = null;
 
-    @computed get isAuth() {
-        return this.currentUser !== null;
-    }
-
     async fetchCurrentUser() {
-        const response = await httpClient('/api/me');
-        const user = response.body;
-
-        if (user === null) {
-            return;
-        }
-
-        this.currentUser = user;
+        this.currentUser = await RPC.request('fetchUser');
     }
 
     @action
@@ -25,4 +14,4 @@ class SessionStore {
     }
 }
 
-export default new SessionStore();
+export default new UsersStore();

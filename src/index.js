@@ -6,16 +6,15 @@ import { observer } from 'mobx-react';
 import './index.css';
 import './hacks.css';
 import LoginPage from './components/LoginPage';
-import * as RPCClient from './utils/rpc-client';
+import RPC from './utils/rpc-client';
+import UsersStore from './domain/users-store';
 
 @observer
 class Application extends React.Component {
     async componentDidMount() {
         try {
-            await RPCClient.connect();
-            const user = await RPCClient.request('fetchUser');
-            this.user = user;
-            this.name = `${user.firstName} ${user.lastName}`;
+            await RPC.connect();
+            await UsersStore.fetchCurrentUser();
             this.isAppLoaded = true;
         } catch (e) {
             this.isAuthRequired = true;
@@ -25,8 +24,6 @@ class Application extends React.Component {
 
     @observable isAppLoaded = false;
     @observable isAuthRequired = false;
-    @observable name;
-    @observable user;
 
     render() {
         if (!this.isAppLoaded) {
@@ -38,10 +35,7 @@ class Application extends React.Component {
         }
 
         return (
-            <div>
-                <h1>Hello {this.name}</h1>
-                <pre style={{ fontSize: '16px' }}>{JSON.stringify(this.user, null, 2)}</pre>
-            </div>
+            <pre style={{ fontSize: '16px' }}>{JSON.stringify(UsersStore.currentUser, null, 2)}</pre>
         );
     }
 }
