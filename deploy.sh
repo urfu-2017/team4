@@ -1,7 +1,6 @@
 #!/bin/bash
 
 now rm k1logram -s -y   # Удаляем старые, кроме того, на котором alias (можно если что откатить)
-rm build/static/*.map   # файл весит >3M, что запрещено
 mv build prod_build     # переименовываем, т.к. Docker пользуется .gitignore
 npm run deploy          # Деплоим
 sleep 30                # Если не спать начала выпадать ошибка

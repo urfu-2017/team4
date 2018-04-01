@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import RPCBuilder from 'jsonrpc-lite/jsonrpc.js'; // eslint-disable-line import/extensions
 import uuid from 'uuid4';
+import { WEB_SOCK_URL } from '../config';
 
 class RPCClient {
     /**
@@ -14,7 +15,7 @@ class RPCClient {
     pendingRequests = new Map();
 
     constructor() {
-        this.socket = io.connect('http://localhost:8080', {
+        this.socket = io.connect(WEB_SOCK_URL, {
             reconnection: true,
             autoConnect: false
         });
