@@ -13,11 +13,12 @@ function goodDate(time) {
 }
 
 const Message = ({ username, text, avatar, date }) => {
-    <div className="message">
+    return <div className="message">
         <img
             className="message__avatar"
             src={avatar}
-            alt="Аватар"/>
+            alt="Аватар"
+        />
         <div className="message__body">
             <span className="message__username">
                 {username}
@@ -31,7 +32,7 @@ const Message = ({ username, text, avatar, date }) => {
                 {goodDate(date)}
             </span>
         </div>
-    </div>
+    </div>;
 };
 
 Message.propTypes = {
