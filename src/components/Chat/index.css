@@ -1,27 +1,32 @@
-.message {
+.message
+{
     display: flex;
     flex-direction: row;
     padding: 10px;
-  }
+}
   
-  .message__body {
+.message__body 
+{
     display: flex;
     flex-direction: column;
     margin-left: 20px;
-  }
+}
   
-  .message__date {
+.message__date 
+{
     font-size: 14px;
     opacity: .5;
-  }
+}
   
-  .message__username {
+.message__username 
+{
     margin-bottom: 5px;
     color: blue;
-  }
+}
   
-  .message__avatar {
+.message__avatar 
+{
     width: 60px;
     height: 60px;
     border-radius: 30px;
-  }
+}
