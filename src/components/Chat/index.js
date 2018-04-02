@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Message from './message.js';
+import Message from './message';
 import './index.css';
 
 export default class Chat extends React.Component {
