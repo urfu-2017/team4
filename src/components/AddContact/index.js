@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 
 import Overlay from '../Overlay';
 import Button from '../Button';
+import Contact from '../Contact';
 import './AddContact.css';
+
+import usersSearcher from './users-searcher';
 
 class AddContact extends React.Component {
     componentDidMount() {
         this.usernameInput.focus();
     }
 
+    loadUsers = (name) => {
+        usersSearcher.searchUsers(name);
+    };
+    // TODO запилить загрузку юзера
     render() {
         return (
             <React.Fragment>
@@ -25,7 +32,10 @@ class AddContact extends React.Component {
                         <Button className="add-contact__cancel" onClick={this.props.closeHandler}>
                             Отмена
                         </Button>
-                        <Button className="add-contact__add">
+                        <Button
+                            className="add-contact__add"
+                            onClick={this.loadUsers(this.usernameInput.value)}
+                        >
                             Найти
                         </Button>
                     </div>
