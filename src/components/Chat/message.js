@@ -11,39 +11,27 @@ function goodDate(time) {
 
     return `${hours}:${minutes}:${seconds}`;
 }
-  
-  
+
 const Message = ({ username, text, avatar, date }) => {
-    return (
-        <div className="message">
-            <img
-                className="message__avatar"
-                src={avatar}
-                alt="Аватар"
-                onClick={function () {
-                    // Профиль пользователя
-                }}
-                />
-            <div className="message__body">
-                <span
-                    className="message__username"
-                    onClick={function () {
-                        // Профиль пользователя
-                    }}
-                    >
-                    {username}
-                </span>
-                <span className="message__text">
-                    {text}
-                </span>
-            </div>
-            <div className="message__date">
-                <span className="message__date-value">
-                    {goodDate(date)}
-                </span>
-            </div>
+    <div className="message">
+        <img
+            className="message__avatar"
+            src={avatar}
+            alt="Аватар"/>
+        <div className="message__body">
+            <span className="message__username">
+                {username}
+            </span>
+            <span className="message__text">
+                {text}
+            </span>
         </div>
-    );
+        <div className="message__date">
+            <span className="message__date-value">
+                {goodDate(date)}
+            </span>
+        </div>
+    </div>
 };
 
 Message.propTypes = {
