@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,23 +6,17 @@ import './index.css';
 
 export default class Chat extends React.Component {
     render() {
-        const messages = this.props.chatMessages.map((message) => {
-            return (
-                <Message
-                    key={message.id}
-                    username={message.username}
-                    text={message.text}
-                    avatar={message.avatar}
-                    date={message.date}
-                />
-            );
-        });
+        const messages = this.props.chatMessages.map(message => (
+            <Message
+                key={message.id}
+                username={message.username}
+                text={message.text}
+                avatar={message.avatar}
+                date={message.date}
+            />
+        ));
 
-        return (
-            <div className="chat">
-                { messages }
-            </div>
-        );
+        return (<div className="chat">{messages}</div>);
     }
 }
 
