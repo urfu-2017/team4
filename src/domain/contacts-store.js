@@ -55,7 +55,11 @@ class ContactsStore {
                     avatar: '/'
                 }
             ];
-        }, 2000);
+        }, 100);
+    }
+
+    @action add(user) {
+        this.list.push(user);
     }
 }
 

@@ -17,13 +17,10 @@ const Head = ({ closeHandler }) => (
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
-                !contactsStore.isEmpty ? (
-                    <Button className="contacts__edit" type="heading">
-                        Изменить
-                    </Button>
-                ) : (
-                    null
-                )
+                !contactsStore.isEmpty &&
+                <Button className="contacts__edit" type="heading">
+                    Изменить
+                </Button>
             }
             <Button className="contacts__close" onClick={closeHandler} type="heading">
                 Закрыть
@@ -79,7 +76,7 @@ class Contacts extends React.Component {
                             <Preloader size={50} className="contacts__preloader"/>
                         ) : (
                             <React.Fragment>
-                                <Search/>
+                                {!contactsStore.isEmpty && <Search/>}
                                 <List/>
                                 <Button className="contacts__new" onClick={this.toggleAddContact}>
                                     Добавить контакт
