@@ -16,7 +16,11 @@ const strategy = new passportGithub.Strategy(
     },
     async (accessToken, refreshToken, profile, done) => {
         const username = profile.username.toLowerCase();
-        const [firstName = '', lastName = ''] = profile.displayName.split(/\s+/);
+        let firstName = '';
+        let lastName = '';
+        if (profile.displayName) {
+            [firstName, lastName] = profile.displayName.split(/\s+/);
+        }
 
         let user = await UserManager.getUser(username);
 
