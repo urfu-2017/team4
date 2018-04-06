@@ -1,62 +1,39 @@
 import { observable, action, computed } from 'mobx';
 
 import contactsStore from './contacts-store';
-
-const userList = [
-    {
-        name: 'Вася',
-        login: 'vasyan1',
-        avatar: '/'
-    },
-    {
-        name: 'Петя',
-        login: 'petya1',
-        avatar: '/'
-    },
-    {
-        name: 'Ваня',
-        login: 'vanya1',
-        avatar: '/'
-    },
-    {
-        name: 'Саша',
-        login: 'sasha1',
-        avatar: '/'
-    }
-];
+import userList from '../fixtures/userList.json';
 
 class UserSearchStore {
     @observable user = undefined;
-    @observable query = '';
+    @observable state = 'initial';
+    query = '';
 
-    @computed get isFound() {
-        return Boolean(this.user);
-    }
-
-    @computed get isLoaded() {
-        return this.user !== undefined;
-    }
-
-    @computed get isAlreadyAdded() {
-        return Boolean(contactsStore.list.find(user => user.login === this.query));
+    @computed get hasError() {
+        return this.state === 'notFound' || this.state === 'collision';
     }
 
     @action setQuery = (query) => {
-        this.query = query;
+        if (typeof query === 'string') {
+            this.query = query;
+            this.state = contactsStore.has(query) ? 'collision' : this.state;
+        }
     };
 
     @action searchUser = () => {
-        if (!this.query) {
+        if (!this.query || this.state === 'collision') {
             return;
         }
 
-        setTimeout(() => {
+        this.state = 'loading';
+        setTimeout(action('userLoaded', () => {
             this.user = userList.find(user => user.login === this.query) || null;
-        }, 1000);
+            this.state = this.user ? 'loaded' : 'notFound';
+        }), 1000);
     };
 
     @action clear = () => {
         this.user = undefined;
+        this.state = 'initial';
         this.query = '';
     };
 }

@@ -1,16 +1,11 @@
 import { observable, action, computed } from 'mobx';
 
+import contactList from '../fixtures/contactList.json';
+
 class ContactsStore {
     @observable list = undefined;
     @observable filterValue = '';
-
-    @computed get isLoaded() {
-        return Boolean(this.list);
-    }
-
-    @computed get isEmpty() {
-        return !this.list || !this.list.length;
-    }
+    @observable state = 'loading';
 
     @computed get filteredList() {
         if (!this.filterValue) {
@@ -30,36 +25,22 @@ class ContactsStore {
     }
 
     @action loadList() {
-        // TODO организовать загрузку
-
-        setTimeout(() => {
-            this.list = [
-                {
-                    name: 'Вася',
-                    login: 'vasyan',
-                    avatar: '/'
-                },
-                {
-                    name: 'Петя',
-                    login: 'petya',
-                    avatar: '/'
-                },
-                {
-                    name: 'Ваня',
-                    login: 'vanya',
-                    avatar: '/'
-                },
-                {
-                    name: 'Саша',
-                    login: 'sasha',
-                    avatar: '/'
-                }
-            ];
-        }, 100);
+        setTimeout(action(() => {
+            this.list = contactList;
+            this.state = this.list.length ? 'loaded' : 'empty';
+        }), 100);
     }
 
     @action add(user) {
-        this.list.push(user);
+        const { name, login, avatar } = user;
+
+        if (name && login && avatar) {
+            this.list.push(user);
+        }
+    }
+
+    has(login) {
+        return Boolean(this.list.find(user => user.login === login));
     }
 }
 

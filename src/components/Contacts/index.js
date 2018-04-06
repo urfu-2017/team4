@@ -17,7 +17,7 @@ const Head = ({ closeHandler }) => (
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
-                !contactsStore.isEmpty &&
+                contactsStore.state === 'loaded' &&
                 <Button className="contacts__edit" type="heading">
                     Изменить
                 </Button>
@@ -34,7 +34,7 @@ Head.propTypes = {
 };
 
 const List = observer(() => (
-    contactsStore.isEmpty ? (
+    contactsStore.state === 'empty' ? (
         <p className="text contacts__empty">
             Похоже, вы еще никого не добавили.
         </p>
@@ -55,7 +55,7 @@ class Contacts extends React.Component {
     }
 
     componentDidMount() {
-        if (!contactsStore.isLoaded) {
+        if (contactsStore.state !== 'loaded') {
             contactsStore.loadList();
         }
     }
@@ -72,11 +72,11 @@ class Contacts extends React.Component {
                 <section className="contacts">
                     <Head closeHandler={this.props.closeContacts}/>
                     {
-                        !contactsStore.isLoaded ? (
+                        contactsStore.state === 'loading' ? (
                             <Preloader size={50} className="contacts__preloader"/>
                         ) : (
                             <React.Fragment>
-                                {!contactsStore.isEmpty && <Search/>}
+                                {contactsStore.state !== 'empty' && <Search/>}
                                 <List/>
                                 <Button className="contacts__new" onClick={this.toggleAddContact}>
                                     Добавить контакт
