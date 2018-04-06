@@ -2,73 +2,75 @@
 
 const uuid = require('uuid/v4');
 
-const DbCollection = require('../helpers/dbcollection');
-
+const DB = require('../helpers/dbclient');
 const Dialog = require('../models/dialog');
-const Message = require('../models/message');
 
 class DialogsManager {
-    constructor(keyPrefix = 'dialogs') {
-        this._keyPrefix = keyPrefix;
-        this._dialogs = new DbCollection(keyPrefix);
+    constructor() {
+        this._frames = new Map();
+        this._frameSize = 50;
     }
 
-    async createDialog({ id = uuid(), name, participantsNames }) {
+    async createDialog({ id = uuid(), name }) {
         const dialog = new Dialog({ id, name });
-        await this._dialogs.add(dialog);
-        await this._getParticipantsCollection(id).addRange(participantsNames);
+        await DB.put(DB.getKey('dialogs', id), dialog);
+
         return dialog;
     }
 
     getDialog(id) {
-        return this._dialogs.getAll()
-            .then(dialogs => dialogs.find(dialog => dialog.id === id))
-            .then(dialog => new Dialog(dialog));
+        return DB.get(DB.getKey('dialog', id));
     }
 
-    async removeDialog(id) {
-        await this._dialogs.replaceAll(dialogs => dialogs.filter(dialog => dialog.id !== id));
-        await this._getParticipantsCollection(id).clear();
-        await this._getMessagesCollection(id).clear();
+    async getMessages(chatId, frameId) {
+        const frame = await this._getLastFrame(chatId);
+
+        // Проверка на существование сообщений
+        if (!frame || frame.index < frameId) {
+            return [];
+        }
+
+        const events = await DB.getAll(DB.getKey('dialogs', chatId, 'frame', frameId));
+        return events.filter(e => e.type === 'add').map(({ type, ...message }) => message);
     }
 
-    getParticipantsNames(dialogId) {
-        return this._getParticipantsCollection(dialogId)
-            .getAll();
-    }
+    async addMessage(chatId, { from, text }) {
+        let frame = await this._getLastFrame(chatId);
 
-    getLastMessage(dialogId) {
-        return this._getMessagesCollection(dialogId)
-            .getLast()
-            .then(msg => new Message(msg));
-    }
+        if (!frame || frame.count > this._frameSize) {
+            frame = { index: frame ? Number(frame.index) + 1 : 0, count: 0 };
 
-    getLastMessages(dialogId, count, offset) {
-        // TODO: ускорить
-        return this._getMessagesCollection(dialogId)
-            .getAll()
-            .then(messages => messages.slice(-(count + offset), -offset))
-            .then(messages => messages.map(msg => new Message(msg)));
-    }
+            this._frames.set(chatId, frame);
+            await DB.post(DB.getKey('dialogs', chatId, 'frames'), String(frame.index));
+        }
 
-    async addMessage({ dialogId, messageId = uuid(), senderName, text, attachments }) {
-        const message = new Message({
-            id: messageId,
-            senderName,
-            text,
-            attachments
-        });
+        const date = new Date().toISOString();
+        const message = { id: uuid(), chatId, from, text, frame: frame.index, date };
+        await DB.post(DB.getKey('dialogs', chatId, 'frame', frame.index), { type: 'add', ...message });
 
-        await this._getMessagesCollection(dialogId).add(message);
         return message;
     }
 
-    _getParticipantsCollection(id) {
-        return new DbCollection(`${this._keyPrefix}_${id}_participantsNames`);
-    }
+    async _getLastFrame(chatId) {
+        let frame = this._frames.get(chatId);
 
-    _getMessagesCollection(id) {
-        return new DbCollection(`${this._keyPrefix}_${id}_messages`);
+        if (!frame) {
+            const index = await DB.get(DB.getKey('dialogs', chatId, 'frames'));
+            const count = (await DB.getAll(DB.getKey('dialogs', chatId, 'frame', index))).length;
+
+            if (!count) {
+                return null;
+            }
+
+            frame = this._frames.get(chatId);
+
+            if (!frame) {
+                frame = { index, count };
+                this._frames.set(chatId, frame);
+            }
+        }
+
+        return frame;
     }
 }
 
