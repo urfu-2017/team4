@@ -2,36 +2,34 @@
 
 const querystring = require('querystring');
 const got = require('got');
-
-const DB_URL = 'https://hrudb.herokuapp.com/storage/';
-const DEFAULT_RETRIES_COUNT = 5;
-const REQUEST_TIMEOUT = 2000;
+const {
+    HRUDB_URL,
+    HRUDB_TOKEN,
+    HRUDB_REQUEST_TIMEOUT,
+    HRUDB_RETRIES_COUNT
+} = require('../config');
 
 class DbError extends Error {
 }
 
 class DbClient {
-    constructor(token) {
-        this._token = token;
-    }
-
-    put(key, value, retries = DEFAULT_RETRIES_COUNT) {
+    put(key, value, retries) {
         return DbClient._try(() => this._put(key, value), retries);
     }
 
-    post(key, value, retries = DEFAULT_RETRIES_COUNT) {
+    post(key, value, retries) {
         return DbClient._try(() => this._post(key, value), retries);
     }
 
-    get(key, retries = DEFAULT_RETRIES_COUNT) {
+    get(key, retries) {
         return DbClient._try(() => this._get(key), retries);
     }
 
-    getAll(key, options, retries = DEFAULT_RETRIES_COUNT) {
+    getAll(key, options, retries) {
         return DbClient._try(() => this._getAll(key, options), retries);
     }
 
-    del(key, retries = DEFAULT_RETRIES_COUNT) {
+    del(key, retries) {
         return DbClient._try(() => this._del(key), retries);
     }
 
@@ -61,7 +59,7 @@ class DbClient {
         const response = await this._request('GET', path);
         DbClient._assertStatus(response, 200);
 
-        return JSON.parse(response.body);
+        return JSON.parse(response.body).map(JSON.parse);
     }
 
     async _del(key) {
@@ -71,15 +69,15 @@ class DbClient {
 
     async _request(method, path, body) {
         try {
-            return await got(DB_URL + path, {
+            return await got(HRUDB_URL + path, {
                 method,
                 headers: {
-                    authorization: this._token,
+                    authorization: HRUDB_TOKEN,
                     'content-type': 'plain/text'
                 },
-                body,
+                body: body && JSON.stringify(body),
                 throwHttpErrors: false,
-                timeout: REQUEST_TIMEOUT
+                timeout: HRUDB_REQUEST_TIMEOUT
             });
         } catch (e) {
             throw new DbError(e.message);
@@ -94,11 +92,12 @@ class DbClient {
 
     static _convertDateField(options, field) {
         if (options && options[field] && options[field] instanceof Date) {
+            // eslint-disable-next-line
             options[field] = options[field].getDate();
         }
     }
 
-    static async _try(method, retries) {
+    static async _try(method, retries = HRUDB_RETRIES_COUNT) {
         let result;
         for (let retry = 1; retry <= retries; retry += 1) {
             try {
@@ -114,4 +113,5 @@ class DbClient {
     }
 }
 
-module.exports = { DbClient, DbError };
+module.exports = new DbClient();
+exports.DbError = DbError;

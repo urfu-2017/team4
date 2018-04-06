@@ -5,30 +5,38 @@ import { observer } from 'mobx-react';
 
 import './index.css';
 import './hacks.css';
-import UsersStore from './domain/users-store';
 import LoginPage from './components/LoginPage';
+import RPC from './utils/rpc-client';
+import UsersStore from './domain/users-store';
 
 @observer
 class Application extends React.Component {
-    componentDidMount() {
-        UsersStore.fetchCurrentUser()
-            .then(() => {
-                this.isAppLoaded = true;
-            });
+    async componentDidMount() {
+        try {
+            await RPC.connect();
+            await UsersStore.fetchCurrentUser();
+            this.isAppLoaded = true;
+        } catch (e) {
+            this.isAuthRequired = true;
+            this.isAppLoaded = true;
+        }
     }
 
     @observable isAppLoaded = false;
+    @observable isAuthRequired = false;
 
     render() {
         if (!this.isAppLoaded) {
-            return <div/>;
+            return (<div/>);
         }
 
-        if (!UsersStore.isAuth) {
+        if (this.isAuthRequired) {
             return <LoginPage/>;
         }
 
-        return (<h1>App</h1>);
+        return (
+            <pre style={{ fontSize: '16px' }}>{JSON.stringify(UsersStore.currentUser, null, 2)}</pre>
+        );
     }
 }
 

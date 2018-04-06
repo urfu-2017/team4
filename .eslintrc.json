@@ -15,6 +15,10 @@
     "no-param-reassign": "warn",
     "indent": ["warn", 4],
     "no-console": "off",
-    "no-underscore-dangle": "off"
+    "no-plusplus": "off",
+    "no-await-in-loop": "off",
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off",
+    "object-curly-newline": "off"
   }
 }
