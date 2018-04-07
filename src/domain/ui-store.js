@@ -4,10 +4,15 @@ const TIMEOUT_ERROR = 5000;
 
 class UIStore {
     @observable error = null;
+    @observable displayContacts = false;
 
     @computed get hasError() {
         return this.error !== null;
     }
+
+    @action toggleContacts = () => {
+        this.displayContacts = !this.displayContacts;
+    };
 
     @action
     showError(message) {
@@ -21,4 +26,4 @@ class UIStore {
     }
 }
 
-export default UIStore;
+export default new UIStore();

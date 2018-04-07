@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "username": "vasyan",
+    "text": "Привет",
+    "avatar": "/",
+    "date": 1000
+  },
+  {
+    "id": 2,
+    "username": "vasyan",
+    "text": "Как дела?",
+    "avatar": "/",
+    "date": 2000
+  },
+  {
+    "id": 3,
+    "username": "vasyan",
+    "text": "Что делаешь?",
+    "avatar": "/",
+    "date": 3000
+  },
+  {
+    "id": 4,
+    "username": "vasyan",
+    "text": "А?",
+    "avatar": "/",
+    "date": 4000
+  },
+  {
+    "id": 5,
+    "username": "vasyan",
+    "text": "А?",
+    "avatar": "/",
+    "date": 5000
+  },
+  {
+    "id": 6,
+    "username": "vasyan",
+    "text": "А?",
+    "avatar": "/",
+    "date": 6000
+  }
+]
