@@ -42,4 +42,4 @@ Message.propTypes = {
     date: PropTypes.number.isRequired
 };
 
-module.exports = Message;
+export default Message;

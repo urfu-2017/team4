@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Вася",
+    "login": "vasyan",
+    "avatar": "/"
+  },
+  {
+    "name": "Петя",
+    "login": "petya",
+    "avatar": "/"
+  },
+  {
+    "name": "Ваня",
+    "login": "vanya",
+    "avatar": "/"
+  },
+  {
+    "name": "Саша",
+    "login": "sasha",
+    "avatar": "/"
+  }
+]
