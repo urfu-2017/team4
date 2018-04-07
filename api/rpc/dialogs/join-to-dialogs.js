@@ -4,12 +4,16 @@ const RPC = require('../../utils/rpc');
 
 module.exports = async (params, response) => {
     try {
-        const { dialogs } = params;
+        const { chats } = response.socket.handshake.user;
+        let { dialogs } = params;
 
         if (!dialogs || !Array.isArray(dialogs)) {
             return response.error(new RPC.Error('Invalid params'));
         }
 
+        console.info(dialogs, chats);
+        // Оставляем только те диалоги, в которых есть пользователь
+        dialogs = dialogs.filter(id => !!chats.includes(id));
 
         // eslint-disable-next-line no-restricted-syntax
         for (const dialogId of dialogs) {
@@ -18,6 +22,7 @@ module.exports = async (params, response) => {
 
         return response.success(null);
     } catch (e) {
+        console.info(e);
         return response.error(new RPC.Error('Internal error'));
     }
 };

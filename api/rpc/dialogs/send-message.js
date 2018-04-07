@@ -1,23 +1,27 @@
 'use strict';
 
-const DialogsManager = require('../../managers/dialogs');
+const Message = require('../../managers/dialogs');
 const RPC = require('../../utils/rpc');
 
 module.exports = async (params, response) => {
     try {
-        const from = response.socket.handshake.session;
+        const { username, chats } = response.socket.handshake.user;
         const { chatId, text } = params;
 
+        if (!chats.find(chatId)) {
+            throw new Error('Permission denied');
+        }
+
         if (!text) {
-            response.error(new RPC.Error('Текст не может быть пустым'));
+            response.error(new RPC.Error('Message body is empty'));
             return;
         }
 
-        const message = await DialogsManager.addMessage(chatId, { text, from });
+        const message = (await new Message({ chatId, text, from: username }).save());
+
         response.success(message);
         response.notify(chatId, 'newMessage', message);
     } catch (e) {
-        console.error(e);
         response.error(new RPC.Error(e.message));
     }
 };

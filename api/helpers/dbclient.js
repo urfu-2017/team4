@@ -73,7 +73,9 @@ class DbClient {
 
     async _request(method, path, body) {
         try {
-            console.info(method, path, body);
+            // Log requests
+            console.info(method, path, JSON.stringify(body));
+
             return await got(HRUDB_URL + path, {
                 method,
                 headers: {

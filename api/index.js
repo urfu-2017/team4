@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
     io.users = io.users || {};
 
     socket.on('connect', () => {
-        const user = socket.handshake.session;
+        const user = socket.handshake.user.username;
         io.users[user] = socket;
     });
 
@@ -51,7 +51,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        const user = socket.handshake.session;
+        const user = socket.handshake.user.username;
         delete io.users[user];
     });
 });

@@ -1,7 +1,6 @@
 'use strict';
 
-const UserManager = require('../../managers/users');
-const DialogsManager = require('../../managers/dialogs');
+const Chat = require('../../models/chat');
 const RPC = require('../../utils/rpc');
 
 /**
@@ -12,15 +11,10 @@ const RPC = require('../../utils/rpc');
  */
 module.exports = async (params, response) => {
     try {
-        const username = response.socket.handshake.session;
-        const dialogIds = await UserManager.getDialogs(username);
+        const chatIds = response.socket.handshake.user.chats;
 
-        if (!dialogIds) {
-            return response.error(new RPC.Error('User not found'));
-        }
-
-        const dialogs = await Promise.all(dialogIds.map(DialogsManager.getDialog));
-        return response.success(dialogs);
+        const chats = await Promise.all(chatIds.map(Chat.find));
+        return response.success(chats);
     } catch (e) {
         return response.error(new RPC.Error(e.message));
     }
