@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 
 import './index.css';
 import './hacks.css';
-import LoginPage from './components/LoginPage';
+import App from './components/App';
 import RPC from './utils/rpc-client';
 import UsersStore from './domain/users-store';
 
@@ -31,7 +31,7 @@ class Application extends React.Component {
         }
 
         if (this.isAuthRequired) {
-            return <LoginPage/>;
+            return <App/>;
         }
 
         return (

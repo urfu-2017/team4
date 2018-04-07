@@ -1,0 +1,28 @@
+.menu {
+    position: absolute;
+    top: 48px;
+    width: 350px;
+    background-color: #fff;
+    text-decoration: none;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #808080;
+}
+
+.menu__list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.menu__list li {
+    display: list-item;
+    width: 100%;
+}
+
+.menu__list-link {
+    display: block;
+    text-decoration: none;
+    color: #000;
+    width: 100%;
+}

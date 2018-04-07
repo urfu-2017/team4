@@ -1,0 +1,35 @@
+.dialog-list__item {
+    width: 100%;
+    display: grid;
+    grid-template-areas: 25px 25px;
+    grid-template-columns: 50px auto 50px;
+    grid-template-areas: 
+                        'i n d'
+                        'i m m';
+    font-size: 1em;
+}
+
+.dialog-list__dialog-image {
+    grid-area: i;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 5px;
+}
+
+.dialog-list__dialog-name {
+    grid-area: n;
+    vertical-align: middle;
+}
+
+.dialog-list__last-msg {
+    grid-area: m;
+    vertical-align: middle;
+}
+
+.dialog-list__last-msg-date {
+    grid-area: d;
+    color: #808080;
+    font-size: .85em;
+    text-align: right;
+}
