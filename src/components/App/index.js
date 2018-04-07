@@ -8,14 +8,14 @@ import Contacts from '../Contacts';
 import MessageInput from '../MessageInput';
 import './App.css';
 
-import appStore from '../../domain/app-store';
+import uiStore from '../../domain/ui-store';
 import messageList from '../../fixtures/messageList.json';
 
 @observer
 class App extends React.Component {
     render() {
         return (
-            <React.Fragment>
+            <div className="app">
                 <Header/>
                 <Dialogs/>
                 <div className="chat-wrapper">
@@ -23,10 +23,10 @@ class App extends React.Component {
                     <MessageInput/>
                 </div>
                 {
-                    appStore.displayAddContact &&
-                    <Contacts closeContacts={appStore.toggleAddContact}/>
+                    uiStore.displayContacts &&
+                    <Contacts closeContacts={uiStore.toggleContacts}/>
                 }
-            </React.Fragment>
+            </div>
         );
     }
 }

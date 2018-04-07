@@ -1,7 +1,7 @@
 import React from 'react';
 
-import './headerMainWrap.css';
-import userImage from './userImage.jpg';
+import './HeaderMainWrap.css';
+import userImage from '../../../fixtures/userImage.jpg';
 
 const HeaderMainWrap = () => (
     <div className="header__main-wrap">

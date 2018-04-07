@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import './index.css';
 import './hacks.css';
 import App from './components/App';
+import LoginPage from './components/LoginPage';
 import RPC from './utils/rpc-client';
 import UsersStore from './domain/users-store';
 
@@ -31,11 +32,11 @@ class Application extends React.Component {
         }
 
         if (this.isAuthRequired) {
-            return <App/>;
+            return <LoginPage/>;
         }
 
         return (
-            <pre style={{ fontSize: '16px' }}>{JSON.stringify(UsersStore.currentUser, null, 2)}</pre>
+            <App/>
         );
     }
 }

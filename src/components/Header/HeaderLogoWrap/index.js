@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import './headerLogoWrap.css';
+import './HeaderLogoWrap.css';
 import Menu from '../Menu';
 import menuStore from '../../../domain/menu-store';
 

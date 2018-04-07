@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './index.css';
+import './Header.css';
 import HeaderMainWrap from './HeaderMainWrap';
 import HeaderLogoWrap from './HeaderLogoWrap';
 

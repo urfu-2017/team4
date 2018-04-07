@@ -2,7 +2,7 @@ body {
     background: #e7ebf0;
 }
 
-body > div {
+.app {
     display: grid;
     align-items: stretch;
     grid-template-columns: 300px calc(100% - 300px);
