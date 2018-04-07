@@ -1,8 +1,8 @@
 import React from 'react';
 
 import './index.css';
-import HeaderMainWrap from './HeaderMainWrap/index';
-import HeaderLogoWrap from './HeaderLogoWrap/index';
+import HeaderMainWrap from './HeaderMainWrap';
+import HeaderLogoWrap from './HeaderLogoWrap';
 
 const Header = () => (
     <header className="header">
