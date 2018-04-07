@@ -1,11 +1,8 @@
 .dialog-list__item {
     width: 100%;
     display: grid;
-    grid-template-areas: 25px 25px;
     grid-template-columns: 50px auto 50px;
-    grid-template-areas: 
-                        'i n d'
-                        'i m m';
+    grid-template-areas: 'i n d' 'i m m';
     font-size: 1em;
 }
 
@@ -30,6 +27,6 @@
 .dialog-list__last-msg-date {
     grid-area: d;
     color: #808080;
-    font-size: .85em;
+    font-size: 0.85em;
     text-align: right;
 }

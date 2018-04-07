@@ -1,14 +1,12 @@
 body {
-    background: #e7ebf0;;
+    background: #e7ebf0;
 }
 
-#root {
+body > div {
     display: grid;
     align-items: stretch;
     grid-template-columns: 300px calc(100% - 300px);
-    grid-template-areas:
-        "header header"
-        "dialogs chat";
+    grid-template-areas: 'header header' 'dialogs chat';
 
     width: 70%;
     margin: 0 auto;
