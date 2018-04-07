@@ -3,7 +3,6 @@
 const uuid = require('uuid/v4');
 
 const DB = require('../helpers/dbclient');
-const Dialog = require('../models/dialog');
 
 class DialogsManager {
     constructor() {
@@ -11,8 +10,8 @@ class DialogsManager {
         this._frameSize = 50;
     }
 
-    async createDialog({ id = uuid(), name }) {
-        const dialog = new Dialog({ id, name });
+    async createDialog({ id = uuid(), name, members, type, owner }) {
+        const dialog = { id, name, members, type, owner };
         await DB.put(DB.getKey('dialogs', id), dialog);
 
         return dialog;
@@ -24,6 +23,9 @@ class DialogsManager {
 
     async getMessages(chatId, frameId) {
         const frame = await this._getLastFrame(chatId);
+
+        // Если не фрейм не указан получаем последний
+        frameId = frameId || frame.index;
 
         // Проверка на существование сообщений
         if (!frame || frame.index < frameId) {

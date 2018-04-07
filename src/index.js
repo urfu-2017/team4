@@ -19,7 +19,7 @@ class Application extends React.Component {
         try {
             await RPC.connect();
             await UsersStore.fetchCurrentUser();
-            await RPC.request('joinToDialog', { dialog: this.chatId });
+            await RPC.request('joinToDialogs', { dialogs: [this.chatId] });
             RPC.addListener('newMessage', this.onNewMessage);
             this.isAppLoaded = true;
         } catch (e) {
@@ -28,7 +28,8 @@ class Application extends React.Component {
             this.isAppLoaded = true;
         }
 
-        this.messages = await RPC.request('fetchHistory', { chatId: this.chatId });
+        console.info(await RPC.request('fetchDialogs'));
+        this.messages = await RPC.request('fetchHistory', { chatId: this.chatId }, 15000);
     }
 
     onSend = async (text) => {

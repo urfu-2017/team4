@@ -1,10 +1,7 @@
 'use strict';
 
-const uuid = require('uuid/v4');
-
-const DbClient = require('../helpers/dbclient');
+const DB = require('../helpers/dbclient');
 const DbCollection = require('../helpers/dbcollection');
-const DialogsManager = require('./dialogs');
 
 const User = require('../models/user');
 
@@ -16,20 +13,22 @@ class UsersManager {
     async createUser(userInfo) {
         const user = new User(userInfo);
         await this.saveUser(user);
+        await DB.put(DB.getKey('users', user.username, 'dialogs'), []);
+
         return user;
     }
 
     async getUser(username) {
-        const user = await DbClient.get(this._getUserKey(username));
+        const user = await DB.get(this._getUserKey(username));
         return user ? new User(user) : null;
     }
 
     saveUser(user) {
-        return DbClient.put(this._getUserKey(user.username), user);
+        return DB.put(this._getUserKey(user.username), user);
     }
 
     async removeUser(username) {
-        await DbClient.del(this._getUserKey(username));
+        await DB.del(this._getUserKey(username));
         await this._getDialogsCollection(username).clear();
         await this._getContactsCollection(username).clear();
     }
@@ -43,10 +42,7 @@ class UsersManager {
     }
 
     getDialogs(username) {
-        return this._getObjectsByIds(
-            () => this.getDialogsIds(username),
-            id => DialogsManager.getDialog(id)
-        );
+        return DB.get(DB.getKey('users', username, 'dialogs'));
     }
 
     getContacts(username) {
@@ -56,23 +52,11 @@ class UsersManager {
         );
     }
 
-    async addDialog({ username, dialogId = uuid(), dialogName, participantsNames }) {
-        const dialog = await DialogsManager.createDialog({
-            id: dialogId,
-            name: dialogName,
-            participantsNames
-        });
+    async addDialog(username, dialogId) {
+        let userDialogs = await DB.get(DB.getKey('users', username, 'dialogs'));
 
-        // eslint-disable-next-line
-        for (const participantName of [username, ...participantsNames]) {
-            await this._getDialogsCollection(participantName).add(dialogId);
-        }
-
-        return dialog;
-    }
-
-    removeDialog(username, dialogId) {
-        return this._getDialogsCollection(username).removeItem(dialogId);
+        userDialogs = userDialogs.filter(id => id !== dialogId).concat(dialogId);
+        await DB.put(DB.getKey('users', username, 'dialogs'), userDialogs);
     }
 
     addContact(username, contactName) {
