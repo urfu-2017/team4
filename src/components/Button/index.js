@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
 
-const types = {
+const classes = {
     main: 'btn_main',
     heading: 'btn_modal-heading'
 };
 
 const Button = ({ children, onClick, className, type }) => (
-    <button className={`${className} ${types[type]}`} onClick={onClick}>
+    <button className={`${className} ${classes[type]}`} onClick={onClick}>
         {children}
     </button>
 );
