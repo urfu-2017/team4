@@ -41,8 +41,10 @@ module.exports = async (params, response, io) => {
             }
         });
 
+        console.info('SUCCESS CREATE', chat.id);
         response.success(chat);
     } catch (e) {
+        console.error(e);
         response.error(e);
     }
 };

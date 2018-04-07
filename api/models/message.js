@@ -35,7 +35,7 @@ class Message {
             await DB.post(DB.getKey('messages', this.chatId, 'frames'), String(frame.index));
         }
 
-        this.createdAt = Date.now();
+        this.createdAt = new Date().toISOString();
         this.frame = frame.index;
 
         await DB.post(DB.getKey('messages', this.chatId, 'frame', frame.index), { type: 'add', ...this });
@@ -52,13 +52,13 @@ class Message {
     static async getMessages(chatId, frameId) {
         const frame = await Message._getLastFrame(chatId);
 
-        // Если фрейм не указан получаем последний
-        frameId = frameId || frame.index;
-
         // Проверка на существование сообщений
         if (!frame || frame.index < frameId || frameId < 0) {
             return null;
         }
+
+        // Если фрейм не указан получаем последний
+        frameId = frameId || frame.index;
 
         const events = await DB.getAll(DB.getKey('messages', chatId, 'frame', frameId));
         return events.filter(e => e.type === 'add').map(({ type, ...message }) => message);

@@ -14,7 +14,7 @@ export default class Chat extends React.Component {
                 username={message.from}
                 text={message.text}
                 avatar={message.avatar}
-                date={message.date}
+                date={message.createdAt}
             />
         ));
 

@@ -53,7 +53,7 @@ class UsersManager {
     }
 
     async addDialog(username, dialogId) {
-        let userDialogs = await DB.get(DB.getKey('users', username, 'dialogs'));
+        let userDialogs = (await DB.get(DB.getKey('users', username, 'dialogs'))) || [];
 
         userDialogs = userDialogs.filter(id => id !== dialogId).concat(dialogId);
         await DB.put(DB.getKey('users', username, 'dialogs'), userDialogs);

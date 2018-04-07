@@ -11,7 +11,6 @@ module.exports = async (params, response) => {
             return response.error(new RPC.Error('Invalid params'));
         }
 
-        console.info(dialogs, chats);
         // Оставляем только те диалоги, в которых есть пользователь
         dialogs = dialogs.filter(id => !!chats.includes(id));
 
@@ -22,7 +21,7 @@ module.exports = async (params, response) => {
 
         return response.success(null);
     } catch (e) {
-        console.info(e);
+        console.error(e);
         return response.error(new RPC.Error('Internal error'));
     }
 };

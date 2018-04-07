@@ -1,6 +1,6 @@
 'use strict';
 
-const Message = require('../../managers/dialogs');
+const Message = require('../../models/message');
 const RPC = require('../../utils/rpc');
 
 module.exports = async (params, response) => {
@@ -8,7 +8,7 @@ module.exports = async (params, response) => {
         const { username, chats } = response.socket.handshake.user;
         const { chatId, text } = params;
 
-        if (!chats.find(chatId)) {
+        if (!chats.includes(chatId)) {
             throw new Error('Permission denied');
         }
 
@@ -22,6 +22,7 @@ module.exports = async (params, response) => {
         response.success(message);
         response.notify(chatId, 'newMessage', message);
     } catch (e) {
+        console.error(e);
         response.error(new RPC.Error(e.message));
     }
 };
