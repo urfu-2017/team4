@@ -8,12 +8,13 @@ import AddContact from '../AddContact';
 import Overlay from '../Overlay';
 import Button from '../Button';
 import Contact from '../Contact';
+import ModalHead from '../ModalHead';
 import './Contacts.css';
 
 import contactsStore from '../../domain/contacts-store';
 
 const Head = ({ closeHandler }) => (
-    <header className="contacts__head">
+    <ModalHead className="contacts__head">
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
@@ -26,7 +27,7 @@ const Head = ({ closeHandler }) => (
                 Закрыть
             </Button>
         </div>
-    </header>
+    </ModalHead>
 );
 
 Head.propTypes = {
