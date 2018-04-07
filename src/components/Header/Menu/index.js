@@ -4,19 +4,26 @@ import './Menu.css';
 
 import uiStore from '../../../domain/ui-store';
 
-const Menu = () => (
-    <nav className="menu">
-        <ul className="menu__list">
-            <li>
-                {/* eslint-disable-next-line */}
-                <a className="menu__list-link" href="#" onClick={uiStore.toggleContacts}>Contacts</a>
-            </li>
-            <li>
-                {/* eslint-disable-next-line */}
-                <a className="menu__list-link" href="#">Settings</a>
-            </li>
-        </ul>
-    </nav>
-);
+class Menu extends React.Component {
+    onClick = (event) => {
+        event.preventDefault();
+        uiStore.toggleContacts();
+    };
+
+    render() {
+        return (
+            <nav className="menu">
+                <ul className="menu__list">
+                    <li>
+                        <a className="menu__list-link" href="/" onClick={this.onClick}>Contacts</a>
+                    </li>
+                    <li>
+                        <a className="menu__list-link" href="/">Settings</a>
+                    </li>
+                </ul>
+            </nav>
+        );
+    }
+}
 
 export default Menu;
