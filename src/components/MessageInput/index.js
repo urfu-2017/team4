@@ -1,4 +1,6 @@
 import React from 'react';
+import Textarea from 'react-textarea-autosize';
+
 import Button from '../Button';
 import './MessageInput.css';
 
@@ -24,6 +26,7 @@ class MessageInput extends React.Component {
 
     onKeyUp = (event) => {
         if (event.key === 'Enter' && event.shiftKey) {
+            event.preventDefault();
             this.onSend();
         }
     };
@@ -31,11 +34,13 @@ class MessageInput extends React.Component {
     render() {
         return (
             <section className="message-input">
-                <textarea
+                <Textarea
+                    minRows={3}
+                    maxRows={6}
                     className="message-input__message"
                     placeholder="Введите сообщение..."
                     onKeyUp={this.onKeyUp}
-                    ref={(input) => {
+                    inputRef={(input) => {
                         this.messageInput = input;
                     }}
                 />

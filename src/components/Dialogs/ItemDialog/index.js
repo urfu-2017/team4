@@ -41,7 +41,7 @@ class ItemDialog extends React.Component {
                     className="dialog-list__dialog-image"
                 />
                 <div className="dialog-list__dialog-body">
-                    <div className="dialog-list__dialog-name">{name}</div>
+                    <div className="dialog-list__dialog-name" title={name}>{name}</div>
                     {this.message && <div className="dialog-list__last-msg">{this.message.text}</div>}
                 </div>
                 {this.message && (
