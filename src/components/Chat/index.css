@@ -1,5 +1,6 @@
 .chat {
     overflow-y: auto;
+    padding: 0 60px;
 }
 
 .message {
@@ -12,6 +13,8 @@
     display: flex;
     flex-direction: column;
     margin-left: 20px;
+
+    flex: 1;
 }
 
 .message__date {

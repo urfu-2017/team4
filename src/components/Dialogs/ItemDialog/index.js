@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
+import { computed } from 'mobx';
 
 import './itemDialog.css';
 import formatDate from '../../../utils/format-date';
@@ -11,26 +12,19 @@ import ChatsStore from '../../../domain/chats-store';
 
 @observer
 class ItemDialog extends React.Component {
-    selectDialog = (event) => {
-        event.preventDefault();
-        ChatsStore.setCurrentChat(this.props.id);
-    }
-
-    renderLastMessage() {
+    @computed get message() {
         const chat = ChatsStore.chatsMap.get(this.props.id);
 
         if (!chat || !chat.lastMessage) {
             return null;
         }
 
-        const message = chat.lastMessage;
+        return chat.lastMessage;
+    }
 
-        return (
-            <React.Fragment>
-                <div className="dialog-list__last-msg">{message.text}</div>
-                <div className="dialog-list__last-msg-date">{formatDate(message.createdAt)}</div>
-            </React.Fragment>
-        );
+    selectDialog = (event) => {
+        event.preventDefault();
+        ChatsStore.setCurrentChat(this.props.id);
     }
 
     render() {
@@ -46,8 +40,15 @@ class ItemDialog extends React.Component {
                     alt=""
                     className="dialog-list__dialog-image"
                 />
-                <div className="dialog-list__dialog-name">{name}</div>
-                {this.renderLastMessage()}
+                <div className="dialog-list__dialog-body">
+                    <div className="dialog-list__dialog-name">{name}</div>
+                    {this.message && <div className="dialog-list__last-msg">{this.message.text}</div>}
+                </div>
+                {this.message && (
+                    <div className="dialog-list__last-msg-date">
+                        {formatDate(this.message.createdAt)}
+                    </div>
+                )}
             </div>
         );
     }

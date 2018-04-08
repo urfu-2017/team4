@@ -2,10 +2,9 @@
     box-sizing: border-box;
     padding: 10px;
     width: 100%;
-    display: grid;
-    grid-template-columns: 50px auto 50px;
-    grid-template-areas: 'i n d' 'i m m';
     font-size: 1em;
+    display: flex;
+    align-items: center;
 
     cursor: pointer;
     margin-bottom: 10px;
@@ -16,27 +15,38 @@
     color: #fff;
 }
 
+.dialog-list__dialog-body {
+    flex: 1;
+    overflow: hidden;
+}
+
 .dialog-list__dialog-image {
-    grid-area: i;
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 15px;
 }
 
+.dialog-list__dialog-name,
+.dialog-list__last-msg {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .dialog-list__dialog-name {
-    grid-area: n;
-    vertical-align: middle;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 
 .dialog-list__last-msg {
-    grid-area: m;
-    vertical-align: middle;
+    font-size: 0.8em;
 }
 
 .dialog-list__last-msg-date {
-    grid-area: d;
+    margin-left: 10px;
     color: #808080;
     font-size: 0.85em;
-    text-align: right;
+
+    align-self: flex-start;
 }

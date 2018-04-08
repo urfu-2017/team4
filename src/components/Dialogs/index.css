@@ -1,12 +1,11 @@
 .dialogs {
     width: 100%;
     box-sizing: border-box;
-    padding: 5px;
     background: #f5f5f5;
-    overflow-y: scroll;
-    -moz-user-select: none;
-    -khtml-user-select: none;
+    overflow-y: auto;
     user-select: none;
+
+    border-right: 2px solid #e9ebed;
 }
 
 .dialogs::-webkit-scrollbar-track {

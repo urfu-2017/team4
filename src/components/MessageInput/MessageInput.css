@@ -1,17 +1,23 @@
 .message-input {
-    display: grid;
+    box-sizing: border-box;
+    padding: 10px 60px;
+    width: 100%;
+    text-align: center;
 }
 
 .message-input__message {
+    box-sizing: border-box;
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    width: 100%;
     border: none;
     box-shadow: 0 1px 0 0 #e8e8e8;
 
     outline: none;
     resize: none;
 
-    transition: 0.2s box-shadow;
+    font-size: 1em;
+    transition: 0.2s box-shadow ease-in-out;
 }
 
 .message-input__message:focus {

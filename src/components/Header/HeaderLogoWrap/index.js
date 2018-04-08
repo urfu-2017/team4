@@ -27,7 +27,7 @@ const HeaderLogoWrap = observer(() => (
                 <Menu/>
             </React.Fragment>
         )}
-        <div className="header__logo">Ki1logram</div>
+        <div className="header__logo">K1logram</div>
     </div>
 ));
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import './index.css';
-import ItemDialog from './itemDialog/itemDialog';
+import ItemDialog from './ItemDialog';
 import DialogSearch from './dialogSearch/dialogSearch';
 
 import ChatsStore from '../../domain/chats-store';
@@ -14,16 +14,14 @@ export default class Dialogs extends React.Component {
             <div className="dialogs">
                 <DialogSearch/>
                 <div className="dialog-list">
-                    {
-                        ChatsStore.chats.map(dialog => (
-                            <ItemDialog
-                                key={dialog.id}
-                                id={dialog.id}
-                                name={dialog.name}
-                                messagesIds={1}
-                            />
-                        ))
-                    }
+                    {ChatsStore.chats.map(dialog => (
+                        <ItemDialog
+                            key={dialog.id}
+                            id={dialog.id}
+                            name={dialog.name}
+                            messagesIds={1}
+                        />
+                    ))}
                 </div>
             </div>
         );

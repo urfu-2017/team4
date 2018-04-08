@@ -15,12 +15,19 @@ class MessageInput extends React.Component {
         }
     }
 
+    onKeyUp = (event) => {
+        if (event.keyCode === 13) {
+            this.onSend();
+        }
+    }
+
     render() {
         return (
             <section className="message-input">
                 <textarea
                     className="message-input__message"
                     placeholder="Введите сообщение..."
+                    onKeyUp={this.onKeyUp}
                     ref={(input) => {
                         this.messageInput = input;
                     }}
