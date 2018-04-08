@@ -104,7 +104,7 @@ class RPCClient {
             return;
         }
 
-        if (type === 'notificaion') {
+        if (type === 'notification') {
             const listeners = this.listeners[payload.method];
 
             if (listeners) {

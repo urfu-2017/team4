@@ -3,31 +3,23 @@
 const { EventEmitter } = require('events');
 const { Cookie, Session } = require('express-session');
 
+const DB = require('../helpers/dbclient');
+
 class SessionStore extends EventEmitter {
-    /**
-     * @param {DbClient} db
-     */
-    constructor(db) {
-        super();
-
-        this.db = db;
-        this.key = 'sessions';
-    }
-
     get(sid, callback) {
-        this.db.get(`${this.key}_${sid}`)
+        DB.get(DB.getKey('sessions', sid))
             .then(data => callback(null, data))
             .catch(error => callback(error));
     }
 
     set(sid, session, callback) {
-        this.db.put(`${this.key}_${sid}`, session)
+        DB.put(DB.getKey('sessions', sid), session)
             .then(() => callback(null))
             .catch(error => callback(error));
     }
 
     destroy(sid, callback) {
-        this.db.del(`${this.key}_${sid}`)
+        DB.del(DB.getKey('sessions', sid))
             .then(() => callback(null))
             .catch(error => callback(error));
     }

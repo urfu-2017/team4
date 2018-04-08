@@ -2,35 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './index.css';
+import formatDate from '../../utils/format-date';
 
-function goodDate(time) {
-    const dt = new Date(time * 1000);
-    const hours = dt.getHours();
-    const minutes = String(dt.getMinutes()).padStart(2, '0');
-    const seconds = String(dt.getSeconds()).padStart(2, '0');
-
-    return `${hours}:${minutes}:${seconds}`;
-}
-
-const Message = ({ username, text, avatar, date }) => (
+const Message = ({ username, text, date }) => (
     <div className="message">
         <img
             className="message__avatar"
-            src={avatar}
+            src="https://api.adorable.io/avatars/128/abott@adorable.png"
             alt="Аватар"
         />
         <div className="message__body">
-            <span className="message__username">
-                {username}
-            </span>
-            <span className="message__text">
-                {text}
-            </span>
+            <div className="message__username">{username}</div>
+            <div className="message__text">{text}</div>
         </div>
         <div className="message__date">
-            <span className="message__date-value">
-                {goodDate(date)}
-            </span>
+            <span className="message__date-value">{formatDate(date)}</span>
         </div>
     </div>
 );
@@ -38,8 +24,7 @@ const Message = ({ username, text, avatar, date }) => (
 Message.propTypes = {
     username: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    avatar: PropTypes.string.isRequired,
-    date: PropTypes.number.isRequired
+    date: PropTypes.string.isRequired
 };
 
 export default Message;

@@ -18,9 +18,11 @@ module.exports = sessionStore => (socket, next) => {
             return;
         }
 
-        handshake.session = session.passport.user;
-        handshake.user = await UserManager.getUser(session.passport.user);
+        const username = session.passport.user;
+        const user = await UserManager.getUser(username);
+        user.chats = (await UserManager.getDialogs(username)) || [];
 
+        handshake.user = user;
         next();
     });
 };

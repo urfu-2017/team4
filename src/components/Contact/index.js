@@ -4,20 +4,26 @@ import './Contact.css';
 import ava from '../../fixtures/avatar.png';
 
 /* eslint-disable-next-line */
-const Contact = ({ avatar, name, login }) => (
-    <a key={login} href={`/chat/${login}`} className="contacts__contact contact">
-        <img src={ava} alt="Аватар" className="contact__avatar"/>
+const Contact = ({ avatar, firstName, lastName, username }) => (
+    <a key={username} href={`/chat/${username}`} className="contacts__contact contact">
+        <img src={avatar || ava} alt="Аватар" className="contact__avatar"/>
         <div className="contact__info">
-            <span className="contact__name">{name}</span>
-            <span className="contact__login">{`@${login}`}</span>
+            <span className="contact__name">{firstName} {lastName}</span>
+            <span className="contact__login">{`@${username}`}</span>
         </div>
     </a>
 );
 
 Contact.propTypes = {
-    name: PropTypes.string.isRequired,
-    login: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
     avatar: PropTypes.string.isRequired
+};
+
+Contact.defaultProps = {
+    firstName: '',
+    lastName: ''
 };
 
 export default Contact;

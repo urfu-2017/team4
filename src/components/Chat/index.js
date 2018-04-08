@@ -1,25 +1,48 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { computed } from 'mobx';
+import { observer } from 'mobx-react';
+import ChatView from 'react-chatview';
 
 import Message from './message';
 import './index.css';
 
-export default class Chat extends React.Component {
-    render() {
-        const messages = this.props.chatMessages.map(message => (
-            <Message
-                key={message.id}
-                username={message.username}
-                text={message.text}
-                avatar={message.avatar}
-                date={message.date}
-            />
-        ));
+import ChatsStore from '../../domain/chats-store';
 
-        return (<div className="chat">{messages}</div>);
+@observer
+export default class Chat extends React.Component {
+    // eslint-disable-next-line class-methods-use-this
+    @computed get chat() {
+        return ChatsStore.currentChat;
+    }
+
+    shouldLoadHistory = () => this.chat.canLoadNextHistoryFrame
+
+    loadHistory = async () => {
+        if (this.shouldLoadHistory()) {
+            await this.chat.loadNextHistoryFrame();
+        }
+    }
+
+    render() {
+        return (
+            <ChatView
+                className="chat"
+                scrollLoadThreshold={100}
+                onInfiniteLoad={this.loadHistory}
+                shouldTriggerLoad={this.shouldLoadHistory}
+                flipped
+                reversed
+            >
+                {ChatsStore.currentChat.messages.map(message => (
+                    <Message
+                        key={message.id}
+                        username={message.from}
+                        text={message.text}
+                        avatar={message.avatar}
+                        date={message.createdAt}
+                    />
+                ))}
+            </ChatView>
+        );
     }
 }
-
-Chat.propTypes = {
-    chatMessages: PropTypes.arrayOf(PropTypes.shape(Message.propTypes)).isRequired
-};
