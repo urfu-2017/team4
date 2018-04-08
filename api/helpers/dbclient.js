@@ -10,7 +10,8 @@ const {
 } = require('../config');
 
 const lruCache = require('lru-cache')({
-    max: 2000
+    max: 2000,
+    maxAge: 1000 * 60 * 10
 });
 
 class DbError extends Error {
@@ -52,7 +53,6 @@ class DbClient {
         let data = lruCache.get(key);
 
         if (data) {
-            lruCache.set(key, data);
             return data;
         }
 
