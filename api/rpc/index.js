@@ -2,6 +2,7 @@
 
 const RPC = require('../utils/rpc');
 const fetchUser = require('./users/fetch-user');
+const saveUser = require('./users/save-user');
 const fetchDialogs = require('./users/fetch-dialogs');
 const fetchContacts = require('./users/fetch-contacts');
 const addContact = require('./users/add-contact');
@@ -14,6 +15,7 @@ const fetchHistory = require('./dialogs/fetch-history');
 
 module.exports = () => {
     RPC.Registry.register('fetchUser', fetchUser);
+    RPC.Registry.register('saveUser', saveUser);
     RPC.Registry.register('fetchDialogs', fetchDialogs);
     RPC.Registry.register('fetchContacts', fetchContacts);
     RPC.Registry.register('addContact', addContact);

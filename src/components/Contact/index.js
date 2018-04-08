@@ -6,7 +6,7 @@ import ava from '../../fixtures/avatar.png';
 /* eslint-disable-next-line */
 const Contact = ({ avatar, firstName, lastName, username }) => (
     <a key={username} href={`/chat/${username}`} className="contacts__contact contact">
-        <img src={avatar || ava} alt="Аватар" className="contact__avatar"/>
+        <img src={avatar ? `data:image/png;base64,${avatar}` : ava} alt="Аватар" className="contact__avatar"/>
         <div className="contact__info">
             <span className="contact__name">{firstName} {lastName}</span>
             <span className="contact__login">{`@${username}`}</span>

@@ -8,6 +8,11 @@ class UsersStore {
         this.currentUser = await RPC.request('fetchUser');
     }
 
+    async saveCurrentUser(user) {
+        await RPC.request('saveUser', user);
+        this.currentUser = user;
+    }
+
     @action
     clear() {
         this.currentUser = null;
