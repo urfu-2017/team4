@@ -1,10 +1,10 @@
 .menu {
+    box-sizing: border-box;
     position: absolute;
     top: 48px;
     width: 350px;
     background-color: #fff;
     text-decoration: none;
-    box-sizing: border-box;
     padding: 10px;
     border: 1px solid #808080;
 }

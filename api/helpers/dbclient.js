@@ -33,6 +33,10 @@ class DbClient {
         return DbClient._try(() => this._del(key), retries);
     }
 
+    getKey(...parts) {
+        return parts.join('_').toLowerCase();
+    }
+
     async _put(key, value) {
         const response = await this._request('PUT', key, value);
         DbClient._assertStatus(response, 201);
@@ -69,6 +73,9 @@ class DbClient {
 
     async _request(method, path, body) {
         try {
+            // Log requests
+            console.info(method, path, JSON.stringify(body));
+
             return await got(HRUDB_URL + path, {
                 method,
                 headers: {

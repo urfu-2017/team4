@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import Search from './Search';
 import Preloader from '../Preloader';
 import AddContact from '../AddContact';
-import Overlay from '../Overlay';
 import Button from '../Button';
 import Contact from '../Contact';
 import PopUpHead from '../PopupHead';

@@ -7,8 +7,13 @@ import './index.css';
 import './hacks.css';
 import App from './components/App';
 import LoginPage from './components/LoginPage';
+import LoaderPage from './components/LoaderPage';
+
 import RPC from './utils/rpc-client';
 import UsersStore from './domain/users-store';
+import ChatsStore from './domain/chats-store';
+
+window.RPC = RPC;
 
 @observer
 class Application extends React.Component {
@@ -16,8 +21,11 @@ class Application extends React.Component {
         try {
             await RPC.connect();
             await UsersStore.fetchCurrentUser();
+            await ChatsStore.init();
+
             this.isAppLoaded = true;
         } catch (e) {
+            console.error(e);
             this.isAuthRequired = true;
             this.isAppLoaded = true;
         }
@@ -28,16 +36,14 @@ class Application extends React.Component {
 
     render() {
         if (!this.isAppLoaded) {
-            return (<div/>);
+            return (<LoaderPage/>);
         }
 
         if (this.isAuthRequired) {
             return <LoginPage/>;
         }
 
-        return (
-            <App/>
-        );
+        return (<App/>);
     }
 }
 

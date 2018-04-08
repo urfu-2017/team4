@@ -1,17 +1,14 @@
 .dialogs__dialogs-search {
-    padding: 5px 0;
+    padding: 12px 10px;
     margin: 0;
 }
 
 .dialogs__input {
-    width: 100%;
-    border: 1px solid rgba(128, 128, 128, 0.67);
-    border-radius: 20px;
-    padding: 0 27px;
     box-sizing: border-box;
-    background-image: url('./search.png');
+    width: 100%;
+    padding: 12px 10px 12px 30px;
+    background: #fff url('./search.png') no-repeat 8px;
     background-size: 18px;
-    background-repeat: no-repeat;
-    background-position: 4px;
+    border: 1px solid rgba(128, 128, 128, 0.67);
     outline: none;
 }
