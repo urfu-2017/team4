@@ -7,8 +7,9 @@ import './index.css';
 import './hacks.css';
 import App from './components/App';
 import LoginPage from './components/LoginPage';
-import RPC from './utils/rpc-client';
+import LoaderPage from './components/LoaderPage';
 
+import RPC from './utils/rpc-client';
 import UsersStore from './domain/users-store';
 import ChatsStore from './domain/chats-store';
 
@@ -24,7 +25,7 @@ class Application extends React.Component {
 
             this.isAppLoaded = true;
         } catch (e) {
-            console.info(e);
+            console.error(e);
             this.isAuthRequired = true;
             this.isAppLoaded = true;
         }
@@ -35,7 +36,7 @@ class Application extends React.Component {
 
     render() {
         if (!this.isAppLoaded) {
-            return (<div/>);
+            return (<LoaderPage/>);
         }
 
         if (this.isAuthRequired) {

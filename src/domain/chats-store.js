@@ -17,12 +17,12 @@ class ChatsStore {
 
     async init() {
         const chats = await RPC.request('fetchDialogs');
-        console.info(chats);
 
         for (const chat of chats) {
             const chatModel = new ChatModel(chat);
-            await chatModel.join();
             this.chatsMap.set(chat.id, chatModel);
+
+            chatModel.join();
         }
     }
 

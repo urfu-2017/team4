@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
 import Message from './message';
@@ -23,6 +22,3 @@ export default class Chat extends React.Component {
         return (<div className="chat">{messages}</div>);
     }
 }
-
-Chat.propTypes = {
-};
