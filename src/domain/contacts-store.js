@@ -15,8 +15,7 @@ class ContactsStore {
         const filterValue = new RegExp(this.filterValue, 'i');
 
         return this.list.filter(({ username, firstName, lastName }) =>
-            [username, firstName, lastName].some(word => word && word.match(filterValue))
-        );
+            [username, firstName, lastName].some(word => word && word.match(filterValue)));
     }
 
     @action setFilterValue(value) {

@@ -28,7 +28,6 @@ class UserSearchStore {
         try {
             this.user = await RPC.request('fetchUser', { username: this.query });
         } catch (e) {
-            console.log(e);
             this.user = null;
         }
         this.state = this.user ? 'loaded' : 'notFound';
