@@ -7,20 +7,24 @@
 .message {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     padding: 10px;
 }
 
 .message__body {
-    display: flex;
-    flex-direction: column;
+    flex: 1 0 80%;
     margin-left: 20px;
+}
 
-    flex: 1;
+.message__text {
+    word-break: break-all;
 }
 
 .message__date {
+    flex: 0 0 auto;
     font-size: 14px;
     opacity: 0.5;
+    margin-left: 15px;
 }
 
 .message__username {

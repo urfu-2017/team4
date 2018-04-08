@@ -12,17 +12,11 @@ const Message = ({ username, text, avatar, date }) => (
             alt="Аватар"
         />
         <div className="message__body">
-            <span className="message__username">
-                {username}
-            </span>
-            <span className="message__text">
-                {text}
-            </span>
+            <div className="message__username">{username}</div>
+            <p className="message__text">{text}</p>
         </div>
         <div className="message__date">
-            <span className="message__date-value">
-                {formatDate(date)}
-            </span>
+            <span className="message__date-value">{formatDate(date)}</span>
         </div>
     </div>
 );
