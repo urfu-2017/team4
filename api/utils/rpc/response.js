@@ -21,7 +21,7 @@ class Response {
     }
 
     notify(room, name, payload) {
-        this.socket.to(room).emit('rpc', Builder.notification(name, payload));
+        this.socket.to(room).emit('rpc', JSON.stringify(Builder.notification(name, payload)));
     }
 
     /**

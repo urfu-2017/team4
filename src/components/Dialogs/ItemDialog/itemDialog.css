@@ -1,0 +1,52 @@
+.dialog-list__item {
+    box-sizing: border-box;
+    padding: 10px 20px 10px 14px;
+    width: 100%;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.dialog-list__item--active {
+    background: #3757c5;
+    color: #fff;
+}
+
+.dialog-list__dialog-body {
+    flex: 1;
+    overflow: hidden;
+}
+
+.dialog-list__dialog-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.dialog-list__dialog-name,
+.dialog-list__last-msg {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dialog-list__dialog-name {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.dialog-list__last-msg {
+    font-size: 0.8em;
+}
+
+.dialog-list__last-msg-date {
+    margin-left: 10px;
+    color: #808080;
+    font-size: 0.85em;
+
+    align-self: flex-start;
+}

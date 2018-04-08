@@ -14,5 +14,5 @@ exports.GITHUB_AUTH_CALLBACK = isDevelopment ?
 
 exports.HRUDB_TOKEN = process.env.HRUDB_TOKEN;
 exports.HRUDB_URL = 'https://hrudb.herokuapp.com/storage/';
-exports.HRUDB_RETRIES_COUNT = 5;
+exports.HRUDB_RETRIES_COUNT = 20;
 exports.HRUDB_REQUEST_TIMEOUT = 2000;

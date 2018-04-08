@@ -11,6 +11,8 @@ import './App.css';
 import uiStore from '../../domain/ui-store';
 import messageList from '../../fixtures/messageList.json';
 
+import ChatsStore from '../../domain/chats-store';
+
 @observer
 class App extends React.Component {
     render() {
@@ -18,14 +20,17 @@ class App extends React.Component {
             <div className="app">
                 <Header/>
                 <Dialogs/>
+
                 <div className="chat-wrapper">
-                    <Chat chatMessages={messageList}/>
-                    <MessageInput/>
+                    {ChatsStore.currentChat !== null ? (
+                        <React.Fragment>
+                            <Chat chatMessages={messageList}/>
+                            <MessageInput/>
+                        </React.Fragment>
+                    ) : <div className="chat-stub"/>}
                 </div>
-                {
-                    uiStore.displayContacts &&
-                    <Contacts closeContacts={uiStore.toggleContacts}/>
-                }
+
+                { uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/> }
             </div>
         );
     }
