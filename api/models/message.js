@@ -3,7 +3,7 @@
 const uuid = require('uuid4');
 const DB = require('../helpers/dbclient');
 
-const FRAME_SIZE = 60;
+const FRAME_SIZE = 30;
 const frames = new Map();
 
 class Message {
@@ -39,6 +39,7 @@ class Message {
         this.frame = frame.index;
 
         await DB.post(DB.getKey('messages', this.chatId, 'frame', frame.index), { type: 'add', ...this });
+        frame.count++;
 
         return this;
     }
@@ -54,11 +55,11 @@ class Message {
 
         // Проверка на существование сообщений
         if (!frame || frame.index < frameId || frameId < 0) {
-            return null;
+            return [];
         }
 
         // Если фрейм не указан получаем последний
-        frameId = frameId || frame.index;
+        frameId = Number.isNaN(frameId) ? frame.index : frameId;
 
         const events = await DB.getAll(DB.getKey('messages', chatId, 'frame', frameId));
         return events.filter(e => e.type === 'add').map(({ type, ...message }) => message);

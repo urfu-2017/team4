@@ -1,6 +1,7 @@
 .chat {
     overflow-y: auto;
     padding: 0 60px;
+    height: 100%;
 }
 
 .message {

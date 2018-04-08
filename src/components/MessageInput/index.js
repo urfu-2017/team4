@@ -5,18 +5,25 @@ import './MessageInput.css';
 import ChatsStore from '../../domain/chats-store';
 
 class MessageInput extends React.Component {
-    onSend = () => {
-        const text = this.messageInput.value;
+     onSend = async () => {
+         const text = this.messageInput.value;
 
-        if (text) {
-            // eslint-disable-next-line
-            ChatsStore.currentChat.sendMessage(text);
-            this.messageInput.value = null;
-        }
-    }
+         if (!text) {
+             return;
+         }
+
+         try {
+             // eslint-disable-next-line
+            this.messageInput.disabled = true;
+             await ChatsStore.currentChat.sendMessage(text);
+             this.messageInput.value = null;
+         } finally {
+             this.messageInput.disabled = false;
+         }
+     }
 
     onKeyUp = (event) => {
-        if (event.keyCode === 13) {
+        if (event.key === 'Enter') {
             this.onSend();
         }
     }
