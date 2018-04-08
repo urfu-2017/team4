@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 
-import contactList from '../fixtures/contactList.json';
+import RPC from '../utils/rpc-client';
 
 class ContactsStore {
     @observable list = undefined;
@@ -14,28 +14,26 @@ class ContactsStore {
 
         const filterValue = new RegExp(this.filterValue, 'i');
 
-        return this.list.filter(({ name, login }) => (
-            name.split(' ').some(word => word.match(filterValue)) ||
-            login.match(filterValue)
-        ));
+        return this.list.filter(({ username, firstName, lastName }) =>
+            [username, firstName, lastName].some(word => word && word.match(filterValue))
+        );
     }
 
     @action setFilterValue(value) {
         this.filterValue = value;
     }
 
-    @action loadList() {
-        setTimeout(action(() => {
-            this.list = contactList;
-            this.state = this.list.length ? 'loaded' : 'empty';
-        }), 100);
+    @action async loadList() {
+        this.list = await RPC.request('fetchContacts');
+        this.state = this.list.length ? 'loaded' : 'empty';
     }
 
-    @action add(user) {
-        const { name, login, avatar } = user;
+    @action async add(user) {
+        const { username } = user;
 
-        if (name && login && avatar) {
-            this.list.push(user);
+        if (username) {
+            const contact = await RPC.request('addContact', { username });
+            this.list.push(contact);
         }
     }
 

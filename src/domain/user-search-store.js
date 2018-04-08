@@ -1,7 +1,7 @@
 import { observable, action, computed } from 'mobx';
 
 import contactsStore from './contacts-store';
-import userList from '../fixtures/userList.json';
+import RPC from '../utils/rpc-client';
 
 class UserSearchStore {
     @observable user = undefined;
@@ -19,16 +19,19 @@ class UserSearchStore {
         }
     };
 
-    @action searchUser = () => {
+    @action searchUser = async () => {
         if (!this.query || this.state === 'collision') {
             return;
         }
 
         this.state = 'loading';
-        setTimeout(action('userLoaded', () => {
-            this.user = userList.find(user => user.login === this.query) || null;
-            this.state = this.user ? 'loaded' : 'notFound';
-        }), 1000);
+        try {
+            this.user = await RPC.request('fetchUser', { username: this.query });
+        } catch (e) {
+            console.log(e);
+            this.user = null;
+        }
+        this.state = this.user ? 'loaded' : 'notFound';
     };
 
     @action clear = () => {
