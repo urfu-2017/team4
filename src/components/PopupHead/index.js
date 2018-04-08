@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './ModalHead.css';
+import './PopupHead.css';
 
-class ModalHead extends React.Component {
+class PopUpHead extends React.Component {
     render() {
         return (
             <header className={`modal-head ${this.props.className}`}>
@@ -12,13 +12,13 @@ class ModalHead extends React.Component {
     }
 }
 
-ModalHead.propTypes = {
+PopUpHead.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node.isRequired
 };
 
-ModalHead.defaultProps = {
+PopUpHead.defaultProps = {
     className: ''
 };
 
-export default ModalHead;
+export default PopUpHead;

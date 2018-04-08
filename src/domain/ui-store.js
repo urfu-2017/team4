@@ -4,10 +4,23 @@ const TIMEOUT_ERROR = 5000;
 
 class UIStore {
     @observable error = null;
+    @observable popupStack = [];
     @observable displayContacts = false;
+
+    @computed get topPopup() {
+        return this.popupStack[this.popupStack.length - 1] || null;
+    }
 
     @computed get hasError() {
         return this.error !== null;
+    }
+
+    @action pushPopup(popupName) {
+        this.popupStack.push(popupName);
+    }
+
+    @action popPopup() {
+        this.popupStack.pop();
     }
 
     @action toggleContacts = () => {

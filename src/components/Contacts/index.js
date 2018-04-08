@@ -8,13 +8,14 @@ import AddContact from '../AddContact';
 import Overlay from '../Overlay';
 import Button from '../Button';
 import Contact from '../Contact';
-import ModalHead from '../ModalHead';
+import PopUpHead from '../PopupHead';
+import Popup from '../Popup';
 import './Contacts.css';
 
 import contactsStore from '../../domain/contacts-store';
 
 const Head = ({ closeHandler }) => (
-    <ModalHead className="contacts__head">
+    <PopUpHead className="contacts__head">
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
@@ -27,7 +28,7 @@ const Head = ({ closeHandler }) => (
                 Закрыть
             </Button>
         </div>
-    </ModalHead>
+    </PopUpHead>
 );
 
 Head.propTypes = {
@@ -41,7 +42,11 @@ const List = observer(() => (
         </p>
     ) : (
         <ul className="contacts__list">
-            {contactsStore.filteredList.map(Contact)}
+            {
+                contactsStore.filteredList.map(contact => (
+                    <Contact key={contact.login} {...contact}/>
+                ))
+            }
         </ul>
     )
 ));
@@ -70,31 +75,33 @@ class Contacts extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <section className="contacts">
+                <Popup
+                    className="contacts"
+                    closeHandler={this.props.closeContacts}
+                    zIndex={100}
+                >
                     <Head closeHandler={this.props.closeContacts}/>
                     {
                         contactsStore.state === 'loading' ? (
                             <Preloader size={50} className="contacts__preloader"/>
                         ) : (
                             <React.Fragment>
-                                {contactsStore.state !== 'empty' && <Search/>}
-                                <List/>
-                                <Button className="contacts__new" onClick={this.toggleAddContact}>
-                                    Добавить контакт
-                                </Button>
+                                <main className="contacts__main">
+                                    {contactsStore.state !== 'empty' && <Search/>}
+                                    <List/>
+                                </main>
+                                <footer className="contacts__footer">
+                                    <Button className="contacts__new" onClick={this.toggleAddContact}>
+                                        Добавить контакт
+                                    </Button>
+                                </footer>
                             </React.Fragment>
                         )
                     }
-                </section>
+                </Popup>
                 {
-                    this.state.displayAddContact ? (
-                        <AddContact closeHandler={this.toggleAddContact}/>
-                    ) : (
-                        <Overlay
-                            closeHandler={this.props.closeContacts}
-                            className="contacts__overlay"
-                        />
-                    )
+                    this.state.displayAddContact &&
+                    <AddContact closeHandler={this.toggleAddContact}/>
                 }
             </React.Fragment>
         );
