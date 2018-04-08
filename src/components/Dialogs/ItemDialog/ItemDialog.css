@@ -8,14 +8,11 @@
 
     cursor: pointer;
     margin-bottom: 10px;
-    color: #333;
-    transition: all 300ms ease-in-out;
 }
 
-.dialog-list__item:hover,
 .dialog-list__item--active {
-    background: #e9ebed;
-    color: #333;
+    background: #5682a3;
+    color: #fff;
 }
 
 .dialog-list__dialog-body {
@@ -26,6 +23,7 @@
 .dialog-list__dialog-image {
     width: 40px;
     height: 40px;
+    border-radius: 50%;
     margin-right: 15px;
 }
 
@@ -51,4 +49,8 @@
     font-size: 0.85em;
 
     align-self: flex-start;
+}
+
+.dialog-list__item--active > .dialog-list__last-msg-date {
+    color: #fff;
 }

@@ -1,9 +1,8 @@
 import marked from 'marked';
-import escapeHtml from './html-escape';
 
 const renderer = new marked.Renderer();
 
-const stubRender = text => escapeHtml(text);
+const stubRender = text => text;
 
 renderer.blockquote = stubRender;
 renderer.html = stubRender;
