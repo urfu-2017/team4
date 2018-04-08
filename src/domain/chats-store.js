@@ -4,7 +4,7 @@ import RPC from '../utils/rpc-client';
 import ChatModel from './chat-model';
 
 class ChatsStore {
-    @observable.shallow chatsMap = new Map();
+    @observable chatsMap = new Map();
     @observable currentChat = null;
 
     @computed get chats() {
@@ -30,12 +30,23 @@ class ChatsStore {
         this.currentChat = this.chatsMap.get(chatId);
     }
 
-    onNewMessage = (message) => {
+    onNewMessage = async (message) => {
         const { chatId } = message;
         const chat = this.chatsMap.get(chatId);
 
         if (chat) {
+            // Добавляем сообщение в существующий чат
             chat.onRecieveMessage(message);
+        } else {
+            // Добавляем новый чат
+            const newChat = await RPC.request('fetchChat', { chatId });
+
+            if (newChat) {
+                // Запрашиваем историю сообщений
+                const chatModel = new ChatModel(chat);
+                await chatModel.join();
+                this.chatsMap.set(newChat.id, chatModel);
+            }
         }
     }
 }

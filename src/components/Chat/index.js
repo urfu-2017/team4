@@ -15,11 +15,11 @@ export default class Chat extends React.Component {
         return ChatsStore.currentChat;
     }
 
-    shouldLoadHistory = () => this.chat.canLoadHistory
+    shouldLoadHistory = () => this.chat.canLoadNextHistoryFrame
 
     loadHistory = async () => {
         if (this.shouldLoadHistory()) {
-            await this.chat.loadHistory();
+            await this.chat.loadNextHistoryFrame();
         }
     }
 

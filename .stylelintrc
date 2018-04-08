@@ -2,6 +2,8 @@
     "extends": "stylelint-config-hrundel",
     "rules": {
         "number-leading-zero": "always",
-        "block-opening-brace-newline-before": "never-single-line"
+        "block-opening-brace-newline-before": "never-single-line",
+        "value-list-comma-space-after": null,
+        "number-max-precision": null
     }
 }

@@ -11,11 +11,11 @@ module.exports = async (params, response) => {
         throw new Error('Permission denied');
     }
 
-    if (!text) {
+    if (!text.trim()) {
         throw new RPC.Error('Message body is empty');
     }
 
-    const message = (await new Message({ chatId, text, from: username }).save());
+    const message = (await new Message({ chatId, text: text.trim(), from: username }).save());
 
     response.success(message);
     response.notify(chatId, 'newMessage', message);

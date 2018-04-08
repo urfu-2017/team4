@@ -1,13 +1,21 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 
 import './HeaderMainWrap.css';
-import userImage from '../../../fixtures/userImage.jpg';
+import ChatsStore from '../../../domain/chats-store';
 
-const HeaderMainWrap = () => (
-    <div className="header__main-wrap">
-        <img className="header__user-image" src={userImage} alt=""/>
-        <div className="header__user-name"/>
-    </div>
-);
+const HeaderMainWrap = observer(() => {
+    let message = 'Выберите чат';
+
+    if (ChatsStore.currentChat !== null) {
+        message = ChatsStore.currentChat.name;
+    }
+
+    return (
+        <div className="header__main-wrap">
+            <div className="header__user-name">{message}</div>
+        </div>
+    );
+});
 
 export default HeaderMainWrap;

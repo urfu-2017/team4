@@ -9,24 +9,15 @@ import menuStore from '../../../domain/menu-store';
 
 const HeaderLogoWrap = observer(() => (
     <div className="header__logo-wrap">
-        {!menuStore.isShow ? (
-            <div
-                onClick={menuStore.toggleLeftPanel}
-                className="header__menu"
-            >
-                ☰
+        <div
+            onClick={menuStore.toggleLeftPanel}
+            className={`header__menu hamburger ${menuStore.isShow ? 'hamburger--active' : ''}`.trim()}
+        >
+            <div className="hamburger__box">
+                <div className="hamburger__inner"></div>
             </div>
-        ) : (
-            <React.Fragment>
-                <div
-                    className="header__menu"
-                    onClick={menuStore.toggleLeftPanel}
-                >
-                    ✖
-                </div>
-                <Menu/>
-            </React.Fragment>
-        )}
+        </div>
+        {menuStore.isShow && <Menu/>}
         <div className="header__logo">K1logram</div>
     </div>
 ));

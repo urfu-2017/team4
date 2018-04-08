@@ -36,7 +36,7 @@ class ItemDialog extends React.Component {
         return (
             <div className={className.trim()} onClick={this.selectDialog} role="article">
                 <img
-                    src="https://imagineacademy.microsoft.com/content/images/microsoft-img.png"
+                    src="https://api.adorable.io/avatars/128/abott@adorable.png"
                     alt=""
                     className="dialog-list__dialog-image"
                 />

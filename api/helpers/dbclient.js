@@ -34,7 +34,7 @@ class DbClient {
     }
 
     getKey(...parts) {
-        return parts.join('_');
+        return parts.join('_').toLowerCase();
     }
 
     async _put(key, value) {

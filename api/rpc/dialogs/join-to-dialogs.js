@@ -11,7 +11,7 @@ module.exports = async (params, response) => {
     }
 
     // Оставляем только те диалоги, в которых есть пользователь
-    dialogs = dialogs.filter(id => !!chats.includes(id));
+    dialogs = dialogs.filter(id => chats.includes(id));
 
     // eslint-disable-next-line no-restricted-syntax
     for (const dialogId of dialogs) {

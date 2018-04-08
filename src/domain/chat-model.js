@@ -10,7 +10,7 @@ export default class ChatModel {
         return this.messages[this.messages.length - 1] || null;
     }
 
-    @computed get canLoadHistory() {
+    @computed get canLoadNextHistoryFrame() {
         const firstMessage = this.messages[0];
         return !(this.isFetching || !firstMessage || Number(firstMessage.frame) <= 0);
     }
@@ -28,15 +28,13 @@ export default class ChatModel {
             this.isFetching = true;
             this.messages = (await RPC.request('fetchHistory', { chatId: this.id }, 15000)) || [];
             await RPC.request('joinToDialogs', { dialogs: [this.id] });
-
-            console.info(this.name, this.messages.length);
         } finally {
             this.isFetching = false;
         }
     }
 
-    async loadHistory() {
-        if (!this.canLoadHistory) {
+    async loadNextHistoryFrame() {
+        if (!this.canLoadNextHistoryFrame) {
             return;
         }
 
@@ -49,8 +47,6 @@ export default class ChatModel {
                 chatId: this.id,
                 frame: firstFrame - 1
             }, 15000);
-
-            console.info(messages);
 
             this.messages = messages.concat(this.messages.slice());
         } finally {
