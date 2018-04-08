@@ -12,41 +12,35 @@ const RPC = require('../../utils/rpc');
  * @param io
  */
 module.exports = async (params, response, io) => {
-    try {
-        const owner = response.socket.handshake.user.username;
-        const { type, members, name } = params;
+    const owner = response.socket.handshake.user.username;
+    const { type, members, name } = params;
 
-        if (!members.length) {
-            throw new RPC.Error('Empty members');
-        }
-
-        let chat;
-        if (type === 'dialog') {
-            chat = await createDialog(owner, members[0]);
-        } else if (type === 'room') {
-            chat = Chat.createRoom(name, owner, members);
-        } else {
-            throw new RPC.Error('Invalid type');
-        }
-
-        await chat.save();
-        await Promise.all(chat.members.map(member => UsersManager.addDialog(member, chat.id)));
-
-        // Подключаем участников к комнате
-        members.forEach((member) => {
-            const socket = io.users[member];
-            if (socket) {
-                socket.handshake.user.chats.push(chat.id);
-                socket.join(chat.id);
-            }
-        });
-
-        console.info('SUCCESS CREATE', chat.id);
-        response.success(chat);
-    } catch (e) {
-        console.error(e);
-        response.error(e);
+    if (!members.length) {
+        throw new RPC.Error('Empty members');
     }
+
+    let chat;
+    if (type === 'dialog') {
+        chat = await createDialog(owner, members[0]);
+    } else if (type === 'room') {
+        chat = Chat.createRoom(name, owner, members);
+    } else {
+        throw new RPC.Error('Invalid type');
+    }
+
+    await chat.save();
+    await Promise.all(chat.members.map(member => UsersManager.addDialog(member, chat.id)));
+
+    // Подключаем участников к комнате
+    members.forEach((member) => {
+        const socket = io.users[member];
+        if (socket) {
+            socket.handshake.user.chats.push(chat.id);
+            socket.join(chat.id);
+        }
+    });
+
+    response.success(chat);
 };
 
 async function createDialog(person1, person2) {

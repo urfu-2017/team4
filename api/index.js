@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
         io.users[user] = socket;
     });
 
-    socket.on('rpc', (rpc) => {
+    socket.on('rpc', async (rpc) => {
         const { payload, type } = RPC.Builder.parse(rpc);
 
         // Не отвечаем на невалидный запрос
@@ -47,7 +47,16 @@ io.on('connection', (socket) => {
             return;
         }
 
-        method(payload.params || {}, response, io);
+        try {
+            await method(payload.params || {}, response, io);
+        } catch (e) {
+            console.info(e);
+            if (e instanceof RPC.Error) {
+                response.error(e);
+            } else {
+                response.error(new RPC.Error('Internal error', 500, e.message));
+            }
+        }
     });
 
     socket.on('disconnect', () => {
