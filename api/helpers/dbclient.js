@@ -9,32 +9,60 @@ const {
     HRUDB_RETRIES_COUNT
 } = require('../config');
 
+const lruCache = require('lru-cache')({
+    max: 2000,
+    maxAge: 1000 * 60 * 10
+});
+
 class DbError extends Error {
 }
 
 class DbClient {
     put(key, value, retries) {
+        lruCache.del(key);
         return DbClient._try(() => this._put(key, value), retries);
     }
 
     post(key, value, retries) {
+        lruCache.del(key);
         return DbClient._try(() => this._post(key, value), retries);
     }
 
-    get(key, retries) {
-        return DbClient._try(() => this._get(key), retries);
+    get(key, cache = true, retries) {
+        return this._cached(key, () => DbClient._try(() => this._get(key), retries), cache);
     }
 
-    getAll(key, options, retries) {
-        return DbClient._try(() => this._getAll(key, options), retries);
+    getAll(key, options, cache = false, retries) {
+        return this._cached(
+            key,
+            () => DbClient._try(() => this._getAll(key, options), retries),
+            cache
+        );
     }
 
     del(key, retries) {
+        lruCache.del(key);
         return DbClient._try(() => this._del(key), retries);
     }
 
     getKey(...parts) {
         return parts.join('_').toLowerCase();
+    }
+
+    async _cached(key, request, cache = true) {
+        let data = lruCache.get(key);
+
+        if (data) {
+            return data;
+        }
+
+        data = await request();
+
+        if (cache) {
+            lruCache.set(key, data);
+        }
+
+        return data;
     }
 
     async _put(key, value) {
@@ -73,9 +101,6 @@ class DbClient {
 
     async _request(method, path, body) {
         try {
-            // Log requests
-            console.info(method, path, JSON.stringify(body));
-
             return await got(HRUDB_URL + path, {
                 method,
                 headers: {

@@ -42,7 +42,6 @@ io.on('connection', (socket) => {
         const response = new RPC.Response(payload.id, socket);
 
         if (method === null) {
-            console.info(payload.method);
             response.error(RPC.Error.methodNotFound());
             return;
         }
@@ -50,7 +49,6 @@ io.on('connection', (socket) => {
         try {
             await method(payload.params || {}, response, io);
         } catch (e) {
-            console.info(e);
             if (e instanceof RPC.Error) {
                 response.error(e);
             } else {
