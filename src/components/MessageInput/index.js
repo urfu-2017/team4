@@ -2,14 +2,15 @@ import React from 'react';
 import Button from '../Button';
 import './MessageInput.css';
 
+import ChatsStore from '../../domain/chats-store';
+
 class MessageInput extends React.Component {
     onSend = () => {
         const text = this.messageInput.value;
 
         if (text) {
-            console.info(text);
             // eslint-disable-next-line
-            this.props.onSend(text);
+            ChatsStore.currentChat.sendMessage(text);
             this.messageInput.value = null;
         }
     }

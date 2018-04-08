@@ -5,10 +5,12 @@ import { observer } from 'mobx-react';
 import Message from './message';
 import './index.css';
 
+import ChatsStore from '../../domain/chats-store';
+
 @observer
 export default class Chat extends React.Component {
     render() {
-        const messages = this.props.chatMessages.map(message => (
+        const messages = ChatsStore.currentChat.messages.map(message => (
             <Message
                 key={message.id}
                 username={message.from}
@@ -23,5 +25,4 @@ export default class Chat extends React.Component {
 }
 
 Chat.propTypes = {
-    chatMessages: PropTypes.arrayOf(PropTypes.shape(Message.propTypes)).isRequired
 };

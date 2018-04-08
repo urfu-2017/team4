@@ -2,15 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './index.css';
-
-function goodDate(time) {
-    const dt = new Date(time);
-    const hours = dt.getHours();
-    const minutes = String(dt.getMinutes()).padStart(2, '0');
-    const seconds = String(dt.getSeconds()).padStart(2, '0');
-
-    return `${hours}:${minutes}:${seconds}`;
-}
+import formatDate from '../../utils/format-date';
 
 const Message = ({ username, text, avatar, date }) => (
     <div className="message">
@@ -29,7 +21,7 @@ const Message = ({ username, text, avatar, date }) => (
         </div>
         <div className="message__date">
             <span className="message__date-value">
-                {goodDate(date)}
+                {formatDate(date)}
             </span>
         </div>
     </div>

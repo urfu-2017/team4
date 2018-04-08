@@ -1,9 +1,13 @@
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 
 export default class ChatModel {
     @observable messages = [];
+
+    @computed get lastMessage() {
+        return this.messages[this.messages.length - 1] || null;
+    }
 
     constructor({ id, name, members, owner, type }) {
         this.id = id;

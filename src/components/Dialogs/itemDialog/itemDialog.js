@@ -1,23 +1,53 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
 
 import './itemDialog.css';
-import messages from './messages.json';
+import formatDate from '../../../utils/format-date';
 
+import ChatsStore from '../../../domain/chats-store';
+
+@observer
 class ItemDialog extends React.Component {
-    render() {
-        const { name, messagesIds } = this.props;
+    selectDialog = (event) => {
+        event.preventDefault();
+        ChatsStore.setCurrentChat(this.props.id);
+    }
+
+    renderLastMessage() {
+        const chat = ChatsStore.chatsMap.get(this.props.id);
+
+        if (!chat || !chat.lastMessage) {
+            return null;
+        }
+
+        const message = chat.lastMessage;
 
         return (
-            <div className="dialog-list__item">
+            <React.Fragment>
+                <div className="dialog-list__last-msg">{message.text}</div>
+                <div className="dialog-list__last-msg-date">{formatDate(message.createdAt)}</div>
+            </React.Fragment>
+        );
+    }
+
+    render() {
+        const { name, id } = this.props;
+        const isActive = ChatsStore.currentChat && ChatsStore.currentChat.id === id;
+
+        const className = `dialog-list__item ${isActive ? 'dialog-list__item--active' : ''}`;
+
+        return (
+            <div className={className.trim()} onClick={this.selectDialog} role="article">
                 <img
                     src="https://imagineacademy.microsoft.com/content/images/microsoft-img.png"
                     alt=""
                     className="dialog-list__dialog-image"
                 />
                 <div className="dialog-list__dialog-name">{name}</div>
-                <div className="dialog-list__last-msg">{messages.find(msg => msg.id === messagesIds).text}</div>
-                <div className="dialog-list__last-msg-date">{messages.find(msg => msg.id === messagesIds).date}</div>
+                {this.renderLastMessage()}
             </div>
         );
     }
@@ -25,7 +55,7 @@ class ItemDialog extends React.Component {
 
 ItemDialog.propTypes = {
     name: PropTypes.string.isRequired,
-    messagesIds: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired
 };
 
 export default ItemDialog;

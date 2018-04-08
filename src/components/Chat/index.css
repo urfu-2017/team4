@@ -1,3 +1,7 @@
+.chat {
+    overflow-y: auto;
+}
+
 .message {
     display: flex;
     flex-direction: row;
