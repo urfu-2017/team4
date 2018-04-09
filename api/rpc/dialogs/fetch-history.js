@@ -5,9 +5,9 @@ const RPC = require('../../utils/rpc');
 
 module.exports = async (params, response) => {
     const { chatId, frame } = params;
-    const { chats } = response.socket.handshake.user;
+    const { chatsIds } = response.socket.handshake.user;
 
-    if (!chatId || !chats.includes(chatId)) {
+    if (!chatId || !chatsIds.includes(chatId)) {
         throw new RPC.Error('Permission denied');
     }
 

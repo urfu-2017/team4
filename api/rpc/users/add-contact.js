@@ -1,18 +1,24 @@
 'use strict';
 
-const { JsonRpcError } = require('jsonrpc-lite');
+const RPC = require('../../utils/rpc');
 
-const UserManager = require('../../managers/users');
+const User = require('../../models/user');
 
 module.exports = async (params, response) => {
+    const currentUser = response.socket.handshake.user;
+
+    if (params.username === currentUser.username) {
+        throw new RPC.Error('Cannot add himself to contacts');
+    }
+
     const contact = params.username ?
-        await UserManager.getUser(params.username) : null;
+        await User.get(params.username) : null;
 
     if (contact) {
-        await UserManager.addContact(response.socket.handshake.user.username, contact.username);
+        await currentUser.addContact(contact.username);
         response.success(contact);
         return;
     }
 
-    response.error(new JsonRpcError('User not found'));
+    throw new RPC.Error('User not found');
 };

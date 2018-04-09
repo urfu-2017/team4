@@ -9,8 +9,8 @@ const Chat = require('../../models/chat');
  * @returns {Promise<*>}
  */
 module.exports = async (params, response) => {
-    const chatIds = response.socket.handshake.user.chats;
+    const { chatsIds } = response.socket.handshake.user;
 
-    const chats = await Promise.all(chatIds.map(Chat.find));
+    const chats = await Promise.all(chatsIds.map(Chat.find));
     return response.success(chats);
 };

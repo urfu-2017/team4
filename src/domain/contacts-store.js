@@ -30,7 +30,7 @@ class ContactsStore {
     @action async add(user) {
         const { username } = user;
 
-        if (username) {
+        if (username && !this.list.find(contact => contact.username === username)) {
             const contact = await RPC.request('addContact', { username });
             this.list.push(contact);
         }

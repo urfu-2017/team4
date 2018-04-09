@@ -4,10 +4,10 @@ const Message = require('../../models/message');
 const RPC = require('../../utils/rpc');
 
 module.exports = async (params, response) => {
-    const { username, chats } = response.socket.handshake.user;
+    const { username, chatsIds } = response.socket.handshake.user;
     const { chatId, text } = params;
 
-    if (!chats.includes(chatId)) {
+    if (!chatsIds.includes(chatId)) {
         throw new Error('Permission denied');
     }
 
