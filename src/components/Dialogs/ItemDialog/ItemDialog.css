@@ -11,8 +11,7 @@
 }
 
 .dialog-list__item--active {
-    background: #5682a3;
-    color: #fff;
+    background: #e9ebed;
 }
 
 .dialog-list__dialog-body {
@@ -49,8 +48,4 @@
     font-size: 0.85em;
 
     align-self: flex-start;
-}
-
-.dialog-list__item--active > .dialog-list__last-msg-date {
-    color: #fff;
 }

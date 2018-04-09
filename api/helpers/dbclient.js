@@ -53,6 +53,8 @@ class DbClient {
         let data = lruCache.get(key);
 
         if (data) {
+            console.info('FROM CACHE:', key);
+            lruCache.set(key, data);
             return data;
         }
 
@@ -101,6 +103,7 @@ class DbClient {
 
     async _request(method, path, body) {
         try {
+            console.info(method, path);
             return await got(HRUDB_URL + path, {
                 method,
                 headers: {

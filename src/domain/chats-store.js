@@ -1,9 +1,7 @@
 /* eslint-disable no-restricted-syntax,no-await-in-loop */
-import { observable, action, computed, runInAction } from 'mobx';
-
+import { observable, action, computed } from 'mobx';
 import RPC from '../utils/rpc-client';
 import ChatModel from './chat-model';
-import UsersStore from './users-store';
 
 class ChatsStore {
     @observable chatsMap = new Map();
@@ -17,7 +15,6 @@ class ChatsStore {
         RPC.addListener('newMessage', this.onNewMessage);
     }
 
-    @action
     async init() {
         const chats = await RPC.request('fetchDialogs');
 
@@ -26,34 +23,17 @@ class ChatsStore {
             if (chat === null) continue;
 
             const chatModel = new ChatModel(chat);
-
-            runInAction(() => {
-                this.chatsMap.set(chat.id, chatModel);
-            });
-
-            chatModel.members.forEach((username) => {
-                UsersStore.fetchUser(username);
-            });
-
+            this.chatsMap.set(chat.id, chatModel);
             chatModel.join();
         }
     }
 
-    @action
     async createChat(type, members, name = '') {
-        const chat = await RPC.request('createDialog', { type, members, name }, 15000);
+        const chat = await RPC.request('createDialog', { type, members, name });
         const chatModel = new ChatModel(chat);
         await chatModel.join();
 
-        chatModel.members.forEach((username) => {
-            UsersStore.fetchUser(username);
-        });
-
-        runInAction(() => {
-            this.chatsMap.set(chat.id, chatModel);
-        });
-
-        return chatModel;
+        this.chatsMap.set(chat.id, chatModel);
     }
 
 
@@ -61,7 +41,6 @@ class ChatsStore {
         this.currentChat = this.chatsMap.get(chatId);
     }
 
-    @action
     onNewMessage = async (message) => {
         const { chatId } = message;
         const chat = this.chatsMap.get(chatId);
@@ -77,14 +56,7 @@ class ChatsStore {
                 // Запрашиваем историю сообщений
                 const chatModel = new ChatModel(newChat);
                 await chatModel.join();
-
-                runInAction(() => {
-                    this.chatsMap.set(newChat.id, chatModel);
-                });
-
-                chatModel.members.forEach((username) => {
-                    UsersStore.fetchUser(username);
-                });
+                this.chatsMap.set(newChat.id, chatModel);
             }
         }
     }

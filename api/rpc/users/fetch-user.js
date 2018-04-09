@@ -9,8 +9,8 @@ module.exports = async (params, response) => {
     if (params.username) {
         user = await UserManager.getUser(params.username);
     } else {
-        const { username, firstName, lastName, avatar } = response.socket.handshake.user;
-        user = { username, firstName, lastName, avatar };
+        const { username, firstName, lastName } = response.socket.handshake.user;
+        user = { username, firstName, lastName };
     }
 
     if (!user) {
