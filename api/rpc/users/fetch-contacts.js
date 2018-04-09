@@ -1,8 +1,6 @@
 'use strict';
 
-const UserManager = require('../../managers/users');
-
 module.exports = async (params, response) => {
-    const currentUsername = response.socket.handshake.user.username;
-    response.success(await UserManager.getContacts(currentUsername));
+    const currentUser = response.socket.handshake.user;
+    response.success(await currentUser.getContacts());
 };

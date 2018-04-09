@@ -4,7 +4,7 @@ const cookie = require('cookie');
 const cookieParser = require('cookie-parser');
 
 const config = require('../config');
-const UserManager = require('../managers/users');
+const User = require('../models/user');
 
 module.exports = sessionStore => (socket, next) => {
     const { handshake } = socket;
@@ -19,10 +19,7 @@ module.exports = sessionStore => (socket, next) => {
         }
 
         const username = session.passport.user;
-        const user = await UserManager.getUser(username);
-        user.chats = (await UserManager.getDialogs(username)) || [];
-
-        handshake.user = user;
+        handshake.user = await User.get(username);
         next();
     });
 };

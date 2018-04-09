@@ -6,7 +6,7 @@ const passportGithub = require('passport-github');
 const expressSession = require('express-session');
 
 const config = require('../config');
-const UserManager = require('../managers/users');
+const User = require('../models/user');
 
 const strategy = new passportGithub.Strategy(
     {
@@ -22,10 +22,11 @@ const strategy = new passportGithub.Strategy(
             [firstName, lastName] = profile.displayName.split(/\s+/);
         }
 
-        let user = await UserManager.getUser(username);
+        let user = await User.get(username);
 
         if (!user) {
-            user = await UserManager.createUser({ username, firstName, lastName });
+            user = new User({ username, firstName, lastName, avatar: null });
+            await user.save();
         }
 
         done(null, user);

@@ -1,6 +1,6 @@
 'use strict';
 
-const UsersManager = require('../../managers/users');
+const User = require('../../models/user');
 const Chat = require('../../models/chat');
 const RPC = require('../../utils/rpc');
 
@@ -29,13 +29,13 @@ module.exports = async (params, response, io) => {
     }
 
     await chat.save();
-    await Promise.all(chat.members.map(member => UsersManager.addDialog(member, chat.id)));
+    await Promise.all(chat.members.map(member =>
+        User.get(member).then(user => user.addToChat(chat.id))));
 
     // Подключаем участников к комнате
     members.forEach((member) => {
         const socket = io.users[member];
         if (socket) {
-            socket.handshake.user.chats.push(chat.id);
             socket.join(chat.id);
         }
     });
