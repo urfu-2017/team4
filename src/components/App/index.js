@@ -6,6 +6,7 @@ import Header from '../Header';
 import Dialogs from '../Dialogs';
 import Contacts from '../Contacts';
 import MessageInput from '../MessageInput';
+import Profile from '../Profile';
 import './App.css';
 
 import uiStore from '../../domain/ui-store';
@@ -31,6 +32,7 @@ class App extends React.Component {
                 </div>
 
                 { uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/> }
+                { uiStore.displayProfile && <Profile closeProfile={uiStore.toggleProfile}/> }
             </div>
         );
     }

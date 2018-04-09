@@ -2,6 +2,7 @@
 
 const DB = require('../helpers/dbclient');
 const DbCollection = require('../helpers/dbcollection');
+const getAvatar = require('../utils/gravatar');
 
 const User = require('../models/user');
 
@@ -11,6 +12,7 @@ class UsersManager {
     }
 
     async createUser(userInfo) {
+        userInfo.avatar = await getAvatar(userInfo.username);
         const user = new User(userInfo);
         await this.saveUser(user);
         await DB.put(DB.getKey('users', user.username, 'dialogs'), []);
