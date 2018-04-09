@@ -12,6 +12,7 @@ const configureRPC = require('./rpc');
 
 const app = express();
 const sessionStore = new SessionStore();
+const usersStore = new Map();
 
 app.use(express.static(path.resolve(__dirname, '..', 'prod_build'), { redirect: false }));
 expressAuth(app, sessionStore);
@@ -20,14 +21,17 @@ const server = app.listen(8080);
 const io = sio.listen(server);
 configureRPC();
 
-io.use(socketAuth(sessionStore));
+io.use(socketAuth(sessionStore, usersStore));
+io.users = usersStore;
 
 io.on('connection', (socket) => {
-    io.users = io.users || {};
+    socket.on('disconnect', () => {
+        const { user } = socket.handshake;
+        user.sockets = user.sockets.filter(sckt => sckt !== socket);
 
-    socket.on('connect', () => {
-        const user = socket.handshake.user.username;
-        io.users[user] = socket;
+        if (user.sockets.length === 0) {
+            usersStore.delete(user.username);
+        }
     });
 
     socket.on('rpc', async (rpc) => {
@@ -55,10 +59,5 @@ io.on('connection', (socket) => {
                 response.error(new RPC.Error('Internal error', 500, e.message));
             }
         }
-    });
-
-    socket.on('disconnect', () => {
-        const user = socket.handshake.user.username;
-        delete io.users[user];
     });
 });

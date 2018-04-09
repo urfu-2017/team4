@@ -34,13 +34,7 @@ export default class Chat extends React.Component {
                 reversed
             >
                 {ChatsStore.currentChat.messages.map(message => (
-                    <Message
-                        key={message.id}
-                        username={message.from}
-                        text={message.text}
-                        avatar={message.avatar}
-                        date={message.createdAt}
-                    />
+                    <Message key={message.id} message={message}/>
                 ))}
             </ChatView>
         );

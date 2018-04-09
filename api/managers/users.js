@@ -61,6 +61,13 @@ class UsersManager {
         await DB.put(DB.getKey('users', username, 'dialogs'), userDialogs);
     }
 
+    async removeDialog(username, dialogId) {
+        let userDialogs = await this.getDialogs(username);
+
+        userDialogs = userDialogs.filter(id => id !== dialogId);
+        await DB.put(DB.getKey('users', username, 'dialogs'), userDialogs);
+    }
+
     addContact(username, contactName) {
         return this._getContactsCollection(username).add(contactName);
     }

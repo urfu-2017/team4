@@ -24,10 +24,18 @@ class ChatsStore {
 
             const chatModel = new ChatModel(chat);
             this.chatsMap.set(chat.id, chatModel);
-
             chatModel.join();
         }
     }
+
+    async createChat(type, members, name = '') {
+        const chat = await RPC.request('createDialog', { type, members, name });
+        const chatModel = new ChatModel(chat);
+        await chatModel.join();
+
+        this.chatsMap.set(chat.id, chatModel);
+    }
+
 
     @action setCurrentChat(chatId) {
         this.currentChat = this.chatsMap.get(chatId);
@@ -42,11 +50,11 @@ class ChatsStore {
             chat.onRecieveMessage(message);
         } else {
             // Добавляем новый чат
-            const newChat = await RPC.request('fetchChat', { chatId });
+            const newChat = await RPC.request('fetchDialog', { chatId });
 
             if (newChat) {
                 // Запрашиваем историю сообщений
-                const chatModel = new ChatModel(chat);
+                const chatModel = new ChatModel(newChat);
                 await chatModel.join();
                 this.chatsMap.set(newChat.id, chatModel);
             }

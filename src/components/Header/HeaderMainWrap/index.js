@@ -6,9 +6,11 @@ import ChatsStore from '../../../domain/chats-store';
 
 const HeaderMainWrap = observer(() => {
     let message = 'Выберите чат';
+    const chat = ChatsStore.currentChat;
 
-    if (ChatsStore.currentChat !== null) {
-        message = ChatsStore.currentChat.name;
+    if (chat !== null) {
+        message = chat.name;
+        message += chat.type === 'room' ? ` (${chat.members.length} участников)` : '';
     }
 
     return (

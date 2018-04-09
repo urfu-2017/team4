@@ -94,6 +94,14 @@ class Message {
 
         return frame;
     }
+
+    static async removeAllMessages(chatId) {
+        const chatFrames = await DB.getAll(DB.getKey('messages', chatId, 'frames'));
+        await Promise.all(chatFrames.map(id => DB.del(DB.getKey('messages', chatId, 'frame', id))));
+        await DB.del(DB.getKey('messages', chatId, 'frames'));
+
+        frames.delete(chatId);
+    }
 }
 
 module.exports = Message;
