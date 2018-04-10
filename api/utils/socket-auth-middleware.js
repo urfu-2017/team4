@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const config = require('../config');
 const UserManager = require('../managers/users');
 
-module.exports = sessionStore => (socket, next) => {
+module.exports = (sessionStore, usersStore) => (socket, next) => {
     const { handshake } = socket;
 
     const cookies = cookie.parse(handshake.headers.cookie || '');
@@ -18,11 +18,21 @@ module.exports = sessionStore => (socket, next) => {
             return;
         }
 
+        // Прикрепляем сокет к определённому пользователю
         const username = session.passport.user;
-        const user = await UserManager.getUser(username);
-        user.chats = (await UserManager.getDialogs(username)) || [];
+        let userInfo = usersStore.get(username);
 
-        handshake.user = user;
+        if (!userInfo) {
+            userInfo = await UserManager.getUser(username);
+            userInfo.chats = await UserManager.getDialogs(username);
+            userInfo.sockets = [socket];
+
+            usersStore.set(username, userInfo);
+        } else {
+            userInfo.sockets.push(socket);
+        }
+
+        handshake.user = userInfo;
         next();
     });
 };

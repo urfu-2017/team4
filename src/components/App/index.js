@@ -1,37 +1,43 @@
 import React from 'react';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
-import Chat from '../Chat';
 import Header from '../Header';
 import Dialogs from '../Dialogs';
 import Contacts from '../Contacts';
-import MessageInput from '../MessageInput';
+import ChatWrapper from '../Chat/ChatWrapper';
+import Profile from '../Profile';
 import './App.css';
 
 import uiStore from '../../domain/ui-store';
-import messageList from '../../fixtures/messageList.json';
-
-import ChatsStore from '../../domain/chats-store';
 
 @observer
 class App extends React.Component {
+    renderModals() {
+        return (
+            <React.Fragment>
+                {uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/>}
+                {uiStore.displayProfile && <Profile closeProfile={uiStore.toggleProfile}/>}
+            </React.Fragment>
+        );
+    }
+
     render() {
         return (
-            <div className="app">
-                <Header/>
-                <Dialogs/>
-
-                <div className="chat-wrapper">
-                    {ChatsStore.currentChat !== null ? (
-                        <React.Fragment>
-                            <Chat chatMessages={messageList}/>
-                            <MessageInput/>
-                        </React.Fragment>
-                    ) : <div className="chat-stub"/>}
+            <HashRouter>
+                <div className="app">
+                    <Header/>
+                    <Dialogs/>
+                    <div className="chat-wrapper">
+                        <Switch>
+                            <Route path="/chats/:id" component={ChatWrapper}/>
+                            <Route path="/" render={() => <div/>}/>
+                            <Redirect from="*" to="/"/>
+                        </Switch>
+                    </div>
+                    {this.renderModals()}
                 </div>
-
-                { uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/> }
-            </div>
+            </HashRouter>
         );
     }
 }

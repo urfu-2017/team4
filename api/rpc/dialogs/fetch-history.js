@@ -11,6 +11,12 @@ module.exports = async (params, response) => {
         throw new RPC.Error('Permission denied');
     }
 
-    const messages = await Message.getMessages(chatId, Number(frame));
+    // Удаляем дубликаты
+    // TODO: Отвественность модели
+    let messages = await Message.getMessages(chatId, Number(frame));
+    messages = messages.filter((message, pos, self) =>
+        self.findIndex(msg => msg.id === message.id) === pos);
+
     response.success(messages);
 };
+

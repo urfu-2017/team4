@@ -5,6 +5,7 @@ const TIMEOUT_ERROR = 5000;
 class UIStore {
     @observable error = null;
     @observable displayContacts = false;
+    @observable displayProfile = false;
 
     @computed get hasError() {
         return this.error !== null;
@@ -12,6 +13,10 @@ class UIStore {
 
     @action toggleContacts = () => {
         this.displayContacts = !this.displayContacts;
+    };
+
+    @action toggleProfile = () => {
+        this.displayProfile = !this.displayProfile;
     };
 
     @action
