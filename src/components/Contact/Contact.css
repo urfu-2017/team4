@@ -28,10 +28,6 @@
     font-weight: bold;
 }
 
-.contact__login {
+.contact__username {
     color: #91a6ba;
-}
-
-.contact__overlay {
-    z-index: 100;
 }

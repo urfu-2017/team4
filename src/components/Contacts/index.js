@@ -7,14 +7,16 @@ import Preloader from '../Preloader';
 import AddContact from '../AddContact';
 import Button from '../Button';
 import Contact from '../Contact';
-import PopUpHead from '../PopupHead';
+import PopupHead from '../PopupHead';
+import PopupBody from '../PopupBody';
 import Popup from '../Popup';
 import './Contacts.css';
 
 import contactsStore from '../../domain/contacts-store';
+import uiStore from '../../domain/ui-store';
 
 const Head = ({ closeHandler }) => (
-    <PopUpHead className="contacts__head">
+    <PopupHead className="contacts__head">
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
@@ -27,7 +29,7 @@ const Head = ({ closeHandler }) => (
                 Закрыть
             </Button>
         </div>
-    </PopUpHead>
+    </PopupHead>
 );
 
 Head.propTypes = {
@@ -43,7 +45,7 @@ const List = observer(() => (
         <ul className="contacts__list">
             {
                 contactsStore.filteredList.map(contact => (
-                    <Contact key={contact.login} {...contact}/>
+                    <Contact key={contact.username} {...contact}/>
                 ))
             }
         </ul>
@@ -76,25 +78,21 @@ class Contacts extends React.Component {
             <React.Fragment>
                 <Popup
                     className="contacts"
-                    closeHandler={this.props.closeContacts}
+                    closeHandler={uiStore.togglePopup('contacts')}
                     zIndex={100}
                 >
-                    <Head closeHandler={this.props.closeContacts}/>
+                    <Head closeHandler={uiStore.togglePopup('contacts')}/>
                     {
                         contactsStore.state === 'loading' ? (
                             <Preloader size={50} className="contacts__preloader"/>
                         ) : (
-                            <React.Fragment>
-                                <main className="contacts__main">
-                                    {contactsStore.state !== 'empty' && <Search/>}
-                                    <List/>
-                                </main>
-                                <footer className="contacts__footer">
-                                    <Button className="contacts__new" onClick={this.toggleAddContact}>
-                                        Добавить контакт
-                                    </Button>
-                                </footer>
-                            </React.Fragment>
+                            <PopupBody className="contacts__main">
+                                {contactsStore.state !== 'empty' && <Search/>}
+                                <List/>
+                                <Button className="contacts__new" onClick={this.toggleAddContact}>
+                                    Добавить контакт
+                                </Button>
+                            </PopupBody>
                         )
                     }
                 </Popup>
@@ -106,9 +104,5 @@ class Contacts extends React.Component {
         );
     }
 }
-
-Contacts.propTypes = {
-    closeContacts: PropTypes.func.isRequired
-};
 
 export default Contacts;

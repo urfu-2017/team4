@@ -30,7 +30,7 @@ class App extends React.Component {
                     ) : <div className="chat-stub"/>}
                 </div>
 
-                { uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/> }
+                { uiStore.displays.contacts && <Contacts/> }
             </div>
         );
     }

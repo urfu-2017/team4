@@ -1,11 +1,15 @@
-import { observable, action } from 'mobx';
+import { observable, action, runInAction } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 class UsersStore {
     @observable currentUser = null;
 
+    @action
     async fetchCurrentUser() {
-        this.currentUser = await RPC.request('fetchUser');
+        const currentUser = await RPC.request('fetchUser');
+        runInAction(() => {
+            this.currentUser = currentUser;
+        });
     }
 
     @action

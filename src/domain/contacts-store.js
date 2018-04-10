@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 
@@ -23,21 +23,37 @@ class ContactsStore {
     }
 
     @action async loadList() {
-        this.list = await RPC.request('fetchContacts');
-        this.state = this.list.length ? 'loaded' : 'empty';
+        try {
+            const list = await RPC.request('fetchContacts');
+            runInAction(() => {
+                this.list = list;
+                this.state = this.list.length ? 'loaded' : 'empty';
+            });
+        } catch (e) {
+            runInAction(() => {
+                this.state = 'error';
+            });
+        }
     }
 
     @action async add(user) {
         const { username } = user;
+        if (!username) {
+            return;
+        }
 
-        if (username) {
+        try {
             const contact = await RPC.request('addContact', { username });
-            this.list.push(contact);
+            runInAction(() => {
+                this.list.push(contact);
+            });
+        } catch (e) {
+            console.error(e.message);
         }
     }
 
-    has(login) {
-        return Boolean(this.list.find(user => user.login === login));
+    has(username) {
+        return Boolean(this.list.find(user => user.username === username));
     }
 }
 

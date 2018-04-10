@@ -7,7 +7,7 @@ import uiStore from '../../../domain/ui-store';
 class Menu extends React.Component {
     onClick = (event) => {
         event.preventDefault();
-        uiStore.toggleContacts();
+        uiStore.togglePopup('contacts')();
     };
 
     render() {

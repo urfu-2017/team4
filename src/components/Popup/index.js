@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
 import Overlay from '../Overlay';
+import './Popup.css';
 
 import uiStore from '../../domain/ui-store';
 
@@ -20,7 +21,7 @@ class Popup extends React.Component {
         return (
             <React.Fragment>
                 <section
-                    className={this.props.className}
+                    className={`popup ${this.props.className}`}
                     style={{ zIndex: this.props.zIndex + 1 }}
                 >
                     {this.props.children}
@@ -40,7 +41,7 @@ class Popup extends React.Component {
 Popup.propTypes = {
     zIndex: PropTypes.number.isRequired,
     className: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.node,
     closeHandler: PropTypes.func.isRequired
 };
 

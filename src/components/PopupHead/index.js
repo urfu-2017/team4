@@ -5,7 +5,7 @@ import './PopupHead.css';
 class PopUpHead extends React.Component {
     render() {
         return (
-            <header className={`modal-head ${this.props.className}`}>
+            <header className={`popup__head ${this.props.className}`}>
                 {this.props.children}
             </header>
         );

@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, runInAction } from 'mobx';
 
 import contactsStore from './contacts-store';
 import RPC from '../utils/rpc-client';
@@ -25,12 +25,18 @@ class UserSearchStore {
         }
 
         this.state = 'loading';
+        let user;
+
         try {
-            this.user = await RPC.request('fetchUser', { username: this.query });
+            user = await RPC.request('fetchUser', { username: this.query });
         } catch (e) {
-            this.user = null;
+            user = null;
         }
-        this.state = this.user ? 'loaded' : 'notFound';
+
+        runInAction(() => {
+            this.user = user;
+            this.state = this.user ? 'loaded' : 'notFound';
+        });
     };
 
     @action clear = () => {

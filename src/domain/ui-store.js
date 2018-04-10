@@ -5,7 +5,9 @@ const TIMEOUT_ERROR = 5000;
 class UIStore {
     @observable error = null;
     @observable popupStack = [];
-    @observable displayContacts = false;
+    @observable displays = {
+        contacts: false
+    };
 
     @computed get topPopup() {
         return this.popupStack[this.popupStack.length - 1] || null;
@@ -23,9 +25,9 @@ class UIStore {
         this.popupStack.pop();
     }
 
-    @action toggleContacts = () => {
-        this.displayContacts = !this.displayContacts;
-    };
+    @action togglePopup = name => (() => {
+        this.displays[name] = !this.displays[name];
+    });
 
     @action
     showError(message) {
