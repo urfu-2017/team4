@@ -20,7 +20,7 @@ export default class Dialogs extends React.Component {
     // eslint-disable-next-line class-methods-use-this
     @computed get chats() {
         return ChatsStore.chats
-            // .filter(chat => !(chat.type === 'dialog' && chat.lastMessage === null))
+            .filter(chat => !(chat.type === 'dialog' && chat.lastMessage === null))
             .sort(Dialogs.chatOrderComparator);
     }
 
