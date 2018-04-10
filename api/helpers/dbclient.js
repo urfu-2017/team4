@@ -10,8 +10,7 @@ const {
 } = require('../config');
 
 const lruCache = require('lru-cache')({
-    max: 2000,
-    maxAge: 1000 * 60 * 10
+    max: 2000
 });
 
 class DbError extends Error {

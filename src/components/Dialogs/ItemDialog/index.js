@@ -1,19 +1,18 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { computed } from 'mobx';
+import { Link } from 'react-router-dom';
 
 import './itemDialog.css';
 import formatDate from '../../../utils/format-date';
-
+import UsersStore from '../../../domain/users-store';
 import ChatsStore from '../../../domain/chats-store';
 
 @observer
 class ItemDialog extends React.Component {
     @computed get message() {
-        const chat = ChatsStore.chatsMap.get(this.props.id);
+        const { chat } = this.props;
 
         if (!chat || !chat.lastMessage) {
             return null;
@@ -22,26 +21,37 @@ class ItemDialog extends React.Component {
         return chat.lastMessage;
     }
 
-    selectDialog = (event) => {
-        event.preventDefault();
-        ChatsStore.setCurrentChat(this.props.id);
+    @computed get user() {
+        const { chat } = this.props;
+        const user = UsersStore.currentUser;
+
+        if (chat.type === 'room') {
+            return UsersStore.users.get(chat.owner);
+        }
+
+        const other = chat.members.find(member => member !== user.username);
+        return UsersStore.users.get(other);
     }
 
     render() {
-        const { name, id } = this.props;
-        const isActive = ChatsStore.currentChat && ChatsStore.currentChat.id === id;
+        const { chat } = this.props;
 
-        const className = `dialog-list__item ${isActive ? 'dialog-list__item--active' : ''}`;
+        const chatName = chat.type === 'dialog' && this.user ? this.user.displayName : chat.name;
+        const avatar = this.user && this.user.avatar && `data:image/png;base64,${this.user.avatar}`;
+        const activeClassName = ChatsStore.currentChat === chat ? ' dialog-list__item--active' : '';
 
         return (
-            <div className={className.trim()} onClick={this.selectDialog} role="article">
+            <Link
+                to={`/chats/${chat.id}`}
+                className={`dialog-list__item ${activeClassName}`}
+            >
                 <img
-                    src="https://api.adorable.io/avatars/128/abott@adorable.png"
+                    src={avatar}
                     alt=""
                     className="dialog-list__dialog-image"
                 />
                 <div className="dialog-list__dialog-body">
-                    <div className="dialog-list__dialog-name" title={name}>{name}</div>
+                    <div className="dialog-list__dialog-name" title={chatName}>{chatName}</div>
                     {this.message && <div className="dialog-list__last-msg">{this.message.text}</div>}
                 </div>
                 {this.message && (
@@ -49,14 +59,13 @@ class ItemDialog extends React.Component {
                         {formatDate(this.message.createdAt)}
                     </div>
                 )}
-            </div>
+            </Link>
         );
     }
 }
 
 ItemDialog.propTypes = {
-    name: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired
+    chat: PropTypes.shape().isRequired
 };
 
 export default ItemDialog;
