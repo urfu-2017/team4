@@ -2,6 +2,7 @@
 
 const DB = require('../helpers/dbclient');
 const DbCollection = require('../helpers/dbcollection');
+const getAvatar = require('../utils/gravatar');
 
 const User = require('../models/user');
 
@@ -11,6 +12,7 @@ class UsersManager {
     }
 
     async createUser(userInfo) {
+        userInfo.avatar = await getAvatar(userInfo.username);
         const user = new User(userInfo);
         await this.saveUser(user);
         await DB.put(DB.getKey('users', user.username, 'dialogs'), []);
@@ -56,6 +58,13 @@ class UsersManager {
         let userDialogs = await this.getDialogs(username);
 
         userDialogs = userDialogs.filter(id => id !== dialogId).concat(dialogId);
+        await DB.put(DB.getKey('users', username, 'dialogs'), userDialogs);
+    }
+
+    async removeDialog(username, dialogId) {
+        let userDialogs = await this.getDialogs(username);
+
+        userDialogs = userDialogs.filter(id => id !== dialogId);
         await DB.put(DB.getKey('users', username, 'dialogs'), userDialogs);
     }
 

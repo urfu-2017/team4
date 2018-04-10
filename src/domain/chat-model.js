@@ -3,7 +3,7 @@ import { observable, computed } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 export default class ChatModel {
-    @observable messages = [];
+    @observable.shallow messages = [];
     @observable isFetching = false;
 
     @computed get lastMessage() {

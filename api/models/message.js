@@ -60,8 +60,9 @@ class Message {
 
         // Если фрейм не указан получаем последний
         frameId = Number.isNaN(frameId) ? frame.index : frameId;
+        const cache = frameId === frame.index;
 
-        const events = await DB.getAll(DB.getKey('messages', chatId, 'frame', frameId));
+        const events = await DB.getAll(DB.getKey('messages', chatId, 'frame', frameId), {}, cache);
         return events.filter(e => e.type === 'add').map(({ type, ...message }) => message);
     }
 
@@ -75,8 +76,8 @@ class Message {
         let frame = frames.get(chatId);
 
         if (!frame) {
-            const index = Number(await DB.get(DB.getKey('messages', chatId, 'frames')));
-            const count = (await DB.getAll(DB.getKey('messages', chatId, 'frame', index))).length;
+            const index = Number(await DB.get(DB.getKey('messages', chatId, 'frames'), false));
+            const count = (await DB.getAll(DB.getKey('messages', chatId, 'frame', index), {}, true)).length;
 
             if (!count) {
                 return null;
@@ -92,6 +93,14 @@ class Message {
         }
 
         return frame;
+    }
+
+    static async removeAllMessages(chatId) {
+        const chatFrames = await DB.getAll(DB.getKey('messages', chatId, 'frames'));
+        await Promise.all(chatFrames.map(id => DB.del(DB.getKey('messages', chatId, 'frame', id))));
+        await DB.del(DB.getKey('messages', chatId, 'frames'));
+
+        frames.delete(chatId);
     }
 }
 

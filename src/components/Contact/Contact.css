@@ -4,6 +4,7 @@
 
     color: #000;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .contact:hover {
@@ -14,8 +15,6 @@
     width: 42px;
     height: 42px;
     margin-right: 12px;
-
-    border-radius: 50%;
 }
 
 .contact__info {

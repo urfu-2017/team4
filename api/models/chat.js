@@ -43,6 +43,10 @@ class Chat {
         this.members = this.members.filter(id => id !== member);
     }
 
+    static async remove(chatId) {
+        await DB.del(DB.getKey('chats', chatId));
+    }
+
     /**
      * Сохранить чат в базу данных
      * @returns {Promise<void>}

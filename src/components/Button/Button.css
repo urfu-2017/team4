@@ -2,7 +2,7 @@
     border: none;
 
     color: #fff;
-    background: #5580a3;
+    background: #515151;
     font-weight: bold;
     opacity: 0.8;
     cursor: pointer;
@@ -21,8 +21,8 @@
     padding: 6px 10px;
 
     background: #fff;
-    color: #5580a3;
     font-size: 1.3rem;
+    color: #515151;
     font-weight: bold;
     text-transform: uppercase;
 

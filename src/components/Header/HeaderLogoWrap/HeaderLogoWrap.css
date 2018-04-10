@@ -9,11 +9,12 @@
 
 .header__logo {
     font-size: 16px;
-    margin-left: 16px;
+    margin-left: 30px;
+    text-transform: uppercase;
 }
 
 .header__menu {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .hamburger {
@@ -36,8 +37,8 @@
 .hamburger__box {
     position: relative;
     display: inline-block;
-    width: 24px;
-    height: 20px;
+    width: 20px;
+    height: 18px;
 }
 
 .hamburger__inner {
@@ -53,7 +54,7 @@
     position: absolute;
     content: '';
     display: block;
-    width: 24px;
+    width: 20px;
     height: 2px;
     transition-timing-function: ease;
     transition-duration: 0.15s;
@@ -64,13 +65,13 @@
 
 .hamburger__inner:before {
     transition: top 75ms ease 0.12s, opacity 75ms ease;
-    top: -7px;
+    top: -6px;
 }
 
 .hamburger__inner:after {
     transition: bottom 75ms ease 0.12s,
         transform 75ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
-    bottom: -7px;
+    bottom: -6px;
 }
 
 .hamburger--active .hamburger__inner {

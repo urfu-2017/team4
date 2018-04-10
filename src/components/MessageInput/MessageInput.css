@@ -1,8 +1,8 @@
 .message-input {
     box-sizing: border-box;
-    padding: 10px 60px;
+    padding: 10px 120px 0;
     width: 100%;
-    text-align: center;
+    text-align: right;
 }
 
 .message-input__message {
@@ -22,4 +22,8 @@
 
 .message-input__message:focus {
     box-shadow: 0 2px 0 0 #77b7e4;
+}
+
+.message-input__message:disabled {
+    background: transparent;
 }

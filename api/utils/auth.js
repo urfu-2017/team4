@@ -18,14 +18,19 @@ const strategy = new passportGithub.Strategy(
         const username = profile.username.toLowerCase();
         let firstName = '';
         let lastName = '';
+        let bio = '';
+        const { profileUrl } = profile;
         if (profile.displayName) {
             [firstName, lastName] = profile.displayName.split(/\s+/);
+        }
+        if (profile._json.bio) {
+            bio = profile._json.bio; // eslint-disable-line
         }
 
         let user = await UserManager.getUser(username);
 
         if (!user) {
-            user = await UserManager.createUser({ username, firstName, lastName });
+            user = await UserManager.createUser({ username, firstName, lastName, profileUrl, bio });
         }
 
         done(null, user);

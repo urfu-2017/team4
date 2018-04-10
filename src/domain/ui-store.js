@@ -6,7 +6,8 @@ class UIStore {
     @observable error = null;
     @observable popupStack = [];
     @observable displays = {
-        contacts: false
+        contacts: false,
+        profile: false
     };
 
     @computed get topPopup() {
