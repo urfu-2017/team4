@@ -36,9 +36,12 @@ class ItemDialog extends React.Component {
     render() {
         const { chat } = this.props;
 
-        const chatName = chat.type === 'dialog' && this.user ? this.user.displayName : chat.name;
         const avatar = this.user && this.user.avatar && `data:image/png;base64,${this.user.avatar}`;
         const activeClassName = ChatsStore.currentChat === chat ? ' dialog-list__item--active' : '';
+
+        // eslint-disable-next-line no-nested-ternary
+        const chatName = chat.type === 'dialog' && this.user ? this.user.displayName : (
+            chat.type === 'dialog' && !this.user ? 'Заметки' : chat.name);
 
         return (
             <Link

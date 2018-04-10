@@ -27,7 +27,7 @@ class UsersStore {
     async saveCurrentUser(user) {
         await RPC.request('saveUser', user);
 
-        const userModel = new UserModel(this.currentUser);
+        const userModel = UserModel.fromJSON(user);
         this.users.set(userModel.username, userModel);
         this.currentUser = userModel;
     }
