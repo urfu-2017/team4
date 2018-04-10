@@ -21,11 +21,12 @@ class MessageInput extends React.Component {
             this.messageInput.value = null;
         } finally {
             this.messageInput.disabled = false;
+            this.messageInput.focus();
         }
     };
 
     onKeyUp = (event) => {
-        if (event.key === 'Enter' && event.shiftKey) {
+        if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             this.onSend();
         }
@@ -39,7 +40,7 @@ class MessageInput extends React.Component {
                     maxRows={6}
                     className="message-input__message"
                     placeholder="Введите сообщение..."
-                    onKeyUp={this.onKeyUp}
+                    onKeyPress={this.onKeyUp}
                     inputRef={(input) => {
                         this.messageInput = input;
                     }}

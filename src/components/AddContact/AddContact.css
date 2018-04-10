@@ -30,7 +30,7 @@
 }
 
 .add-contact__input:focus {
-    box-shadow: 0 2px 0 0 #77b7e4;
+    box-shadow: 0 2px 0 0 #1e1e1e;
 }
 
 .add-contact__input.error {

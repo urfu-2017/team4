@@ -9,12 +9,12 @@ body {
     grid-template-columns: 350px calc(100% - 350px);
     grid-template-areas: 'header header' 'dialogs chat';
 
-    width: 70%;
     margin: 0 auto;
+    max-width: 1200px;
+    height: 100vh;
 
     background: #fff;
 
-    height: 100vh;
     overflow: hidden;
 }
 
