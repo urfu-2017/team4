@@ -32,11 +32,12 @@ module.exports = async (params, response, io) => {
     await Promise.all(chat.members.map(member => UsersManager.addDialog(member, chat.id)));
 
     // Подключаем участников к комнате
-    members.forEach((member) => {
-        const socket = io.users[member];
-        if (socket) {
-            socket.handshake.user.chats.push(chat.id);
-            socket.join(chat.id);
+    chat.members.forEach((member) => {
+        const userInfo = io.users.get(member);
+
+        if (userInfo) {
+            userInfo.chats.push(chat.id);
+            userInfo.sockets.forEach(socket => socket.join(chat.id));
         }
     });
 

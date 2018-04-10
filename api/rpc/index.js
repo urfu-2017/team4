@@ -12,6 +12,9 @@ const createDialog = require('./dialogs/create-dialog');
 const fetchDialog = require('./dialogs/fetch-dialog');
 const sendMessage = require('./dialogs/send-message');
 const fetchHistory = require('./dialogs/fetch-history');
+const removeDialog = require('./dialogs/remove-dialog');
+const addMember = require('./dialogs/add-member');
+const removeMember = require('./dialogs/remove-member');
 
 module.exports = () => {
     RPC.Registry.register('fetchUser', fetchUser);
@@ -25,4 +28,7 @@ module.exports = () => {
     RPC.Registry.register('joinToDialogs', joinToDialogs);
     RPC.Registry.register('createDialog', createDialog);
     RPC.Registry.register('fetchDialog', fetchDialog);
+    RPC.Registry.register('removeDialog', removeDialog);
+    RPC.Registry.register('addMember', addMember);
+    RPC.Registry.register('removeMember', removeMember);
 };

@@ -16,7 +16,7 @@ class RPCClient {
 
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
-            reconnection: true,
+            reconnection: false,
             autoConnect: false
         });
     }
@@ -38,6 +38,10 @@ class RPCClient {
             this.socket.once('connect', connectSuccess);
             this.socket.once('connect_error', connectFailed);
             this.socket.on('rpc', this.rpcListener);
+
+            this.socket.on('disconnect', () => {
+                window.location.reload(true);
+            });
 
             this.socket.connect();
         });
