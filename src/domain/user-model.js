@@ -1,4 +1,4 @@
-import { observable, runInAction } from 'mobx';
+import { action, observable, runInAction } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 class UserModel {
@@ -17,6 +17,7 @@ class UserModel {
         return name || this.username;
     }
 
+    @action
     async fetch() {
         if (this.isFetching) {
             return;
@@ -33,7 +34,9 @@ class UserModel {
                 this.bio = user.bio;
             });
         } finally {
-            this.isFetching = false;
+            runInAction(() => {
+                this.isFetching = false;
+            });
         }
     }
 

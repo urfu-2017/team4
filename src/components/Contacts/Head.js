@@ -5,7 +5,7 @@ import Button from '../Button';
 import contactsStore from '../../domain/contacts-store';
 
 const Head = ({ closeHandler }) => (
-    <header className="contacts__head">
+    <React.Fragment>
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
@@ -18,7 +18,7 @@ const Head = ({ closeHandler }) => (
                 Закрыть
             </Button>
         </div>
-    </header>
+    </React.Fragment>
 );
 
 Head.propTypes = {

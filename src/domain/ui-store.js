@@ -4,20 +4,31 @@ const TIMEOUT_ERROR = 5000;
 
 class UIStore {
     @observable error = null;
-    @observable displayContacts = false;
-    @observable displayProfile = false;
+    @observable popupStack = [];
+    @observable displays = {
+        contacts: false,
+        profile: false
+    };
+
+    @computed get topPopup() {
+        return this.popupStack[this.popupStack.length - 1] || null;
+    }
 
     @computed get hasError() {
         return this.error !== null;
     }
 
-    @action toggleContacts = () => {
-        this.displayContacts = !this.displayContacts;
-    };
+    @action pushPopup(popupName) {
+        this.popupStack.push(popupName);
+    }
 
-    @action toggleProfile = () => {
-        this.displayProfile = !this.displayProfile;
-    };
+    @action popPopup() {
+        this.popupStack.pop();
+    }
+
+    @action togglePopup = name => (() => {
+        this.displays[name] = !this.displays[name];
+    });
 
     @action
     showError(message) {

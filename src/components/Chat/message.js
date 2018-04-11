@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
-
 import UsersStore from '../../domain/users-store';
 import markdown from '../../utils/markdown';
 import formatDate from '../../utils/format-date';

@@ -22,8 +22,8 @@ class Contact extends React.Component {
 
         // eslint-disable-next-line react/prop-types
         this.props.history.push(`/chats/${chat.id}`);
-        UIStore.toggleContacts();
-    }
+        UIStore.togglePopup('contacts')();
+    };
 
     get chat() {
         const currentUsername = UsersStore.currentUser.username;

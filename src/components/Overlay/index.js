@@ -25,7 +25,11 @@ class Overlay extends React.Component {
     render() {
         return (
             // eslint-disable-next-line
-            <div className={`overlay ${this.props.className}`} onClick={this.props.closeHandler}>
+            <div
+                className={`overlay ${this.props.className}`}
+                onClick={this.props.closeHandler}
+                style={{ zIndex: this.props.zIndex }}
+            >
                 <button className="overlay__close" onClick={this.onCloseButtonPress}/>
             </div>
         );
@@ -34,7 +38,8 @@ class Overlay extends React.Component {
 
 Overlay.propTypes = {
     closeHandler: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    zIndex: PropTypes.number.isRequired
 };
 
 Overlay.defaultProps = {

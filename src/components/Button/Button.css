@@ -1,4 +1,4 @@
-.btn_modal-heading {
+.btn_theme_heading {
     border: none;
 
     color: #fff;
@@ -12,15 +12,16 @@
     transition: opacity 0.2s;
 }
 
-.btn_modal-heading:hover {
+.btn_theme_heading:hover {
     opacity: 1;
 }
 
-.btn_main {
+.btn_theme_main {
     border: none;
     padding: 6px 10px;
 
     background: #fff;
+    font-size: 1.3rem;
     color: #515151;
     font-weight: bold;
     text-transform: uppercase;
@@ -32,6 +33,6 @@
     transition: background-color 0.2s;
 }
 
-.btn_main:hover {
+.btn_theme_main:hover {
     background: #f2f6fa;
 }

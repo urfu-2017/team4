@@ -3,7 +3,9 @@ import { observer } from 'mobx-react';
 import { computed } from 'mobx';
 
 import './index.css';
+
 import ItemDialog from './ItemDialog';
+
 import ChatsStore from '../../domain/chats-store';
 
 @observer

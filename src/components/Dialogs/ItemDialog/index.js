@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { computed } from 'mobx';
 import { Link } from 'react-router-dom';
 
-import './itemDialog.css';
+import './ItemDialog.css';
 import formatDate from '../../../utils/format-date';
 import UsersStore from '../../../domain/users-store';
 import ChatsStore from '../../../domain/chats-store';

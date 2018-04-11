@@ -16,8 +16,8 @@ class App extends React.Component {
     renderModals() {
         return (
             <React.Fragment>
-                {uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/>}
-                {uiStore.displayProfile && <Profile closeProfile={uiStore.toggleProfile}/>}
+                {uiStore.displays.contacts && <Contacts/>}
+                {uiStore.displays.profile && <Profile/>}
             </React.Fragment>
         );
     }

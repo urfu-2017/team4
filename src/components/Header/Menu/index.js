@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import './Menu.css';
 
 import uiStore from '../../../domain/ui-store';
@@ -8,14 +7,16 @@ import menuStore from '../../../domain/menu-store';
 class Menu extends React.Component {
     onContactsClick = (event) => {
         event.preventDefault();
+
         menuStore.toggleLeftPanel();
-        uiStore.toggleContacts();
+        uiStore.togglePopup('contacts')();
     };
 
     onProfileClick = (event) => {
         event.preventDefault();
+
         menuStore.toggleLeftPanel();
-        uiStore.toggleProfile();
+        uiStore.togglePopup('profile')();
     };
 
     render() {

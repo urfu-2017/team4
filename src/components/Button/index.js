@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import './Button.css';
 
 const classes = {
-    main: 'btn_main',
-    heading: 'btn_modal-heading'
+    main: 'btn_theme_main',
+    heading: 'btn_theme_heading'
 };
 
 const Button = ({ children, onClick, className, type }) => (
@@ -17,7 +17,7 @@ Button.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
     children: PropTypes.node,
-    type: PropTypes.string
+    type: PropTypes.oneOf(['main', 'heading'])
 };
 
 Button.defaultProps = {
