@@ -53,12 +53,13 @@ Contact.propTypes = {
     username: PropTypes.string.isRequired,
     firstName: PropTypes.string,
     lastName: PropTypes.string,
-    avatar: PropTypes.string.isRequired
+    avatar: PropTypes.string
 };
 
 Contact.defaultProps = {
     firstName: '',
-    lastName: ''
+    lastName: '',
+    avatar: ''
 };
 
 export default Contact;

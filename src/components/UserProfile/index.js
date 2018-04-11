@@ -1,43 +1,18 @@
 import React from 'react';
-import { observer } from 'mobx-react';
-import { observable } from 'mobx';
 
 import { withRouter } from 'react-router-dom';
 import UIStore from '../../domain/ui-store';
 
-import Preloader from '../Preloader';
 import Popup from '../Popup';
-import Button from '../Button';
 import Head from './Head';
 import './UserProfile.css';
 
-import ChatsStore from '../../domain/chats-store';
 
 @withRouter
-@observer
 class Profile extends React.Component {
     static closePopup() {
         UIStore.toggleUserProfilePopup(null);
     }
-
-    goToChat = async (event) => {
-        event.preventDefault();
-
-        const { username } = UIStore.showProfile;
-        let chat = ChatsStore.findDialog(username);
-
-        if (!chat) {
-            this.isCreating = true;
-            chat = await ChatsStore.createChat('dialog', [username]);
-            this.isCreating = false;
-        }
-
-        // eslint-disable-next-line react/prop-types
-        this.props.history.push(`/chats/${chat.id}`);
-        Profile.closePopup();
-    }
-
-    @observable isCreating = false;
 
     render() {
         const { displayName, avatar, username } = UIStore.showProfile;
@@ -58,12 +33,6 @@ class Profile extends React.Component {
                         <span className="user-profile__username">{`@${username}`}</span>
                     </div>
                 </section>
-                <div className="user-profile__buttons">
-                    {this.isCreating && <Preloader className="user-profile__preloader" size={26}/>}
-                    <Button disabled={this.isCreating} onClick={this.goToChat} className="user-profile__chat-link">
-                        {this.isCreating ? 'Устанавливаем канал связи' : 'Открыть диалог'}
-                    </Button>
-                </div>
             </Popup>
         );
     }

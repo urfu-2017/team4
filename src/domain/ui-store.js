@@ -4,6 +4,8 @@ const TIMEOUT_ERROR = 5000;
 
 class UIStore {
     @observable.ref showProfile = null;
+
+    @observable menuShow = false;
     @observable error = null;
     @observable popupStack = [];
     @observable displays = {
@@ -20,6 +22,10 @@ class UIStore {
         return this.error !== null;
     }
 
+    @action toggleLeftPanel = () => {
+        this.menuShow = !this.menuShow;
+    };
+
     @action pushPopup(popupName) {
         this.popupStack.push(popupName);
     }
@@ -32,7 +38,7 @@ class UIStore {
         this.displays[name] = !this.displays[name];
     });
 
-    toggleUserProfilePopup(user) {
+    @action toggleUserProfilePopup(user) {
         if (user) {
             this.showProfile = user;
             this.displays.user = true;
@@ -40,6 +46,8 @@ class UIStore {
             this.showProfile = null;
             this.displays.user = false;
         }
+
+        this.menuShow = false;
     }
 
     @action

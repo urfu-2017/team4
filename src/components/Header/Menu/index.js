@@ -3,20 +3,19 @@ import './Menu.css';
 
 import usersStore from '../../../domain/users-store';
 import uiStore from '../../../domain/ui-store';
-import menuStore from '../../../domain/menu-store';
 
 class Menu extends React.Component {
     onContactsClick = (event) => {
         event.preventDefault();
 
-        menuStore.toggleLeftPanel();
+        uiStore.toggleLeftPanel();
         uiStore.togglePopup('contacts')();
     };
 
     onProfileClick = (event) => {
         event.preventDefault();
 
-        menuStore.toggleLeftPanel();
+        uiStore.toggleLeftPanel();
         uiStore.togglePopup('profile')();
     };
 
