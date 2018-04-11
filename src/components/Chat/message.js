@@ -37,11 +37,11 @@ class Message extends React.Component {
                     alt="Аватар"
                 />
                 <div className="message__body">
-                    <div className="message__username">{displayName}</div>
+                    <div className="message__username">
+                        <span>{displayName}</span>
+                        <span className="message__date">({formatDate(createdAt)})</span>
+                    </div>
                     <div className="message__text" dangerouslySetInnerHTML={{ __html: markdown(text) }}/>
-                </div>
-                <div className="message__date">
-                    <span className="message__date-value">{formatDate(createdAt)}</span>
                 </div>
             </div>
         );

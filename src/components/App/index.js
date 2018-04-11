@@ -30,7 +30,7 @@ class App extends React.Component {
                 <div className="app">
                     <Header/>
                     <Dialogs/>
-                    <div className="chat-wrapper">
+                    <div className="content">
                         <Switch>
                             <Route path="/chats/:id" component={ChatWrapper}/>
                             <Route path="/" render={() => <div/>}/>

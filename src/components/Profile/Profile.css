@@ -39,7 +39,7 @@
 }
 
 .profile__input:focus {
-    box-shadow: 0 2px 0 0 #77b7e4;
+    box-shadow: 0 2px 0 0 #333;
 }
 
 .profile__avatar {

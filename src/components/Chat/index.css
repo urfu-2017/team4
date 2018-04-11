@@ -1,6 +1,19 @@
+.chat-wrapper {
+    box-sizing: border-box;
+    padding: 10px 60px 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+.chat-wrapper__input {
+    flex: 0 0 auto;
+}
+
 .chat {
     overflow-y: auto;
-    padding: 0 60px;
     height: 100%;
 }
 
@@ -44,6 +57,7 @@
     font-size: 14px;
     opacity: 0.5;
     margin-left: 15px;
+    color: #515151;
 }
 
 .message__username {

@@ -26,11 +26,6 @@ body {
     grid-area: dialogs;
 }
 
-.chat-wrapper {
-    padding: 10px 0;
+.content {
     grid-area: chat;
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
 }

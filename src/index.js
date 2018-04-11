@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 
@@ -12,11 +13,20 @@ import LoaderPage from './components/LoaderPage';
 import RPC from './utils/rpc-client';
 import UsersStore from './domain/users-store';
 import ChatsStore from './domain/chats-store';
+import MobileApp from './components/MobileApp';
 
 window.RPC = RPC;
 
 @observer
 class Application extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.matchMedia = window.matchMedia('(max-width: 800px)');
+        this.matchMedia.addListener(this.toggleMobileApp);
+        this.toggleMobileApp(this.matchMedia);
+    }
+
     async componentDidMount() {
         try {
             await RPC.connect();
@@ -31,8 +41,13 @@ class Application extends React.Component {
         }
     }
 
+    toggleMobileApp = (matchMedia) => {
+        this.isMobile = !!matchMedia.matches;
+    }
+
     @observable isAppLoaded = false;
     @observable isAuthRequired = false;
+    @observable isMobile = false;
 
     render() {
         if (!this.isAppLoaded) {
@@ -43,7 +58,11 @@ class Application extends React.Component {
             return <LoginPage/>;
         }
 
-        return (<App/>);
+        return (
+            <HashRouter>
+                {this.isMobile ? <MobileApp/> : <App/>}
+            </HashRouter>
+        );
     }
 }
 
