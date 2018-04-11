@@ -24,6 +24,12 @@ class Popup extends React.Component {
                     className={`popup ${this.props.className}`}
                     style={{ zIndex: this.props.zIndex + 1 }}
                 >
+                    {
+                        this.props.headContent &&
+                        <header className="popup__head">
+                            {this.props.headContent}
+                        </header>
+                    }
                     {this.props.children}
                 </section>
                 {
@@ -42,11 +48,13 @@ Popup.propTypes = {
     zIndex: PropTypes.number.isRequired,
     className: PropTypes.string,
     children: PropTypes.node,
+    headContent: PropTypes.node,
     closeHandler: PropTypes.func.isRequired
 };
 
 Popup.defaultProps = {
-    children: [],
+    children: undefined,
+    headContent: undefined,
     className: ''
 };
 

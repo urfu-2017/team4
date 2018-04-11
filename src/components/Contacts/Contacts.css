@@ -9,12 +9,6 @@
     box-sizing: border-box;
 }
 
-.contacts__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .contacts__heading {
     margin: 0;
 }

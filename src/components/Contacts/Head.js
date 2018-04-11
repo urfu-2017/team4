@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import PopupHead from '../PopupHead';
 import Button from '../Button';
 import contactsStore from '../../domain/contacts-store';
 
 const Head = ({ closeHandler }) => (
-    <PopupHead className="contacts__head">
+    <React.Fragment>
         <h2 className="contacts__heading header3">Контакты</h2>
         <div className="contacts__header-buttons">
             {
@@ -19,7 +18,7 @@ const Head = ({ closeHandler }) => (
                 Закрыть
             </Button>
         </div>
-    </PopupHead>
+    </React.Fragment>
 );
 
 Head.propTypes = {

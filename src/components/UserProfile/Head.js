@@ -5,8 +5,10 @@ import Button from '../Button';
 
 const Head = ({ closeHandler }) => (
     <React.Fragment>
-        <h2 className="profile__heading header3">Настройки</h2>
-        <Button className="profile__close" onClick={closeHandler} type="heading">
+        <h2 className="profile__heading header3">
+            Профиль
+        </h2>
+        <Button type="heading" onClick={closeHandler}>
             Закрыть
         </Button>
     </React.Fragment>

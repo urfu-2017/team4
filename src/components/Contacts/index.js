@@ -5,7 +5,6 @@ import Search from './Search';
 import Preloader from '../Preloader';
 import AddContact from '../AddContact';
 import Button from '../Button';
-import PopupBody from '../PopupBody';
 import Popup from '../Popup';
 import Head from './Head';
 import List from './List';
@@ -44,19 +43,23 @@ class Contacts extends React.Component {
                     className="contacts"
                     closeHandler={closeHandler}
                     zIndex={100}
+                    headContent={<Head closeHandler={closeHandler}/>}
                 >
-                    <Head closeHandler={closeHandler}/>
                     {
                         contactsStore.state === 'loading' ? (
                             <Preloader size={50} className="contacts__preloader"/>
                         ) : (
-                            <PopupBody className="contacts__main">
-                                {contactsStore.state !== 'empty' && <Search/>}
-                                <List/>
-                                <Button className="contacts__new" onClick={this.toggleAddContact}>
-                                    Добавить контакт
-                                </Button>
-                            </PopupBody>
+                            <React.Fragment>
+                                <main className="contacts__main">
+                                    {contactsStore.state !== 'empty' && <Search/>}
+                                    <List/>
+                                </main>
+                                <footer className="contacts__footer">
+                                    <Button className="contacts__new" onClick={this.toggleAddContact}>
+                                        Добавить контакт
+                                    </Button>
+                                </footer>
+                            </React.Fragment>
                         )
                     }
                 </Popup>

@@ -45,8 +45,12 @@ class Profile extends React.Component {
         const closeHandler = uiStore.togglePopup('profile');
 
         return (
-            <Popup zIndex={400} className="profile" closeHandler={closeHandler}>
-                <Head closeHandler={closeHandler}/>
+            <Popup
+                zIndex={400}
+                className="profile"
+                closeHandler={closeHandler}
+                headContent={<Head closeHandler={closeHandler}/>}
+            >
                 <img className="profile__avatar" src={`data:image/png;base64,${this.state.avatar}`} alt="Аватар"/>
                 <div className="profile__username">{`@${this.state.username}`}</div>
                 <input className="profile__input" onChange={this.onChangeFirstName} type="text" value={this.state.firstName}/>
