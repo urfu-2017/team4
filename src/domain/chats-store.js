@@ -53,6 +53,15 @@ class ChatsStore {
         this.currentChat = this.chatsMap.get(chatId);
     }
 
+    findDialog(username) {
+        const currentUsername = UsersStore.currentUser.username;
+
+        const id = [currentUsername, username].sort((a, b) => a.localeCompare(b)).join('_');
+        const chat = this.chatsMap.get(id);
+
+        return chat || null;
+    }
+
     onNewMessage = async (message) => {
         const { chatId } = message;
         const chat = this.chatsMap.get(chatId);

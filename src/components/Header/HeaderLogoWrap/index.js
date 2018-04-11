@@ -8,13 +8,12 @@ import menuStore from '../../../domain/menu-store';
 /* eslint-disable */
 
 const HeaderLogoWrap = observer(() => (
-    <div className="header__logo-wrap">
+    <div className="header__logo-wrap" onClick={menuStore.toggleLeftPanel}>
         <div
-            onClick={menuStore.toggleLeftPanel}
             className={`header__menu hamburger ${menuStore.isShow ? 'hamburger--active' : ''}`.trim()}
         >
             <div className="hamburger__box">
-                <div className="hamburger__inner"></div>
+                <div className="hamburger__inner"/>
             </div>
         </div>
         {menuStore.isShow && <Menu/>}

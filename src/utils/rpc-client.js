@@ -58,7 +58,7 @@ class RPCClient {
             }
 
             const payload = RPCBuilder.request(uuid(), method, params);
-
+            console.info(method, params);
             this.socket.emit('rpc', JSON.stringify(payload));
 
             const timer = setTimeout(() => {

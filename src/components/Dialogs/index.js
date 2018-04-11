@@ -25,9 +25,13 @@ export default class Dialogs extends React.Component {
     }
 
     render() {
+        const { currentChat } = ChatsStore;
+        const isExists = currentChat && !!this.chats.find(chat => chat.id === currentChat.id);
+
         return (
             <div className="dialogs">
                 <div className="dialog-list">
+                    {currentChat && !isExists && <ItemDialog chat={currentChat}/>}
                     {this.chats.map(dialog => (
                         <ItemDialog
                             key={dialog.id}

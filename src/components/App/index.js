@@ -6,7 +6,8 @@ import Header from '../Header';
 import Dialogs from '../Dialogs';
 import Contacts from '../Contacts';
 import ChatWrapper from '../Chat/ChatWrapper';
-import Profile from '../Profile';
+import ProfileSettings from '../Profile';
+import UserProfile from '../UserProfile';
 import './App.css';
 
 import uiStore from '../../domain/ui-store';
@@ -17,7 +18,8 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 {uiStore.displays.contacts && <Contacts/>}
-                {uiStore.displays.profile && <Profile/>}
+                {uiStore.displays.profile && <ProfileSettings/>}
+                {uiStore.displays.user && <UserProfile/>}
             </React.Fragment>
         );
     }
