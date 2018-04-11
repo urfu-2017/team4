@@ -46,7 +46,11 @@ class RPCClient {
             this.socket.connect();
         });
 
-    request = (method, params, timeout = 3000) =>
+    disconnect() {
+        this.socket.disconnect();
+    }
+
+    request = (method, params, timeout = 5000) =>
         new Promise((resolve, reject) => {
             if (!method) {
                 reject(new Error('Missing method name'));

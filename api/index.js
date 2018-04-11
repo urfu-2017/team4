@@ -6,22 +6,22 @@ const express = require('express');
 
 const expressAuth = require('./utils/auth');
 const RPC = require('./utils/rpc');
-const SessionStore = require('./utils/sessions-store');
+const Session = require('./models/session');
+
 const socketAuth = require('./utils/socket-auth-middleware');
 const configureRPC = require('./rpc');
 
 const app = express();
-const sessionStore = new SessionStore();
 const usersStore = new Map();
 
 app.use(express.static(path.resolve(__dirname, '..', 'prod_build'), { redirect: false }));
-expressAuth(app, sessionStore);
+expressAuth(app, Session);
 
 const server = app.listen(8080);
 const io = sio.listen(server);
 configureRPC();
 
-io.use(socketAuth(sessionStore, usersStore));
+io.use(socketAuth(Session, usersStore));
 io.users = usersStore;
 
 io.on('connection', (socket) => {

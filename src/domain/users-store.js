@@ -32,9 +32,13 @@ class UsersStore {
         this.currentUser = userModel;
     }
 
-    @action
-    clear() {
+    @action clear() {
         this.currentUser = null;
+    }
+
+    async logout() {
+        await RPC.request('logout');
+        this.clear();
     }
 }
 

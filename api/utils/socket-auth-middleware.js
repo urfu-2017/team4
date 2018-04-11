@@ -26,10 +26,12 @@ module.exports = (sessionStore, usersStore) => (socket, next) => {
             userInfo = await UserManager.getUser(username);
             userInfo.chats = await UserManager.getDialogs(username);
             userInfo.sockets = [socket];
+            userInfo.sid = sid;
 
             usersStore.set(username, userInfo);
         } else {
             userInfo.sockets.push(socket);
+            userInfo.sid = sid;
         }
 
         handshake.user = userInfo;
