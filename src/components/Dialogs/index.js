@@ -8,6 +8,10 @@ import ItemDialog from './ItemDialog';
 
 import ChatsStore from '../../domain/chats-store';
 
+import ButtonNewDialog from '../Button';
+
+import uiStore from '../../domain/ui-store';
+
 @observer
 export default class Dialogs extends React.Component {
     static chatOrderComparator(chat1, chat2) {
@@ -16,6 +20,11 @@ export default class Dialogs extends React.Component {
 
         return time2 - time1;
     }
+
+    onContactsClick = (event) => {
+        event.preventDefault();
+        uiStore.togglePopup('contacts')();
+    };
 
     // eslint-disable-next-line class-methods-use-this
     @computed get chats() {
@@ -35,6 +44,13 @@ export default class Dialogs extends React.Component {
                         />
                     ))}
                 </div>
+                <ButtonNewDialog
+                    onClick={this.onContactsClick}
+                    className="newdialog-button"
+                    type="dialogs"
+                >
+                    Новый диалог
+                </ButtonNewDialog>
             </div>
         );
     }
