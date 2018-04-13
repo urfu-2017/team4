@@ -88,7 +88,7 @@ class RPCClient {
 
         listeners.push(fn);
         this.listeners[notificationName] = listeners;
-    }
+    };
 
     removeListener = (notificationName, fn) => {
         let listeners = this.listeners[notificationName];
@@ -98,7 +98,7 @@ class RPCClient {
         }
 
         this.listeners[notificationName] = listeners;
-    }
+    };
 
     /**
      * @private
