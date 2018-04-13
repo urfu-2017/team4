@@ -23,25 +23,34 @@ class ItemDialog extends React.Component {
 
     @computed get user() {
         const { chat } = this.props;
-        const user = UsersStore.currentUser;
 
-        if (chat.type === 'room') {
-            return UsersStore.users.get(chat.owner);
+        if (chat.type === 'dialog') {
+            const currentUsername = UsersStore.currentUser.username;
+            const otherUsername = chat.members.filter(member => member !== currentUsername)[0];
+            const otherUser = UsersStore.users.get(otherUsername || currentUsername);
+
+            return otherUser || null;
         }
 
-        const other = chat.members.find(member => member !== user.username);
-        return UsersStore.users.get(other);
+        return null;
+    }
+
+    @computed get displayName() {
+        return this.user ? this.user.displayName : this.props.chat.name;
+    }
+
+    @computed get avatar() {
+        if (this.user && this.user.avatar) {
+            return `data:image/png;base64,${this.user.avatar}`;
+        }
+
+        const letter = this.props.chat.type === 'dialog' ? 'D' : 'R';
+        return `https://via.placeholder.com/64x64?text=${letter}`;
     }
 
     render() {
         const { chat } = this.props;
-
-        const avatar = this.user && this.user.avatar && `data:image/png;base64,${this.user.avatar}`;
         const activeClassName = ChatsStore.currentChat === chat ? ' dialog-list__item--active' : '';
-
-        // eslint-disable-next-line no-nested-ternary
-        const chatName = chat.type === 'dialog' && this.user ? this.user.displayName : (
-            chat.type === 'dialog' && !this.user ? 'Заметки' : chat.name);
 
         return (
             <Link
@@ -49,12 +58,12 @@ class ItemDialog extends React.Component {
                 className={`dialog-list__item ${activeClassName}`}
             >
                 <img
-                    src={avatar}
+                    src={this.avatar}
                     alt=""
                     className="dialog-list__dialog-image"
                 />
                 <div className="dialog-list__dialog-body">
-                    <div className="dialog-list__dialog-name" title={chatName}>{chatName}</div>
+                    <div className="dialog-list__dialog-name" title={this.displayName}>{this.displayName}</div>
                     {this.message && <div className="dialog-list__last-msg">{this.message.text}</div>}
                 </div>
                 {this.message && (

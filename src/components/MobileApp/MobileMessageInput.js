@@ -2,11 +2,9 @@ import React from 'react';
 import Textarea from 'react-textarea-autosize';
 
 import Button from '../Button';
-import './MessageInput.css';
-
 import ChatsStore from '../../domain/chats-store';
 
-class MessageInput extends React.Component {
+class MobileMessageInput extends React.Component {
     onSend = async () => {
         const text = this.messageInput.value.trim();
 
@@ -34,21 +32,21 @@ class MessageInput extends React.Component {
 
     render() {
         return (
-            <section className="message-input">
+            <section className="mobile-message-input">
                 <Textarea
-                    minRows={3}
-                    maxRows={6}
-                    className="message-input__message"
+                    minRows={1}
+                    maxRows={3}
+                    className="mobile-message-input__message"
                     placeholder="Введите сообщение..."
                     onKeyPress={this.onKeyUp}
                     inputRef={(input) => {
                         this.messageInput = input;
                     }}
                 />
-                <Button className="message-input__send" onClick={this.onSend}>Отправить</Button>
+                <Button className="mobile-message-input__send" onClick={this.onSend}/>
             </section>
         );
     }
 }
 
-export default MessageInput;
+export default MobileMessageInput;

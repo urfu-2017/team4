@@ -15,7 +15,6 @@ class Profile extends React.Component {
         this.state = { ...UsersStore.currentUser };
         this.onChangeFirstName = this.onChangeFirstName.bind(this);
         this.onChangeSecondName = this.onChangeSecondName.bind(this);
-        this.onChangeBio = this.onChangeBio.bind(this);
         this.saveUser = this.saveUser.bind(this);
     }
 
@@ -28,12 +27,6 @@ class Profile extends React.Component {
     onChangeSecondName(event) {
         this.setState({
             lastName: event.target.value
-        });
-    }
-
-    onChangeBio(event) {
-        this.setState({
-            bio: event.target.value
         });
     }
 
@@ -53,9 +46,20 @@ class Profile extends React.Component {
             >
                 <img className="profile__avatar" src={`data:image/png;base64,${this.state.avatar}`} alt="Аватар"/>
                 <div className="profile__username">{`@${this.state.username}`}</div>
-                <input className="profile__input" onChange={this.onChangeFirstName} type="text" value={this.state.firstName}/>
-                <input className="profile__input" onChange={this.onChangeSecondName} type="text" value={this.state.lastName}/>
-                <textarea className="profile__input" onChange={this.onChangeBio} value={this.state.bio}/>
+                <input
+                    className="profile__input"
+                    onChange={this.onChangeFirstName}
+                    type="text"
+                    value={this.state.firstName}
+                    placeholder="Имя"
+                />
+                <input
+                    className="profile__input"
+                    onChange={this.onChangeSecondName}
+                    type="text"
+                    value={this.state.lastName}
+                    placeholder="Фамилия"
+                />
                 <Button className="profile__save" onClick={this.saveUser}>
                     Сохранить
                 </Button>

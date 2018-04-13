@@ -3,11 +3,15 @@ import { observable, computed, action, runInAction } from 'mobx';
 const TIMEOUT_ERROR = 5000;
 
 class UIStore {
+    @observable.ref showProfile = null;
+
+    @observable menuShow = false;
     @observable error = null;
     @observable popupStack = [];
     @observable displays = {
         contacts: false,
-        profile: false
+        profile: false,
+        user: false
     };
 
     @computed get topPopup() {
@@ -17,6 +21,10 @@ class UIStore {
     @computed get hasError() {
         return this.error !== null;
     }
+
+    @action toggleLeftPanel = () => {
+        this.menuShow = !this.menuShow;
+    };
 
     @action pushPopup(popupName) {
         this.popupStack.push(popupName);
@@ -29,6 +37,18 @@ class UIStore {
     @action togglePopup = name => (() => {
         this.displays[name] = !this.displays[name];
     });
+
+    @action toggleUserProfilePopup(user) {
+        if (user) {
+            this.showProfile = user;
+            this.displays.user = true;
+        } else {
+            this.showProfile = null;
+            this.displays.user = false;
+        }
+
+        this.menuShow = false;
+    }
 
     @action
     showError(message) {

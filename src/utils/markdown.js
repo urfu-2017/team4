@@ -22,7 +22,7 @@ marked.setOptions({
     gfm: true,
     tables: false,
     breaks: true,
-    sanitize: false,
+    sanitize: true,
     smartLists: false,
     smartypants: false,
     xhtml: false
