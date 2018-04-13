@@ -1,0 +1,23 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left: 50%;
+
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+    transform: translateX(-50%);
+}
+
+.popup__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 22px 18px 26px;
+    width: 100%;
+    box-sizing: border-box;
+
+    background: #515151;
+    color: #fff;
+}
+

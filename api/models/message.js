@@ -47,7 +47,7 @@ class Message {
     /**
      * Получить сообщения для чата
      * @param {String} chatId
-     * @param {Number} frameId
+     * @param {Number?} frameId
      * @returns {Promise<Message[] | null>}
      */
     static async getMessages(chatId, frameId) {
@@ -59,11 +59,16 @@ class Message {
         }
 
         // Если фрейм не указан получаем последний
-        frameId = Number.isNaN(frameId) ? frame.index : frameId;
+        frameId = Number.isNaN(Number(frameId)) ? frame.index : frameId;
         const cache = frameId === frame.index;
 
         const events = await DB.getAll(DB.getKey('messages', chatId, 'frame', frameId), {}, cache);
-        return events.filter(e => e.type === 'add').map(({ type, ...message }) => message);
+        let messages = events.filter(e => e.type === 'add').map(({ type, ...message }) => message);
+
+        messages = messages.filter((message, pos, self) =>
+            self.findIndex(msg => msg.id === message.id) === pos);
+
+        return messages;
     }
 
     /**

@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
-import './Contacts.css';
 import Search from './Search';
 import Preloader from '../Preloader';
 import AddContact from '../AddContact';
-import Overlay from '../Overlay';
 import Button from '../Button';
+import Popup from '../Popup';
 import Head from './Head';
 import List from './List';
+import './Contacts.css';
 
 import contactsStore from '../../domain/contacts-store';
+import uiStore from '../../domain/ui-store';
 
 @observer
 class Contacts extends React.Component {
@@ -35,41 +35,41 @@ class Contacts extends React.Component {
     };
 
     render() {
+        const closeHandler = uiStore.togglePopup('contacts');
+
         return (
             <React.Fragment>
-                <section className="contacts">
-                    <Head closeHandler={this.props.closeContacts}/>
+                <Popup
+                    className="contacts"
+                    closeHandler={closeHandler}
+                    zIndex={100}
+                    headContent={<Head closeHandler={closeHandler}/>}
+                >
                     {
                         contactsStore.state === 'loading' ? (
                             <Preloader size={50} className="contacts__preloader"/>
                         ) : (
                             <React.Fragment>
-                                {contactsStore.state !== 'empty' && <Search/>}
-                                <List/>
-                                <Button className="contacts__new" onClick={this.toggleAddContact}>
-                                    Добавить контакт
-                                </Button>
+                                <main className="contacts__main">
+                                    {contactsStore.state !== 'empty' && <Search/>}
+                                    <List/>
+                                </main>
+                                <footer className="contacts__footer">
+                                    <Button className="contacts__new" onClick={this.toggleAddContact}>
+                                        Добавить контакт
+                                    </Button>
+                                </footer>
                             </React.Fragment>
                         )
                     }
-                </section>
+                </Popup>
                 {
-                    this.state.displayAddContact ? (
-                        <AddContact closeHandler={this.toggleAddContact}/>
-                    ) : (
-                        <Overlay
-                            closeHandler={this.props.closeContacts}
-                            className="contacts__overlay"
-                        />
-                    )
+                    this.state.displayAddContact &&
+                    <AddContact closeHandler={this.toggleAddContact}/>
                 }
             </React.Fragment>
         );
     }
 }
-
-Contacts.propTypes = {
-    closeContacts: PropTypes.func.isRequired
-};
 
 export default Contacts;

@@ -43,10 +43,10 @@ class ChatWrapper extends React.Component {
         }
 
         return (
-            <React.Fragment>
+            <div className="chat-wrapper">
                 <Chat/>
                 <MessageInput/>
-            </React.Fragment>
+            </div>
         );
     }
 }

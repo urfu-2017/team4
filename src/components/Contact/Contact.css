@@ -1,5 +1,6 @@
 .contact {
     display: flex;
+    align-items: center;
     padding: 8px 16px;
 
     color: #000;
@@ -27,10 +28,10 @@
     font-weight: bold;
 }
 
-.contact__login {
+.contact__username {
     color: #91a6ba;
 }
 
-.contact__overlay {
-    z-index: 100;
+.contact__preloader {
+    margin-left: auto;
 }

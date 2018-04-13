@@ -1,27 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
 import Button from '../Button';
 import UsersStore from '../../domain/users-store';
 import uiStore from '../../domain/ui-store';
-import Overlay from '../Overlay';
+import Popup from '../Popup';
+import Head from './Head';
 import './Profile.css';
-
-const Head = ({ closeHandler }) => (
-    <header className="profile__head">
-        <h2 className="profile__heading header3">Настройки</h2>
-        <div className="profile__header-buttons">
-            <Button className="profile__close" onClick={closeHandler} type="heading">
-                Закрыть
-            </Button>
-        </div>
-    </header>
-);
-
-Head.propTypes = {
-    closeHandler: PropTypes.func.isRequired
-};
 
 @observer
 class Profile extends React.Component {
@@ -30,7 +15,6 @@ class Profile extends React.Component {
         this.state = { ...UsersStore.currentUser };
         this.onChangeFirstName = this.onChangeFirstName.bind(this);
         this.onChangeSecondName = this.onChangeSecondName.bind(this);
-        this.onChangeBio = this.onChangeBio.bind(this);
         this.saveUser = this.saveUser.bind(this);
     }
 
@@ -46,41 +30,42 @@ class Profile extends React.Component {
         });
     }
 
-    onChangeBio(event) {
-        this.setState({
-            bio: event.target.value
-        });
-    }
-
     async saveUser() {
         await UsersStore.saveCurrentUser(this.state);
     }
 
     render() {
+        const closeHandler = uiStore.togglePopup('profile');
+
         return (
-            <React.Fragment>
-                <section className="profile">
-                    <Head closeHandler={uiStore.toggleProfile}/>
-                    <img className="profile__avatar" src={`data:image/png;base64,${this.state.avatar}`} alt="Аватар"/>
-                    <div className="profile__username">{`@${this.state.username}`}</div>
-                    <input className="profile__input" onChange={this.onChangeFirstName} type="text" value={this.state.firstName}/>
-                    <input className="profile__input" onChange={this.onChangeSecondName} type="text" value={this.state.lastName}/>
-                    <textarea className="profile__input" onChange={this.onChangeBio} value={this.state.bio}/>
-                    <Button className="profile__save" onClick={this.saveUser}>
-                        Сохранить
-                    </Button>
-                </section>
-                <Overlay
-                    closeHandler={this.props.closeProfile}
-                    className="profile__overlay"
+            <Popup
+                zIndex={400}
+                className="profile"
+                closeHandler={closeHandler}
+                headContent={<Head closeHandler={closeHandler}/>}
+            >
+                <img className="profile__avatar" src={`data:image/png;base64,${this.state.avatar}`} alt="Аватар"/>
+                <div className="profile__username">{`@${this.state.username}`}</div>
+                <input
+                    className="profile__input"
+                    onChange={this.onChangeFirstName}
+                    type="text"
+                    value={this.state.firstName}
+                    placeholder="Имя"
                 />
-            </React.Fragment>
+                <input
+                    className="profile__input"
+                    onChange={this.onChangeSecondName}
+                    type="text"
+                    value={this.state.lastName}
+                    placeholder="Фамилия"
+                />
+                <Button className="profile__save" onClick={this.saveUser}>
+                    Сохранить
+                </Button>
+            </Popup>
         );
     }
 }
-
-Profile.propTypes = {
-    closeProfile: PropTypes.func.isRequired
-};
 
 export default Profile;

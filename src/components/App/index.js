@@ -6,7 +6,8 @@ import Header from '../Header';
 import Dialogs from '../Dialogs';
 import Contacts from '../Contacts';
 import ChatWrapper from '../Chat/ChatWrapper';
-import Profile from '../Profile';
+import ProfileSettings from '../Profile';
+import UserProfile from '../UserProfile';
 import './App.css';
 
 import uiStore from '../../domain/ui-store';
@@ -16,8 +17,9 @@ class App extends React.Component {
     renderModals() {
         return (
             <React.Fragment>
-                {uiStore.displayContacts && <Contacts closeContacts={uiStore.toggleContacts}/>}
-                {uiStore.displayProfile && <Profile closeProfile={uiStore.toggleProfile}/>}
+                {uiStore.displays.contacts && <Contacts/>}
+                {uiStore.displays.profile && <ProfileSettings/>}
+                {uiStore.displays.user && <UserProfile/>}
             </React.Fragment>
         );
     }
@@ -28,7 +30,7 @@ class App extends React.Component {
                 <div className="app">
                     <Header/>
                     <Dialogs/>
-                    <div className="chat-wrapper">
+                    <div className="content">
                         <Switch>
                             <Route path="/chats/:id" component={ChatWrapper}/>
                             <Route path="/" render={() => <div/>}/>

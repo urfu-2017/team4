@@ -1,27 +1,7 @@
-@font-face {
-    font-family: 'Super Secret Sans Text';
-    src: url('./assets/fonts/text-regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Super Secret Sans Text';
-    src: url('./assets/fonts/text-bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Super Secret Sans Display';
-    src: url('./assets/fonts/display-regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
 :root {
     font-size: 62.5%;
-    font-family: 'Super Secret Sans Display', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
 }
 
 html,

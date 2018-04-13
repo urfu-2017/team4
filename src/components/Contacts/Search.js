@@ -7,6 +7,10 @@ class Search extends React.Component {
         this.search.focus();
     }
 
+    componentWillUnmount() {
+        contactsStore.setFilterValue('');
+    }
+
     render() {
         return (
             <div className="contacts__search-wrapper">

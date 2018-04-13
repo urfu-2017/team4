@@ -26,8 +26,7 @@ export default class ChatModel {
     async join() {
         try {
             this.isFetching = true;
-            this.messages = (await RPC.request('fetchHistory', { chatId: this.id }, 15000)) || [];
-            await RPC.request('joinToDialogs', { dialogs: [this.id] });
+            this.messages = await RPC.request('joinToDialog', { chatId: this.id }, 15000);
         } finally {
             this.isFetching = false;
         }

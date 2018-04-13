@@ -10,16 +10,20 @@ const HeaderMainWrap = observer(() => {
     const chat = ChatsStore.currentChat;
 
     if (chat !== null) {
-        message = chat.name;
-        message += chat.type === 'room' ? ` (${chat.members.length} участников)` : '';
-    }
+        if (chat.type === 'dialog') {
+            const currentUsername = UsersStore.currentUser.username;
+            const otherUsername = chat.members.filter(member => member !== currentUsername)[0];
+            const otherUser = UsersStore.users.get(otherUsername || currentUsername);
 
-    const username = UsersStore.currentUser.displayName;
+            message = otherUser.displayName;
+        } else {
+            message = `${chat.name} (${chat.members.length} участников)`;
+        }
+    }
 
     return (
         <div className="header__main-wrap">
             <div className="header__chat-name">{message}</div>
-            <div className="header__user-name">{username}</div>
         </div>
     );
 });

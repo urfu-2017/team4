@@ -1,11 +1,11 @@
 'use strict';
 
 const { EventEmitter } = require('events');
-const { Cookie, Session } = require('express-session');
+const { Cookie, Session: ExpressSession } = require('express-session');
 
 const DB = require('../helpers/dbclient');
 
-class SessionStore extends EventEmitter {
+class Session extends EventEmitter {
     get(sid, callback) {
         DB.get(DB.getKey('sessions', sid))
             .then(data => callback(null, data))
@@ -34,10 +34,10 @@ class SessionStore extends EventEmitter {
         }
 
         session.cookie.originalMaxAge = originalMaxAge;
-        req.session = new Session(req, session);
+        req.session = new ExpressSession(req, session);
         return req.session;
     }
     /* eslint-enable no-param-reassign */
 }
 
-module.exports = SessionStore;
+module.exports = new Session();

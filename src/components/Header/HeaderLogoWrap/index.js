@@ -3,21 +3,21 @@ import { observer } from 'mobx-react';
 
 import './HeaderLogoWrap.css';
 import Menu from '../Menu';
-import menuStore from '../../../domain/menu-store';
+import UIStore from '../../../domain/ui-store';
 
 /* eslint-disable */
 
 const HeaderLogoWrap = observer(() => (
     <div className="header__logo-wrap">
         <div
-            onClick={menuStore.toggleLeftPanel}
-            className={`header__menu hamburger ${menuStore.isShow ? 'hamburger--active' : ''}`.trim()}
+            onClick={UIStore.toggleLeftPanel}
+            className={`header__menu hamburger ${UIStore.menuShow ? 'hamburger--active' : ''}`.trim()}
         >
             <div className="hamburger__box">
-                <div className="hamburger__inner"></div>
+                <div className="hamburger__inner"/>
             </div>
         </div>
-        {menuStore.isShow && <Menu/>}
+        {UIStore.menuShow && <Menu/>}
         <div className="header__logo">K1logram</div>
     </div>
 ));
