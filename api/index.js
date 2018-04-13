@@ -3,6 +3,7 @@
 const path = require('path');
 const sio = require('socket.io');
 const express = require('express');
+const compression = require('compression');
 
 const expressAuth = require('./utils/auth');
 const RPC = require('./utils/rpc');
@@ -14,6 +15,7 @@ const configureRPC = require('./rpc');
 const app = express();
 const usersStore = new Map();
 
+app.use(compression());
 app.use(express.static(path.resolve(__dirname, '..', 'prod_build'), { redirect: false }));
 expressAuth(app, Session);
 
