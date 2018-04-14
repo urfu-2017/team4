@@ -8,9 +8,8 @@ import UIStore from '../../../domain/ui-store';
 /* eslint-disable */
 
 const HeaderLogoWrap = observer(() => (
-    <div className="header__logo-wrap">
+    <div className="header__logo-wrap" onClick={UIStore.toggleLeftPanel}>
         <div
-            onClick={UIStore.toggleLeftPanel}
             className={`header__menu hamburger ${UIStore.menuShow ? 'hamburger--active' : ''}`.trim()}
         >
             <div className="hamburger__box">

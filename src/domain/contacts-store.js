@@ -43,7 +43,11 @@ class ContactsStore {
 
         try {
             const contact = await RPC.request('addContact', { username });
+
             runInAction(() => {
+                if (this.state === 'empty') {
+                    this.state = 'loaded';
+                }
                 this.list.push(contact);
                 this.state = 'loaded';
             });

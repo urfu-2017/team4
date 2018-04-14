@@ -6,6 +6,12 @@
     flex-direction: row;
     align-items: center;
     cursor: pointer;
+
+    transition: background-color 0.2s;
+}
+
+.header__logo-wrap:hover {
+    background: #484848;
 }
 
 .header__logo {
