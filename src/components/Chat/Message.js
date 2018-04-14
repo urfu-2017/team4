@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 
+import OGData from '../OGData';
+
 import UsersStore from '../../domain/users-store';
 import UIStore from '../../domain/ui-store';
 import markdown from '../../utils/markdown';
 import formatDate from '../../utils/format-date';
 import { initContainer } from '../../utils/weather';
 
-import './index.css';
+import './Chat.css';
 
 @observer
 class Message extends React.Component {
@@ -26,10 +28,10 @@ class Message extends React.Component {
     showUserProfile = (event) => {
         event.preventDefault();
         UIStore.toggleUserProfilePopup(this.user);
-    }
+    };
 
     render() {
-        const { from, text, createdAt } = this.props.message;
+        const { from, text, createdAt, ogData } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user ? `data:image/png;base64,${this.user.avatar}` :
             'https://api.adorable.io/avatars/128/abott@adorable.png';
@@ -53,6 +55,9 @@ class Message extends React.Component {
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
                 </div>
+                {
+                    ogData && <OGData isInMessage {...ogData}/>
+                }
             </div>
         );
     }

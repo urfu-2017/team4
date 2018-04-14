@@ -11,12 +11,14 @@ class Message {
      * @param {String} chatId
      * @param {String} from
      * @param {String} text
+     * @param {Object} ogData - open graph data
      */
-    constructor({ chatId, from, text }) {
+    constructor({ chatId, from, text, ogData }) {
         this.id = uuid();
         this.chatId = chatId;
         this.from = from;
         this.text = text;
+        this.ogData = ogData;
         this.createdAt = null;
         this.frame = null;
     }

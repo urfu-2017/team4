@@ -12,14 +12,13 @@ class ContactsStore {
             return this.list;
         }
 
-        const filterValue = new RegExp(this.filterValue, 'i');
-
         return this.list.filter(({ username, firstName, lastName }) =>
-            [username, firstName, lastName].some(word => word && word.match(filterValue)));
+            [username, firstName, lastName]
+                .some(word => word && word.toLowerCase().indexOf(this.filterValue) !== -1));
     }
 
     @action setFilterValue(value) {
-        this.filterValue = value;
+        this.filterValue = value.toLowerCase();
     }
 
     @action async loadList() {

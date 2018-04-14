@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import './index.css';
+import './Chat.css';
 import Chat from '../Chat';
 import MessageInput from '../MessageInput';
 
