@@ -1,5 +1,6 @@
 import marked from 'marked';
 import escapeHtml from './html-escape';
+import { createContainer } from './weather';
 
 const renderer = new marked.Renderer();
 
@@ -16,6 +17,16 @@ renderer.tablerow = stubRender;
 renderer.tablecell = stubRender;
 renderer.image = stubRender;
 
+const oldLinkRender = renderer.link.bind(renderer);
+
+renderer.link = (href, title, text) => {
+    if (href === 'weather') {
+        return createContainer(text);
+    }
+
+    return oldLinkRender(href, title, text);
+};
+
 marked.setOptions({
     renderer,
     pedantic: false,
@@ -27,6 +38,5 @@ marked.setOptions({
     smartypants: false,
     xhtml: false
 });
-
 
 export default marked;

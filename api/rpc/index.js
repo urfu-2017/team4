@@ -16,7 +16,9 @@ const fetchHistory = require('./dialogs/fetch-history');
 const removeDialog = require('./dialogs/remove-dialog');
 const addMember = require('./dialogs/add-member');
 const removeMember = require('./dialogs/remove-member');
+
 const fetchOGData = require('./fetch-og-data');
+const fetchWeather = require('./fetchWeather');
 
 module.exports = () => {
     RPC.Registry.register('fetchUser', fetchUser);
@@ -34,5 +36,7 @@ module.exports = () => {
     RPC.Registry.register('removeDialog', removeDialog);
     RPC.Registry.register('addMember', addMember);
     RPC.Registry.register('removeMember', removeMember);
+
     RPC.Registry.register('fetchOGData', fetchOGData);
+    RPC.Registry.register('fetchWeather', fetchWeather);
 };

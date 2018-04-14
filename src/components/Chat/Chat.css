@@ -17,6 +17,11 @@
     height: 100%;
 }
 
+.chat__preloader {
+    display: block;
+    margin: 12px auto;
+}
+
 .message {
     display: flex;
     flex-direction: row;
