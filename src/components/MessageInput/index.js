@@ -15,6 +15,7 @@ import urlParser from '../../utils/url-parser';
 class MessageInput extends React.Component {
     onSend = async () => {
         const text = this.messageInput.value.trim();
+        const ogData = ogStore.data;
 
         if (!text) {
             return;
@@ -23,7 +24,8 @@ class MessageInput extends React.Component {
         try {
             // eslint-disable-next-line
             this.messageInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text);
+            await ChatsStore.currentChat.sendMessage(text, ogData);
+            ogStore.clear();
             this.messageInput.value = null;
         } finally {
             this.messageInput.disabled = false;
