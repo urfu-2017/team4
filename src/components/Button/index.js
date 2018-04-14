@@ -4,8 +4,7 @@ import './Button.css';
 
 const classes = {
     main: 'btn_theme_main',
-    heading: 'btn_theme_heading',
-    dialogs: 'btn_theme_dialogs'
+    heading: 'btn_theme_heading'
 };
 
 const Button = ({ children, onClick, className, type }) => (
@@ -18,7 +17,7 @@ Button.propTypes = {
     onClick: PropTypes.func,
     className: PropTypes.string,
     children: PropTypes.node,
-    type: PropTypes.oneOf(['main', 'heading', 'dialogs'])
+    type: PropTypes.oneOf(['main', 'heading'])
 };
 
 Button.defaultProps = {
