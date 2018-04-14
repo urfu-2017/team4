@@ -1,6 +1,6 @@
 .chat-wrapper {
     box-sizing: border-box;
-    padding: 10px 60px 0;
+    padding: 0 0 0 5%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -15,6 +15,7 @@
 .chat {
     overflow-y: auto;
     height: 100%;
+    padding-right: 5%;
 }
 
 .chat__preloader {

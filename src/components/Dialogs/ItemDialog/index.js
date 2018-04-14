@@ -51,6 +51,7 @@ class ItemDialog extends React.Component {
     render() {
         const { chat } = this.props;
         const activeClassName = ChatsStore.currentChat === chat ? ' dialog-list__item--active' : '';
+        const isMine = this.message && this.message.from === UsersStore.currentUser.username;
 
         return (
             <Link
@@ -64,7 +65,12 @@ class ItemDialog extends React.Component {
                 />
                 <div className="dialog-list__dialog-body">
                     <div className="dialog-list__dialog-name" title={this.displayName}>{this.displayName}</div>
-                    {this.message && <div className="dialog-list__last-msg">{this.message.text}</div>}
+                    {this.message && (
+                        <div className="dialog-list__last-msg">
+                            <span className="dialog-list__last-msg--mine">{isMine && 'Вы: '}</span>
+                            {this.message.text}
+                        </div>
+                    )}
                 </div>
                 {this.message && (
                     <div className="dialog-list__last-msg-date">

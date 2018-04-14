@@ -9,10 +9,17 @@ module.exports = async (params, response) => {
         await UserManager.getUser(params.username) : null;
 
     if (contact) {
-        await UserManager.addContact(response.socket.handshake.user.username, contact.username);
+        const currentUsername = response.socket.handshake.user.username;
+        const contacts = await UserManager.getContacts(currentUsername);
+
+        if (contacts.includes(contact.username)) {
+            throw new JsonRpcError('Contact already added');
+        }
+
+        await UserManager.addContact(currentUsername, contact.username);
         response.success(contact);
         return;
     }
 
-    response.error(new JsonRpcError('User not found'));
+    throw new JsonRpcError('User not found');
 };

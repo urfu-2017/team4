@@ -1,6 +1,6 @@
 'use strict';
 
-const urlRegExp = /^(https?:\/\/|\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.?\-=%]*)*\/?$/;
+const urlRegExp = /^(https?:\/\/|\/\/)([\wа-я.-]+)\.([0-9a-zа-я-]{2,8}\.?)(\/[\wа-яА-Я.?\-=%&]*)*\/?$/;
 const trimRegExp = /^\/+|\/+$/g;
 
 module.exports = {

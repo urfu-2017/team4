@@ -33,10 +33,13 @@ class UserSearchStore {
             user = null;
         }
 
-        runInAction(() => {
-            this.user = user;
-            this.state = this.user ? 'loaded' : 'notFound';
-        });
+        // Вызываем только если ожидаем результат
+        if (this.state === 'loading') {
+            runInAction(() => {
+                this.user = user;
+                this.state = this.user ? 'loaded' : 'notFound';
+            });
+        }
     };
 
     @action clear = () => {

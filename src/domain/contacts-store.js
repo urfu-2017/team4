@@ -3,7 +3,7 @@ import { observable, action, computed, runInAction } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 class ContactsStore {
-    @observable list = undefined;
+    @observable list = [];
     @observable filterValue = '';
     @observable state = 'loading';
 
@@ -45,6 +45,7 @@ class ContactsStore {
             const contact = await RPC.request('addContact', { username });
             runInAction(() => {
                 this.list.push(contact);
+                this.state = 'loaded';
             });
         } catch (e) {
             console.error(e.message);

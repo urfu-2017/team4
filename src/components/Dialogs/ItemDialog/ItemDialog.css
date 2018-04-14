@@ -36,6 +36,10 @@
     text-overflow: ellipsis;
 }
 
+.dialog-list__last-msg--mine {
+    color: blue;
+}
+
 .dialog-list__dialog-name {
     color: #333;
     margin-bottom: 6px;

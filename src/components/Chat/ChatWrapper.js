@@ -1,4 +1,5 @@
 import React from 'react';
+import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 
 import './Chat.css';
@@ -24,6 +25,10 @@ class ChatWrapper extends React.Component {
         }
     }
 
+    @computed get chat() {
+        return ChatsStore.currentChat;
+    }
+
     // eslint-disable-next-line class-methods-use-this
     setCurrentChat(chatId) {
         const chat = ChatsStore.chatsMap.has(chatId);
@@ -38,14 +43,14 @@ class ChatWrapper extends React.Component {
     }
 
     render() {
-        if (ChatsStore.currentChat === null) {
+        if (this.chat === null) {
             return null;
         }
 
         return (
             <div className="chat-wrapper">
-                <Chat/>
-                <MessageInput/>
+                <Chat chat={this.chat}/>
+                <MessageInput key={this.chat.id}/>
             </div>
         );
     }
