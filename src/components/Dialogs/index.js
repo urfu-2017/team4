@@ -46,7 +46,7 @@ export default class Dialogs extends React.Component {
                 </div>
                 <ButtonNewDialog
                     onClick={this.onContactsClick}
-                    className="newdialog-button"
+                    className="dialogs__new-dialog-btn"
                     type="main"
                 >
                     Новый диалог
