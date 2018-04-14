@@ -7,6 +7,7 @@ import Message from './message';
 import './index.css';
 
 import ChatsStore from '../../domain/chats-store';
+import Preloader from '../Preloader';
 
 @observer
 export default class Chat extends React.Component {
@@ -30,6 +31,7 @@ export default class Chat extends React.Component {
                 scrollLoadThreshold={100}
                 onInfiniteLoad={this.loadHistory}
                 shouldTriggerLoad={this.shouldLoadHistory}
+                loadingSpinnerDelegate={<Preloader size={36} className="chat__preloader"/>}
                 flipped
                 reversed
             >

@@ -29,10 +29,14 @@ class Application extends React.Component {
 
     async componentDidMount() {
         try {
+            console.time('init');
+            console.time('ws');
             await RPC.connect();
+            console.timeEnd('ws');
             await UsersStore.fetchCurrentUser();
             await ChatsStore.init();
 
+            console.timeEnd('init');
             this.isAppLoaded = true;
         } catch (e) {
             console.error(e);
