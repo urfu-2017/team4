@@ -3,8 +3,8 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import ChatView from 'react-chatview';
 
-import Message from './message';
-import './index.css';
+import Message from './Message';
+import './Chat.css';
 
 import ChatsStore from '../../domain/chats-store';
 import Preloader from '../Preloader';
@@ -16,13 +16,13 @@ export default class Chat extends React.Component {
         return ChatsStore.currentChat;
     }
 
-    shouldLoadHistory = () => this.chat.canLoadNextHistoryFrame
+    shouldLoadHistory = () => this.chat.canLoadNextHistoryFrame;
 
     loadHistory = async () => {
         if (this.shouldLoadHistory()) {
             await this.chat.loadNextHistoryFrame();
         }
-    }
+    };
 
     render() {
         return (

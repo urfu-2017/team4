@@ -53,8 +53,15 @@ export default class ChatModel {
         }
     }
 
-    async sendMessage(text) {
-        const response = await RPC.request('sendMessage', { chatId: this.id, text }, 15000);
+    async sendMessage(text, ogData) {
+        const params = {
+            chatId: this.id,
+            text,
+            ogData
+        };
+
+        const response = await RPC.request('sendMessage', params, 15000);
+
         this.messages.push(response);
     }
 
