@@ -10,6 +10,12 @@
     border-right: 2px solid #e9ebed;
 }
 
+.dialogs__new-dialog-btn {
+    align-self: center;
+    padding: 6px 40px !important;
+    margin-bottom: 10px;
+}
+
 .dialogs::-webkit-scrollbar-track {
     border-radius: 4px;
 }

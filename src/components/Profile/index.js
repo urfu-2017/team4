@@ -31,6 +31,8 @@ class Profile extends React.Component {
     }
 
     async saveUser() {
+        uiStore.togglePopup('profile')();
+
         await UsersStore.saveCurrentUser(this.state);
     }
 

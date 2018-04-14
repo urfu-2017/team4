@@ -1,3 +1,7 @@
+.dialog-list {
+    margin-bottom: 10px;
+}
+
 .dialog-list__item {
     box-sizing: border-box;
     padding: 10px 20px 10px 14px;
