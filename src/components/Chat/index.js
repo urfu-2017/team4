@@ -1,5 +1,5 @@
 import React from 'react';
-import { computed } from 'mobx';
+import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import ChatView from 'react-chatview';
 
@@ -10,17 +10,12 @@ import ChatsStore from '../../domain/chats-store';
 import Preloader from '../Preloader';
 
 @observer
-export default class Chat extends React.Component {
-    // eslint-disable-next-line class-methods-use-this
-    @computed get chat() {
-        return ChatsStore.currentChat;
-    }
-
-    shouldLoadHistory = () => this.chat.canLoadNextHistoryFrame;
+class Chat extends React.Component {
+    shouldLoadHistory = () => this.props.chat.canLoadNextHistoryFrame;
 
     loadHistory = async () => {
         if (this.shouldLoadHistory()) {
-            await this.chat.loadNextHistoryFrame();
+            await this.props.chat.loadNextHistoryFrame();
         }
     };
 
@@ -42,3 +37,9 @@ export default class Chat extends React.Component {
         );
     }
 }
+
+Chat.propTypes = {
+    chat: PropTypes.shape().isRequired
+};
+
+export default Chat;

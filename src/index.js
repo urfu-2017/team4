@@ -31,10 +31,14 @@ class Application extends React.Component {
         try {
             console.time('init');
             console.time('ws');
+
             await RPC.connect();
             console.timeEnd('ws');
-            await UsersStore.fetchCurrentUser();
-            await ChatsStore.init();
+
+            await Promise.all([
+                UsersStore.fetchCurrentUser(),
+                ChatsStore.init()
+            ]);
 
             console.timeEnd('init');
             this.isAppLoaded = true;
