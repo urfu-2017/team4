@@ -1,4 +1,4 @@
-const urlRegExp = /(https?:\/\/|\/\/)?([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.?\-=%]*)*\/?/;
+const urlRegExp = /(https?:\/\/|\/\/)([\w.-]+)\.([a-z]{2,6}\.?)(\/[\w.?\-=%]*)*\/?/;
 
 export default (text) => {
     const urls = text.match(urlRegExp);
