@@ -55,6 +55,7 @@
 
     background: transparent;
     cursor: pointer;
+    outline: none;
 }
 
 .og-data__close::before,

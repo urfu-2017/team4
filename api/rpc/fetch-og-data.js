@@ -8,6 +8,8 @@ const ogHelper = require('../helpers/og-helper');
 
 module.exports = async (params, response) => {
     let ogData;
+    // Та ссылка, которую ввел пользователь. Нужна только для отклонения устаревших промисов
+    const input = params.url;
 
     try {
         ogData = await ogs(params);
@@ -27,5 +29,5 @@ module.exports = async (params, response) => {
         image = ogHelper.makeAbsoluteImageUrl(imageUrl, url);
     }
 
-    response.success(new OGData(title, image, description, url));
+    response.success(new OGData(title, image, description, url, input));
 };

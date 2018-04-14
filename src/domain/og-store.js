@@ -19,7 +19,7 @@ class OGStore {
         clearTimeout(this.timeoutToFetch);
         this.timeoutToFetch = setTimeout(() => {
             this.fetchData();
-        }, 500);
+        }, 1000);
     };
 
     @action
@@ -38,8 +38,14 @@ class OGStore {
         } catch (e) {
             this.clear();
         }
+        // Если промис устарел, то выходим из колбэка
+        if (data.input !== this.currentFetchingLink) {
+            return;
+        }
+        // Удаляем поле, нужное только для предыдущей проверки.
+        delete data.input;
 
-        if (!data || data.url === this.currentFetchingLink) {
+        if (!data) {
             this.clear();
             this.currentFetchingLink = undefined;
 
