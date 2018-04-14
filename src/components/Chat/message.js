@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { computed } from 'mobx';
@@ -7,11 +8,16 @@ import UsersStore from '../../domain/users-store';
 import UIStore from '../../domain/ui-store';
 import markdown from '../../utils/markdown';
 import formatDate from '../../utils/format-date';
+import { initContainer } from '../../utils/weather';
 
 import './index.css';
 
 @observer
 class Message extends React.Component {
+    componentDidMount() {
+        initContainer(this.messageText);
+    }
+
     @computed get user() {
         const username = this.props.message.from;
         return UsersStore.users.get(username);
@@ -41,7 +47,11 @@ class Message extends React.Component {
                         <span>{displayName}</span>
                         <span className="message__date">({formatDate(createdAt)})</span>
                     </div>
-                    <div className="message__text" dangerouslySetInnerHTML={{ __html: markdown(text) }}/>
+                    <div
+                        ref={el => (this.messageText = el)}
+                        className="message__text"
+                        dangerouslySetInnerHTML={{ __html: markdown(text) }}
+                    />
                 </div>
             </div>
         );
