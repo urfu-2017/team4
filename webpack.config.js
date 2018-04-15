@@ -25,42 +25,44 @@ module.exports = {
     },
 
     module: {
-        rules: [
-            {
-                test: /\.[jt]sx?$/,
-                use: {
-                    loader: 'ts-loader',
-                    options: { configFile: path.resolve(clientSrcPath, 'tsconfig.json') }
-                },
-                exclude: /node_modules/
-            },
-
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: {
-                        loader: 'style-loader'
+        rules: [{
+            oneOf: [
+                {
+                    test: /\.[jt]sx?$/,
+                    use: {
+                        loader: 'ts-loader',
+                        options: { configFile: path.resolve(clientSrcPath, 'tsconfig.json') }
                     },
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                importLoaders: 1,
-                                minimize: !isDevelopment,
-                                modules: true
-                            }
-                        },
-                        { loader: 'postcss-loader' }
-                    ]
-                })
-            },
+                    exclude: /node_modules/
+                },
 
-            {
-                loader: 'file-loader',
-                exclude: [/\.js$/, /\.html$/, /\.json$/],
-                options: { name: 'media/[name].[hash:8].[ext]' }
-            }
-        ]
+                {
+                    test: /\.css$/,
+                    loader: ExtractTextPlugin.extract({
+                        fallback: {
+                            loader: 'style-loader',
+                            options: { hmr: isDevelopment }
+                        },
+                        use: [
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    importLoaders: 1,
+                                    minimize: !isDevelopment
+                                }
+                            },
+                            { loader: 'postcss-loader' }
+                        ]
+                    })
+                },
+
+                {
+                    loader: 'file-loader',
+                    exclude: [/\.js$/, /\.html$/, /\.json$/],
+                    options: { name: 'media/[name].[hash:8].[ext]' }
+                }
+            ]
+        }]
     },
 
     plugins: [

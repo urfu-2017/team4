@@ -1,24 +1,27 @@
-declare var __webpack_public_path__: any;
-
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
 
-import './index.css';
-import './hacks.css';
 import App from './components/App';
-import LoginPage from './components/LoginPage';
 import LoaderPage from './components/LoaderPage';
+import LoginPage from './components/LoginPage';
+import './index.css';
 
-import RPC from './utils/rpc-client';
-import UsersStore from './domain/users-store';
-import ChatsStore from './domain/chats-store';
 import MobileApp from './components/MobileApp';
+import ChatsStore from './domain/chats-store';
+import UsersStore from './domain/users-store';
+import RPC from './utils/rpc-client';
 
 @observer
 class Application extends React.Component {
+    @observable private isAppLoaded = false;
+
+    @observable private isAuthRequired = false;
+
+    @observable private isMobile = false;
+
     private readonly matchMedia;
 
     constructor(props) {
@@ -29,7 +32,7 @@ class Application extends React.Component {
         this.toggleMobileApp(this.matchMedia);
     }
 
-    async componentDidMount() {
+    public async componentDidMount() {
         try {
             console.time('init');
             console.time('ws');
@@ -48,15 +51,11 @@ class Application extends React.Component {
         }
     }
 
-    toggleMobileApp = matchMedia => {
+    public toggleMobileApp = matchMedia => {
         this.isMobile = !!matchMedia.matches;
     };
 
-    @observable isAppLoaded = false;
-    @observable isAuthRequired = false;
-    @observable isMobile = false;
-
-    render() {
+    public render() {
         if (!this.isAppLoaded) {
             return <LoaderPage />;
         }

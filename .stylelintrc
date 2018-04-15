@@ -5,6 +5,7 @@
         "block-opening-brace-newline-before": "never-single-line",
         "value-list-comma-space-after": null,
         "number-max-precision": null,
-        "selector-no-universal": null
+        "selector-no-universal": null,
+        "max-line-length": 100
     }
 }
