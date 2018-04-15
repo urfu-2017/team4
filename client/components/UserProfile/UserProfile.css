@@ -1,0 +1,81 @@
+.user-profile {
+    top: 7vh;
+
+    display: flex;
+    flex-direction: column;
+    width: 94%;
+    max-width: 420px;
+    max-height: 86vh;
+    box-sizing: border-box;
+}
+
+.user-profile__heading {
+    margin: 0;
+}
+
+.user-profile__main {
+    display: flex;
+    flex-direction: column;
+    padding: 17px 37px 0;
+}
+
+.user-profile__avatar {
+    width: 72px;
+    height: 72px;
+    margin-right: 20px;
+}
+
+.user-profile__data {
+    display: flex;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+}
+
+.user-profile__info {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+}
+
+.user-profile__name {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.user-profile__username {
+    color: #91a6ba;
+}
+
+.user-profile__buttons {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 20px;
+}
+
+.user-profile__chat-link {
+    border: none;
+    padding: 6px 10px;
+
+    background: #fff;
+    color: #515151;
+    font-weight: bold;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+
+    border-radius: 2px;
+    cursor: pointer;
+    outline: none;
+
+    transition: background-color 0.2s;
+}
+
+.user-profile__chat-link:hover {
+    color: #333;
+    background: #f2f6fa;
+}
+
+.user-profile__preloader {
+    display: inline-block;
+    margin-right: 5px;
+}
