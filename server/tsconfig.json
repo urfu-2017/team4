@@ -3,10 +3,12 @@
         "target": "es6",
         "module": "commonjs",
         "strict": true,
-        "sourceMap": true,
+        "sourceMap": false,
         "lib": ["esnext"],
         "rootDir": "./",
-        "outDir": "../build/server"
+        "outDir": "../build/server",
+        "noEmitOnError": true
     },
-    "include": ["**/*.ts"]
+    "include": ["**/*.ts"],
+    "exclude": ["../build/server"]
 }

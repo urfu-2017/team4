@@ -9,10 +9,7 @@ install:
   - npm install --only=dev
   - npm install --only=prod
 script:
-  - npm run client:lint
-  - npm run server:lint
-  - npm run client:test
-  - npm run server:test
+  - npm run lint
   - npm run client:build
 deploy:
   skip_cleanup: true
