@@ -2,12 +2,17 @@ import { Server as HttpServer } from 'http';
 import * as io from 'socket.io';
 import * as JsonRpc from 'jsonrpc-lite';
 
+import { Request } from './request';
+import { Response } from './response';
+
+export type RpcHandler = (req: Request<any>, res: Response) => void;
+
 export class Server {
     private socketServer: io.Server;
     private sockets: Map<string, Record<string, io.Socket>>;
-    private methods: Record<string, () => void>;
+    private readonly methods: Record<string, RpcHandler>;
 
-    public constructor(methods: Record<string, () => void>) {
+    public constructor(methods: Record<string, RpcHandler>) {
         this.methods = methods;
         this.sockets = new Map<string, Record<string, io.Socket>>();
     }
@@ -49,13 +54,26 @@ export class Server {
                 return;
             }
 
-            socket.emit('rpc', JsonRpc.success(payload.id, payload.method));
+            const method = this.methods[payload.method];
+
+            if (!method) {
+                throw JsonRpc.JsonRpcError.methodNotFound(payload.method);
+            }
+
+            const request = new Request(socket, payload.params, payload);
+            const response = new Response(payload.id, socket);
+
+            await method(request, response);
         } catch (error) {
-            socket.emit('rpc', error);
+            if (error instanceof JsonRpc.JsonRpcError) {
+                socket.emit('rpc', error);
+            } else {
+                socket.emit('rpc', JsonRpc.JsonRpcError.internalError(error));
+            }
         }
     }
 
     private checkAuth = (socket: io.Socket, next: (err?: any) => void) => {
         next();
-    }
+    };
 }

@@ -65,7 +65,7 @@
         const socket = io.connect({ path: '/api', query: 'username=kilyaa' });
 
         socket.on('rpc', (rpc) => {
-            logs.appendChild(createLog(rpc, new Date(), false));
+            logs.appendChild(createLog(JSON.parse(rpc), new Date(), false));
         });
 
         button.addEventListener('click', (event) => {

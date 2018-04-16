@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as compression from 'compression';
 
 import { Server as RpcServer } from './rpc/server';
+import { getMethods } from './api';
 
 const app = express();
 app.use(compression());
@@ -21,4 +22,4 @@ const server = app.listen(8080, () => {
     console.info(`Сервер запущен по адресу http://${address}:${port}`);
 });
 
-new RpcServer({}).listen(server);
+new RpcServer(getMethods()).listen(server);
