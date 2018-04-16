@@ -62,7 +62,7 @@
         const logs = document.querySelector('.logs');
         const button = document.querySelector('.button');
 
-        const socket = io.connect({ path: '/api', query: 'username=kilyaa' });
+        const socket = io.connect({ path: '/api' });
 
         socket.on('rpc', (rpc) => {
             logs.appendChild(createLog(JSON.parse(rpc), new Date(), false));

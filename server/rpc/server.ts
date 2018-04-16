@@ -1,19 +1,26 @@
 import { Server as HttpServer } from 'http';
 import * as io from 'socket.io';
 import * as JsonRpc from 'jsonrpc-lite';
+import * as cookie from 'cookie';
+import { Store } from 'express-session';
+import * as cookieParser from 'cookie-parser';
 
 import { Request } from './request';
 import { Response } from './response';
+import * as config from '../config';
 
 export type RpcHandler = (req: Request<any>, res: Response) => void;
 
 export class Server {
     private socketServer: io.Server;
     private sockets: Map<string, Record<string, io.Socket>>;
+
+    private readonly sessionStore: Store;
     private readonly methods: Record<string, RpcHandler>;
 
-    public constructor(methods: Record<string, RpcHandler>) {
+    public constructor(methods: Record<string, RpcHandler>, sessionStore: Store) {
         this.methods = methods;
+        this.sessionStore = sessionStore;
         this.sockets = new Map<string, Record<string, io.Socket>>();
     }
 
@@ -74,6 +81,19 @@ export class Server {
     }
 
     private checkAuth = (socket: io.Socket, next: (err?: any) => void) => {
-        next();
+        const cookiesRaw = socket.handshake.headers.cookie || '';
+        const cookies = cookie.parse(cookiesRaw);
+        const sid = cookieParser.signedCookie(cookies['connect.sid'], config.SECRET_KEY) as string;
+
+        this.sessionStore.get(sid, (err, session) => {
+            if (err || !session) {
+                next(new Error('authentication error'));
+                return;
+            }
+
+            // Прикрепляем идентификатор пользователя к сокету
+            socket.handshake.query.username = session.passport.user;
+            next();
+        });
     };
 }
