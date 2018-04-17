@@ -1,30 +1,47 @@
-import * as passport from 'passport';
+import * as express from 'express';
+import { Passport } from 'passport';
 import { Profile, Strategy } from 'passport-github';
 
 import * as config from './config';
 
-export function configurePassport() {
+export type UserCreation = (profile: Profile) => Promise<void>;
+
+export function configurePassport(userCreation: UserCreation) {
+    const passport = new Passport();
+
     const strategy = new Strategy(
         {
             clientID: config.GITHUB_CLIENT_ID,
             clientSecret: config.GITHUB_CLIENT_SECRET,
             callbackURL: config.GITHUB_AUTH_CALLBACK
         },
-        (accessToken, refreshToken, profile, done) => {
-            const username = profile.username!.toLowerCase();
-            done(null, { username });
+        async (accessToken, refreshToken, profile, done) => {
+            await userCreation(profile);
+            done(null, profile);
         }
     );
 
     passport.use(strategy);
 
     passport.serializeUser((profile: Profile, done) => {
-        done(null, profile.username);
+        done(null, profile.id);
     });
 
-    passport.deserializeUser((profile: Profile, done) => {
-        done(null, profile);
+    passport.deserializeUser((id: string, done) => {
+        done(null, id);
     });
 
-    return passport;
+
+    const router = express.Router();
+
+    router.get('/', passport.authenticate('github'));
+    router.get(
+        '/callback',
+        passport.authenticate('github', {
+            failureRedirect: config.AUTH_REDIRECT_URL,
+            successRedirect: config.AUTH_REDIRECT_URL
+        })
+    );
+
+    return { passport, router };
 }

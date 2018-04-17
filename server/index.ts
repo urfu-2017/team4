@@ -10,18 +10,15 @@ import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
 
 const app = express();
+const sessionStore = new expressSession.MemoryStore();
+const { passport, router } = configurePassport(() => Promise.resolve());
+
 app.use(compression());
 app.use(
     express.static(path.resolve(__dirname, '..', 'prod_build'), {
         redirect: false
     })
 );
-
-const passport = configurePassport();
-const sessionStore = new expressSession.MemoryStore();
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(
     expressSession({
@@ -32,16 +29,8 @@ app.use(
     })
 );
 
-const router = express.Router();
-
-router.get('/', passport.authenticate('github'));
-router.get(
-    '/callback',
-    passport.authenticate('github', {
-        failureRedirect: config.AUTH_REDIRECT_URL,
-        successRedirect: config.AUTH_REDIRECT_URL
-    })
-);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/auth', router);
 app.get('/rpccat', (req, res) => {

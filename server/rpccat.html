@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>RPC Cat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.14.1/jsoneditor.min.css">
     <style>
         body { margin: 0; }
         .wrapper {
@@ -18,9 +19,8 @@
             flex-direction: column;
         }
 
-        .textarea {
-            box-sizing: border-box;
-            width: 100%;
+        .json-editor {
+            height: 250px;
             margin-bottom: 12px;
         }
 
@@ -52,32 +52,52 @@
 </head>
 <body>
     <div class="wrapper">
-        <textarea rows="10" class="textarea" placeholder="Введите PRC запрос"></textarea>
+        <div class="json-editor"></div>
         <button class="button">Отправить</button>
         <div class="logs"></div>
     </div>
     <script src="/api/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/5.14.1/jsoneditor.min.js"></script>
     <script>
-        const textarea = document.querySelector('.textarea');
+        const json = {
+            "id": "",
+            "method": "",
+        };
+
+        const editor = new JSONEditor(
+            document.querySelector('.json-editor'),
+            {
+                modes: ['code', 'tree'],
+                autocomplete: {
+                    getOptions: () => ['method', 'id', 'params']
+                }
+            },
+            json
+        );
+
         const logs = document.querySelector('.logs');
         const button = document.querySelector('.button');
 
-        const socket = io.connect({ path: '/api' });
+        const socket = io.connect({
+            path: '/api',
+            transports: ['websocket'],
+            query: "client=rpccat",
+            reconnection: false
+        });
 
         socket.on('rpc', (rpc) => {
             logs.appendChild(createLog(JSON.parse(rpc), new Date(), false));
+            logs.scrollTo({ top: logs.scrollHeight, behavior: 'smooth' });
         });
 
         button.addEventListener('click', (event) => {
-            if (textarea.value) {
-                const raw = textarea.value.trim().replace(/\s+/, '');
-                const data = JSON.parse(raw);
-                data.jsonrpc = '2.0';
+            const request = editor.get();
+            request.jsonrpc = '2.0';
 
-                socket.emit('rpc', JSON.stringify(data));
-                logs.appendChild(createLog(data, new Date(), true));
-                textarea.value = null;
-            }
+            socket.emit('rpc', JSON.stringify(request));
+            logs.appendChild(createLog(request, new Date(), true));
+            logs.scrollTo({ top: logs.scrollHeight, behavior: 'smooth' });
+            editor.set(json);
 
             event.preventDefault();
         });

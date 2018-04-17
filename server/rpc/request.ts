@@ -7,7 +7,7 @@ export class Request<Params = {}> {
     private socket: Socket;
 
     public get user(): string {
-        return this.socket.handshake.query.username;
+        return this.socket.handshake.query.user;
     }
 
     public constructor(socket: Socket, params: Params, raw: JsonRpc.JsonRpcObject) {

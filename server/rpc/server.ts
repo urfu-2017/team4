@@ -35,11 +35,11 @@ export class Server {
     }
 
     private onConnection = (socket: io.Socket) => {
-        const { client, username } = socket.handshake.query;
-        const clients = this.sockets.get(username);
+        const { client = 'default', user } = socket.handshake.query;
+        const clients = this.sockets.get(user);
 
         if (clients === void 0) {
-            this.sockets.set(username, { [client]: socket });
+            this.sockets.set(user, { [client]: socket });
         } else {
             // Запрещаем два и более подключений с одного клиента
             if (clients[client]) {
@@ -49,7 +49,7 @@ export class Server {
             clients[client] = socket;
         }
 
-        socket.join(username);
+        socket.join(user);
         socket.on('rpc', this.executeRpc.bind(this, socket));
     };
 
@@ -88,11 +88,14 @@ export class Server {
         this.sessionStore.get(sid, (err, session) => {
             if (err || !session) {
                 next(new Error('authentication error'));
-                return;
+                // Ждём пока пользователю дойдёт сообщение об ошибке
+                return setTimeout(() => {
+                    socket.disconnect(true);
+                }, 300);
             }
 
             // Прикрепляем идентификатор пользователя к сокету
-            socket.handshake.query.username = session.passport.user;
+            socket.handshake.query.user = session.passport.user;
             next();
         });
     };

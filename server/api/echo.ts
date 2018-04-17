@@ -2,8 +2,8 @@ import { Request } from '../rpc/request';
 import { Response } from '../rpc/response';
 
 /**
- * Всегда отвечает присланным запросом
+ * Возвращает сообщение 'Hello, {userId}'
  */
 export default async function(request: Request, response: Response) {
-    response.success(request.raw);
+    response.success(`Hello, ${request.user}`);
 }
