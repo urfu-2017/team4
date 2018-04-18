@@ -1,0 +1,29 @@
+.dialogs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    user-select: none;
+
+    border-right: 2px solid #e9ebed;
+}
+
+.dialogs::-webkit-scrollbar-track {
+    border-radius: 4px;
+}
+
+.dialogs::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dialogs::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #f0f2f5;
+}
+
+.dialogs:hover::-webkit-scrollbar-thumb {
+    background: #6a7d9bab;
+}

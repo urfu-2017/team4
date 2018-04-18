@@ -1,12 +1,4 @@
 [![Build Status](https://travis-ci.org/urfu-2017/team4.svg?branch=master)](https://travis-ci.org/urfu-2017/team4)
-# [team4] Kilogram Messenger
+# Kilogram Messenger
 
-Инструкция по запуску
-
-Для клиенских разработчиков
-`npm run server:start` - запустить сервер
-`npm run client:start` - запустить dev-сервер для клиента
-
-Для серверных разработчиков
-`npm run client:build` - собрать статику
-`npm run server:start` - запустить сервер
+Запуск клиента `npm run client:start`

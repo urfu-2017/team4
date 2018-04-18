@@ -9,16 +9,13 @@ install:
   - npm install --only=dev
   - npm install --only=prod
 script:
-  - npm run client:lint
-  - npm run server:lint
-  - npm run client:test
-  - npm run server:test
+  - npm run lint
   - npm run client:build
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: bash ./deploy.sh
-  on: master
+#deploy:
+#  skip_cleanup: true
+#  provider: script
+#  script: bash ./deploy.sh
+#  on: master
 env:
   global:
     - secure: YnP+K9PlEY36wLsRgzxE9wsG6uoOvIXb/S/zDJf6EzdVOtwinnNdEsmESitVkuMKjz6H81UQPsp5EkMYd6ADaAwHrBhxxyeAbZmH1w3KbI5l6EgMq2QtR5J90wRCUT9aBheFsUA2+ENnGy1qaRXQCnqMyvPzlXpuwujen4OGVfVepTKKfjOWTmpwb4qp7lDv/c8Ljxosi+9aF41MHqmvnuy9wiCQe9pE8H+KRsYT8z2I8awCdquv7e8MURLYAOZrjzkR7eXtekAOeFEH2b8tCMosMIyiypbbq8Q7d24Mact/LvQuBG3cq593gjudAtxowXYYxdj7kV4LhyyXYW+FvWdx4oc03YpQbHFsZuslE1A7iDUQEOaBpITpw5mOWZayoXScm6Ed5KWu6i9+hA/ClaLB2vDnoYqHjytqUJAlZb1MS54uMgujWvW0/nXblCjrMHbUNfBYQ6J3jfcmC2zU84PqkXGAIOemcH4dVDluZnYm8dqO9B+jGp2Y/hLrh78kT5kcwjzX+SIc5q3sXDlGMnMrAiwg2I22xAhKEzPLC7thjACXLxzsYhVAhP8Qzqr1LJxpKbsqRaj+hmjcxqnZ6V1fhubbTcfoEHgibycKtfscHRTBTF+6YZ8KULjs2kSb1IEHp1zIZILqlyaOlq/droG48+1Mv0I1QEqXWlp7cwc=

@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "strict": true,
+        "strictPropertyInitialization": false,
+        "sourceMap": false,
+        "lib": ["esnext"],
+        "rootDir": "./",
+        "outDir": "../build/server",
+        "noEmitOnError": true
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["../build/server"]
+}
