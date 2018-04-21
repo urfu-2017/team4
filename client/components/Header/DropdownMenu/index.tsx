@@ -1,10 +1,14 @@
 import React from 'react';
-import './Menu.css';
+import b_ from 'b_';
+
+import './DropdownMenu.css';
 
 import uiStore from '../../../domain/ui-store';
 import usersStore from '../../../domain/users-store';
 
-class Menu extends React.Component {
+const b = b_.with('menu');
+
+class DropdownMenu extends React.Component {
     public onContactsClick = event => {
         event.preventDefault();
 
@@ -26,14 +30,14 @@ class Menu extends React.Component {
 
     public render() {
         return (
-            <nav className="menu">
-                <span className="menu__item" onClick={this.onContactsClick}>
+            <nav className={b()}>
+                <span className={b('item')} onClick={this.onContactsClick}>
                     Контакты
                 </span>
-                <span className="menu__item" onClick={this.onProfileClick}>
+                <span className={b('item')} onClick={this.onProfileClick}>
                     Профиль
                 </span>
-                <span className="menu__item" onClick={this.onExitClick}>
+                <span className={b('item')} onClick={this.onExitClick}>
                     Выйти
                 </span>
             </nav>
@@ -41,4 +45,4 @@ class Menu extends React.Component {
     }
 }
 
-export default Menu;
+export default DropdownMenu;

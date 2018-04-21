@@ -29,7 +29,6 @@ class Overlay extends React.Component<Props> {
 
     public render() {
         return (
-            // eslint-disable-next-line
             <div
                 className={`overlay ${this.props.className}`}
                 onClick={this.props.closeHandler}

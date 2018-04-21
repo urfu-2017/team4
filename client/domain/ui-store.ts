@@ -5,7 +5,7 @@ const TIMEOUT_ERROR = 5000;
 class UIStore {
     @observable.ref public showProfile = null;
 
-    @observable public menuShow = false;
+    @observable public isMenuShown = false;
     @observable public error = null;
     @observable public popupStack = [];
     @observable
@@ -27,7 +27,7 @@ class UIStore {
 
     @action
     public toggleLeftPanel = () => {
-        this.menuShow = !this.menuShow;
+        this.isMenuShown = !this.isMenuShown;
     };
 
     @action
@@ -55,7 +55,7 @@ class UIStore {
             this.displays.user = false;
         }
 
-        this.menuShow = false;
+        this.isMenuShown = false;
     }
 
     @action

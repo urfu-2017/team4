@@ -1,11 +1,15 @@
 import React from 'react';
+import b_ from 'b_';
 
 import { withRouter } from 'react-router-dom';
 import UIStore from '../../domain/ui-store';
 
 import Popup from '../Popup';
 import Head from './Head';
+
 import './UserProfile.css';
+
+const b = b_.with('user-profile');
 
 class Profile extends React.Component {
     public static closePopup() {
@@ -22,14 +26,14 @@ class Profile extends React.Component {
             <Popup
                 zIndex={300}
                 closeHandler={Profile.closePopup}
-                className="user-profile"
+                className={b()}
                 headContent={<Head closeHandler={Profile.closePopup} />}
             >
-                <section className="user-profile__data">
-                    <img src={photo} alt="Аватар" className="user-profile__avatar" />
-                    <div className="user-profile__info">
-                        <span className="user-profile__name">{displayName}</span>
-                        <span className="user-profile__username">{`@${username}`}</span>
+                <section className={b('data')}>
+                    <img src={photo} alt="Аватар" className={b('avatar')} />
+                    <div className={b('info')}>
+                        <span className={b('name')}>{displayName}</span>
+                        <span className={b('username')}>{`@${username}`}</span>
                     </div>
                 </section>
             </Popup>

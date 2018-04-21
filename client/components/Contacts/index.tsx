@@ -1,17 +1,21 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b_ from 'b_';
 
 import AddContact from '../AddContact';
 import Button from '../Button';
 import Popup from '../Popup';
 import Preloader from '../Preloader';
-import './Contacts.css';
 import Head from './Head';
 import List from './List';
 import Search from './Search';
 
+import './Contacts.css';
+
 import contactsStore from '../../domain/contacts-store';
 import uiStore from '../../domain/ui-store';
+
+const b = b_.with('contacts');
 
 interface State {
     displayAddContact: boolean;
@@ -45,21 +49,21 @@ class Contacts extends React.Component<{}, State> {
         return (
             <React.Fragment>
                 <Popup
-                    className="contacts"
+                    className={b()}
                     closeHandler={closeHandler}
                     zIndex={100}
                     headContent={<Head closeHandler={closeHandler} />}
                 >
                     {contactsStore.state === 'loading' ? (
-                        <Preloader size={50} className="contacts__preloader" />
+                        <Preloader size={50} className={b('preloader')} />
                     ) : (
                         <React.Fragment>
-                            <main className="contacts__main">
+                            <main className={b('main')}>
                                 {contactsStore.state !== 'empty' && <Search />}
                                 <List />
                             </main>
-                            <footer className="contacts__footer">
-                                <Button className="contacts__new" onClick={this.toggleAddContact}>
+                            <footer className={b('footer')}>
+                                <Button className={b('new')} onClick={this.toggleAddContact}>
                                     Добавить контакт
                                 </Button>
                             </footer>

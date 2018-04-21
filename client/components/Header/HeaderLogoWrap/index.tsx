@@ -1,26 +1,24 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b from 'b_';
 
-import UIStore from '../../../domain/ui-store';
-import Menu from '../Menu';
 import './HeaderLogoWrap.css';
 
-/* eslint-disable */
+import UIStore from '../../../domain/ui-store';
+import DropdownMenu from '../DropdownMenu';
 
 const HeaderLogoWrap = observer(() => (
-    <div className="header__logo-wrap">
+    <div className={b('header', 'logo-wrap')}>
         <div
             onClick={UIStore.toggleLeftPanel}
-            className={`header__menu hamburger ${
-                UIStore.menuShow ? 'hamburger--active' : ''
-            }`.trim()}
+            className={`${b('hamburger', { active: UIStore.isMenuShown })} ${b('header', 'menu')}`}
         >
-            <div className="hamburger__box">
-                <div className="hamburger__inner" />
+            <div className={b('hamburger', 'box')}>
+                <div className={b('hamburger', 'inner')} />
             </div>
         </div>
-        {UIStore.menuShow && <Menu />}
-        <div className="header__logo">K1logram</div>
+        {UIStore.isMenuShown && <DropdownMenu />}
+        <div className={b('header', 'logo')}>K1logram</div>
     </div>
 ));
 

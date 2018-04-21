@@ -1,15 +1,18 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b_ from 'b_';
 
 import contactsStore from '../../domain/contacts-store';
 import Contact from '../Contact';
 
-const List = observer(
+const b = b_.with('contacts');
+
+const List: React.SFC = observer(
     () =>
         contactsStore.state === 'empty' ? (
-            <p className="text contacts__empty">Похоже, вы еще никого не добавили.</p>
+            <p className={`${b('empty')} text`}>Похоже, вы еще никого не добавили.</p>
         ) : (
-            <ul className="contacts__list">
+            <ul className={b('list')}>
                 {contactsStore.filteredList.map(contact => (
                     <Contact
                         key={contact.username}
@@ -17,6 +20,7 @@ const List = observer(
                         username={contact.username}
                         firstName={contact.firstName}
                         lastName={contact.lastName}
+                        className={b('contact')}
                     />
                 ))}
             </ul>

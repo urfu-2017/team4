@@ -13,7 +13,7 @@ interface Props {
 }
 
 @observer
-class Chat extends React.Component<Props> {
+class Chat extends React.Component<Props, {}> {
     public shouldLoadHistory = () => this.props.chat.canLoadNextHistoryFrame;
 
     public loadHistory = async () => {

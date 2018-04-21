@@ -1,6 +1,9 @@
 import React from 'react';
+import b_ from 'b_';
 
 import contactsStore from '../../domain/contacts-store';
+
+const b = b_.with('contacts');
 
 class Search extends React.Component {
     private search: HTMLInputElement;
@@ -15,9 +18,9 @@ class Search extends React.Component {
 
     public render() {
         return (
-            <div className="contacts__search-wrapper">
+            <div className={b('search-wrapper')}>
                 <input
-                    className="contacts__search"
+                    className={b('search')}
                     type="search"
                     placeholder="Поиск..."
                     onInput={this.onInput}

@@ -1,4 +1,4 @@
-export default function goodDate(time) {
+export default function goodDate(time): string {
     const dt = new Date(time);
     const hours = dt.getHours();
     const minutes = String(dt.getMinutes()).padStart(2, '0');

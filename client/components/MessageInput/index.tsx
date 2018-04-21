@@ -1,15 +1,19 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
+import b_ from 'b_';
 
 import Button from '../Button';
 import OGData from '../OGData';
 import Preloader from '../Preloader';
+
 import './MessageInput.css';
 
 import ChatsStore from '../../domain/chats-store';
 import ogStore from '../../domain/og-store';
 import urlParser from '../../utils/url-parser';
+
+const b = b_.with('message-input');
 
 @observer
 class MessageInput extends React.Component {
@@ -24,7 +28,6 @@ class MessageInput extends React.Component {
         }
 
         try {
-            // eslint-disable-next-line
             this.messageInput.disabled = true;
             await ChatsStore.currentChat.sendMessage(text, ogData);
             ogStore.clear();
@@ -56,21 +59,21 @@ class MessageInput extends React.Component {
 
     public render() {
         return (
-            <section className="message-input">
+            <section className={b()}>
                 <Textarea
                     minRows={3}
                     maxRows={6}
-                    className="message-input__message"
+                    className={b('message')}
                     placeholder="Введите сообщение..."
                     onKeyPress={this.onKeyUp}
                     onInput={this.onInput}
                     inputRef={input => (this.messageInput = input) /* tslint:disable-line */}
                 />
-                <Button className="message-input__send" onClick={this.onSend}>
+                <Button className={b('send')} onClick={this.onSend}>
                     Отправить
                 </Button>
                 {ogStore.state === 'loading' ? (
-                    <Preloader className="message-input__preloader" size={40} />
+                    <Preloader className={b('preloader')} size={40} />
                 ) : (
                     this.renderOG()
                 )}

@@ -2,7 +2,7 @@ import { action, observable, runInAction } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 class UserModel {
-    public static fromJSON({ username, firstName, lastName, avatar, bio }) {
+    public static fromJSON({ username, firstName, lastName, avatar, bio }): UserModel {
         const userModel = new UserModel(username);
 
         userModel.firstName = firstName;
@@ -13,7 +13,7 @@ class UserModel {
         return userModel;
     }
 
-    @observable public isFetching = false;
+    @observable public isFetching: boolean = false;
 
     @observable.ref public username: string;
 
@@ -29,7 +29,7 @@ class UserModel {
         this.username = username;
     }
 
-    get displayName() {
+    get displayName(): string {
         const name = `${this.firstName || ''} ${this.lastName || ''}`.trim();
         return name || this.username;
     }

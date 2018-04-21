@@ -22,7 +22,6 @@ class ChatsStore {
         const chats = await RPC.request('fetchDialogs');
 
         for (const chat of chats) {
-            // eslint-disable-next-line no-continue
             if (chat === null) continue;
 
             const chatModel = new ChatModel(chat);

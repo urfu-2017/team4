@@ -1,12 +1,16 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b_ from 'b_';
 
 import uiStore from '../../domain/ui-store';
 import UsersStore from '../../domain/users-store';
 import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
+
 import './Profile.css';
+
+const b = b_.with('profile');
 
 interface State {
     avatar: string;
@@ -48,31 +52,31 @@ class Profile extends React.Component<{}, State> {
         return (
             <Popup
                 zIndex={400}
-                className="profile"
+                className={b()}
                 closeHandler={closeHandler}
                 headContent={<Head closeHandler={closeHandler} />}
             >
                 <img
-                    className="profile__avatar"
+                    className={b('avatar')}
                     src={`data:image/png;base64,${this.state.avatar}`}
                     alt="Аватар"
                 />
-                <div className="profile__username">{`@${this.state.username}`}</div>
+                <div className={b('username')}>{`@${this.state.username}`}</div>
                 <input
-                    className="profile__input"
+                    className={b('input')}
                     onChange={this.onChangeFirstName}
                     type="text"
                     value={this.state.firstName}
                     placeholder="Имя"
                 />
                 <input
-                    className="profile__input"
+                    className={b('input')}
                     onChange={this.onChangeSecondName}
                     type="text"
                     value={this.state.lastName}
                     placeholder="Фамилия"
                 />
-                <Button className="profile__save" onClick={this.saveUser}>
+                <Button className={b('save')} onClick={this.saveUser}>
                     Сохранить
                 </Button>
             </Popup>

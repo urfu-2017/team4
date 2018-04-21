@@ -74,19 +74,19 @@
     bottom: -6px;
 }
 
-.hamburger--active .hamburger__inner {
+.hamburger_active .hamburger__inner {
     transition-delay: 0.12s;
     transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     transform: rotate(45deg);
 }
 
-.hamburger--active .hamburger__inner:before {
+.hamburger_active .hamburger__inner:before {
     top: 0;
     transition: top 75ms ease, opacity 75ms ease 0.12s;
     opacity: 0;
 }
 
-.hamburger--active .hamburger__inner:after {
+.hamburger_active .hamburger__inner:after {
     bottom: 0;
     transition: bottom 75ms ease, transform 75ms cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s;
     transform: rotate(-90deg);

@@ -2,18 +2,21 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import b_ from 'b_';
 
 import ChatsStore from '../../../domain/chats-store';
 import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
-import './ItemDialog.css';
+import './DialogItem.css';
+
+const b = b_.with('dialog-list');
 
 interface Props {
     chat: any;
 }
 
 @observer
-class ItemDialog extends React.Component<Props> {
+class DialogItem extends React.Component<Props> {
     @computed
     get message() {
         const { chat } = this.props;
@@ -57,25 +60,25 @@ class ItemDialog extends React.Component<Props> {
 
     public render() {
         const { chat } = this.props;
-        const activeClassName = ChatsStore.currentChat === chat ? ' dialog-list__item--active' : '';
+        const isActiveModifier = { active: ChatsStore.currentChat === chat };
         const isMine = this.message && this.message.from === UsersStore.currentUser.username;
 
         return (
-            <Link to={`/chats/${chat.id}`} className={`dialog-list__item ${activeClassName}`}>
-                <img src={this.avatar} alt="" className="dialog-list__dialog-image" />
-                <div className="dialog-list__dialog-body">
-                    <div className="dialog-list__dialog-name" title={this.displayName}>
+            <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>
+                <img src={this.avatar} alt="Аватар" className={b('dialog-image')} />
+                <div className={b('dialog-body')}>
+                    <div className={b('dialog-name')} title={this.displayName}>
                         {this.displayName}
                     </div>
                     {this.message && (
-                        <div className="dialog-list__last-msg">
-                            <span className="dialog-list__last-msg--mine">{isMine && 'Вы: '}</span>
+                        <div className={b('last-msg')}>
+                            <span className={b('last-msg-mine')}>{isMine && 'Вы: '}</span>
                             {this.message.text}
                         </div>
                     )}
                 </div>
                 {this.message && (
-                    <div className="dialog-list__last-msg-date">
+                    <div className={b('last-msg-date')}>
                         {formatDate(this.message.createdAt)}
                     </div>
                 )}
@@ -84,4 +87,4 @@ class ItemDialog extends React.Component<Props> {
     }
 }
 
-export default ItemDialog;
+export default DialogItem;
