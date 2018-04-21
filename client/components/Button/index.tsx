@@ -1,10 +1,13 @@
 import React from 'react';
+import b_ from 'b_';
 import './Button.css';
 
 const classes = {
-    main: 'btn_theme_main',
-    heading: 'btn_theme_heading'
+    main: { theme: 'main' },
+    heading: { theme: 'heading' }
 };
+
+const b = b_.with('button');
 
 interface Props {
     className?: string;
@@ -20,7 +23,7 @@ const Button: React.SFC<Props> = ({
     type = 'main',
     disabled
 }) => (
-    <button className={`${className} ${classes[type]}`} onClick={onClick} disabled={disabled}>
+    <button className={`${className} ${b(classes[type])}`} onClick={onClick} disabled={disabled}>
         {children}
     </button>
 );

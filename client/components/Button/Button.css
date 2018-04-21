@@ -1,23 +1,25 @@
-.btn_theme_heading {
+.button {
     border: none;
 
+    cursor: pointer;
+    outline: none;
+    border-radius: 2px;
+}
+
+.button_theme_heading {
     color: #fff;
     background: transparent;
     font-weight: bold;
     opacity: 0.8;
-    cursor: pointer;
-    outline: none;
-    border-radius: 2px;
 
     transition: opacity 0.2s;
 }
 
-.btn_theme_heading:hover {
+.button_theme_heading:hover {
     opacity: 1;
 }
 
-.btn_theme_main {
-    border: none;
+.button_theme_main {
     padding: 6px 10px;
 
     background: #fff;
@@ -26,13 +28,9 @@
     font-weight: bold;
     text-transform: uppercase;
 
-    border-radius: 2px;
-    cursor: pointer;
-    outline: none;
-
     transition: background-color 0.2s;
 }
 
-.btn_theme_main:hover {
+.button_theme_main:hover {
     background: #f2f6fa;
 }
