@@ -33,7 +33,7 @@
     box-shadow: 0 2px 0 0 #1e1e1e;
 }
 
-.add-contact__input.error {
+.add-contact__input_error {
     box-shadow: 0 2px 0 0 #ed0000;
 }
 
