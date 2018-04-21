@@ -20,7 +20,7 @@ interface Props {
 }
 
 @observer
-class Message extends React.Component<Props, {}> {
+class Message extends React.Component<Props> {
     private messageText: HTMLElement;
 
     public componentDidMount() {

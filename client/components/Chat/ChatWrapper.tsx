@@ -12,7 +12,7 @@ import ChatsStore from '../../domain/chats-store';
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 @observer
-class ChatWrapper extends React.Component<Props, {}> {
+class ChatWrapper extends React.Component<Props> {
     public componentWillMount() {
         const chatId = this.props.match.params.id;
         this.setCurrentChat(chatId);

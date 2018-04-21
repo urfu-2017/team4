@@ -19,7 +19,7 @@ interface Props {
 const b = b_.with('add-contact');
 
 @observer
-class AddContact extends React.Component<Props, {}> {
+class AddContact extends React.Component<Props> {
     public componentWillUnmount() {
         userSearchStore.clear();
     }

@@ -8,8 +8,8 @@ interface Props {
     className?: string;
 }
 
-const Preloader: React.SFC<Props> = props => (
-    <div className={`loader ${props.className}`} style={{ width: props.size, height: props.size }}>
+const Preloader: React.SFC<Props> = ({ className, size, color='#515151' }) => (
+    <div className={`loader ${className}`} style={{ width: size, height: size }}>
         <svg className="loader__image" viewBox="25 25 50 50">
             <circle
                 r="20"
@@ -18,7 +18,7 @@ const Preloader: React.SFC<Props> = props => (
                 fill="none"
                 strokeWidth="3"
                 strokeMiterlimit="10"
-                stroke={props.color}
+                stroke={color}
                 className="loader__image-path"
             />
         </svg>

@@ -2,7 +2,7 @@ import React from 'react';
 import b_ from 'b_';
 import './Button.css';
 
-const classes = {
+const modifiers = {
     main: { theme: 'main' },
     heading: { theme: 'heading' }
 };
@@ -23,7 +23,7 @@ const Button: React.SFC<Props> = ({
     type = 'main',
     disabled
 }) => (
-    <button className={`${className} ${b(classes[type])}`} onClick={onClick} disabled={disabled}>
+    <button className={`${className} ${b(modifiers[type])}`} onClick={onClick} disabled={disabled}>
         {children}
     </button>
 );

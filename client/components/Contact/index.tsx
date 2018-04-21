@@ -21,7 +21,7 @@ interface Props extends RouteComponentProps<{}> {
 }
 
 @observer
-class Contact extends React.Component<Props, {}> {
+class Contact extends React.Component<Props> {
     @observable public isCreating = false;
 
     public goToChat = async () => {

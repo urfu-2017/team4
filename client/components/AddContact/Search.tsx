@@ -9,7 +9,7 @@ interface Props {
 }
 
 @observer
-class Search extends React.Component<Props, {}> {
+class Search extends React.Component<Props> {
     private usernameInput: HTMLInputElement;
 
     public componentDidMount() {
