@@ -79,7 +79,7 @@
         "client:build": "NODE_ENV=production webpack",
         "server:start": "ts-node --project ./server/tsconfig.json ./server/index.ts",
         "server:build": "tsc -p server/tsconfig.json",
-        "lint": "tslint **/*.ts{,x} --fix && stylelint *.css client/**/*.css"
+        "lint": "tslint -c \"./tslint.json\" **/*.ts{,x} && stylelint *.css client/**/*.css"
     },
     "prettier": {
         "printWidth": 100,
