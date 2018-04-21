@@ -1,5 +1,8 @@
 import { BelongsToMany, Column, Model, Table } from 'sequelize-typescript';
-import { UserContacts } from './user-contacts';
+
+import { Contacts } from './contacts';
+import { Chat } from './chat';
+import { Members } from './members';
 
 @Table({ timestamps: true, tableName: 'users' })
 export class User extends Model<User> {
@@ -24,6 +27,9 @@ export class User extends Model<User> {
     @Column({ defaultValue: true })
     public isUsedBot: boolean;
 
-    @BelongsToMany(() => User, () => UserContacts, 'userId', 'contactId')
+    @BelongsToMany(() => User, () => Contacts, 'userId', 'contactId')
     public contacts: User[];
+
+    @BelongsToMany(() => Chat, () => Members, 'userId', 'chatId')
+    public chats: Chat[];
 }
