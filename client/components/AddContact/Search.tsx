@@ -1,10 +1,15 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b from 'b_';
 
 import userSearchStore from '../../domain/user-search-store';
 
+interface Props {
+    className: string
+}
+
 @observer
-class Search extends React.Component {
+class Search extends React.Component<Props, {}> {
     private usernameInput: HTMLInputElement;
 
     public componentDidMount() {
@@ -28,7 +33,7 @@ class Search extends React.Component {
     public render() {
         return (
             <input
-                className={`add-contact__input${userSearchStore.hasError ? ' error' : ''}`}
+                className={b(this.props.className, {error: userSearchStore.hasError})}
                 placeholder="Имя пользователя..."
                 ref={input => {
                     this.usernameInput = input;

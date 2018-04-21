@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b_ from 'b_';
 
 import Button from '../Button';
 import Contact from '../Contact';
@@ -15,8 +16,10 @@ interface Props {
     closeHandler: () => void;
 }
 
+const b = b_.with('add-contact');
+
 @observer
-class AddContact extends React.Component<Props> {
+class AddContact extends React.Component<Props, {}> {
     public componentWillUnmount() {
         userSearchStore.clear();
     }
@@ -33,40 +36,31 @@ class AddContact extends React.Component<Props> {
 
     public render() {
         return (
-            <Popup className="add-contact" closeHandler={this.props.closeHandler} zIndex={200}>
-                <h2 className="add-contact__heading header3">Добавить контакт</h2>
-                <div className="add-contact__search-zone">
+            <Popup className={b()} closeHandler={this.props.closeHandler} zIndex={200}>
+                <h2 className={`${b('heading')} header3`}>Добавить контакт</h2>
+                <div className={b('search-zone')}>
                     {userSearchStore.state === 'loaded' ? (
-                        <Contact {...userSearchStore.user} />
+                        <Contact {...userSearchStore.user}/>
                     ) : (
-                        <Search />
+                        <Search className={b('input')}/>
                     )}
                 </div>
-                <div className="add-contact__buttons">
+                <div className={b('buttons')}>
                     {userSearchStore.state === 'loaded' ? (
                         <React.Fragment>
-                            <Button
-                                className="add-contact__clear-btn"
-                                onClick={userSearchStore.clear}
-                            >
+                            <Button className={b('clear-btn')} onClick={userSearchStore.clear}>
                                 Сбросить
                             </Button>
-                            <Button className="add-contact__add-btn" onClick={this.addUser}>
+                            <Button className={b('add-btn')} onClick={this.addUser}>
                                 Добавить
                             </Button>
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            <Button
-                                className="add-contact__cancel-btn"
-                                onClick={this.props.closeHandler}
-                            >
+                            <Button className={b('cancel-btn')} onClick={this.props.closeHandler}>
                                 Отмена
                             </Button>
-                            <Button
-                                className="add-contact__find-btn"
-                                onClick={userSearchStore.searchUser}
-                            >
+                            <Button className={b('find-btn')} onClick={userSearchStore.searchUser}>
                                 Найти
                             </Button>
                         </React.Fragment>
@@ -74,8 +68,8 @@ class AddContact extends React.Component<Props> {
                 </div>
                 {userSearchStore.state === 'loading' && (
                     <React.Fragment>
-                        <Preloader size={50} className="add-contact__preloader" />
-                        <div className="add-contact__preloader-overlay" />
+                        <Preloader size={50} className={b('preloader')}/>
+                        <div className={b('preloader-overlay')}/>
                     </React.Fragment>
                 )}
             </Popup>
