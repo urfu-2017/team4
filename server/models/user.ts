@@ -18,10 +18,10 @@ export class User extends Model<User> {
     @Column
     public lastName: string;
 
-    @Column
+    @Column({ defaultValue: null })
     public avatar: string;
 
-    @Column
+    @Column({ defaultValue: null })
     public bio: string;
 
     @Column({ defaultValue: true })
