@@ -1,14 +1,17 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2017",
         "module": "commonjs",
         "strict": true,
         "strictPropertyInitialization": false,
         "sourceMap": false,
-        "lib": ["esnext"],
+        "lib": ["es6", "es7", "esnext", "dom"],
         "rootDir": "./",
         "outDir": "../build/server",
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "importHelpers": true
     },
     "include": ["**/*.ts"],
     "exclude": ["../build/server"]
