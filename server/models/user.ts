@@ -9,7 +9,7 @@ export class User extends Model<User> {
     @Column({ primaryKey: true })
     public id: number;
 
-    @Column({ unique: true })
+    @Column({ unique: true, allowNull: false })
     public username: string;
 
     @Column

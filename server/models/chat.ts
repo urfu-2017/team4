@@ -1,4 +1,4 @@
-import { BelongsTo, BelongsToMany, Column, DataType, HasMany, IsIn, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, ForeignKey, HasMany, IsIn, Model, Table } from 'sequelize-typescript';
 import { User } from './user';
 import { Members } from './members';
 import { Message } from './message';
@@ -15,8 +15,9 @@ export class Chat extends Model<Chat> {
     @Column({ allowNull: false })
     public name: string;
 
-    @BelongsTo(() => User, 'owner_id')
-    public owner: User;
+    @ForeignKey(() => User)
+    @Column
+    public ownerId: number;
 
     @BelongsToMany(() => User, () => Members, 'chatId', 'userId')
     public members: User[];

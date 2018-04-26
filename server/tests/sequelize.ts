@@ -5,5 +5,6 @@ export const sequelize = new Sequelize({
     dialect: 'sqlite',
     username: 'root',
     password: '',
-    storage: ':memory:'
+    storage: ':memory:',
+    logging: false
 });
