@@ -1,3 +1,7 @@
+declare module 'base64-stream' {
+    export function encode(): any;
+}
+
 declare module 'jsonrpc-lite' {
     export interface JsonRpcObject {
         jsonrpc: '2.0';

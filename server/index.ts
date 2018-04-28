@@ -5,6 +5,7 @@ import * as expressSession from 'express-session';
 
 import * as config from './config';
 import { configurePassport } from './passport';
+import { createUser } from './helpers/createUser';
 
 import { sequelize } from './sequelize';
 import { configureModels } from './models';
@@ -14,7 +15,7 @@ import { getMethods } from './api';
 
 const app = express();
 const sessionStore = new expressSession.MemoryStore();
-const { passport, router } = configurePassport(() => Promise.resolve());
+const { passport, router } = configurePassport(createUser);
 
 app.use(compression());
 app.use(
