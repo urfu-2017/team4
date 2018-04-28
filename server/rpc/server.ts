@@ -13,7 +13,7 @@ export type RpcHandler = (req: Request<any>, res: Response) => void;
 
 export class Server {
     private socketServer: io.Server;
-    private sockets: Map<string, Record<string, io.Socket>>;
+    private sockets: Map<string, io.Socket[]>;
 
     private readonly sessionStore: Store;
     private readonly methods: Record<string, RpcHandler>;
@@ -21,7 +21,7 @@ export class Server {
     public constructor(methods: Record<string, RpcHandler>, sessionStore: Store) {
         this.methods = methods;
         this.sessionStore = sessionStore;
-        this.sockets = new Map<string, Record<string, io.Socket>>();
+        this.sockets = new Map<string, io.Socket[]>();
     }
 
     public listen(httpServer: HttpServer): void {
@@ -34,24 +34,51 @@ export class Server {
         this.socketServer.on('connection', this.onConnection);
     }
 
+    public subcribeUser(userId: string, chanel: string) {
+        const sockets = this.sockets.get(userId);
+
+        if (sockets) {
+            sockets.forEach(socket => socket.join(chanel));
+        }
+    }
+
+    public unsubscribeUser(userId: string, chanel: string) {
+        const sockets = this.sockets.get(userId);
+
+        if (sockets) {
+            sockets.forEach(socket => socket.leave(chanel));
+        }
+    }
+
     private onConnection = (socket: io.Socket) => {
-        const { client = 'default', user } = socket.handshake.query;
+        const { user } = socket.handshake.query;
         const clients = this.sockets.get(user);
 
         if (clients === void 0) {
-            this.sockets.set(user, { [client]: socket });
+            this.sockets.set(user, [socket]);
         } else {
-            // Запрещаем два и более подключений с одного клиента
-            if (clients[client]) {
-                clients[client].disconnect(true);
-            }
-
-            clients[client] = socket;
+            clients.push(socket);
         }
 
         socket.join(user);
         socket.on('rpc', this.executeRpc.bind(this, socket));
+        socket.on('disconnect', this.disconnect.bind(this, socket));
     };
+
+    private disconnect(socket: io.Socket) {
+        const { user } = socket.handshake.query;
+        let sockets = this.sockets.get(user);
+
+        if (sockets) {
+            sockets = sockets.filter(s => s.id !== socket.id);
+
+            if (sockets.length === 0) {
+                this.sockets.delete(user);
+            } else {
+                this.sockets.set(user, sockets);
+            }
+        }
+    }
 
     private async executeRpc(socket: io.Socket, rpc: any) {
         try {
@@ -67,15 +94,15 @@ export class Server {
                 throw JsonRpc.JsonRpcError.methodNotFound(payload.method);
             }
 
-            const request = new Request(socket, payload.params, payload);
+            const request = new Request(this, socket, payload.params, payload);
             const response = new Response(payload.id, socket);
 
             await method(request, response);
         } catch (error) {
             if (error instanceof JsonRpc.JsonRpcError) {
-                socket.emit('rpc', error);
+                socket.emit('rpc', JSON.stringify(error));
             } else {
-                socket.emit('rpc', JsonRpc.JsonRpcError.internalError(error));
+                socket.emit('rpc', JSON.stringify(JsonRpc.JsonRpcError.internalError(error)));
             }
         }
     }

@@ -21,9 +21,9 @@ export class Response {
         this.send(JsonRpc.error(this.id, error));
     }
 
-    public notification(room: string, name: string, payload: any): void {
+    public notification(channel: string, name: string, payload: any): void {
         const notification = JsonRpc.notification(name, payload);
-        this.socket.to(room).emit('rpc', JSON.stringify(notification));
+        this.socket.to(channel).emit('rpc', JSON.stringify(notification));
     }
 
     private send(packet: JsonRpc.JsonRpcObject): void {

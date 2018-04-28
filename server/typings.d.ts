@@ -1,3 +1,7 @@
+declare module 'retricon-without-canvas' {
+    export const methods: any;
+}
+
 declare module 'base64-stream' {
     export function encode(): any;
 }
