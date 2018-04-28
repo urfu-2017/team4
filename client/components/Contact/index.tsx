@@ -60,7 +60,7 @@ class Contact extends React.Component<Props> {
                     </span>
                     <span className={b('login')}>{`@${username}`}</span>
                 </div>
-                {this.isCreating && <Preloader size={24} className={b('preloader')} />}
+                {this.isCreating && <Preloader size={24} className={b('preloader')}/>}
             </div>
         );
     }
