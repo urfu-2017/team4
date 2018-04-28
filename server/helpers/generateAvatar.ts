@@ -11,14 +11,17 @@ const options = {
     tiles: 5
 };
 
-export const generateAvatar = (sid: string) => new Promise<string>((resolve, reject) => {
-    const pngB64 = (retricon as any)(sid, options).pngStream().pipe(base64.encode());
-    let result = '';
+export const generateAvatar = (sid: string) =>
+    new Promise<string>((resolve, reject) => {
+        const pngB64 = (retricon as any)(sid, options)
+            .pngStream()
+            .pipe(base64.encode());
+        let result = '';
 
-    pngB64.on('data', (chunk: string) => {
-        result += chunk;
+        pngB64.on('data', (chunk: string) => {
+            result += chunk;
+        });
+
+        pngB64.on('error', (error: Error) => reject(error));
+        pngB64.on('end', () => resolve(result));
     });
-
-    pngB64.on('error', (error: Error) => reject(error));
-    pngB64.on('end', () => resolve(result));
-});
