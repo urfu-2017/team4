@@ -1,3 +1,11 @@
+declare module 'retricon-without-canvas' {
+    export const methods: any;
+}
+
+declare module 'base64-stream' {
+    export function encode(): any;
+}
+
 declare module 'jsonrpc-lite' {
     export interface JsonRpcObject {
         jsonrpc: '2.0';
