@@ -34,19 +34,19 @@ export class Server {
         this.socketServer.on('connection', this.onConnection);
     }
 
-    public subcribeUser(userId: string, chanel: string) {
+    public subcribeUser(userId: string, channel: string) {
         const sockets = this.sockets.get(userId);
 
         if (sockets) {
-            sockets.forEach(socket => socket.join(chanel));
+            sockets.forEach(socket => socket.join(channel));
         }
     }
 
-    public unsubscribeUser(userId: string, chanel: string) {
+    public unsubscribeUser(userId: string, channel: string) {
         const sockets = this.sockets.get(userId);
 
         if (sockets) {
-            sockets.forEach(socket => socket.leave(chanel));
+            sockets.forEach(socket => socket.leave(channel));
         }
     }
 
