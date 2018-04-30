@@ -51,7 +51,7 @@ class Contact extends React.Component<Props> {
                 title="Перейти в чат"
             >
                 <img
-                    src={avatar ? `data:image/png;base64,${avatar}` : ''}
+                    src={avatar || ''}
                     alt="Аватар"
                     className={b('avatar')}
                 />

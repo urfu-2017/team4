@@ -42,7 +42,7 @@ class Message extends React.Component<Props> {
         const { from, text, createdAt, ogData } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user
-            ? `data:image/png;base64,${this.user.avatar}`
+            ? this.user.avatar
             : 'https://server.adorable.io/avatars/128/abott@adorable.png';
 
         return (

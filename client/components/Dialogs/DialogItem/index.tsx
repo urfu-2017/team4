@@ -51,7 +51,7 @@ class DialogItem extends React.Component<Props> {
     @computed
     get avatar() {
         if (this.user && this.user.avatar) {
-            return `data:image/png;base64,${this.user.avatar}`;
+            return this.user.avatar;
         }
 
         const letter = this.props.chat.type === 'dialog' ? 'D' : 'R';

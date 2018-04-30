@@ -19,7 +19,7 @@ class Profile extends React.Component {
     public render() {
         const { displayName, avatar, username } = UIStore.showProfile;
         const photo = avatar
-            ? `data:image/png;base64,${avatar}`
+            ? avatar
             : 'https://server.adorable.io/avatars/128/abott@adorable.png';
 
         return (
