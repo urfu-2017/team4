@@ -9,7 +9,7 @@ export class Request<Params = {}> {
 
     private socket: Socket;
 
-    public get user(): string {
+    public get user(): number {
         return this.socket.handshake.query.user;
     }
 

@@ -28,18 +28,19 @@ class UserSearchStore {
         }
 
         this.state = 'loading';
-        let user;
+        let users;
 
         try {
-            user = await RPC.request('fetchUser', { username: this.query });
+            users = await RPC.request('findUsers', { username: this.query });
         } catch (e) {
-            user = null;
+            users = null;
         }
 
         // Вызываем только если ожидаем результат
         if (this.state === 'loading') {
             runInAction(() => {
-                this.user = user;
+                // FIXME несколько вариантов
+                this.user = users[0];
                 this.state = this.user ? 'loaded' : 'notFound';
             });
         }

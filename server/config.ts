@@ -6,7 +6,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const frontendHostProd = 'https://k1logram.now.sh';
 const backendHostProd = 'https://k1logram.now.sh';
 
-const frontendHostDev = 'http://localhost:8080';
+const frontendHostDev = 'http://localhost:3000';
 const backendHostDev = 'http://localhost:8080';
 
 export const SERVER_PORT = 8080;

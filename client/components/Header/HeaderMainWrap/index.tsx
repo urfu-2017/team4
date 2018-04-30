@@ -11,11 +11,11 @@ const HeaderMainWrap = observer(() => {
 
     if (chat !== null) {
         if (chat.type === 'dialog') {
-            const currentUsername = UsersStore.currentUser.username;
-            const otherUsername = chat.members.filter(member => member !== currentUsername)[0];
-            const otherUser = UsersStore.users.get(otherUsername || currentUsername);
+            const currentUserId = UsersStore.currentUser.id;
+            const otherUser = chat.members.find(member => member.id !== currentUserId);
+            const otherUserModel = UsersStore.users.get(otherUser ? otherUser.id : currentUserId);
 
-            message = otherUser.displayName;
+            message = otherUserModel.displayName;
         } else {
             message = `${chat.name} (${chat.members.length} участников)`;
         }

@@ -26,7 +26,6 @@ export class Server {
 
     public listen(httpServer: HttpServer): void {
         this.socketServer = io.listen(httpServer, {
-            path: '/api',
             serveClient: true
         });
 
@@ -34,11 +33,20 @@ export class Server {
         this.socketServer.on('connection', this.onConnection);
     }
 
-    public subcribeUser(userId: string, channel: string) {
-        const sockets = this.sockets.get(userId);
+    public async subscribeUser(userId: string | number, channel: string) {
+        const sockets = this.sockets.get(String(userId));
 
         if (sockets) {
-            sockets.forEach(socket => socket.join(channel));
+            await Promise.all(sockets.map(socket => new Promise((resolve, reject) => {
+                socket.join(channel, err => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    resolve();
+                });
+            })));
         }
     }
 
@@ -99,6 +107,7 @@ export class Server {
 
             await method(request, response);
         } catch (error) {
+            console.error(error);
             if (error instanceof JsonRpc.JsonRpcError) {
                 socket.emit('rpc', JSON.stringify(error));
             } else {

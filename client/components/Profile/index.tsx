@@ -43,7 +43,7 @@ class Profile extends React.Component<{}, State> {
     }
 
     public async saveUser() {
-        await UsersStore.saveCurrentUser(this.state);
+        await UsersStore.updateCurrentUser(this.state);
     }
 
     public render() {
@@ -58,7 +58,7 @@ class Profile extends React.Component<{}, State> {
             >
                 <img
                     className={b('avatar')}
-                    src={`data:image/png;base64,${this.state.avatar}`}
+                    src={this.state.avatar}
                     alt="Аватар"
                 />
                 <div className={b('username')}>{`@${this.state.username}`}</div>

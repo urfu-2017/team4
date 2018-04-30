@@ -15,7 +15,8 @@ const List: React.SFC = observer(
             <ul className={b('list')}>
                 {contactsStore.filteredList.map(contact => (
                     <Contact
-                        key={contact.username}
+                        key={contact.id}
+                        id={contact.id}
                         avatar={contact.avatar}
                         username={contact.username}
                         firstName={contact.firstName}

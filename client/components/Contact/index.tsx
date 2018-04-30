@@ -13,6 +13,7 @@ import './Contact.css';
 const b = b_.with('contact');
 
 interface Props extends RouteComponentProps<{}> {
+    id: string;
     username: string;
     avatar?: string;
     firstName?: string;
@@ -27,12 +28,12 @@ class Contact extends React.Component<Props> {
     public goToChat = async () => {
         if (this.isCreating) return;
 
-        const { username } = this.props;
-        let chat = ChatsStore.findDialog(username);
+        const { id } = this.props;
+        let chat = ChatsStore.findDialog(id);
 
         if (!chat) {
             this.isCreating = true;
-            chat = await ChatsStore.createChat('dialog', [username]);
+            chat = await ChatsStore.createChat('dialog', [id]);
             this.isCreating = false;
         }
 
@@ -50,7 +51,7 @@ class Contact extends React.Component<Props> {
                 title="Перейти в чат"
             >
                 <img
-                    src={avatar ? `data:image/png;base64,${avatar}` : ''}
+                    src={avatar || ''}
                     alt="Аватар"
                     className={b('avatar')}
                 />
