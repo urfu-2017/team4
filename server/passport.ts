@@ -31,7 +31,6 @@ export function configurePassport(userCreation: UserCreation) {
         done(null, id);
     });
 
-
     const router = express.Router();
 
     router.get('/', passport.authenticate('github'));

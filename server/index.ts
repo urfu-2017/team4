@@ -5,13 +5,17 @@ import * as expressSession from 'express-session';
 
 import * as config from './config';
 import { configurePassport } from './passport';
+import { createUser } from './helpers/createUser';
+
+import { sequelize } from './sequelize';
+import { configureModels } from './models';
 
 import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
 
 const app = express();
 const sessionStore = new expressSession.MemoryStore();
-const { passport, router } = configurePassport(() => Promise.resolve());
+const { passport, router } = configurePassport(createUser);
 
 app.use(compression());
 app.use(
@@ -37,9 +41,13 @@ app.get('/rpccat', (req, res) => {
     res.sendFile(path.resolve(__dirname, './rpccat.html'));
 });
 
-const server = app.listen(8080, () => {
-    const { address, port } = server.address();
-    console.info(`Сервер запущен по адресу http://${address}:${port}`);
-});
+(async () => {
+    await configureModels(sequelize);
 
-new RpcServer(getMethods(), sessionStore as any).listen(server);
+    const server = app.listen(8080, () => {
+        const { address, port } = server.address();
+        console.info(`Сервер запущен по адресу http://${address}:${port}`);
+    });
+
+    new RpcServer(getMethods(), sessionStore as any).listen(server);
+})();
