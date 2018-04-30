@@ -11,4 +11,4 @@ async function configureModels(sequilize: Sequelize) {
     await sequilize.sync({ force: true });
 }
 
-export { User, Contacts, Chat, Members, configureModels };
+export { User, Contacts, Chat, Message, Members, configureModels };

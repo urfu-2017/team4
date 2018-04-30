@@ -33,11 +33,11 @@ class DialogItem extends React.Component<Props> {
         const { chat } = this.props;
 
         if (chat.type === 'dialog') {
-            const currentUsername = UsersStore.currentUser.username;
-            const otherUsername = chat.members.filter(member => member !== currentUsername)[0];
-            const otherUser = UsersStore.users.get(otherUsername || currentUsername);
+            const currentUserId = UsersStore.currentUser.id;
+            const otherUser = chat.members.filter(member => member.id !== currentUserId)[0];
+            const user = UsersStore.users.get(otherUser ? otherUser.id : currentUserId);
 
-            return otherUser || null;
+            return user || null;
         }
 
         return null;

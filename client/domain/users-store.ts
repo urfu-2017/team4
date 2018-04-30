@@ -7,28 +7,31 @@ class UsersStore {
     @observable.shallow public users = new Map();
 
     public async fetchCurrentUser() {
-        const user = await RPC.request('fetchUser');
-        const userModel = UserModel.fromJSON(user);
-
-        this.users.set(userModel.username, userModel);
-        this.currentUser = userModel;
+        const user = await RPC.request('getCurrentUser');
+        this.currentUser = this.saveUser(user);
     }
 
-    public async fetchUser(username) {
-        if (this.users.has(username)) {
+    public async fetchUser(userId) {
+        if (this.users.has(userId)) {
             return;
         }
 
-        const userModel = new UserModel(username);
-        this.users.set(username, userModel);
-        userModel.fetch();
+        const userModel = new UserModel(userId);
+        this.users.set(userId, userModel);
+        await userModel.fetch();
     }
 
-    public async saveCurrentUser(user) {
-        await RPC.request('saveUser', user);
+    public saveUser(userFromJson): UserModel {
+        const userModel = UserModel.fromJSON(userFromJson);
+        this.users.set(userModel.id, userModel);
+        return userModel;
+    }
+
+    public async updateCurrentUser(user) {
+        await RPC.request('updateCurrentUser', { user });
 
         const userModel = UserModel.fromJSON(user);
-        this.users.set(userModel.username, userModel);
+        this.users.set(userModel.id, userModel);
         this.currentUser = userModel;
     }
 

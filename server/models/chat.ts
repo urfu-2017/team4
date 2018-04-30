@@ -5,18 +5,18 @@ import { Message } from './message';
 
 @Table({ timestamps: true })
 export class Chat extends Model<Chat> {
-    @Column({ type: DataType.UUIDV4, primaryKey: true })
+    @Column({ type: DataType.UUIDV4, primaryKey: true, allowNull: false })
     public id: string;
 
     @IsIn([['room', 'dialog']])
-    @Column({ allowNull: false })
+    @Column({ type: DataType.ENUM('room', 'dialog'), allowNull: false })
     public type: string;
 
-    @Column({ allowNull: false })
+    @Column({ type: DataType.STRING, allowNull: false })
     public name: string;
 
     @ForeignKey(() => User)
-    @Column
+    @Column({ type: DataType.INTEGER })
     public ownerId: number;
 
     @BelongsToMany(() => User, () => Members, 'chatId', 'userId')

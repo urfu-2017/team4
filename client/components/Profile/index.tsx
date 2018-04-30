@@ -43,7 +43,7 @@ class Profile extends React.Component<{}, State> {
     }
 
     public async saveUser() {
-        await UsersStore.saveCurrentUser(this.state);
+        await UsersStore.updateCurrentUser(this.state);
     }
 
     public render() {

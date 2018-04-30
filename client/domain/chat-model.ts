@@ -18,12 +18,6 @@ export default class ChatModel {
         return this.messages[this.messages.length - 1] || null;
     }
 
-    @computed
-    get canLoadNextHistoryFrame() {
-        const firstMessage = this.messages[0];
-        return !(this.isFetching || !firstMessage || Number(firstMessage.frame) <= 0);
-    }
-
     constructor({ id, name, members, owner, type }) {
         this.id = id;
         this.name = name;
@@ -33,29 +27,25 @@ export default class ChatModel {
     }
 
     public async join() {
-        try {
-            this.isFetching = true;
-            this.messages = await RPC.request('joinToDialog', { chatId: this.id }, 15000);
-        } finally {
-            this.isFetching = false;
-        }
+        await this.loadNextHistoryFrame();
+        await RPC.request('subscribeToChat', { chatId: this.id }, 15000)
     }
 
     public async loadNextHistoryFrame() {
-        if (!this.canLoadNextHistoryFrame) {
+        if (this.isFetching) {
             return;
         }
 
         try {
-            const firstMessage = this.messages[0];
-            const firstFrame = Number(firstMessage.frame);
-
             this.isFetching = true;
+
+            const oldestMessage = this.messages[0];
+
             const messages = await RPC.request(
-                'fetchHistory',
+                'getChatMessages',
                 {
                     chatId: this.id,
-                    frame: firstFrame - 1
+                    from: oldestMessage ? oldestMessage.creationDate : null
                 },
                 15000
             );
@@ -70,7 +60,7 @@ export default class ChatModel {
         const params = {
             chatId: this.id,
             text,
-            ogData
+            meta: ogData
         };
 
         const response = await RPC.request('sendMessage', params, 15000);

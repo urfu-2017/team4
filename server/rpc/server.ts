@@ -26,7 +26,6 @@ export class Server {
 
     public listen(httpServer: HttpServer): void {
         this.socketServer = io.listen(httpServer, {
-            path: '/api',
             serveClient: true
         });
 
@@ -99,6 +98,7 @@ export class Server {
 
             await method(request, response);
         } catch (error) {
+            console.error(error);
             if (error instanceof JsonRpc.JsonRpcError) {
                 socket.emit('rpc', JSON.stringify(error));
             } else {

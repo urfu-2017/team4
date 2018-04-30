@@ -1,6 +1,7 @@
 import { action, computed, observable, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
+import UsersStore from './users-store'
 
 class ContactsStore {
     @observable public list = [];
@@ -28,7 +29,7 @@ class ContactsStore {
     @action
     public async loadList() {
         try {
-            const list = await RPC.request('fetchContacts');
+            const list = UsersStore.currentUser.contacts;
             runInAction(() => {
                 this.list = list;
                 this.state = this.list.length ? 'loaded' : 'empty';
@@ -42,13 +43,12 @@ class ContactsStore {
 
     @action
     public async add(user) {
-        const { username } = user;
-        if (!username) {
+        if (!user.id) {
             return;
         }
 
         try {
-            const contact = await RPC.request('addContact', { username });
+            const contact = await RPC.request('addContact', { contactId: user.id });
             runInAction(() => {
                 this.list.push(contact);
                 this.state = 'loaded';

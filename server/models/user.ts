@@ -1,30 +1,30 @@
-import { BelongsToMany, Column, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, Model, Table, DataType } from 'sequelize-typescript';
 
 import { Contacts } from './contacts';
 import { Chat } from './chat';
 import { Members } from './members';
 
-@Table({ timestamps: true, tableName: 'users' })
+@Table({ timestamps: true, tableName: 'user' })
 export class User extends Model<User> {
-    @Column({ primaryKey: true })
-    public id: number;
-
-    @Column({ unique: true, allowNull: false })
+    @Column({ type: DataType.STRING, unique: true, allowNull: false })
     public username: string;
 
-    @Column
+    @Column({ type: DataType.STRING })
     public firstName: string;
 
-    @Column
+    @Column({ type: DataType.STRING })
     public lastName: string;
 
-    @Column({ defaultValue: null })
+    @Column({ type: DataType.STRING, defaultValue: null })
     public avatar: string;
 
-    @Column({ defaultValue: null })
+    @Column({ type: DataType.STRING, defaultValue: null })
     public bio: string;
 
-    @Column({ defaultValue: true })
+    @Column({ type: DataType.STRING, defaultValue: null })
+    public profileUrl: string;
+
+    @Column({ type: DataType.BOOLEAN, defaultValue: true })
     public isUsedBot: boolean;
 
     @BelongsToMany(() => User, () => Contacts, 'userId', 'contactId')

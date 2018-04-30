@@ -9,19 +9,19 @@ import { User } from './user';
     }]
 })
 export class Message extends Model<Message> {
-    @Column({ type: DataType.UUIDV4, primaryKey: true })
+    @Column({ type: DataType.UUIDV4, primaryKey: true, allowNull: false })
     public id: string;
 
     @ForeignKey(() => User)
-    @Column({ allowNull: false })
+    @Column({ type: DataType.INTEGER, allowNull: false })
     public senderId: number;
 
     @ForeignKey(() => Chat)
-    @Column({ allowNull: false })
+    @Column({ type: DataType.UUIDV4, allowNull: false })
     public chatId: string;
 
     @Column({ type: DataType.TEXT, allowNull: false })
-    public message: string;
+    public text: string;
 
     @Column({ type: DataType.JSONB })
     public meta: any;

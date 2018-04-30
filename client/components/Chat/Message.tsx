@@ -29,8 +29,8 @@ class Message extends React.Component<Props> {
 
     @computed
     get user() {
-        const username = this.props.message.from;
-        return UsersStore.users.get(username);
+        const userId = this.props.message.senderId;
+        return UsersStore.users.get(userId);
     }
 
     public showUserProfile = event => {

@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { Column, ForeignKey, Model, Table, DataType } from 'sequelize-typescript';
 
 import { Chat } from './chat';
 import { User } from './user';
@@ -6,10 +6,10 @@ import { User } from './user';
 @Table
 export class Members extends Model<Members> {
     @ForeignKey(() => User)
-    @Column({ primaryKey: true })
+    @Column({ type: DataType.INTEGER, primaryKey: true })
     public userId: number;
 
     @ForeignKey(() => Chat)
-    @Column({ primaryKey: true })
+    @Column({ type: DataType.INTEGER, primaryKey: true })
     public chatId: number;
 }

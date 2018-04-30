@@ -18,30 +18,27 @@ class ChatsStore {
         RPC.addListener('newMessage', this.onNewMessage);
     }
 
-    public async init() {
-        const chats = await RPC.request('fetchDialogs');
+    public init() {
+        const chats = UsersStore.currentUser.chats;
 
-        for (const chat of chats) {
-            if (chat === null) continue;
-
-            const chatModel = new ChatModel(chat);
-            this.chatsMap.set(chat.id, chatModel);
-
-            chatModel.members.forEach(username => {
-                UsersStore.fetchUser(username);
-            });
-
+        chats.filter(chat => chat !== null).forEach(chat => {
+            const chatModel = this.saveChat(chat);
             chatModel.join();
-        }
+        });
     }
 
     public async createChat(type, members, name = '') {
-        const chat = await RPC.request('createDialog', { type, members, name }, 15000);
-        const chatModel = new ChatModel(chat);
+        const chat = await RPC.request('createChat', { type, members, name }, 15000);
+        const chatModel = this.saveChat(chat);
         await chatModel.join();
+        return chatModel;
+    }
 
-        chatModel.members.forEach(username => {
-            UsersStore.fetchUser(username);
+    public saveChat(chat): ChatModel {
+        const chatModel = new ChatModel(chat);
+
+        chatModel.members.forEach(user => {
+            UsersStore.saveUser(user);
         });
 
         this.chatsMap.set(chat.id, chatModel);
@@ -53,13 +50,12 @@ class ChatsStore {
         this.currentChat = this.chatsMap.get(chatId);
     }
 
-    public findDialog(username) {
-        const currentUsername = UsersStore.currentUser.username;
+    public findDialog(userId) {
+        const dialog = Array.from(this.chatsMap.values())
+            .find(chat => chat.type === 'dialog' &&
+                chat.members.map(member => member.id).includes(userId));
 
-        const id = [currentUsername, username].sort((a, b) => a.localeCompare(b)).join('_');
-        const chat = this.chatsMap.get(id);
-
-        return chat || null;
+        return dialog || null;
     }
 
     private onNewMessage = async message => {
@@ -71,17 +67,12 @@ class ChatsStore {
             chat.onRecieveMessage(message);
         } else {
             // Добавляем новый чат
-            const newChat = await RPC.request('fetchDialog', { chatId });
+            const newChat = await RPC.request('getChatInfo', { chatId, subscribe: true });
 
             if (newChat) {
                 // Запрашиваем историю сообщений
-                const chatModel = new ChatModel(newChat);
+                const chatModel = this.saveChat(newChat);
                 await chatModel.join();
-                this.chatsMap.set(newChat.id, chatModel);
-
-                chatModel.members.forEach(username => {
-                    UsersStore.fetchUser(username);
-                });
             }
         }
     };
