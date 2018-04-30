@@ -2,15 +2,15 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import Button from '../Button';
-import Contact from '../Contact';
-import Popup from '../Popup';
-import Preloader from '../Preloader';
+import Button from '../../Button/index';
+import Contact from '../Contact/index';
+import Popup from '../../Popup/index';
+import Preloader from '../../Preloader/index';
 import './AddContact.css';
 import Search from './Search';
 
-import contactsStore from '../../domain/contacts-store';
-import userSearchStore from '../../domain/user-search-store';
+import contactsStore from '../../../domain/contacts-store';
+import userSearchStore from '../../../domain/user-search-store';
 
 interface Props {
     closeHandler: () => void;

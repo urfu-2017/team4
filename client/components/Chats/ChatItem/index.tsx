@@ -7,7 +7,7 @@ import b_ from 'b_';
 import ChatsStore from '../../../domain/chats-store';
 import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
-import './DialogItem.css';
+import './ChatItem.css';
 
 const b = b_.with('dialog-list');
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 @observer
-class DialogItem extends React.Component<Props> {
+class ChatItem extends React.Component<Props> {
     @computed
     get message() {
         const { chat } = this.props;
@@ -87,4 +87,4 @@ class DialogItem extends React.Component<Props> {
     }
 }
 
-export default DialogItem;
+export default ChatItem;

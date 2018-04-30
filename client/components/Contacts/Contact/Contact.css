@@ -1,14 +1,18 @@
 .contact {
     display: flex;
     align-items: center;
+
+    box-sizing: border-box;
     padding: 8px 16px;
+    width: 100%;
 
     color: #000;
     text-decoration: none;
-    cursor: pointer;
 }
 
-.contact:hover {
+.contact__selected,
+.contact_selectable:hover {
+    cursor: pointer;
     background: #f2f6fa;
 }
 

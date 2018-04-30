@@ -2,8 +2,8 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b from 'b_';
 
-import Input from '../Controls/Input';
-import userSearchStore from '../../domain/user-search-store';
+import Index from '../../Input/index';
+import userSearchStore from '../../../domain/user-search-store';
 
 interface Props {
     className: string
@@ -33,7 +33,7 @@ class Search extends React.Component<Props> {
 
     public render() {
         return (
-            <Input
+            <Index
                 type={'text'}
                 placeholder="Имя пользователя..."
                 innerRef={input => { // tslint:disable-line

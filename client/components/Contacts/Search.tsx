@@ -24,9 +24,7 @@ class Search extends React.Component {
                     type="search"
                     placeholder="Поиск..."
                     onInput={this.onInput}
-                    ref={input => {
-                        this.search = input;
-                    }}
+                    ref={input => this.search = input}
                 />
             </div>
         );

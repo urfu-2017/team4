@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 
-import Contacts from '../Contacts';
+import Contacts from '../Contacts/Popup';
 import ProfileSettings from '../Profile';
 import UserProfile from '../UserProfile';
 import './MobileApp.css';

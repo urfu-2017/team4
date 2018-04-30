@@ -3,8 +3,8 @@ import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import ChatWrapper from '../Chat/ChatWrapper';
-import Contacts from '../Contacts';
-import Dialogs from '../Dialogs';
+import Contacts from '../Contacts/Popup';
+import Chats from '../Chats';
 import Header from '../Header';
 import ProfileSettings from '../Profile';
 import UserProfile from '../UserProfile';
@@ -34,7 +34,7 @@ class App extends React.Component {
             <HashRouter>
                 <div className="app">
                     <Header />
-                    <Dialogs />
+                    <Chats />
                     <div className="content">
                         <Switch>
                             <Route path="/chats/:id" component={ChatWrapper} />

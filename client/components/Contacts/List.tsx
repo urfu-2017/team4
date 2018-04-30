@@ -3,15 +3,28 @@ import React from 'react';
 import b_ from 'b_';
 
 import contactsStore from '../../domain/contacts-store';
-import Contact from '../Contact';
 
+import Contact from './Contact';
 const b = b_.with('contacts');
 
-const List: React.SFC = observer(
-    () =>
-        contactsStore.state === 'empty' ? (
-            <p className={`${b('empty')} text`}>Похоже, вы еще никого не добавили.</p>
-        ) : (
+interface Props {
+    selected?: string[];
+    onClick?: (id: string) => void;
+}
+
+@observer
+class ContactsList extends React.Component<Props> {
+
+    public render(): React.ReactNode {
+        if (contactsStore.state === 'empty') {
+            return (
+                <p className={`${b('empty')} text`}>Похоже, у вас ещё нет контактов.</p>
+            );
+        }
+
+        const { selected = [], onClick } = this.props;
+
+        return (
             <ul className={b('list')}>
                 {contactsStore.filteredList.map(contact => (
                     <Contact
@@ -22,10 +35,14 @@ const List: React.SFC = observer(
                         firstName={contact.firstName}
                         lastName={contact.lastName}
                         className={b('contact')}
+                        onClick={onClick}
+                        selected={selected.includes(contact.id)}
+                        selectable={true}
                     />
                 ))}
             </ul>
-        )
-);
+        );
+    }
+}
 
-export default List;
+export default ContactsList;

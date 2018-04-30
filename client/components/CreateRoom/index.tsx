@@ -1,7 +1,7 @@
 import React from 'react';
 import b_ from 'b_';
 
-import Contact from '../Contact';
+import Contact from '../Contacts/Contact';
 import Popup from '../Popup';
 import Head from './Head';
 
@@ -57,7 +57,6 @@ export default class CreateRoom extends React.Component {
 
         return contacts.map(contact => (
             <div id={contact.id} className={b('member')}>
-                <input type="checkbox" className={b('member-checkbox')}/>
                 <Contact {...contact}/>
             </div>
         ));

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import Input from '../Controls/Input';
+import Index from '../Input/index';
 import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
@@ -64,14 +64,14 @@ class Profile extends React.Component<{}, State> {
                 />
                 <div className={b('username')}>{`@${this.state.username}`}</div>
                 <div className={b('fields')}>
-                    <Input
+                    <Index
                         className={b('input')}
                         onChange={this.onChangeFirstName}
                         type="text"
                         value={this.state.firstName}
                         placeholder="Имя"
                     />
-                    <Input
+                    <Index
                         onChange={this.onChangeSecondName}
                         type="text"
                         value={this.state.lastName}

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 
-import Dialogs from '../Dialogs';
+import Chats from '../Chats';
 import HeaderLogoWrap from '../Header/HeaderLogoWrap';
 
 @observer
@@ -13,7 +13,7 @@ class Chats extends React.Component {
                     <HeaderLogoWrap />
                 </header>
                 <div className="mobile-app__container">
-                    <Dialogs />
+                    <Chats />
                 </div>
             </React.Fragment>
         );

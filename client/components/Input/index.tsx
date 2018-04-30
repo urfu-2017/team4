@@ -10,7 +10,7 @@ interface Props extends React.HTMLProps<HTMLInputElement> {
     innerRef?: (ref: HTMLInputElement) => void;
 }
 
-const Input: React.SFC<Props> = ({ className = '', innerRef, hasError, ...props }) => (
+const Index: React.SFC<Props> = ({ className = '', innerRef, hasError, ...props }) => (
     <input
         {...props}
         ref={innerRef}
@@ -18,4 +18,4 @@ const Input: React.SFC<Props> = ({ className = '', innerRef, hasError, ...props 
     />
 );
 
-export default Input;
+export default Index;
