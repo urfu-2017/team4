@@ -12,7 +12,8 @@ class UIStore {
     public displays = {
         contacts: false,
         profile: false,
-        user: false
+        user: false,
+        createRoom: false
     };
 
     @computed

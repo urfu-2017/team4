@@ -8,6 +8,7 @@ import Dialogs from '../Dialogs';
 import Header from '../Header';
 import ProfileSettings from '../Profile';
 import UserProfile from '../UserProfile';
+import CreateRoom from '../CreateRoom';
 import './App.css';
 
 import uiStore from '../../domain/ui-store';
@@ -17,11 +18,13 @@ const stubComponent: React.SFC = () => <div />;
 @observer
 class App extends React.Component {
     public renderModals() {
+        console.info(uiStore.displays.createRoom);
         return (
             <React.Fragment>
                 {uiStore.displays.contacts && <Contacts />}
                 {uiStore.displays.profile && <ProfileSettings />}
                 {uiStore.displays.user && <UserProfile />}
+                {uiStore.displays.createRoom && <CreateRoom/>}
             </React.Fragment>
         );
     }
