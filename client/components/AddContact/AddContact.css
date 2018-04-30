@@ -19,28 +19,6 @@
     margin: 0 0 10px;
 }
 
-.add-contact__input {
-    padding: 7px 0;
-    border: none;
-
-    outline: none;
-    box-shadow: 0 1px 0 0 #e8e8e8;
-
-    transition: box-shadow 0.2s;
-}
-
-.add-contact__input:focus {
-    box-shadow: 0 2px 0 0 #1e1e1e;
-}
-
-.add-contact__input_error {
-    box-shadow: 0 1px 0 0 #ed0000;
-}
-
-.add-contact__input_error:focus {
-    box-shadow: 0 2px 0 0 #ed0000;
-}
-
 .add-contact__search-zone {
     display: flex;
     flex-direction: column;

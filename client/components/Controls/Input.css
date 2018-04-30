@@ -1,0 +1,23 @@
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 7px 0;
+    border: none;
+
+    outline: none;
+    box-shadow: 0 1px 0 0 #e8e8e8;
+
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.input:focus {
+    box-shadow: 0 2px 0 0 #1e1e1e;
+}
+
+.input_error {
+    box-shadow: 0 1px 0 0 #ed0000;
+}
+
+.input_error:focus {
+    box-shadow: 0 2px 0 0 #ed0000;
+}
