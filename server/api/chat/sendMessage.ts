@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { Message, Members } from '../../models/index';
+import { Message, Members } from '../../models';
 
 export default async function sendMessage(request: Request<{ chatId: string; text: string; meta?: any }>, response: Response) {
     const {chatId, text, meta} = request.params;

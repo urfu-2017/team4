@@ -1,9 +1,15 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { Chat, Members, User } from '../../models/index';
+import { Chat, Members, User } from '../../models';
 import { v4 as uuid } from 'uuid';
 
-export default async function createChat(request: Request<{ type: 'dialog' | 'room'; members: number[], name?: string }>, response: Response) {
+interface Params {
+    type: 'dialog' | 'room';
+    members: number[];
+    name?: string;
+}
+
+export default async function createChat(request: Request<Params>, response: Response) {
     const {type, members, name} = request.params;
     let chat = await Chat.create({
         id: uuid(),
@@ -11,21 +17,25 @@ export default async function createChat(request: Request<{ type: 'dialog' | 'ro
         ownerId: type === 'room' ? request.user : null,
         type
     });
+
     if (!members.includes(request.user)) {
         members.push(request.user);
     }
+
     await Members.bulkCreate(members.map(userId => ({
         userId,
         chatId: chat.id
     })));
-    chat = await Chat.findById(chat.id, {
-        include: {
+
+    chat = (await Chat.findById(chat.id, {
+        include: [{
             model: User
-        }
-    });
-    members.forEach(userId => {
-        request.server.subcribeUser(userId, chat.id);
-        response.notification(userId, 'newChat', chat);
-    });
+        }]
+    }))!;
+
+    await Promise.all(members.map(userId =>
+        request.server.subscribeUser(String(userId), chat.id)));
+
+    response.notification(chat.id, 'newChat', chat);
     response.success(chat);
 }

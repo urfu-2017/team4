@@ -4,8 +4,10 @@ import findChat from './findChat';
 
 export default async function getChatInfo(request: Request<{ chatId: string; subscribe?: boolean }>, response: Response) {
     const chat = await findChat(request.user, request.params.chatId);
+
     if (request.params.subscribe) {
-        request.server.subcribeUser(request.user, chat.id);
+        await request.server.subscribeUser(String(request.user), chat!.id);
     }
+
     response.success(chat);
 }

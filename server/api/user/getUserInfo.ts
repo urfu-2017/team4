@@ -8,7 +8,7 @@ export default async function getUserInfo(request: Request<{ userId: string, sub
         return response.error(404, 'User not found');
     }
     if (request.params.subscribe) {
-        request.server.subcribeUser(request.user, `profile_${user.id}`);
+        request.server.subscribeUser(String(request.user), `profile_${user.id}`);
     }
     response.success(user);
 }

@@ -14,7 +14,7 @@ export default async function updateCurrentUser(request: Request<{ user: User }>
         }
     }
 
-    await currentUser.save();
+    await currentUser!.save();
     response.notification(`profile_${currentUser.id}`, 'update', currentUser);
     response.success(currentUser);
 }

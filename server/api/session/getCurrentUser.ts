@@ -9,9 +9,9 @@ export default async function getCurrentUser(request: Request<void>, response: R
                 model: User
             }, {
                 model: Chat,
-                include: {
+                include: [{
                     model: User
-                }
+                }]
             }]
         });
     if (!user) {

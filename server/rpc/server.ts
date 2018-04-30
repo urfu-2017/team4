@@ -33,11 +33,20 @@ export class Server {
         this.socketServer.on('connection', this.onConnection);
     }
 
-    public subcribeUser(userId: string, channel: string) {
-        const sockets = this.sockets.get(userId);
+    public async subscribeUser(userId: string | number, channel: string) {
+        const sockets = this.sockets.get(String(userId));
 
         if (sockets) {
-            sockets.forEach(socket => socket.join(channel));
+            await Promise.all(sockets.map(socket => new Promise((resolve, reject) => {
+                socket.join(channel, err => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+
+                    resolve();
+                });
+            })));
         }
     }
 
