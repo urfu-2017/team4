@@ -11,9 +11,8 @@ export default async function createChat(request: Request<{ type: 'dialog' | 'ro
         ownerId: type === 'room' ? request.user : null,
         type
     });
-    const currentUserId = Number(request.user);
-    if (!members.includes(currentUserId)) {
-        members.push(currentUserId);
+    if (!members.includes(request.user)) {
+        members.push(request.user);
     }
     await Members.bulkCreate(members.map(userId => ({
         userId,
@@ -24,7 +23,7 @@ export default async function createChat(request: Request<{ type: 'dialog' | 'ro
             model: User
         }
     });
-    members.map(userId => userId.toString()).forEach(userId => {
+    members.forEach(userId => {
         request.server.subcribeUser(userId, chat.id);
         response.notification(userId, 'newChat', chat);
     });

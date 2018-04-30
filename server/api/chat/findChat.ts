@@ -1,15 +1,19 @@
 import { User, Chat } from '../../models/index';
 import { JsonRpcError } from 'jsonrpc-lite';
 
-export default async function findChat(userId: string, chatId: string): Promise<Chat | null> {
-    const chat = await Chat.findById(chatId, {
+export default async function findChat(userId: number, chatId: string): Promise<Chat | null> {
+    const currentUser = await User.findById(userId, {
         include: {
-            model: User,
+            model: Chat,
             where: {
-                id: userId
+                id: chatId
+            },
+            include: {
+                model: User
             }
         }
     });
+    const chat = currentUser.chats[0];
     if (!chat) {
         throw new JsonRpcError('No such chat', 404);
     }

@@ -24,10 +24,10 @@ export function configurePassport(userCreation: UserCreation) {
     passport.use(strategy);
 
     passport.serializeUser((profile: Profile, done) => {
-        done(null, profile.id);
+        done(null, Number(profile.id));
     });
 
-    passport.deserializeUser((id: string, done) => {
+    passport.deserializeUser((id: number, done) => {
         done(null, id);
     });
 

@@ -7,13 +7,13 @@ export const createUser: UserCreation = async ({ id, username, displayName }) =>
     const [firstName = '', lastName = ''] = (displayName || '').split(/\s+/);
 
     const user = await User.findOrCreate<User>({
-        where: { id: Number(id) },
+        where: { id },
         defaults: {
-            id: Number(id),
+            id,
             username,
             firstName,
             lastName,
-            avatar: `data:image/png;base64,${await generateAvatar(id)}`,
+            avatar: `data:image/png;base64,${await generateAvatar(id.toString())}`,
             isUsedBot: true
         }
     });
