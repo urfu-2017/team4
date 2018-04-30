@@ -1,6 +1,7 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import { Chat } from './chat';
 import { User } from './user';
+import { Reaction } from './reaction';
 
 @Table({
     timestamps: true,
@@ -22,7 +23,10 @@ export class Message extends Model<Message> {
     @Column({ type: DataType.UUID, allowNull: false })
     public chatId: string;
 
-    @Column({ type: DataType.TEXT })
+    @BelongsTo(() => Chat)
+    public chat: Chat;
+
+    @Column({ type: DataType.TEXT, allowNull: false })
     public text: string;
 
     @Column({ type: DataType.JSONB })
@@ -31,5 +35,6 @@ export class Message extends Model<Message> {
     @Column({ type: DataType.TEXT })
     public attachment: string
 
-    // TODO: Добавить реакции
+    @HasMany(() => Reaction, 'messageId')
+    public reactions: Reaction;
 }
