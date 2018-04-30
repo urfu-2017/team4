@@ -2,17 +2,17 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 
-import './index.css';
+import './Dialogs.css';
 
 import ChatsStore from '../../domain/chats-store';
-import ItemDialog from './ItemDialog';
+import DialogItem from './DialogItem';
 
 import Button from '../Button';
 
 import uiStore from '../../domain/ui-store';
 
 @observer
-export default class Dialogs extends React.Component {
+class Dialogs extends React.Component {
     public static chatOrderComparator(chat1, chat2) {
         const time1 = chat1.lastMessage ? new Date(chat1.lastMessage.createdAt).getTime() : 0;
         const time2 = chat2.lastMessage ? new Date(chat2.lastMessage.createdAt).getTime() : 0;
@@ -25,7 +25,6 @@ export default class Dialogs extends React.Component {
         uiStore.togglePopup('contacts')();
     };
 
-    // eslint-disable-next-line class-methods-use-this
     @computed
     get chats() {
         return ChatsStore.chats
@@ -40,8 +39,8 @@ export default class Dialogs extends React.Component {
         return (
             <div className="dialogs">
                 <div className="dialog-list">
-                    {currentChat && !isExists && <ItemDialog chat={currentChat} />}
-                    {this.chats.map(dialog => <ItemDialog key={dialog.id} chat={dialog} />)}
+                    {currentChat && !isExists && <DialogItem chat={currentChat} />}
+                    {this.chats.map(dialog => <DialogItem key={dialog.id} chat={dialog} />)}
                 </div>
                 <Button
                     onClick={this.onContactsClick}
@@ -54,3 +53,5 @@ export default class Dialogs extends React.Component {
         );
     }
 }
+
+export default Dialogs;

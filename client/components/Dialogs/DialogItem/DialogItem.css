@@ -13,7 +13,7 @@
 }
 
 .dialog-list__item:hover,
-.dialog-list__item--active {
+.dialog-list__item_active {
     background: #e9ebed;
     color: #333;
 }
@@ -36,7 +36,7 @@
     text-overflow: ellipsis;
 }
 
-.dialog-list__last-msg--mine {
+.dialog-list__last-msg-mine {
     color: blue;
 }
 

@@ -1,7 +1,7 @@
-/* eslint-disable no-return-assign */
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
+import b_ from 'b_';
 
 import OGData from '../OGData';
 
@@ -12,6 +12,8 @@ import markdown from '../../utils/markdown';
 import { initContainer } from '../../utils/weather';
 
 import './Chat.css';
+
+const b = b_.with('message');
 
 interface Props {
     message: any;
@@ -44,21 +46,21 @@ class Message extends React.Component<Props> {
             : 'https://server.adorable.io/avatars/128/abott@adorable.png';
 
         return (
-            <div className="message">
+            <div className={b()}>
                 <img
                     onClick={this.showUserProfile}
-                    className="message__avatar"
+                    className={b('avatar')}
                     src={avatar}
                     alt="Аватар"
                 />
-                <div className="message__body">
-                    <div className="message__username">
+                <div className={b('body')}>
+                    <div className={b('username')}>
                         <span>{displayName}</span>
-                        <span className="message__date">({formatDate(createdAt)})</span>
+                        <span className={b('date')}>({formatDate(createdAt)})</span>
                     </div>
                     <div
                         ref={el => (this.messageText = el)}
-                        className="message__text"
+                        className={b('text')}
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
                 </div>

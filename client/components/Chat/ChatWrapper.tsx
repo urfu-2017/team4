@@ -14,7 +14,6 @@ interface Props extends RouteComponentProps<{ id: string }> {}
 @observer
 class ChatWrapper extends React.Component<Props> {
     public componentWillMount() {
-        // eslint-disable-next-line react/prop-types
         const chatId = this.props.match.params.id;
         this.setCurrentChat(chatId);
     }
@@ -33,12 +32,10 @@ class ChatWrapper extends React.Component<Props> {
         return ChatsStore.currentChat;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     public setCurrentChat(chatId) {
         const chat = ChatsStore.chatsMap.has(chatId);
 
         if (!chat) {
-            // eslint-disable-next-line react/prop-types
             this.props.history.replace('/');
             return;
         }

@@ -4,6 +4,7 @@
     "private": true,
     "proxy": "http://localhost:8080",
     "dependencies": {
+        "b_": "^1.3.4",
         "base64-stream": "0.1.3",
         "body-parser": "1.18.2",
         "compression": "1.7.2",
@@ -77,8 +78,8 @@
         "webpack-dev-server": "3.1.3"
     },
     "scripts": {
-        "client:start": "webpack-dev-server --inline --hot",
-        "client:build": "webpack",
+        "client:start": "NODE_ENV=development webpack-dev-server --inline --hot",
+        "client:build": "NODE_ENV=production webpack",
         "server:start": "ts-node --project ./server/tsconfig.json ./server/index.ts",
         "server:build": "tsc -p server/tsconfig.json",
         "lint": "tslint -c \"./tslint.json\" **/*.ts{,x} && stylelint *.css client/**/*.css",
