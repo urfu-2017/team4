@@ -12,6 +12,7 @@ import './MessageInput.css';
 import ChatsStore from '../../domain/chats-store';
 import ogStore from '../../domain/og-store';
 import urlParser from '../../utils/url-parser';
+import uiStore from '../../domain/ui-store';
 
 const b = b_.with('message-input');
 
@@ -36,6 +37,11 @@ class MessageInput extends React.Component {
             this.messageInput.disabled = false;
             this.messageInput.focus();
         }
+    };
+
+    public onShowSmiles = event => {
+        event.preventDefault();
+        uiStore.togglePopup('emojipicker')();
     };
 
     public onKeyUp = event => {
@@ -71,6 +77,9 @@ class MessageInput extends React.Component {
                 />
                 <Button className={b('send')} onClick={this.onSend}>
                     Отправить
+                </Button>
+                <Button className="message-input__smiles" onClick={this.onShowSmiles}>
+                    Смайлы
                 </Button>
                 {ogStore.state === 'loading' ? (
                     <Preloader className={b('preloader')} size={40} />
