@@ -29,7 +29,12 @@ class AddMember extends React.Component<Props> {
         return (
             <Popup zIndex={500} className={b()} closeHandler={closeHandler}>
                 <h3 className={b('title') + ' header3'}>Добавление участника</h3>
-                <UsersList users={available} searchType={'plain'} onClick={this.addMember} />
+                <UsersList
+                    users={available}
+                    searchType={'plain'}
+                    onClick={this.addMember}
+                    emptyMessage="Похоже, нет доступных для добавления в чат пользователей"
+                />
                 <div className={b('actions')}>
                     <Button className={b('cancel')} onClick={this.onCancel}>
                         Отмена

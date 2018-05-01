@@ -14,6 +14,7 @@ const b = b_.with('users');
 interface Props {
     users: UserModel[];
 
+    emptyMessage?: string;
     className?: string;
     searchType?: 'plain' | 'box';
     disableSearch?: boolean;
@@ -45,8 +46,15 @@ class ContactsList extends React.Component<Props> {
             users,
             disableSearch,
             className = '',
-            searchType = 'box'
+            searchType = 'box',
+            emptyMessage = 'Список пользователей пуст'
         } = this.props;
+
+        if (users.length === 0) {
+            return (
+                <p className={`${b('empty')} text`}>{emptyMessage}</p>
+            );
+        }
 
         return (
             <div className={`${b()} ${className}`.trim()}>

@@ -50,13 +50,11 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
                     ) : (
                         <React.Fragment>
                             <main className={b('main')}>
-                                {contactsStore.state === 'empty' ? (
-                                    <p className={`${b('empty')} text`}>
-                                        Похоже, у вас ещё нет контактов.
-                                    </p>
-                                ) : (
-                                    <UsersList users={contactsStore.list} onClick={this.goToChat} />
-                                )}
+                                <UsersList
+                                    users={contactsStore.list}
+                                    onClick={this.goToChat}
+                                    emptyMessage="Похоже, у вас ещё нет контактов"
+                                />
                             </main>
                             <footer className={b('footer')}>
                                 <Button className={b('new')} onClick={this.toggleAddContact}>

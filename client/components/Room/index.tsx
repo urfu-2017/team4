@@ -75,6 +75,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
                     users={availableMembers}
                     onClick={this.toggleMember}
                     selected={this.members}
+                    emptyMessage="Похоже, ваш список контактов пуст"
                 />
             </React.Fragment>
         );

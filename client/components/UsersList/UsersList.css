@@ -24,3 +24,8 @@
 .users__list {
     overflow: auto;
 }
+
+.users__empty {
+    margin: 16px 20px;
+    text-align: center;
+}
