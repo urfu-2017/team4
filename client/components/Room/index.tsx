@@ -31,7 +31,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     @observable private members: string[] = [];
 
     public render(): React.ReactNode {
-        const disabled = this.name.length === 0 && this.members.length === 0;
+        const disabled = this.name.length === 0 || this.members.length === 0;
 
         return (
             <React.Fragment>
@@ -97,7 +97,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     private createGroup = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        if (this.name.length === 0 && this.members.length === 0) {
+        if (this.name.length === 0 || this.members.length === 0) {
             return;
         }
 
