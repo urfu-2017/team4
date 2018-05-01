@@ -13,22 +13,6 @@
     margin: 0;
 }
 
-.contacts__search {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 6px 30px;
-    border: none;
-
-    outline: none;
-}
-
-.contacts__search-wrapper {
-    z-index: 1;
-    padding: 7px 12px;
-
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
-}
-
 .contacts__main {
     display: flex;
     flex-direction: column;
@@ -36,11 +20,8 @@
 
 .contacts__list {
     margin: 0 0 15px;
-    padding: 10px 0 0;
     max-height: 50vh;
-
     overflow: auto;
-    list-style-type: none;
 }
 
 .contacts__footer {

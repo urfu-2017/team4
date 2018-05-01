@@ -1,4 +1,4 @@
-.contact {
+.user {
     display: flex;
     align-items: center;
 
@@ -10,32 +10,37 @@
     text-decoration: none;
 }
 
-.contact__selected,
-.contact_selectable:hover {
+.user_selectable {
     cursor: pointer;
+}
+
+.user:hover {
     background: #f2f6fa;
 }
 
-.contact__avatar {
+.user_selected,
+.user_selected:hover {
+    background: rgba(8, 174, 234, 0.2);
+}
+
+.user__avatar {
     width: 42px;
     height: 42px;
     margin-right: 12px;
 }
 
-.contact__info {
+.user__info {
     display: flex;
     flex-direction: column;
     align-self: center;
 }
 
-.contact__name {
+.user__name {
     font-weight: bold;
+    margin-bottom: 6px;
 }
 
-.contact__username {
+.user__login {
+    font-size: 12px;
     color: #91a6ba;
-}
-
-.contact__preloader {
-    margin-left: auto;
 }

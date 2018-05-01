@@ -61,7 +61,7 @@ class ChatItem extends React.Component<Props> {
     public render() {
         const { chat } = this.props;
         const isActiveModifier = { active: ChatsStore.currentChat === chat };
-        const isMine = this.message && this.message.from === UsersStore.currentUser.username;
+        const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
 
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>

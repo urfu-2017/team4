@@ -7,10 +7,12 @@
     max-width: 480px;
     max-height: 86vh;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .createRoom__inner {
     padding: 16px 20px;
+    overflow: auto;
 }
 
 .createRoom__field {

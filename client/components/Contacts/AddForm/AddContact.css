@@ -1,7 +1,10 @@
 .add-contact {
     position: fixed;
-    top: 25vh;
+    top: 10vh;
     left: 50%;
+
+    max-height: 75vh;
+    overflow: hidden;
 
     display: flex;
     flex-direction: column;
@@ -11,7 +14,6 @@
     box-sizing: border-box;
 
     background: #fff;
-
     transform: translateX(-50%);
 }
 
@@ -20,12 +22,8 @@
 }
 
 .add-contact__search-zone {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    height: 60px;
     margin-bottom: 10px;
+    overflow: auto;
 }
 
 .add-contact__preloader {

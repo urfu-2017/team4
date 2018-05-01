@@ -1,0 +1,23 @@
+.users__search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px 16px;
+    border: none;
+
+    outline: none;
+}
+
+.users__search_type_box {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.users__search_type_box:focus {
+    box-shadow: 0 1px 0 0 #e8e8e8;
+}
+
+.users__list {
+    margin: 0;
+    padding: 10px 0 0;
+    list-style-type: none;
+}

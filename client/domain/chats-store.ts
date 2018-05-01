@@ -30,8 +30,8 @@ class ChatsStore {
         });
     }
 
-    public async createChat(type, members, name = '') {
-        const chat = await RPC.request('createChat', { type, members, name }, 15000);
+    public async createChat(type, members, name = '', owner = null) {
+        const chat = await RPC.request('createChat', { type, owner, members, name }, 15000);
         const chatModel = this.saveChat(chat);
         await chatModel.join();
 

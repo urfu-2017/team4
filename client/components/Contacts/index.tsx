@@ -1,21 +1,21 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import b_ from 'b_';
 
-import AddContact from './AddForm';
 import Button from '../Button';
 import Popup from '../Popup';
 import Preloader from '../Preloader';
+import UsersList from '../UsersList';
+import AddContact from './AddForm';
 import Head from './Head';
-import List from './List';
-import Search from './Search';
 
 import chatsStore from '../../domain/chats-store';
 import contactsStore from '../../domain/contacts-store';
 import uiStore from '../../domain/ui-store';
 
 import './Contacts.css';
+
 const b = b_.with('contacts');
 
 interface State {
@@ -34,12 +34,6 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
         };
     }
 
-    public toggleAddContact = () => {
-        this.setState(prev => ({
-            displayAddContact: !prev.displayAddContact
-        }));
-    };
-
     public render() {
         const closeHandler = uiStore.togglePopup('contacts');
 
@@ -56,8 +50,14 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
                     ) : (
                         <React.Fragment>
                             <main className={b('main')}>
-                                {contactsStore.state !== 'empty' && <Search />}
-                                <List onClick={this.goToChat}/>
+                                {contactsStore.state === 'empty' ? (
+                                    <p className={`${b('empty')} text`}>Похоже, у вас ещё нет контактов.</p>
+                                ) : (
+                                    <UsersList
+                                        users={contactsStore.list}
+                                        onClick={this.goToChat}
+                                    />
+                                )}
                             </main>
                             <footer className={b('footer')}>
                                 <Button className={b('new')} onClick={this.toggleAddContact}>
@@ -73,6 +73,12 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
             </React.Fragment>
         );
     }
+
+    private toggleAddContact = () => {
+        this.setState(prev => ({
+            displayAddContact: !prev.displayAddContact
+        }));
+    };
 
     private goToChat = async (id: string) => {
         if (this.state.isCreating) return;

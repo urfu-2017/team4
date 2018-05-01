@@ -7,9 +7,8 @@
     align-items: center;
 
     cursor: pointer;
-    margin-bottom: 10px;
     color: #333;
-    transition: all 300ms ease-in-out;
+    transition: all 300ms;
 }
 
 .dialog-list__item:hover,

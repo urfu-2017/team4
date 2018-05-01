@@ -3,7 +3,7 @@ import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import ChatWrapper from '../Chat/ChatWrapper';
-import Contacts from '../Contacts/Popup';
+import Contacts from '../Contacts/index';
 import Chats from '../Chats';
 import Header from '../Header';
 import ProfileSettings from '../Profile';
@@ -18,7 +18,6 @@ const stubComponent: React.SFC = () => <div />;
 @observer
 class App extends React.Component {
     public renderModals() {
-        console.info(uiStore.displays.createRoom);
         return (
             <React.Fragment>
                 {uiStore.displays.contacts && <Contacts />}
