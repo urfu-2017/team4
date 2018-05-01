@@ -14,24 +14,19 @@ class UserModel {
         return userModel;
     }
 
-    @observable
-    public isFetching = false;
+    @observable public isFetching = false;
 
     public id: string;
 
     public username: string;
 
-    @observable
-    public firstName: string;
+    @observable public firstName: string;
 
-    @observable
-    public lastName: string;
+    @observable public lastName: string;
 
-    @observable
-    public bio: string;
+    @observable public bio: string;
 
-    @observable
-    public avatar: string;
+    @observable public avatar: string;
 
     constructor(userId) {
         this.id = userId;

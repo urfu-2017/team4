@@ -3,8 +3,7 @@ import { computed, observable } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 export default class ChatModel {
-    @observable.shallow
-    public messages = [];
+    @observable.shallow public messages = [];
 
     @observable public isFetching = false;
 
@@ -29,7 +28,7 @@ export default class ChatModel {
 
     public async join() {
         await this.loadNextHistoryFrame();
-        await RPC.request('subscribeToChat', { chatId: this.id }, 15000)
+        await RPC.request('subscribeToChat', { chatId: this.id }, 15000);
     }
 
     public async loadNextHistoryFrame() {

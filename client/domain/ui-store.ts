@@ -4,17 +4,13 @@ import UserModel from './user-model';
 const TIMEOUT_ERROR = 5000;
 
 class UIStore {
-    @observable
-    public userInfo: UserModel = null;
+    @observable public userInfo: UserModel = null;
 
-    @observable
-    public isMenuShown: boolean = false;
+    @observable public isMenuShown: boolean = false;
 
-    @observable
-    public error = null;
+    @observable public error = null;
 
-    @observable
-    public popupStack = [];
+    @observable public popupStack = [];
 
     @observable
     public displays = {

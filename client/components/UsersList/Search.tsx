@@ -26,15 +26,13 @@ class Search extends React.PureComponent<Props> {
                 placeholder="Поиск..."
                 onChange={this.onInput}
                 value={this.props.query}
-                innerRef={input => this.search = input /* tslint:disable-line */}
+                innerRef={input => (this.search = input) /* tslint:disable-line */}
             />
         );
     }
 
     private onInput = (event: React.FormEvent<HTMLInputElement>) => {
-        this.props.onChangeQuery(
-            event.currentTarget.value
-        );
+        this.props.onChangeQuery(event.currentTarget.value);
     };
 }
 

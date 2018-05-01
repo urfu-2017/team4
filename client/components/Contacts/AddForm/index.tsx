@@ -43,7 +43,7 @@ class AddContact extends React.Component<Props> {
                             disableSearch={true}
                         />
                     ) : (
-                        <Search className={b('input')}/>
+                        <Search className={b('input')} />
                     )}
                 </div>
                 <div className={b('buttons')}>
@@ -66,8 +66,8 @@ class AddContact extends React.Component<Props> {
                 </div>
                 {userSearchStore.state === 'loading' && (
                     <React.Fragment>
-                        <Preloader size={50} className={b('preloader')}/>
-                        <div className={b('preloader-overlay')}/>
+                        <Preloader size={50} className={b('preloader')} />
+                        <div className={b('preloader-overlay')} />
                     </React.Fragment>
                 )}
             </Popup>

@@ -6,17 +6,14 @@ import contactsStore from './contacts-store';
 import chatsStore from './chats-store';
 
 class ApplicationStore {
+    @observable public isAppLoaded = false;
 
-    @observable
-    public isAppLoaded = false;
-
-    @observable
-    public isAuthRequired = false;
+    @observable public isAuthRequired = false;
 
     public async init() {
         try {
             await RPC.connect();
-            const { chats, contacts,...currentUser } = await RPC.request('getCurrentUser');
+            const { chats, contacts, ...currentUser } = await RPC.request('getCurrentUser');
 
             runInAction(() => {
                 usersStore.currentUser = usersStore.saveUser(currentUser);

@@ -11,6 +11,7 @@ import uiStore from '../../domain/ui-store';
 import UsersStore from '../../domain/users-store';
 
 import './Profile.css';
+
 const b = b_.with('profile');
 
 interface State {
@@ -57,11 +58,7 @@ class Profile extends React.Component<{}, State> {
                 closeHandler={closeHandler}
                 headContent={<Head closeHandler={closeHandler} />}
             >
-                <img
-                    className={b('avatar')}
-                    src={this.state.avatar}
-                    alt="Аватар"
-                />
+                <img className={b('avatar')} src={this.state.avatar} alt="Аватар" />
                 <div className={b('username')}>{`@${this.state.username}`}</div>
                 <div className={b('fields')}>
                     <Index

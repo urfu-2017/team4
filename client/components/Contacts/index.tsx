@@ -15,6 +15,7 @@ import contactsStore from '../../domain/contacts-store';
 import uiStore from '../../domain/ui-store';
 
 import './Contacts.css';
+
 const b = b_.with('contacts');
 
 interface State {
@@ -50,12 +51,11 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
                         <React.Fragment>
                             <main className={b('main')}>
                                 {contactsStore.state === 'empty' ? (
-                                    <p className={`${b('empty')} text`}>Похоже, у вас ещё нет контактов.</p>
+                                    <p className={`${b('empty')} text`}>
+                                        Похоже, у вас ещё нет контактов.
+                                    </p>
                                 ) : (
-                                    <UsersList
-                                        users={contactsStore.list}
-                                        onClick={this.goToChat}
-                                    />
+                                    <UsersList users={contactsStore.list} onClick={this.goToChat} />
                                 )}
                             </main>
                             <footer className={b('footer')}>

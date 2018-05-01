@@ -11,7 +11,6 @@ import './HeaderMainWrap.css';
 
 @observer
 class HeaderMainWrap extends React.Component {
-
     public render(): React.ReactNode {
         let message = 'Выберите чат';
         const chat = chatsStore.currentChat;
@@ -20,7 +19,9 @@ class HeaderMainWrap extends React.Component {
             if (chat.type === 'dialog') {
                 const currentUserId = usersStore.currentUser.id;
                 const otherUser = chat.members.find(member => member.id !== currentUserId);
-                const otherUserModel = usersStore.users.get(otherUser ? otherUser.id : currentUserId);
+                const otherUserModel = usersStore.users.get(
+                    otherUser ? otherUser.id : currentUserId
+                );
 
                 message = otherUserModel.displayName;
             } else {
@@ -31,7 +32,12 @@ class HeaderMainWrap extends React.Component {
         return (
             <div className="header__main-wrap">
                 <div className="header__chat-name">{message}</div>
-                {chat && <ChatSettingsIcon onClick={this.openChatInfo} className="header__chat-settings"/>}
+                {chat && (
+                    <ChatSettingsIcon
+                        onClick={this.openChatInfo}
+                        className="header__chat-settings"
+                    />
+                )}
             </div>
         );
     }

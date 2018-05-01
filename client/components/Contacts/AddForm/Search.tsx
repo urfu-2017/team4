@@ -5,7 +5,7 @@ import Input from '../../Input';
 import userSearchStore from '../../../domain/user-search-store';
 
 interface Props {
-    className: string
+    className: string;
 }
 
 @observer
@@ -36,7 +36,8 @@ class Search extends React.Component<Props> {
                 type={'text'}
                 className={this.props.className}
                 placeholder="Имя пользователя..."
-                innerRef={input => { // tslint:disable-line
+                innerRef={input => {
+                    // tslint:disable-line
                     this.usernameInput = input;
                 }}
                 onInput={this.onInput}

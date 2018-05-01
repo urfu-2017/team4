@@ -78,9 +78,7 @@ class ChatItem extends React.Component<Props> {
                     )}
                 </div>
                 {this.message && (
-                    <div className={b('last-msg-date')}>
-                        {formatDate(this.message.createdAt)}
-                    </div>
+                    <div className={b('last-msg-date')}>{formatDate(this.message.createdAt)}</div>
                 )}
             </Link>
         );

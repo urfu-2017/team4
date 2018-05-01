@@ -11,7 +11,6 @@ import ProfileSettings from '../Profile';
 import CreateRoom from '../Room';
 import ChatInfo from '../ChatInfo';
 
-
 import uiStore from '../../domain/ui-store';
 
 import './App.css';
@@ -27,7 +26,7 @@ class App extends React.Component {
                 {uiStore.displays.profile && <ProfileSettings />}
                 {uiStore.displays.chatInfo && <ChatInfo />}
                 {uiStore.displays.userInfo && <ProfileView />}
-                {uiStore.displays.createRoom && <CreateRoom/>}
+                {uiStore.displays.createRoom && <CreateRoom />}
             </React.Fragment>
         );
     }

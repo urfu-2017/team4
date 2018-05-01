@@ -8,7 +8,6 @@ import Input from '../Input';
 import Button from '../Button';
 import UsersList from '../UsersList';
 import Popup from '../Popup';
-import Head from './Head';
 
 import UiStore from '../../domain/ui-store';
 import contactsStore from '../../domain/contacts-store';
@@ -16,23 +15,20 @@ import chatsStore from '../../domain/chats-store';
 import usersStore from '../../domain/users-store';
 
 import './CreateRoom.css';
+
 const b = b_.with('createRoom');
 
 @observer
 class CreateRoom extends React.Component<RouteComponentProps<{}>> {
-
     private static closePopup() {
         UiStore.togglePopup('createRoom')();
     }
 
-    @observable
-    private step: number = 1;
+    @observable private step: number = 1;
 
-    @observable
-    private name: string = '';
+    @observable private name: string = '';
 
-    @observable
-    private members: string[] = [];
+    @observable private members: string[] = [];
 
     public render(): React.ReactNode {
         const disabled = this.name.length === 0 && this.members.length === 0;
@@ -63,7 +59,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
                     placeholder={'Введите тему группы'}
                 />
             </label>
-        )
+        );
     }
 
     private renderStepTwo() {
@@ -84,10 +80,10 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         );
     }
 
-    private changeName = (event) => {
+    private changeName = event => {
         event.preventDefault();
         this.name = event.currentTarget.value;
-    }
+    };
 
     private toggleMember = (id: string) => {
         if (this.members.includes(id)) {
@@ -96,7 +92,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         }
 
         this.members.push(id);
-    }
+    };
 
     private createGroup = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -105,10 +101,15 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
             return;
         }
 
-        const chat = await chatsStore.createChat('room', this.members, this.name, usersStore.currentUser.id);
+        const chat = await chatsStore.createChat(
+            'room',
+            this.members,
+            this.name,
+            usersStore.currentUser.id
+        );
         this.props.history.push(`/chats/${chat.id}`);
         CreateRoom.closePopup();
-    }
+    };
 }
 
 export default withRouter(CreateRoom);

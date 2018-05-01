@@ -44,13 +44,15 @@ app.get('/rpccat', (req, res) => {
 
 (async () => {
     await configureModels(sequelize);
-    const users = await Promise.all(new Array(12).fill(0).map(async (_, i) => ({
-        id: i,
-        username: `user${i}`,
-        firstName: 'User',
-        lastName: i,
-        avatar: 'data:image/png;base64,' + await generateAvatar(`user${i}`)
-    })));
+    const users = await Promise.all(
+        new Array(12).fill(0).map(async (_, i) => ({
+            id: i,
+            username: `user${i}`,
+            firstName: 'User',
+            lastName: i,
+            avatar: 'data:image/png;base64,' + (await generateAvatar(`user${i}`))
+        }))
+    );
 
     await User.bulkCreate<User>(users as any);
 

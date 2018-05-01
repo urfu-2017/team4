@@ -38,16 +38,21 @@ export class Server {
 
         if (sockets) {
             console.info('Joined', userId, 'to', channel);
-            await Promise.all(sockets.map(socket => new Promise((resolve, reject) => {
-                socket.join(channel, err => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
+            await Promise.all(
+                sockets.map(
+                    socket =>
+                        new Promise((resolve, reject) => {
+                            socket.join(channel, err => {
+                                if (err) {
+                                    reject(err);
+                                    return;
+                                }
 
-                    resolve();
-                });
-            })));
+                                resolve();
+                            });
+                        })
+                )
+            );
         }
     }
 

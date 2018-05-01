@@ -13,7 +13,6 @@ import './index.css';
 
 @observer
 class Application extends React.Component {
-
     public componentDidMount() {
         applicationStore.init();
     }
@@ -29,7 +28,11 @@ class Application extends React.Component {
             return <LoginPage />;
         }
 
-        return <HashRouter><App /></HashRouter>;
+        return (
+            <HashRouter>
+                <App />
+            </HashRouter>
+        );
     }
 }
 

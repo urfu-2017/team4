@@ -2,6 +2,7 @@ import React from 'react';
 import b_ from 'b_';
 
 import './Input.css';
+
 const b = b_.with('input');
 
 interface Props extends React.HTMLProps<HTMLInputElement> {
@@ -11,11 +12,7 @@ interface Props extends React.HTMLProps<HTMLInputElement> {
 }
 
 const Index: React.SFC<Props> = ({ className = '', innerRef, hasError, ...props }) => (
-    <input
-        {...props}
-        ref={innerRef}
-        className={`${b({ error: hasError })} ${className}`.trim()}
-    />
+    <input {...props} ref={innerRef} className={`${b({ error: hasError })} ${className}`.trim()} />
 );
 
 export default Index;

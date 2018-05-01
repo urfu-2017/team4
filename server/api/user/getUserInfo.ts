@@ -1,8 +1,11 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { User } from '../../models/user';
+import { User } from '../../models';
 
-export default async function getUserInfo(request: Request<{ userId: string, subscribe?: boolean }>, response: Response) {
+export default async function getUserInfo(
+    request: Request<{ userId: string; subscribe?: boolean }>,
+    response: Response
+) {
     const user = await User.findById(request.params.userId);
 
     if (!user) {

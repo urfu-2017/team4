@@ -4,11 +4,9 @@ import RPC from '../utils/rpc-client';
 import UserModel from './user-model';
 
 class UsersStore {
-    @observable
-    public currentUser = null;
+    @observable public currentUser = null;
 
-    @observable.shallow
-    public users: Map<string, UserModel> = new Map();
+    @observable.shallow public users: Map<string, UserModel> = new Map();
 
     public async fetchUser(userId) {
         if (this.users.has(userId)) {

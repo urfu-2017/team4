@@ -13,17 +13,16 @@ import usersStore from '../../domain/users-store';
 
 import './ChatInfo.css';
 import AddMember from './AddMember';
+
 const b = b_.with('chat-info');
 
 @observer
 class ChatInfo extends React.Component {
-
     private static closePopup() {
         uiStore.togglePopup('chatInfo')();
     }
 
-    @observable
-    private isAddMode: boolean = false;
+    @observable private isAddMode: boolean = false;
 
     public render(): React.ReactNode {
         if (!chatsStore.currentChat) {
@@ -38,16 +37,17 @@ class ChatInfo extends React.Component {
     }
 
     private renderUserInfo() {
-        const user = chatsStore.currentChat.members.find(
-            member => member.id !== usersStore.currentUser.id
-        ) || usersStore.currentUser;
+        const user =
+            chatsStore.currentChat.members.find(
+                member => member.id !== usersStore.currentUser.id
+            ) || usersStore.currentUser;
 
         console.info('USER INFO', user);
 
         return (
             <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup}>
                 <h3 className={b('title') + ' header3'}>Информация о пользователе</h3>
-                <FullUserInfo user={user}/>
+                <FullUserInfo user={user} />
             </Popup>
         );
     }
@@ -60,29 +60,27 @@ class ChatInfo extends React.Component {
                 <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup}>
                     <h3 className={b('room-title') + ' header2'}>{chat.name}</h3>
                     <div className={b('actions')}>
-                        <span className={b('action')} onClick={this.enableAddMode}>Добавить участника</span>
+                        <span className={b('action')} onClick={this.enableAddMode}>
+                            Добавить участника
+                        </span>
                         <span className={b('action')}>Скопировать invite-ссылку</span>
                         <span className={b('action', { danger: true })}>Покинуть группу</span>
                     </div>
                     <div className={b('field')}>{chat.members.length} участников:</div>
-                    <UsersList
-                        className={b('members')}
-                        disableSearch={true}
-                        users={chat.members}
-                    />
+                    <UsersList className={b('members')} disableSearch={true} users={chat.members} />
                 </Popup>
-                {this.isAddMode && <AddMember chat={chat} closeHandler={this.disableAddMode}/>}
+                {this.isAddMode && <AddMember chat={chat} closeHandler={this.disableAddMode} />}
             </React.Fragment>
         );
     }
 
     private enableAddMode = () => {
         this.isAddMode = true;
-    }
+    };
 
     private disableAddMode = () => {
         this.isAddMode = false;
-    }
+    };
 }
 
 export default ChatInfo;

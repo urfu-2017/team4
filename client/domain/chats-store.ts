@@ -5,11 +5,9 @@ import ChatModel from './chat-model';
 import UsersStore from './users-store';
 
 class ChatsStore {
-    @observable
-    public chatsMap = new Map();
+    @observable public chatsMap = new Map();
 
-    @observable
-    public currentChat = null;
+    @observable public currentChat = null;
 
     @computed
     get chats() {
@@ -53,9 +51,9 @@ class ChatsStore {
     }
 
     public findDialog(userId) {
-        const dialog = Array.from(this.chatsMap.values())
-            .find(chat => chat.type === 'dialog' &&
-                chat.members.map(member => member.id).includes(userId));
+        const dialog = Array.from(this.chatsMap.values()).find(
+            chat => chat.type === 'dialog' && chat.members.map(member => member.id).includes(userId)
+        );
 
         return dialog || null;
     }

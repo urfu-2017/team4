@@ -7,7 +7,6 @@ import Search from './Search';
 
 import UserModel from '../../domain/user-model';
 
-
 import './UsersList.css';
 
 const b = b_.with('users');
@@ -24,9 +23,7 @@ interface Props {
 
 @observer
 class ContactsList extends React.Component<Props> {
-
-    @observable
-    private query: string = '';
+    @observable private query: string = '';
 
     @computed
     private get filteredUsers(): UserModel[] {
@@ -42,17 +39,25 @@ class ContactsList extends React.Component<Props> {
     }
 
     public render(): React.ReactNode {
-        const { selected = [], onClick, users, disableSearch, className = '', searchType = 'box'} = this.props;
+        const {
+            selected = [],
+            onClick,
+            users,
+            disableSearch,
+            className = '',
+            searchType = 'box'
+        } = this.props;
 
         return (
             <div className={`${b()} ${className}`.trim()}>
-                {(users.length !== 0 && !disableSearch) && (
-                    <Search
-                        searchType={searchType}
-                        query={this.query}
-                        onChangeQuery={this.onQueryChange}
-                    />
-                )}
+                {users.length !== 0 &&
+                    !disableSearch && (
+                        <Search
+                            searchType={searchType}
+                            query={this.query}
+                            onChangeQuery={this.onQueryChange}
+                        />
+                    )}
                 <div className={b('list')}>
                     {this.filteredUsers.map(user => (
                         <BasicUserInfo
@@ -71,7 +76,7 @@ class ContactsList extends React.Component<Props> {
 
     private onQueryChange = (query: string) => {
         this.query = query;
-    }
+    };
 }
 
 export default ContactsList;

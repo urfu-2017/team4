@@ -5,14 +5,11 @@ import contactsStore from './contacts-store';
 import UserModel from './user-model';
 
 class UserSearchStore {
-    @observable
-    public users = [];
+    @observable public users = [];
 
-    @observable
-    public state = 'initial';
+    @observable public state = 'initial';
 
-    @observable
-    public query = '';
+    @observable public query = '';
 
     @computed
     get hasError() {
