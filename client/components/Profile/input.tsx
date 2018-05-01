@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import Index from '../Input/index';
+import Input from '../Input/input';
 import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
@@ -61,14 +61,14 @@ class Profile extends React.Component<{}, State> {
                 <img className={b('avatar')} src={this.state.avatar} alt="Аватар" />
                 <div className={b('username')}>{`@${this.state.username}`}</div>
                 <div className={b('fields')}>
-                    <Index
+                    <Input
                         className={b('input')}
                         onChange={this.onChangeFirstName}
                         type="text"
                         value={this.state.firstName}
                         placeholder="Имя"
                     />
-                    <Index
+                    <Input
                         onChange={this.onChangeSecondName}
                         type="text"
                         value={this.state.lastName}

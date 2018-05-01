@@ -11,8 +11,8 @@ interface Props extends React.HTMLProps<HTMLInputElement> {
     innerRef?: (ref: HTMLInputElement) => void;
 }
 
-const Index: React.SFC<Props> = ({ className = '', innerRef, hasError, ...props }) => (
+const Input: React.SFC<Props> = ({ className = '', innerRef, hasError, ...props }) => (
     <input {...props} ref={innerRef} className={`${b({ error: hasError })} ${className}`.trim()} />
 );
 
-export default Index;
+export default Input;

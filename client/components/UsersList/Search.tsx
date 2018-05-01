@@ -1,7 +1,7 @@
 import React from 'react';
 import b_ from 'b_';
 
-import Input from '../Input';
+import Input from '../Input/input';
 
 const b = b_.with('users');
 

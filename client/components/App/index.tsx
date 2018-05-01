@@ -7,7 +7,7 @@ import Contacts from '../Contacts';
 import Chats from '../Chats';
 import Header from '../Header';
 import ProfileView from '../UserProfile';
-import ProfileSettings from '../Profile';
+import ProfileSettings from '../Profile/input';
 import CreateRoom from '../Room';
 import ChatInfo from '../ChatInfo';
 

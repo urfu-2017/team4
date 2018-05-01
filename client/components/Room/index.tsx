@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import { RouteComponentProps, withRouter } from 'react-router';
 import b_ from 'b_';
 
-import Input from '../Input';
+import Input from '../Input/input';
 import Button from '../Button';
 import UsersList from '../UsersList';
 import Popup from '../Popup';
