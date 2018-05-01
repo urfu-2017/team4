@@ -22,11 +22,12 @@ class App extends React.Component {
     public renderModals() {
         return (
             <React.Fragment>
+                {uiStore.displays.chatInfo && <ChatInfo />}
+                {uiStore.displays.createRoom && <CreateRoom />}
                 {uiStore.displays.contacts && <Contacts />}
                 {uiStore.displays.profile && <ProfileSettings />}
-                {uiStore.displays.chatInfo && <ChatInfo />}
                 {uiStore.displays.userInfo && <ProfileView />}
-                {uiStore.displays.createRoom && <CreateRoom />}
+
             </React.Fragment>
         );
     }

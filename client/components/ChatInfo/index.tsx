@@ -67,7 +67,12 @@ class ChatInfo extends React.Component {
                         <span className={b('action', { danger: true })}>Покинуть группу</span>
                     </div>
                     <div className={b('field')}>{chat.members.length} участников:</div>
-                    <UsersList className={b('members')} disableSearch={true} users={chat.members} />
+                    <UsersList
+                        className={b('members')}
+                        disableSearch={true}
+                        users={chat.members}
+                        onClick={this.openUserProfile}
+                    />
                 </Popup>
                 {this.isAddMode && <AddMember chat={chat} closeHandler={this.disableAddMode} />}
             </React.Fragment>
@@ -80,6 +85,15 @@ class ChatInfo extends React.Component {
 
     private disableAddMode = () => {
         this.isAddMode = false;
+    };
+
+    private openUserProfile = (id: string) => {
+        const user = usersStore.users.get(id);
+
+        if (user) {
+            uiStore.togglePopup('chatInfo')();
+            uiStore.toggleUserInfoPopup(user);
+        }
     };
 }
 
