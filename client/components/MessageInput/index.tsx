@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
 import b_ from 'b_';
+import Dropzone from 'react-dropzone';
 
 import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';

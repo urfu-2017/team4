@@ -34,11 +34,79 @@
 
 .profile__avatar {
     width: 128px;
-    height: 128px;
+    height: auto;
     margin: 8px 0 16px;
+    display: block;
 }
 
 .profile__username {
     margin: 0 0 12px;
     font-size: 20px;
+}
+
+/*=============================   DROPZONA   =============================*/
+
+.profile__dropzone {
+    position: relative;
+    padding: 5px;
+    margin-top: 5px;
+    border: 2px solid transparent;
+
+    cursor: pointer;
+    border-radius: 10px;
+    transition: border-color 0.2s;
+}
+
+.profile__dropzone:hover,
+.profile__dropzone_active {
+    border-color: #e4e4e4;
+}
+
+.profile__dropzone_over {
+    border-color: #777;
+}
+
+.profile__dropzone_over > .profile__hover-indicator {
+    opacity: 1;
+}
+
+.profile__dropzone_over > .profile__hover-indicator::before,
+.profile__dropzone_over > .profile__hover-indicator::after {
+    background: #777;
+}
+
+.profile__dropzone:hover > .profile__hover-indicator {
+    opacity: 1;
+}
+
+.profile__hover-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 5px;
+
+    opacity: 0;
+    background: rgba(250, 250, 250, 0.8);
+
+    transition: opacity 0.2s;
+}
+
+.profile__hover-indicator::before,
+.profile__hover-indicator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 60px;
+    background: #ccc;
+    border-radius: 5px;
+
+    transform: translate(-50%, -50%);
+}
+
+.profile__hover-indicator::after {
+    transform: translate(-50%, -50%) rotate(90deg);
 }
