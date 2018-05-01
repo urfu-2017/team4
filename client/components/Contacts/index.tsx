@@ -15,7 +15,6 @@ import contactsStore from '../../domain/contacts-store';
 import uiStore from '../../domain/ui-store';
 
 import './Contacts.css';
-
 const b = b_.with('contacts');
 
 interface State {

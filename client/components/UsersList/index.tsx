@@ -2,7 +2,7 @@ import React from 'react';
 import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import b_ from 'b_';
-import UserItem from './Item';
+import BasicUserInfo from '../UserInfo/Basic';
 import Search from './Search';
 
 import UserModel from '../../domain/user-model';
@@ -15,6 +15,7 @@ const b = b_.with('users');
 interface Props {
     users: UserModel[];
 
+    className?: string;
     searchType?: 'plain' | 'box';
     disableSearch?: boolean;
     selected?: string[];
@@ -41,10 +42,10 @@ class ContactsList extends React.Component<Props> {
     }
 
     public render(): React.ReactNode {
-        const { selected = [], onClick, users, disableSearch, searchType = 'box'} = this.props;
+        const { selected = [], onClick, users, disableSearch, className = '', searchType = 'box'} = this.props;
 
         return (
-            <div className={b()}>
+            <div className={`${b()} ${className}`.trim()}>
                 {(users.length !== 0 && !disableSearch) && (
                     <Search
                         searchType={searchType}
@@ -52,9 +53,9 @@ class ContactsList extends React.Component<Props> {
                         onChangeQuery={this.onQueryChange}
                     />
                 )}
-                <ul className={b('list')}>
+                <div className={b('list')}>
                     {this.filteredUsers.map(user => (
-                        <UserItem
+                        <BasicUserInfo
                             key={user.id}
                             user={user}
                             className={b('contact')}
@@ -63,7 +64,7 @@ class ContactsList extends React.Component<Props> {
                             selectable={true}
                         />
                     ))}
-                </ul>
+                </div>
             </div>
         );
     }

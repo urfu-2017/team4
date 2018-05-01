@@ -1,0 +1,62 @@
+.chat-info {
+    box-sizing: border-box;
+
+    padding: 16px 20px;
+    width: 94%;
+    max-width: 480px;
+    max-height: 86vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-info__title {
+    margin: 0 0 24px;
+}
+
+.chat-info__room-title {
+    margin: 0 0 24px;
+}
+
+.chat-info__label {
+    color: #515151;
+    font-size: 14px;
+}
+
+.chat-info__field {
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.chat-info__actions {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.chat-info__actions-title {
+    color: #808080;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.chat-info__action {
+    font-size: 12px;
+    margin-bottom: 12px;
+    color: #3757c5;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+}
+
+.chat-info__action:hover {
+    text-decoration-color: currentColor;
+}
+
+.chat-info__action_danger {
+    color: #ed0000;
+}
+
+.chat-info__members {
+    max-height: 40vh;
+}

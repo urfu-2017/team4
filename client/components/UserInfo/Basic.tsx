@@ -4,8 +4,7 @@ import b_ from 'b_';
 
 import UserModel from '../../domain/user-model';
 
-import './UserItem.css';
-
+import './BasicUserInfo.css';
 const b = b_.with('user');
 
 interface Props {

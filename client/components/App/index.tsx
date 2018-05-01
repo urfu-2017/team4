@@ -3,15 +3,18 @@ import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import ChatWrapper from '../Chat/ChatWrapper';
-import Contacts from '../Contacts/index';
+import Contacts from '../Contacts';
 import Chats from '../Chats';
 import Header from '../Header';
+import ProfileView from '../UserProfile';
 import ProfileSettings from '../Profile';
-import UserProfile from '../UserProfile';
-import CreateRoom from '../CreateRoom';
-import './App.css';
+import CreateRoom from '../Room';
+import ChatInfo from '../ChatInfo';
+
 
 import uiStore from '../../domain/ui-store';
+
+import './App.css';
 
 const stubComponent: React.SFC = () => <div />;
 
@@ -22,7 +25,8 @@ class App extends React.Component {
             <React.Fragment>
                 {uiStore.displays.contacts && <Contacts />}
                 {uiStore.displays.profile && <ProfileSettings />}
-                {uiStore.displays.user && <UserProfile />}
+                {uiStore.displays.chatInfo && <ChatInfo />}
+                {uiStore.displays.userInfo && <ProfileView />}
                 {uiStore.displays.createRoom && <CreateRoom/>}
             </React.Fragment>
         );

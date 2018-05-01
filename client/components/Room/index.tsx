@@ -10,12 +10,12 @@ import UsersList from '../UsersList';
 import Popup from '../Popup';
 import Head from './Head';
 
-import './CreateRoom.css';
 import UiStore from '../../domain/ui-store';
 import contactsStore from '../../domain/contacts-store';
 import chatsStore from '../../domain/chats-store';
 import usersStore from '../../domain/users-store';
 
+import './CreateRoom.css';
 const b = b_.with('createRoom');
 
 @observer
@@ -39,15 +39,11 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
 
         return (
             <React.Fragment>
-                <Popup
-                    className={b()}
-                    zIndex={100}
-                    headContent={<Head closeHandler={CreateRoom.closePopup}/>}
-                    closeHandler={CreateRoom.closePopup}
-                >
-                    <div className={b('inner')}>
-                        {this.renderStepOne()}
-                        {this.renderStepTwo()}
+                <Popup className={b()} zIndex={100} closeHandler={CreateRoom.closePopup}>
+                    <h1 className={b('title') + ' header3'}>Создание группы</h1>
+                    {this.renderStepOne()}
+                    {this.renderStepTwo()}
+                    <div className={b('actions')}>
                         <Button disabled={disabled} onClick={this.createGroup}>
                             Создать группу
                         </Button>
@@ -60,11 +56,11 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     private renderStepOne() {
         return (
             <label className={b('field')}>
-                <span className={b('field-label')}>Название беседы:</span>
+                <span className={b('field-label')}>Название группы:</span>
                 <Input
                     onChange={this.changeName}
                     type={'text'}
-                    placeholder={'Введите тему беседы'}
+                    placeholder={'Введите тему группы'}
                 />
             </label>
         )
@@ -76,7 +72,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         );
 
         return (
-            <div className={b('field')}>
+            <React.Fragment>
                 <span className={b('field-label')}>Участники:</span>
                 <UsersList
                     searchType={'plain'}
@@ -84,7 +80,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
                     onClick={this.toggleMember}
                     selected={this.members}
                 />
-            </div>
+            </React.Fragment>
         );
     }
 

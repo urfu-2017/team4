@@ -11,7 +11,7 @@ interface Props {
 
 const Head: React.SFC<Props> = ({ closeHandler }) => (
     <React.Fragment>
-        <h2 className={`${b('heading')} header3`}>Новая беседа</h2>
+        <h2 className={`${b('heading')} header3`}>Новый групповой чат</h2>
         <div className={b('header-buttons')}>
             <Button className={b('close')} onClick={closeHandler} type="heading">
                 Закрыть

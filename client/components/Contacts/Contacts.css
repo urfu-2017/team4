@@ -1,11 +1,9 @@
 .contacts {
     display: flex;
     flex-direction: column;
-    top: 7vh;
 
     width: 94%;
     max-width: 420px;
-    max-height: 86vh;
     box-sizing: border-box;
 }
 
@@ -16,12 +14,9 @@
 .contacts__main {
     display: flex;
     flex-direction: column;
-}
+    overflow: hidden;
 
-.contacts__list {
-    margin: 0 0 15px;
-    max-height: 50vh;
-    overflow: auto;
+    margin-bottom: 16px;
 }
 
 .contacts__footer {

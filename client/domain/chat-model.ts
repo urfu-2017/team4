@@ -39,7 +39,6 @@ export default class ChatModel {
 
         try {
             this.isFetching = true;
-
             const oldestMessage = this.messages[0];
 
             const messages = await RPC.request(

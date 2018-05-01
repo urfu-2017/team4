@@ -31,8 +31,6 @@ class AddContact extends React.Component<Props> {
             .filter(user => contactsStore.has(user.username))
             .map(contact => contact.id);
 
-        console.info(userSearchStore.state);
-
         return (
             <Popup className={b()} closeHandler={this.props.closeHandler} zIndex={200}>
                 <h2 className={`${b('heading')} header3`}>Добавить контакт</h2>

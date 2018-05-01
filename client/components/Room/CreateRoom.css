@@ -1,0 +1,37 @@
+.createRoom {
+    box-sizing: border-box;
+
+    padding: 10px 20px;
+    width: 94%;
+    max-width: 480px;
+    max-height: 86vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.createRoom__title {
+    margin-bottom: 24px;
+}
+
+.createRoom__inner {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.createRoom__actions {
+    margin-top: 12px;
+}
+
+.createRoom__field:not(:last-child) {
+    display: block;
+    margin-bottom: 24px;
+}
+
+.createRoom__field-label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 12px;
+}

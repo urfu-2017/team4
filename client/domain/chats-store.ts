@@ -5,7 +5,6 @@ import ChatModel from './chat-model';
 import UsersStore from './users-store';
 
 class ChatsStore {
-
     @observable
     public chatsMap = new Map();
 
@@ -40,8 +39,8 @@ class ChatsStore {
 
     public saveChat(chat): ChatModel {
         const chatModel = new ChatModel(chat);
-        chatModel.members.map(user => UsersStore.saveUser(user));
-        chatModel.loadNextHistoryFrame();
+        chatModel.members = chatModel.members.map(user => UsersStore.saveUser(user));
+        chatModel.join();
 
         this.chatsMap.set(chat.id, chatModel);
 
@@ -73,9 +72,7 @@ class ChatsStore {
             const newChat = await RPC.request('getChatInfo', { chatId, subscribe: true });
 
             if (newChat) {
-                // Запрашиваем историю сообщений
-                const chatModel = this.saveChat(newChat);
-                await chatModel.join();
+                await this.saveChat(newChat);
             }
         }
     };

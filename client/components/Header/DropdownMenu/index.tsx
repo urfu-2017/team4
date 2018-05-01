@@ -39,7 +39,7 @@ class DropdownMenu extends React.Component {
         return (
             <nav className={b()}>
                 <span className={b('item')} onClick={this.onGroupClick}>
-                    Создать беседу
+                    Создать групповой чат
                 </span>
                 <span className={b('item')} onClick={this.onContactsClick}>
                     Контакты

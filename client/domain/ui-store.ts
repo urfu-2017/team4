@@ -1,18 +1,27 @@
 import { action, computed, observable, runInAction } from 'mobx';
+import UserModel from './user-model';
 
 const TIMEOUT_ERROR = 5000;
 
 class UIStore {
-    @observable.ref public showProfile = null;
+    @observable
+    public userInfo: UserModel = null;
 
-    @observable public isMenuShown = false;
-    @observable public error = null;
-    @observable public popupStack = [];
+    @observable
+    public isMenuShown: boolean = false;
+
+    @observable
+    public error = null;
+
+    @observable
+    public popupStack = [];
+
     @observable
     public displays = {
         contacts: false,
         profile: false,
-        user: false,
+        chatInfo: false,
+        userInfo: false,
         createRoom: false
     };
 
@@ -47,13 +56,13 @@ class UIStore {
     };
 
     @action
-    public toggleUserProfilePopup(user) {
+    public toggleUserInfoPopup(user: UserModel) {
         if (user) {
-            this.showProfile = user;
-            this.displays.user = true;
+            this.userInfo = user;
+            this.displays.userInfo = true;
         } else {
-            this.showProfile = null;
-            this.displays.user = false;
+            this.userInfo = null;
+            this.displays.userInfo = false;
         }
 
         this.isMenuShown = false;

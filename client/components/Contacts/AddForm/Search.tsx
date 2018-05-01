@@ -34,6 +34,7 @@ class Search extends React.Component<Props> {
         return (
             <Input
                 type={'text'}
+                className={this.props.className}
                 placeholder="Имя пользователя..."
                 innerRef={input => { // tslint:disable-line
                     this.usernameInput = input;
