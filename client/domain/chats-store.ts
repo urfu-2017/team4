@@ -64,7 +64,7 @@ class ChatsStore {
 
         if (chat) {
             // Добавляем сообщение в существующий чат
-            chat.onRecieveMessage(message);
+            chat.onReceiveMessage(message);
         } else {
             // Добавляем новый чат
             const newChat = await RPC.request('getChatInfo', { chatId, subscribe: true });

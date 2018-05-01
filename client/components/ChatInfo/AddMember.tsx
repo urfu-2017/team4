@@ -5,6 +5,7 @@ import b_ from 'b_';
 import Popup from '../Popup';
 import UsersList from '../UsersList';
 
+import usersStore from '../../domain/users-store';
 import contactsStore from '../../domain/contacts-store';
 import ChatModel from '../../domain/chat-model';
 
@@ -44,8 +45,13 @@ class AddMember extends React.Component<Props> {
         );
     }
 
-    private addMember = async () => {
-        this.props.closeHandler();
+    private addMember = async (id: string) => {
+        const user = usersStore.users.get(id);
+
+        if (user) {
+            await this.props.chat.addMember(user);
+            this.props.closeHandler();
+        }
     };
 
     private onCancel = () => {

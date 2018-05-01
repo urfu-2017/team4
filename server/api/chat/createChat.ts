@@ -22,7 +22,7 @@ export default async function createChat(request: Request<Params>, response: Res
         members.push(request.user);
     }
 
-    await Members.bulkCreate(
+    await Members.bulkCreate<Members>(
         members.map(userId => ({
             userId,
             chatId: chat.id

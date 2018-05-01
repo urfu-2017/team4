@@ -15,6 +15,8 @@ import getChatInfo from './chat/getChatInfo';
 import getChatMessages from './chat/getChatMessages';
 import sendMessage from './chat/sendMessage';
 import subscribeToChat from './chat/subscribeToChat';
+import addMember from './chat/addMember';
+import removeMember from './chat/removeMember';
 
 export const getMethods = (): Record<string, RpcHandler> => ({
     hello,
@@ -31,5 +33,7 @@ export const getMethods = (): Record<string, RpcHandler> => ({
     getChatInfo,
     getChatMessages,
     sendMessage,
-    subscribeToChat
+    subscribeToChat,
+    addMember,
+    removeMember
 });
