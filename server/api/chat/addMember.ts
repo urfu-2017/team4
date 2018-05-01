@@ -11,7 +11,13 @@ interface Params {
 
 export default async function(request: Request<Params>, response: Response) {
     const { chatId, userId } = request.params;
-    await findChat(request.user, chatId);
+    const chat = await findChat(request.user, chatId);
+
+    if (chat.type === 'dialog') {
+        // TODO: Придумать сообщение об ошибке
+        throw new Error('Chat is dialog');
+    }
+
     await Members.create<Members>({ userId, chatId });
 
     response.notification(chatId, 'ADD_MEMBER', { userId });

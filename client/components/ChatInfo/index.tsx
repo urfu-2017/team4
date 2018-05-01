@@ -63,8 +63,12 @@ class ChatInfo extends React.Component {
                         <span className={b('action')} onClick={this.enableAddMode}>
                             Добавить участника
                         </span>
-                        <span className={b('action')}>Скопировать invite-ссылку</span>
-                        <span className={b('action', { danger: true })}>Покинуть группу</span>
+                        <span className={b('action')}>
+                            Скопировать invite-ссылку
+                        </span>
+                        <span onClick={this.leaveChat} className={b('action', { danger: true })}>
+                            Покинуть группу
+                        </span>
                     </div>
                     <div className={b('field')}>{chat.members.length} участников:</div>
                     <UsersList
@@ -95,6 +99,11 @@ class ChatInfo extends React.Component {
             uiStore.toggleUserInfoPopup(user);
         }
     };
+
+    private leaveChat = async() => {
+        await chatsStore.leave(chatsStore.currentChat);
+        uiStore.togglePopup('chatInfo')();
+    }
 }
 
 export default ChatInfo;

@@ -2,12 +2,14 @@ import { action, computed, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import ChatModel from './chat-model';
-import UsersStore from './users-store';
+import usersStore from './users-store';
 
 class ChatsStore {
-    @observable public chatsMap = new Map();
+    @observable
+    public chatsMap = new Map();
 
-    @observable public currentChat = null;
+    @observable
+    public currentChat = null;
 
     @computed
     get chats() {
@@ -19,7 +21,7 @@ class ChatsStore {
     }
 
     public init() {
-        const chats = UsersStore.currentUser.chats;
+        const chats = usersStore.currentUser.chats;
 
         chats.filter(chat => chat !== null).forEach(chat => {
             const chatModel = this.saveChat(chat);
@@ -37,7 +39,7 @@ class ChatsStore {
 
     public saveChat(chat): ChatModel {
         const chatModel = new ChatModel(chat);
-        chatModel.members = chatModel.members.map(user => UsersStore.saveUser(user));
+        chatModel.members = chatModel.members.map(user => usersStore.saveUser(user));
         chatModel.join();
 
         this.chatsMap.set(chat.id, chatModel);
@@ -56,6 +58,15 @@ class ChatsStore {
         );
 
         return dialog || null;
+    }
+
+    public async leave(chat: ChatModel) {
+        await chat.removeMember(usersStore.currentUser);
+        this.chatsMap.delete(chat.id);
+
+        if (this.currentChat === chat) {
+            this.currentChat = null;
+        }
     }
 
     private onNewMessage = async message => {

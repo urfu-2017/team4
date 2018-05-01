@@ -1,7 +1,7 @@
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import Chat from '../Chat';
 import MessageInput from '../MessageInput';
@@ -45,7 +45,7 @@ class ChatWrapper extends React.Component<Props> {
 
     public render() {
         if (this.chat === null) {
-            return null;
+            return (<Redirect to={'/'}/>);
         }
 
         return (

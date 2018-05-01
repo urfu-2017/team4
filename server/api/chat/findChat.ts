@@ -1,7 +1,7 @@
 import { Chat, User } from '../../models';
 import { JsonRpcError } from 'jsonrpc-lite';
 
-export default async function findChat(userId: number, chatId: string): Promise<Chat | null> {
+export default async function findChat(userId: number, chatId: string): Promise<Chat> {
     const currentUser = (await User.findById(userId, {
         include: [
             {
