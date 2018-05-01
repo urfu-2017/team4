@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize-typescript'
 
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { User } from '../../models/user';
+import { User } from '../../models';
 
 export default async function findUsers(request: Request<{ username: string; }>, response: Response) {
     const query = request.params.username

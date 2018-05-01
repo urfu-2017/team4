@@ -34,12 +34,6 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
         };
     }
 
-    public componentDidMount() {
-        if (contactsStore.state !== 'loaded') {
-            contactsStore.loadList();
-        }
-    }
-
     public toggleAddContact = () => {
         this.setState(prev => ({
             displayAddContact: !prev.displayAddContact

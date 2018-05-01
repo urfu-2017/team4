@@ -27,18 +27,9 @@ class ContactsStore {
     }
 
     @action
-    public async loadList() {
-        try {
-            const list = UsersStore.currentUser.contacts;
-            runInAction(() => {
-                this.list = list;
-                this.state = this.list.length ? 'loaded' : 'empty';
-            });
-        } catch (e) {
-            runInAction(() => {
-                this.state = 'error';
-            });
-        }
+    public setList(contacts) {
+        this.list = contacts;
+        this.state = this.list.length ? 'loaded' : 'empty';
     }
 
     @action

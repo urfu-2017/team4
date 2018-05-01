@@ -5,9 +5,12 @@ import ChatModel from './chat-model';
 import UsersStore from './users-store';
 
 class ChatsStore {
-    @observable public chatsMap = new Map();
 
-    @observable public currentChat = null;
+    @observable
+    public chatsMap = new Map();
+
+    @observable
+    public currentChat = null;
 
     @computed
     get chats() {
@@ -31,17 +34,17 @@ class ChatsStore {
         const chat = await RPC.request('createChat', { type, members, name }, 15000);
         const chatModel = this.saveChat(chat);
         await chatModel.join();
+
         return chatModel;
     }
 
     public saveChat(chat): ChatModel {
         const chatModel = new ChatModel(chat);
-
-        chatModel.members.forEach(user => {
-            UsersStore.saveUser(user);
-        });
+        chatModel.members.map(user => UsersStore.saveUser(user));
+        chatModel.loadNextHistoryFrame();
 
         this.chatsMap.set(chat.id, chatModel);
+
         return chatModel;
     }
 

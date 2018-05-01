@@ -6,6 +6,7 @@ import getCurrentUser from './session/getCurrentUser';
 import addContact from './session/addContact';
 import updateCurrentUser from './session/updateCurrentUser';
 
+import subscribeToUser from './user/subscribeToUser';
 import getUserInfo from './user/getUserInfo';
 import findUsers from './user/findUsers';
 
@@ -22,6 +23,7 @@ export const getMethods = (): Record<string, RpcHandler> => ({
     addContact,
     updateCurrentUser,
 
+    subscribeToUser,
     getUserInfo,
     findUsers,
 

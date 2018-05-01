@@ -19,11 +19,6 @@ class Chats extends React.Component {
         return time2 - time1;
     }
 
-    public onContactsClick = event => {
-        event.preventDefault();
-        uiStore.togglePopup('contacts')();
-    };
-
     @computed
     get chats() {
         return ChatsStore.chats
@@ -51,6 +46,11 @@ class Chats extends React.Component {
             </div>
         );
     }
+
+    private onContactsClick = event => {
+        event.preventDefault();
+        uiStore.togglePopup('contacts')();
+    };
 }
 
 export default Chats;

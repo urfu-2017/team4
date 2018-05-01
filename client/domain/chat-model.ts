@@ -3,7 +3,8 @@ import { computed, observable } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 export default class ChatModel {
-    @observable.shallow public messages = [];
+    @observable.shallow
+    public messages = [];
 
     @observable public isFetching = false;
 
