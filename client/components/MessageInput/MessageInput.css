@@ -34,3 +34,17 @@
     top: 10px;
     right: 10px;
 }
+
+.message-input__smiles {
+    position: relative;
+    display: inline-block;
+}
+
+.message-input__smiles-picker {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+
+    transform: translateX(0);
+    z-index: 100;
+}

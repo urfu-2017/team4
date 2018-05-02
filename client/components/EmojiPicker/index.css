@@ -1,8 +1,1 @@
-.emojipicker {
-    position: fixed;
-    bottom: 120px;
-    left: 80%;
 
-    transform: translateX(-50%);
-    z-index: 100;
-}

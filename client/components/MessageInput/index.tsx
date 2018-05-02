@@ -89,14 +89,6 @@ class MessageInput extends React.Component<{}, State> {
     public render() {
         return (
             <section className="message-input">
-                {
-                    this.state.showSmiles
-                        ? <EmojiPicker
-                            addSmile={this.addSmile}
-                            closeSmiles={this.onCloseSmiles}
-                        />
-                        : null
-                }
                 <Textarea
                     minRows={3}
                     maxRows={6}
@@ -109,9 +101,17 @@ class MessageInput extends React.Component<{}, State> {
                 <Button className={b('send')} onClick={this.onSend}>
                     Отправить
                 </Button>
-                <Button className="message-input__smiles" onClick={this.onShowSmiles}>
-                    Смайлы
-                </Button>
+                <div className="message-input__smiles">
+                    <Button onClick={this.onShowSmiles}>Смайлы</Button>
+                    {this.state.showSmiles && (
+                        <EmojiPicker
+                            className="message-input__smiles-picker"
+                            addSmile={this.addSmile}
+                            closeSmiles={this.onCloseSmiles}
+                        />
+                    )}
+                </div>
+
                 {ogStore.state === 'loading' ? (
                     <Preloader className={b('preloader')} size={40} />
                 ) : (

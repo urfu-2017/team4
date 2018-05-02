@@ -1,48 +1,33 @@
-import { observer } from 'mobx-react';
 import { Picker } from 'emoji-mart';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 import './index.css';
 import 'emoji-mart/css/emoji-mart.css';
 
-import ogStore from '../../domain/og-store';
-import urlParser from '../../utils/url-parser';
-import uiStore from '../../domain/ui-store';
-
 interface Props {
     addSmile: (smile) => void;
     closeSmiles: () => void;
+    className?: string;
 }
 
 class EmojiPicker extends React.Component<Props, any> {
 
-    public getEmoji = (emoji) => {
-        return this.props.addSmile(emoji.native);
-    }
-
-    componentWillUnmount() {
+    public componentWillUnmount() {
         document.removeEventListener('click', this.handleClickOutside, false);
     }
 
-    componentWillMount() {
+    public componentWillMount() {
         document.addEventListener('click', this.handleClickOutside, false);
     }
-    
-    handleClickOutside = (event) => {
-        const domNode = ReactDOM.findDOMNode(this);
-    
-        if ((!domNode || !domNode.contains(event.target))) {
-            this.props.closeSmiles();
-        }
-    }      
 
     public render() {
+        const { className = '' } = this.props;
+
         return (
             <React.Fragment>
-                <div className='emojipicker'>
-                    <Picker 
+                <div className={className}>
+                    <Picker
                         set='emojione'
                         showPreview={false}
                         showSkinTones={false}
@@ -53,7 +38,19 @@ class EmojiPicker extends React.Component<Props, any> {
             </React.Fragment>
         );
     }
-} 
+
+    private getEmoji = (emoji) => {
+        return this.props.addSmile(emoji.native);
+    }
+
+    private handleClickOutside = (event) => {
+        const domNode = ReactDOM.findDOMNode(this);
+
+        if ((!domNode || !domNode.contains(event.target))) {
+            this.props.closeSmiles();
+        }
+    }
+}
 
 export default EmojiPicker;
 
