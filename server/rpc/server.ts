@@ -64,6 +64,19 @@ export class Server {
         }
     }
 
+    public logout(userId: number) {
+        const sockets = this.sockets.get(userId);
+
+        if (sockets) {
+            sockets.forEach(socket => {
+                this.sessionStore.destroy(socket.handshake.query.sid, () => {
+                    // ignore
+                });
+                socket.disconnect(true);
+            });
+        }
+    }
+
     private onConnection = (socket: io.Socket) => {
         const { user } = socket.handshake.query;
         const clients = this.sockets.get(user);
@@ -138,6 +151,7 @@ export class Server {
 
             // Прикрепляем идентификатор пользователя к сокету
             socket.handshake.query.user = session.passport.user;
+            socket.handshake.query.sid = sid;
             next();
         });
     };
