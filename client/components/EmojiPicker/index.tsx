@@ -28,11 +28,12 @@ class EmojiPicker extends React.Component<Props, any> {
             <React.Fragment>
                 <div className={className}>
                     <Picker
-                        set='emojione'
+                        set='google'
                         showPreview={false}
                         showSkinTones={false}
                         onSelect={this.getEmoji}
                         color='#515151'
+                        emojiSize={24}
                     />
                 </div>
             </React.Fragment>
