@@ -2,13 +2,19 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
 import b_ from 'b_';
-import Dropzone from 'react-dropzone';
+import ReactDropzone from 'react-dropzone';
 
 import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';
 
+import SendIcon from './SendIcon';
+import AttachIcon from './AttachIcon';
+import Dropzone from '../Dropzone';
+
 import ChatsStore from '../../domain/chats-store';
 import ogStore from '../../domain/og-store';
+import urlParser from '../../utils/url-parser';
+import { getImageFromFile } from '../../utils/image-utils';
 
 import './MessageInput.css';
 const b = b_.with('message-input');
@@ -21,6 +27,7 @@ interface State {
 class MessageInput extends React.Component<{}, State> {
 
     private messageInput: HTMLTextAreaElement;
+    private dropzone: ReactDropzone;
 
     constructor(props) {
         super(props);
@@ -72,33 +79,63 @@ class MessageInput extends React.Component<{}, State> {
         }
     };
 
+    public onInput = event => {
+        const url = urlParser(event.target.value);
+
+        if (url) {
+            ogStore.setUrl(url);
+        }
+    };
+
     public render() {
         return (
-            <section className="message-input">
+            <section className={b()}>
+                <Button className={b('button')} onClick={this.dropzoneOpen}>
+                    <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
+                </Button>
                 <Textarea
-                    minRows={3}
                     maxRows={6}
+                    style={{ padding: '10px' }}
                     className={b('message')}
                     placeholder="Введите сообщение..."
                     onKeyPress={this.onKeyUp}
                     inputRef={input => (this.messageInput = input) /* tslint:disable-line */}
                 />
-                <Button className={b('send')} onClick={this.onSend}>
-                    Отправить
-                </Button>
-                <div className="message-input__smiles">
+                <div className={b('smiles')}>
                     <Button onClick={this.onShowSmiles}>Смайлы</Button>
                     {this.state.showSmiles && (
                         <EmojiPicker
-                            className="message-input__smiles-picker"
+                            className={b('smiles-picker')}
                             addSmile={this.addSmile}
                             closeSmiles={this.onCloseSmiles}
                         />
                     )}
                 </div>
+                <Button className={`${b('button')} ${b('send')}`} onClick={this.onSend}>
+                    <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
+                </Button>
+                {/* TODO запилить обработчики на перехват файлов */}
+                <Dropzone
+                    // tslint:disable-next-line
+                    dropzoneRef={node => {
+                        this.dropzone = node;
+                    }}
+                    blockName={b()}
+                    // tslint:disable-next-line
+                    onDrop={(accepted) => {
+                        getImageFromFile(accepted[0]).then(res => console.log(res));
+                    }}
+                    accept="image/jpeg, image/gif, image/png, image/webp, image/svg+xml"
+                >
+                    Перетащите фото для отправки
+                </Dropzone>
             </section>
         );
     }
+
+    private dropzoneOpen = (): void => {
+        this.dropzone.open();
+    };
 }
 
 export default MessageInput;
