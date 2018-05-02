@@ -23,6 +23,13 @@ class DropdownMenu extends React.Component {
         uiStore.togglePopup('profile')();
     };
 
+    public onGroupClick = event => {
+        event.preventDefault();
+
+        uiStore.toggleLeftPanel();
+        uiStore.togglePopup('createRoom')();
+    };
+
     public onExitClick = event => {
         event.preventDefault();
         usersStore.logout();
@@ -31,6 +38,9 @@ class DropdownMenu extends React.Component {
     public render() {
         return (
             <nav className={b()}>
+                <span className={b('item')} onClick={this.onGroupClick}>
+                    Создать групповой чат
+                </span>
                 <span className={b('item')} onClick={this.onContactsClick}>
                     Контакты
                 </span>

@@ -2,11 +2,14 @@ import { action, computed, observable, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import contactsStore from './contacts-store';
+import UserModel from './user-model';
 
 class UserSearchStore {
-    @observable public user = undefined;
+    @observable public users = [];
+
     @observable public state = 'initial';
-    public query = '';
+
+    @observable public query = '';
 
     @computed
     get hasError() {
@@ -28,27 +31,20 @@ class UserSearchStore {
         }
 
         this.state = 'loading';
-        let users;
-
-        try {
-            users = await RPC.request('findUsers', { username: this.query });
-        } catch (e) {
-            users = null;
-        }
+        const users = await RPC.request('findUsers', { username: this.query });
 
         // Вызываем только если ожидаем результат
         if (this.state === 'loading') {
             runInAction(() => {
-                // FIXME несколько вариантов
-                this.user = users[0];
-                this.state = this.user ? 'loaded' : 'notFound';
+                this.users = users.map(user => UserModel.fromJSON(user));
+                this.state = this.users.length !== 0 ? 'loaded' : 'notFound';
             });
         }
     };
 
     @action
     public clear = () => {
-        this.user = undefined;
+        this.users = [];
         this.state = 'initial';
         this.query = '';
     };

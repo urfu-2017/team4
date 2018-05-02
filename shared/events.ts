@@ -1,0 +1,9 @@
+export enum Events {
+    ADD_MEMBER = 'ADD_MEMBER',
+    REMOVE_MEMBER = 'REMOVE_MEMBER',
+
+    NEW_CHAT = 'NEW_CHAT',
+    NEW_MESSAGE = 'NEW_MESSAGE',
+
+    UPDATE_PROFILE = 'UPDATE_PROFILE'
+}

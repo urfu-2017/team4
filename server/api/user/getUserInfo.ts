@@ -1,14 +1,20 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { User } from '../../models/user';
+import { User } from '../../models';
 
-export default async function getUserInfo(request: Request<{ userId: string, subscribe?: boolean }>, response: Response) {
+export default async function getUserInfo(
+    request: Request<{ userId: string; subscribe?: boolean }>,
+    response: Response
+) {
     const user = await User.findById(request.params.userId);
+
     if (!user) {
         return response.error(404, 'User not found');
     }
+
     if (request.params.subscribe) {
-        request.server.subscribeUser(String(request.user), `profile_${user.id}`);
+        request.server.subscribeUser(request.user, `profile_${user.id}`);
     }
+
     response.success(user);
 }

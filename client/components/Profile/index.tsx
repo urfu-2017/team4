@@ -2,11 +2,13 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import uiStore from '../../domain/ui-store';
-import UsersStore from '../../domain/users-store';
+import Input from '../Input/index';
 import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
+
+import uiStore from '../../domain/ui-store';
+import UsersStore from '../../domain/users-store';
 
 import './Profile.css';
 
@@ -56,26 +58,23 @@ class Profile extends React.Component<{}, State> {
                 closeHandler={closeHandler}
                 headContent={<Head closeHandler={closeHandler} />}
             >
-                <img
-                    className={b('avatar')}
-                    src={this.state.avatar}
-                    alt="Аватар"
-                />
+                <img className={b('avatar')} src={this.state.avatar} alt="Аватар" />
                 <div className={b('username')}>{`@${this.state.username}`}</div>
-                <input
-                    className={b('input')}
-                    onChange={this.onChangeFirstName}
-                    type="text"
-                    value={this.state.firstName}
-                    placeholder="Имя"
-                />
-                <input
-                    className={b('input')}
-                    onChange={this.onChangeSecondName}
-                    type="text"
-                    value={this.state.lastName}
-                    placeholder="Фамилия"
-                />
+                <div className={b('fields')}>
+                    <Input
+                        className={b('input')}
+                        onChange={this.onChangeFirstName}
+                        type="text"
+                        value={this.state.firstName}
+                        placeholder="Имя"
+                    />
+                    <Input
+                        onChange={this.onChangeSecondName}
+                        type="text"
+                        value={this.state.lastName}
+                        placeholder="Фамилия"
+                    />
+                </div>
                 <Button className={b('save')} onClick={this.saveUser}>
                     Сохранить
                 </Button>

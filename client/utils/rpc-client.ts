@@ -2,6 +2,8 @@ import RPCBuilder from 'jsonrpc-lite/jsonrpc.js';
 import io from 'socket.io-client';
 import uuid from 'uuid';
 
+import { Methods } from '../../shared/methods';
+import { Events } from '../../shared/events';
 import { WEB_SOCK_URL } from '../config';
 
 class RPCClient {
@@ -46,7 +48,7 @@ class RPCClient {
         this.socket.disconnect();
     }
 
-    public request = (method: string, params?: any, timeout = 5000): Promise<any> =>
+    public request = (method: keyof Methods, params?: any, timeout = 5000): Promise<any> =>
         new Promise((resolve, reject) => {
             if (!method) {
                 reject(new Error('Missing method name'));
@@ -70,7 +72,7 @@ class RPCClient {
             });
         });
 
-    public notification = (name, params) => {
+    public notification = (name: Events, params) => {
         if (!name) {
             throw new Error('Missing notification name');
         }
@@ -79,14 +81,14 @@ class RPCClient {
         this.socket.emit('rpc', JSON.stringify(payload));
     };
 
-    public addListener = (notificationName, fn) => {
+    public addListener = (notificationName: Events, fn) => {
         const listeners = this.listeners[notificationName] || [];
 
         listeners.push(fn);
         this.listeners[notificationName] = listeners;
     };
 
-    public removeListener = (notificationName, fn) => {
+    public removeListener = (notificationName: Events, fn) => {
         let listeners = this.listeners[notificationName];
 
         if (listeners) {

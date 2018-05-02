@@ -1,0 +1,19 @@
+.add-member {
+    position: fixed;
+    left: 50%;
+    top: 12vh;
+
+    display: flex;
+    flex-direction: column;
+    padding: 24px 35px 15px;
+    width: 90%;
+    max-width: 350px;
+    box-sizing: border-box;
+
+    background: #fff;
+    transform: translateX(-50%);
+}
+
+.add-member__title {
+    margin: 0 0 16px;
+}

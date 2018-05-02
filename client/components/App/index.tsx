@@ -4,13 +4,16 @@ import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import ChatWrapper from '../Chat/ChatWrapper';
 import Contacts from '../Contacts';
-import Dialogs from '../Dialogs';
+import Chats from '../Chats';
 import Header from '../Header';
-import ProfileSettings from '../Profile';
-import UserProfile from '../UserProfile';
-import './App.css';
+import ProfileView from '../UserProfile';
+import ProfileSettings from '../Profile/index';
+import CreateRoom from '../Room';
+import ChatInfo from '../ChatInfo';
 
 import uiStore from '../../domain/ui-store';
+
+import './App.css';
 
 const stubComponent: React.SFC = () => <div />;
 
@@ -19,9 +22,12 @@ class App extends React.Component {
     public renderModals() {
         return (
             <React.Fragment>
+                {uiStore.displays.chatInfo && <ChatInfo />}
+                {uiStore.displays.createRoom && <CreateRoom />}
                 {uiStore.displays.contacts && <Contacts />}
                 {uiStore.displays.profile && <ProfileSettings />}
-                {uiStore.displays.user && <UserProfile />}
+                {uiStore.displays.userInfo && <ProfileView />}
+
             </React.Fragment>
         );
     }
@@ -31,7 +37,7 @@ class App extends React.Component {
             <HashRouter>
                 <div className="app">
                     <Header />
-                    <Dialogs />
+                    <Chats />
                     <div className="content">
                         <Switch>
                             <Route path="/chats/:id" component={ChatWrapper} />

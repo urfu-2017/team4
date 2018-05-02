@@ -13,7 +13,7 @@ export type RpcHandler = (req: Request<any>, res: Response) => void;
 
 export class Server {
     private socketServer: io.Server;
-    private sockets: Map<string, io.Socket[]>;
+    private sockets: Map<number, io.Socket[]>;
 
     private readonly sessionStore: Store;
     private readonly methods: Record<string, RpcHandler>;
@@ -21,7 +21,7 @@ export class Server {
     public constructor(methods: Record<string, RpcHandler>, sessionStore: Store) {
         this.methods = methods;
         this.sessionStore = sessionStore;
-        this.sockets = new Map<string, io.Socket[]>();
+        this.sockets = new Map<number, io.Socket[]>();
     }
 
     public listen(httpServer: HttpServer): void {
@@ -33,24 +33,30 @@ export class Server {
         this.socketServer.on('connection', this.onConnection);
     }
 
-    public async subscribeUser(userId: string | number, channel: string) {
-        const sockets = this.sockets.get(String(userId));
+    public async subscribeUser(userId: number, channel: string) {
+        const sockets = this.sockets.get(userId);
 
         if (sockets) {
-            await Promise.all(sockets.map(socket => new Promise((resolve, reject) => {
-                socket.join(channel, err => {
-                    if (err) {
-                        reject(err);
-                        return;
-                    }
+            console.info('Joined', userId, 'to', channel);
+            await Promise.all(
+                sockets.map(
+                    socket =>
+                        new Promise((resolve, reject) => {
+                            socket.join(channel, err => {
+                                if (err) {
+                                    reject(err);
+                                    return;
+                                }
 
-                    resolve();
-                });
-            })));
+                                resolve();
+                            });
+                        })
+                )
+            );
         }
     }
 
-    public unsubscribeUser(userId: string, channel: string) {
+    public unsubscribeUser(userId: number, channel: string) {
         const sockets = this.sockets.get(userId);
 
         if (sockets) {

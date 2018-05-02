@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import b from 'b_';
 
-import userSearchStore from '../../domain/user-search-store';
+import Input from '../../Input/index';
+import userSearchStore from '../../../domain/user-search-store';
 
 interface Props {
-    className: string
+    className: string;
 }
 
 @observer
@@ -32,14 +32,17 @@ class Search extends React.Component<Props> {
 
     public render() {
         return (
-            <input
-                className={b(this.props.className, {error: userSearchStore.hasError})}
+            <Input
+                type={'text'}
+                className={this.props.className}
                 placeholder="Имя пользователя..."
-                ref={input => {
+                innerRef={input => {
+                    // tslint:disable-line
                     this.usernameInput = input;
                 }}
                 onInput={this.onInput}
                 onKeyPress={this.onEnterPress}
+                hasError={userSearchStore.hasError}
             />
         );
     }

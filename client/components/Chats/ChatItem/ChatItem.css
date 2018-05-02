@@ -5,17 +5,21 @@
     font-size: 1em;
     display: flex;
     align-items: center;
+    user-select: none;
 
     cursor: pointer;
-    margin-bottom: 10px;
     color: #333;
-    transition: all 300ms ease-in-out;
+    transition: all 300ms;
 }
 
 .dialog-list__item:hover,
 .dialog-list__item_active {
     background: #e9ebed;
     color: #333;
+}
+
+.dialog-list__item_active {
+    pointer-events: none;
 }
 
 .dialog-list__dialog-body {

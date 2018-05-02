@@ -20,6 +20,16 @@
     margin: 5px;
 }
 
+.header__chat-settings {
+    color: #fff;
+    margin-left: auto;
+    margin-right: 20px;
+
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
 .header__user-name {
     font-size: 16px;
     margin-left: auto;

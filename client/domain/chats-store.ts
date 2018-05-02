@@ -1,13 +1,17 @@
 import { action, computed, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
+import { Events } from '../../shared/events';
+
 import ChatModel from './chat-model';
-import UsersStore from './users-store';
+import usersStore from './users-store';
 
 class ChatsStore {
-    @observable public chatsMap = new Map();
+    @observable
+    public chatsMap = new Map();
 
-    @observable public currentChat = null;
+    @observable
+    public currentChat = null;
 
     @computed
     get chats() {
@@ -15,11 +19,11 @@ class ChatsStore {
     }
 
     constructor() {
-        RPC.addListener('newMessage', this.onNewMessage);
+        RPC.addListener(Events.NEW_MESSAGE, this.onNewMessage);
     }
 
     public init() {
-        const chats = UsersStore.currentUser.chats;
+        const chats = usersStore.currentUser.chats;
 
         chats.filter(chat => chat !== null).forEach(chat => {
             const chatModel = this.saveChat(chat);
@@ -31,17 +35,17 @@ class ChatsStore {
         const chat = await RPC.request('createChat', { type, members, name }, 15000);
         const chatModel = this.saveChat(chat);
         await chatModel.join();
+
         return chatModel;
     }
 
     public saveChat(chat): ChatModel {
         const chatModel = new ChatModel(chat);
-
-        chatModel.members.forEach(user => {
-            UsersStore.saveUser(user);
-        });
+        chatModel.members = chatModel.members.map(user => usersStore.saveUser(user));
+        chatModel.join();
 
         this.chatsMap.set(chat.id, chatModel);
+
         return chatModel;
     }
 
@@ -51,11 +55,20 @@ class ChatsStore {
     }
 
     public findDialog(userId) {
-        const dialog = Array.from(this.chatsMap.values())
-            .find(chat => chat.type === 'dialog' &&
-                chat.members.map(member => member.id).includes(userId));
+        const dialog = Array.from(this.chatsMap.values()).find(
+            chat => chat.type === 'dialog' && chat.members.map(member => member.id).includes(userId)
+        );
 
         return dialog || null;
+    }
+
+    public async leave(chat: ChatModel) {
+        await chat.removeMember(usersStore.currentUser);
+        this.chatsMap.delete(chat.id);
+
+        if (this.currentChat === chat) {
+            this.currentChat = null;
+        }
     }
 
     private onNewMessage = async message => {
@@ -64,15 +77,13 @@ class ChatsStore {
 
         if (chat) {
             // Добавляем сообщение в существующий чат
-            chat.onRecieveMessage(message);
+            chat.onReceiveMessage(message);
         } else {
             // Добавляем новый чат
             const newChat = await RPC.request('getChatInfo', { chatId, subscribe: true });
 
             if (newChat) {
-                // Запрашиваем историю сообщений
-                const chatModel = this.saveChat(newChat);
-                await chatModel.join();
+                await this.saveChat(newChat);
             }
         }
     };

@@ -10,7 +10,7 @@ const mode = NODE_ENV === 'production' || NODE_ENV === 'development' ? NODE_ENV 
 const isDevelopment = mode === 'development';
 
 const clientSrcPath = path.resolve(__dirname, 'client');
-const clientBuildPath = path.resolve(__dirname, 'build/client');
+const clientBuildPath = path.resolve(__dirname, 'build/server/static');
 
 module.exports = {
     mode: mode,

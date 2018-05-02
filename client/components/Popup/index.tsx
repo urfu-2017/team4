@@ -25,12 +25,12 @@ class Popup extends React.Component<Props> {
     }
 
     public render() {
+        const zIndex = this.props.zIndex + 1;
+        const className = `popup ${this.props.className}`;
+
         return (
             <React.Fragment>
-                <section
-                    className={`popup ${this.props.className}`}
-                    style={{ zIndex: this.props.zIndex + 1 }}
-                >
+                <section className={className} style={{ zIndex }}>
                     {this.props.headContent && (
                         <header className="popup__head">{this.props.headContent}</header>
                     )}

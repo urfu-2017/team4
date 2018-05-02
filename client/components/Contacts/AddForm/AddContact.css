@@ -1,53 +1,30 @@
 .add-contact {
     position: fixed;
-    top: 25vh;
     left: 50%;
+    top: 12vh;
 
     display: flex;
     flex-direction: column;
-    padding: 40px 37px 15px;
+    padding: 24px 35px 15px;
     width: 90%;
     max-width: 350px;
     box-sizing: border-box;
 
     background: #fff;
-
     transform: translateX(-50%);
 }
 
 .add-contact__heading {
-    margin: 0 0 10px;
-}
-
-.add-contact__input {
-    padding: 7px 0;
-    border: none;
-
-    outline: none;
-    box-shadow: 0 1px 0 0 #e8e8e8;
-
-    transition: box-shadow 0.2s;
-}
-
-.add-contact__input:focus {
-    box-shadow: 0 2px 0 0 #1e1e1e;
-}
-
-.add-contact__input_error {
-    box-shadow: 0 1px 0 0 #ed0000;
-}
-
-.add-contact__input_error:focus {
-    box-shadow: 0 2px 0 0 #ed0000;
+    margin: 0 0 16px;
 }
 
 .add-contact__search-zone {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    height: 60px;
     margin-bottom: 10px;
+    overflow: auto;
+}
+
+.add-contact__input {
+    margin-bottom: 2px;
 }
 
 .add-contact__preloader {

@@ -1,44 +1,16 @@
-import { action, computed, observable, runInAction } from 'mobx';
+import { action, observable, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
-import UsersStore from './users-store'
+import usersStore from './users-store';
 
 class ContactsStore {
     @observable public list = [];
-    @observable public filterValue = '';
     @observable public state = 'loading';
 
-    @computed
-    get filteredList() {
-        if (!this.filterValue) {
-            return this.list;
-        }
-
-        return this.list.filter(({ username, firstName, lastName }) =>
-            [username, firstName, lastName].some(
-                word => word && word.toLowerCase().indexOf(this.filterValue) !== -1
-            )
-        );
-    }
-
     @action
-    public setFilterValue(value) {
-        this.filterValue = value.toLowerCase();
-    }
-
-    @action
-    public async loadList() {
-        try {
-            const list = UsersStore.currentUser.contacts;
-            runInAction(() => {
-                this.list = list;
-                this.state = this.list.length ? 'loaded' : 'empty';
-            });
-        } catch (e) {
-            runInAction(() => {
-                this.state = 'error';
-            });
-        }
+    public setList(contacts) {
+        this.list = contacts;
+        this.state = this.list.length ? 'loaded' : 'empty';
     }
 
     @action
@@ -50,7 +22,7 @@ class ContactsStore {
         try {
             const contact = await RPC.request('addContact', { contactId: user.id });
             runInAction(() => {
-                this.list.push(contact);
+                this.list.push(usersStore.saveUser(contact));
                 this.state = 'loaded';
             });
         } catch (e) {

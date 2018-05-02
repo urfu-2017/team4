@@ -2,6 +2,7 @@ import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
 import { Chat, Members, User } from '../../models';
 import { v4 as uuid } from 'uuid';
+import { Events } from '../../../shared/events';
 
 interface Params {
     type: 'dialog' | 'room';
@@ -10,7 +11,7 @@ interface Params {
 }
 
 export default async function createChat(request: Request<Params>, response: Response) {
-    const {type, members, name} = request.params;
+    const { type, members, name } = request.params;
     let chat = await Chat.create({
         id: uuid(),
         name,
@@ -22,20 +23,23 @@ export default async function createChat(request: Request<Params>, response: Res
         members.push(request.user);
     }
 
-    await Members.bulkCreate(members.map(userId => ({
-        userId,
-        chatId: chat.id
-    })));
+    await Members.bulkCreate<Members>(
+        members.map(userId => ({
+            userId,
+            chatId: chat.id
+        }))
+    );
 
     chat = (await Chat.findById(chat.id, {
-        include: [{
-            model: User
-        }]
+        include: [
+            {
+                model: User
+            }
+        ]
     }))!;
 
-    await Promise.all(members.map(userId =>
-        request.server.subscribeUser(String(userId), chat.id)));
+    await Promise.all(members.map(userId => request.server.subscribeUser(userId, chat.id)));
 
-    response.notification(chat.id, 'newChat', chat);
+    response.notification(chat.id, Events.NEW_CHAT, chat);
     response.success(chat);
 }

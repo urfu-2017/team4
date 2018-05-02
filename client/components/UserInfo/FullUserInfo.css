@@ -1,0 +1,33 @@
+.user-full {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 32px 0;
+}
+
+.user-full__avatar {
+    width: 72px;
+    height: 72px;
+    margin-right: 20px;
+}
+
+.user-full__data {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.user-full__info {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+}
+
+.user-full__name {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.user-full__username {
+    font-size: 12px;
+    color: #91a6ba;
+}

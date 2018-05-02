@@ -4,9 +4,11 @@ import { User } from './user';
 
 @Table({
     timestamps: true,
-    indexes: [{
-        fields: ['chatId']
-    }]
+    indexes: [
+        {
+            fields: ['chatId']
+        }
+    ]
 })
 export class Message extends Model<Message> {
     @Column({ type: DataType.UUIDV4, primaryKey: true, allowNull: false })

@@ -1,20 +1,21 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { User } from '../../models/user';
+import { User } from '../../models';
+import { Events } from '../../../shared/events';
 
-export default async function updateCurrentUser(request: Request<{ user: User }>, response: Response) {
-    const currentUser = await User.findById(request.user);
+export default async function updateCurrentUser(
+    request: Request<{ user: User }>,
+    response: Response
+) {
+    const currentUser = (await User.findById(request.user))!;
 
     const update = request.params.user;
 
-    const fields = ['firstName', 'lastName', 'bio'];
-    for (const field of fields){
-        if (field in update){
-            currentUser[field] = update[field];
-        }
-    }
+    currentUser.firstName = update.firstName;
+    currentUser.lastName = update.lastName;
+    currentUser.bio = update.bio;
 
     await currentUser!.save();
-    response.notification(`profile_${currentUser.id}`, 'update', currentUser);
+    response.notification(`profile_${currentUser.id}`, Events.UPDATE_PROFILE, currentUser);
     response.success(currentUser);
 }

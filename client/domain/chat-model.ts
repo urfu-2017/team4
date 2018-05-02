@@ -1,6 +1,7 @@
 import { computed, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
+import UserModel from './user-model';
 
 export default class ChatModel {
     @observable.shallow public messages = [];
@@ -9,7 +10,10 @@ export default class ChatModel {
 
     public id;
     public name;
-    public members;
+
+    @observable
+    public members: UserModel[] = [];
+
     public owner;
     public type: 'room' | 'dialog';
 
@@ -28,7 +32,7 @@ export default class ChatModel {
 
     public async join() {
         await this.loadNextHistoryFrame();
-        await RPC.request('subscribeToChat', { chatId: this.id }, 15000)
+        await RPC.request('subscribeToChat', { chatId: this.id }, 15000);
     }
 
     public async loadNextHistoryFrame() {
@@ -38,7 +42,6 @@ export default class ChatModel {
 
         try {
             this.isFetching = true;
-
             const oldestMessage = this.messages[0];
 
             const messages = await RPC.request(
@@ -68,7 +71,25 @@ export default class ChatModel {
         this.messages.push(response);
     }
 
-    public onRecieveMessage(message) {
+    public async addMember(user: UserModel) {
+        if (this.members.find(member => member.id === user.id)) {
+            return;
+        }
+
+        await RPC.request('addMember', { chatId: this.id, userId: user.id });
+        this.members.push(user);
+    }
+
+    public async removeMember(user: UserModel) {
+        if (!this.members.find(member => member.id === user.id)) {
+            return;
+        }
+
+        await RPC.request('removeMember', { chatId: this.id, userId: user.id });
+        this.members = this.members.filter(member => member.id !== user.id);
+    }
+
+    public onReceiveMessage(message) {
         this.messages.push(message);
     }
 }

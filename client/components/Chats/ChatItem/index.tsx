@@ -7,7 +7,7 @@ import b_ from 'b_';
 import ChatsStore from '../../../domain/chats-store';
 import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
-import './DialogItem.css';
+import './ChatItem.css';
 
 const b = b_.with('dialog-list');
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 @observer
-class DialogItem extends React.Component<Props> {
+class ChatItem extends React.Component<Props> {
     @computed
     get message() {
         const { chat } = this.props;
@@ -61,7 +61,7 @@ class DialogItem extends React.Component<Props> {
     public render() {
         const { chat } = this.props;
         const isActiveModifier = { active: ChatsStore.currentChat === chat };
-        const isMine = this.message && this.message.from === UsersStore.currentUser.username;
+        const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
 
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>
@@ -78,13 +78,11 @@ class DialogItem extends React.Component<Props> {
                     )}
                 </div>
                 {this.message && (
-                    <div className={b('last-msg-date')}>
-                        {formatDate(this.message.createdAt)}
-                    </div>
+                    <div className={b('last-msg-date')}>{formatDate(this.message.createdAt)}</div>
                 )}
             </Link>
         );
     }
 }
 
-export default DialogItem;
+export default ChatItem;

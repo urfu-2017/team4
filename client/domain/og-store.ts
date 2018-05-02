@@ -32,13 +32,14 @@ class OGStore {
         this.state = 'loading';
         this.currentFetchingLink = this.url;
 
-        let data;
+        const data = undefined;
 
         try {
-            data = await RPC.request('fetchOGData', { url: this.url }, 5000);
+            // data = await RPC.request('fetchOGData', { url: this.url }, 5000);
         } catch (e) {
             this.clear();
         }
+
         // Если промис устарел, то выходим из колбэка
         if (data.input !== this.currentFetchingLink) {
             return;

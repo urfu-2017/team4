@@ -35,7 +35,7 @@ class Message extends React.Component<Props> {
 
     public showUserProfile = event => {
         event.preventDefault();
-        UIStore.toggleUserProfilePopup(this.user);
+        UIStore.toggleUserInfoPopup(this.user);
     };
 
     public render() {

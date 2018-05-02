@@ -2,15 +2,16 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import Button from '../Button';
-import Contact from '../Contact';
-import Popup from '../Popup';
-import Preloader from '../Preloader';
-import './AddContact.css';
+import UsersList from '../../UsersList';
+import Button from '../../Button';
+import Popup from '../../Popup';
+import Preloader from '../../Preloader';
 import Search from './Search';
 
-import contactsStore from '../../domain/contacts-store';
-import userSearchStore from '../../domain/user-search-store';
+import contactsStore from '../../../domain/contacts-store';
+import userSearchStore from '../../../domain/user-search-store';
+
+import './AddContact.css';
 
 interface Props {
     closeHandler: () => void;
@@ -24,25 +25,25 @@ class AddContact extends React.Component<Props> {
         userSearchStore.clear();
     }
 
-    public addUser = () => {
-        if (userSearchStore.state === 'initial') {
-            return;
-        }
-
-        contactsStore.add(userSearchStore.user);
-        userSearchStore.clear();
-        this.props.closeHandler();
-    };
-
     public render() {
+        const users = userSearchStore.users;
+        const selected = userSearchStore.users
+            .filter(user => contactsStore.has(user.username))
+            .map(contact => contact.id);
+
         return (
             <Popup className={b()} closeHandler={this.props.closeHandler} zIndex={200}>
                 <h2 className={`${b('heading')} header3`}>Добавить контакт</h2>
                 <div className={b('search-zone')}>
                     {userSearchStore.state === 'loaded' ? (
-                        <Contact {...userSearchStore.user}/>
+                        <UsersList
+                            onClick={this.addUser}
+                            users={users}
+                            selected={selected}
+                            disableSearch={true}
+                        />
                     ) : (
-                        <Search className={b('input')}/>
+                        <Search className={b('input')} />
                     )}
                 </div>
                 <div className={b('buttons')}>
@@ -50,9 +51,6 @@ class AddContact extends React.Component<Props> {
                         <React.Fragment>
                             <Button className={b('clear-btn')} onClick={userSearchStore.clear}>
                                 Сбросить
-                            </Button>
-                            <Button className={b('add-btn')} onClick={this.addUser}>
-                                Добавить
                             </Button>
                         </React.Fragment>
                     ) : (
@@ -68,13 +66,29 @@ class AddContact extends React.Component<Props> {
                 </div>
                 {userSearchStore.state === 'loading' && (
                     <React.Fragment>
-                        <Preloader size={50} className={b('preloader')}/>
-                        <div className={b('preloader-overlay')}/>
+                        <Preloader size={50} className={b('preloader')} />
+                        <div className={b('preloader-overlay')} />
                     </React.Fragment>
                 )}
             </Popup>
         );
     }
+
+    private addUser = (id: number) => {
+        if (userSearchStore.state === 'initial') {
+            return;
+        }
+
+        const contact = userSearchStore.users.find(user => user.id === id);
+        const hasContact = contactsStore.has(contact.username);
+
+        if (hasContact) {
+            return;
+        }
+
+        contactsStore.add(contact);
+        this.props.closeHandler();
+    };
 }
 
 export default AddContact;
