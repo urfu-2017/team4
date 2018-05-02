@@ -3,29 +3,34 @@ body {
 }
 
 .app {
-    display: grid;
-    align-items: stretch;
-    grid-template-rows: 48px calc(100% - 48px);
-    grid-template-columns: 350px calc(100% - 350px);
-    grid-template-areas: 'header header' 'dialogs chat';
-
     margin: 0 auto;
     max-width: 1200px;
     height: 100vh;
 
     background: #fff;
-
     overflow: hidden;
 }
 
 .header {
-    grid-area: header;
+    width: 100%;
+    height: 48px;
+}
+
+.split {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
 }
 
 .dialogs {
-    grid-area: dialogs;
+    flex: 0 0 30%;
 }
 
 .content {
-    grid-area: chat;
+    overflow: hidden;
+    flex: 0 0 70%;
 }

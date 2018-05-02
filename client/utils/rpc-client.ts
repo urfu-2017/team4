@@ -83,7 +83,7 @@ class RPCClient {
 
     public addListener = (notificationName: Events, fn) => {
         const listeners = this.listeners[notificationName] || [];
-
+        console.info(notificationName, fn);
         listeners.push(fn);
         this.listeners[notificationName] = listeners;
     };

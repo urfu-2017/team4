@@ -60,17 +60,18 @@ class Message extends React.Component<Props> {
 
         return (
             <div className={b()}>
-                <img
-                    onClick={this.showUserProfile}
-                    className={b('avatar')}
-                    src={avatar}
-                    alt="Аватар"
-                />
+                <div className={b('meta')}>
+                    <img
+                        onClick={this.showUserProfile}
+                        className={b('avatar')}
+                        src={avatar}
+                        alt={displayName}
+                        title={displayName}
+                    />
+                    <span className={b('date')}>{formatDate(createdAt)}</span>
+
+                </div>
                 <div className={b('body')}>
-                    <div className={b('username')}>
-                        <span>{displayName}</span>
-                        <span className={b('date')}>({formatDate(createdAt)})</span>
-                    </div>
                     <div
                         ref={el => (this.messageText = el)}
                         className={b('text')}
