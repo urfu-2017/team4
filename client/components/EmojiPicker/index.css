@@ -1,10 +1,8 @@
 .emojipicker {
     position: fixed;
-    top: 0;
-    left: 50%;
-
-    background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    bottom: 120px;
+    left: 80%;
 
     transform: translateX(-50%);
+    z-index: 100;
 }
