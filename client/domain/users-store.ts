@@ -2,12 +2,17 @@ import { action, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import UserModel from './user-model';
+import { Events } from '../../shared/events';
 
 class UsersStore {
     @observable public currentUser = null;
 
     @observable.shallow
     public users: Map<number, UserModel> = new Map();
+
+    public constructor() {
+        RPC.addListener(Events.UPDATE_PROFILE, this.onProfileUpdate);
+    }
 
     public async fetchUser(userId) {
         if (this.users.has(userId)) {
@@ -47,6 +52,18 @@ class UsersStore {
     public async logout() {
         // await RPC.request('logout');
         this.clear();
+    }
+
+    @action
+    private onProfileUpdate = (update: UserModel) => {
+        const user = this.users.get(update.id);
+
+        if (user) {
+            user.firstName = update.firstName;
+            user.lastName = update.lastName;
+            user.bio = update.bio;
+            user.avatar = update.avatar;
+        }
     }
 }
 
