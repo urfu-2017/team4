@@ -38,7 +38,7 @@ export default async function createChat(request: Request<Params>, response: Res
         ]
     }))!;
 
-    await Promise.all(members.map(userId => request.server.subscribeUser(String(userId), chat.id)));
+    await Promise.all(members.map(userId => request.server.subscribeUser(userId, chat.id)));
 
     response.notification(chat.id, Events.NEW_CHAT, chat);
     response.success(chat);

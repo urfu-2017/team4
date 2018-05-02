@@ -16,7 +16,7 @@ class UserModel {
 
     @observable public isFetching = false;
 
-    public id: string;
+    public id: number;
 
     public username: string;
 

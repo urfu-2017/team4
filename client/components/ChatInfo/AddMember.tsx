@@ -45,7 +45,7 @@ class AddMember extends React.Component<Props> {
         );
     }
 
-    private addMember = async (id: string) => {
+    private addMember = async (id: number) => {
         const user = usersStore.users.get(id);
 
         if (user) {

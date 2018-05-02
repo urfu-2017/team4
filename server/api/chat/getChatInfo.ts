@@ -9,7 +9,7 @@ export default async function getChatInfo(
     const chat = await findChat(request.user, request.params.chatId);
 
     if (request.params.subscribe) {
-        await request.server.subscribeUser(String(request.user), chat!.id);
+        await request.server.subscribeUser(request.user, chat!.id);
     }
 
     response.success(chat);

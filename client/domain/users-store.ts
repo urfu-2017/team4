@@ -6,7 +6,8 @@ import UserModel from './user-model';
 class UsersStore {
     @observable public currentUser = null;
 
-    @observable.shallow public users: Map<string, UserModel> = new Map();
+    @observable.shallow
+    public users: Map<number, UserModel> = new Map();
 
     public async fetchUser(userId) {
         if (this.users.has(userId)) {

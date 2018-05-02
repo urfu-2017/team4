@@ -33,8 +33,8 @@ export class Server {
         this.socketServer.on('connection', this.onConnection);
     }
 
-    public async subscribeUser(userId: number | string, channel: string) {
-        const sockets = this.sockets.get(Number(userId));
+    public async subscribeUser(userId: number, channel: string) {
+        const sockets = this.sockets.get(userId);
 
         if (sockets) {
             console.info('Joined', userId, 'to', channel);
@@ -56,8 +56,8 @@ export class Server {
         }
     }
 
-    public unsubscribeUser(userId: string | number, channel: string) {
-        const sockets = this.sockets.get(Number(userId));
+    public unsubscribeUser(userId: number, channel: string) {
+        const sockets = this.sockets.get(userId);
 
         if (sockets) {
             sockets.forEach(socket => socket.leave(channel));

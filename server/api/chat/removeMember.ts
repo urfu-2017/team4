@@ -3,6 +3,7 @@ import { Response } from '../../rpc/response';
 import { Members } from '../../models';
 
 import findChat from './findChat';
+import { JsonRpcError } from 'jsonrpc-lite';
 import { Events } from '../../../shared/events';
 
 interface Params {
@@ -16,7 +17,7 @@ export default async function(request: Request<Params>, response: Response) {
 
     if (chat.type === 'dialog') {
         // TODO: Придумать сообщение об ошибке
-        throw new Error('Chat is dialog');
+        throw new JsonRpcError('Chat is dialog', 400);
     }
 
     await Members.destroy({ where: { userId, chatId } });

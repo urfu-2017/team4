@@ -74,7 +74,7 @@ class AddContact extends React.Component<Props> {
         );
     }
 
-    private addUser = (id: string) => {
+    private addUser = (id: number) => {
         if (userSearchStore.state === 'initial') {
             return;
         }

@@ -13,7 +13,7 @@ interface Props {
     className?: string;
     selectable?: boolean;
     selected?: boolean;
-    onClick?: (id: string) => void;
+    onClick?: (id: number) => void;
 }
 
 @observer

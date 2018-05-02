@@ -28,7 +28,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
 
     @observable private name: string = '';
 
-    @observable private members: string[] = [];
+    @observable private members: number[] = [];
 
     @computed
     private get disabled(): boolean {
@@ -90,7 +90,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         this.name = event.currentTarget.value;
     };
 
-    private toggleMember = (id: string) => {
+    private toggleMember = (id: number) => {
         if (this.members.includes(id)) {
             this.members = this.members.filter(idx => idx !== id);
             return;
@@ -110,7 +110,6 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
             'room',
             this.members,
             this.name.trim(),
-            usersStore.currentUser.id
         );
 
         this.props.history.push(`/chats/${chat.id}`);

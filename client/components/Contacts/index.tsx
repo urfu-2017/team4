@@ -77,7 +77,7 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
         }));
     };
 
-    private goToChat = async (id: string) => {
+    private goToChat = async (id: number) => {
         if (this.state.isCreating) return;
         let chat = chatsStore.findDialog(id);
 

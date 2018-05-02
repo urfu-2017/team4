@@ -13,7 +13,7 @@ export default async function getUserInfo(
     }
 
     if (request.params.subscribe) {
-        request.server.subscribeUser(String(request.user), `profile_${user.id}`);
+        request.server.subscribeUser(request.user, `profile_${user.id}`);
     }
 
     response.success(user);

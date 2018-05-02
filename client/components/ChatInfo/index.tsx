@@ -91,7 +91,7 @@ class ChatInfo extends React.Component {
         this.isAddMode = false;
     };
 
-    private openUserProfile = (id: string) => {
+    private openUserProfile = (id: number) => {
         const user = usersStore.users.get(id);
 
         if (user) {

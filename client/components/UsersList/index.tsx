@@ -18,8 +18,8 @@ interface Props {
     className?: string;
     searchType?: 'plain' | 'box';
     disableSearch?: boolean;
-    selected?: string[];
-    onClick?: (id: string) => void;
+    selected?: number[];
+    onClick?: (id: number) => void;
 }
 
 @observer
