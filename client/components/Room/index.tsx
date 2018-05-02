@@ -1,10 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { computed, observable } from 'mobx';
 import { RouteComponentProps, withRouter } from 'react-router';
 import b_ from 'b_';
 
-import Input from '../Input/input';
+import Input from '../Input/index';
 import Button from '../Button';
 import UsersList from '../UsersList';
 import Popup from '../Popup';
@@ -30,8 +30,12 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
 
     @observable private members: string[] = [];
 
+    @computed
+    private get disabled(): boolean {
+        return this.name.trim().length === 0 || this.members.length === 0;
+    }
+
     public render(): React.ReactNode {
-        const disabled = this.name.length === 0 || this.members.length === 0;
 
         return (
             <React.Fragment>
@@ -40,7 +44,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
                     {this.renderStepOne()}
                     {this.renderStepTwo()}
                     <div className={b('actions')}>
-                        <Button disabled={disabled} onClick={this.createGroup}>
+                        <Button disabled={this.disabled} onClick={this.createGroup}>
                             Создать группу
                         </Button>
                     </div>
@@ -98,16 +102,17 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     private createGroup = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
 
-        if (this.name.length === 0 || this.members.length === 0) {
+        if (this.disabled) {
             return;
         }
 
         const chat = await chatsStore.createChat(
             'room',
             this.members,
-            this.name,
+            this.name.trim(),
             usersStore.currentUser.id
         );
+
         this.props.history.push(`/chats/${chat.id}`);
         CreateRoom.closePopup();
     };

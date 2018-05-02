@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 
-import Input from '../../Input/input';
+import Input from '../../Input/index';
 import userSearchStore from '../../../domain/user-search-store';
 
 interface Props {

@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import Input from '../Input/input';
+import Input from '../Input/index';
 import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
