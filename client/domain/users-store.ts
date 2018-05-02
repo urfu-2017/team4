@@ -44,7 +44,7 @@ class UsersStore {
     }
 
     public async logout() {
-        await RPC.request('logout');
+        // await RPC.request('logout');
         this.clear();
     }
 }

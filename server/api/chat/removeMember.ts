@@ -3,6 +3,7 @@ import { Response } from '../../rpc/response';
 import { Members } from '../../models';
 
 import findChat from './findChat';
+import { Events } from '../../../shared/events';
 
 interface Params {
     chatId: string;
@@ -20,7 +21,7 @@ export default async function(request: Request<Params>, response: Response) {
 
     await Members.destroy({ where: { userId, chatId } });
 
-    response.notification(chatId, 'REMOVE_MEMBER', { userId });
+    response.notification(chatId, Events.REMOVE_MEMBER, { userId });
     await request.server.unsubscribeUser(userId, chatId);
     response.success(null);
 }

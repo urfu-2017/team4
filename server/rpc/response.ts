@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io';
 import * as JsonRpc from 'jsonrpc-lite';
+import { Events } from '../../shared/events';
 
 export class Response {
     private readonly id: string;
@@ -21,7 +22,7 @@ export class Response {
         this.send(JsonRpc.error(this.id, error));
     }
 
-    public notification(channel: string, name: string, payload: any): void {
+    public notification(channel: string, name: Events, payload: any): void {
         const notification = JsonRpc.notification(name, payload);
         this.socket.to(channel).emit('rpc', JSON.stringify(notification));
     }

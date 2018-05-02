@@ -20,7 +20,7 @@ const { passport, router } = configurePassport(createUser);
 
 app.use(compression());
 app.use(
-    express.static(path.resolve(__dirname, '..', 'prod_build'), {
+    express.static(path.resolve(__dirname, './static'), {
         redirect: false
     })
 );

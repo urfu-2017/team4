@@ -3,6 +3,7 @@ import { Response } from '../../rpc/response';
 import { Members } from '../../models';
 
 import findChat from './findChat';
+import { Events } from '../../../shared/events';
 
 interface Params {
     chatId: string;
@@ -20,7 +21,7 @@ export default async function(request: Request<Params>, response: Response) {
 
     await Members.create<Members>({ userId, chatId });
 
-    response.notification(chatId, 'ADD_MEMBER', { userId });
+    response.notification(chatId, Events.ADD_MEMBER, { userId });
     await request.server.subscribeUser(userId, chatId);
     response.success(null);
 }

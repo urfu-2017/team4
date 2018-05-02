@@ -2,6 +2,7 @@ import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
 import { Chat, Members, User } from '../../models';
 import { v4 as uuid } from 'uuid';
+import { Events } from '../../../shared/events';
 
 interface Params {
     type: 'dialog' | 'room';
@@ -39,6 +40,6 @@ export default async function createChat(request: Request<Params>, response: Res
 
     await Promise.all(members.map(userId => request.server.subscribeUser(String(userId), chat.id)));
 
-    response.notification(chat.id, 'newChat', chat);
+    response.notification(chat.id, Events.NEW_CHAT, chat);
     response.success(chat);
 }

@@ -1,6 +1,8 @@
 import { action, computed, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
+import { Events } from '../../shared/events';
+
 import ChatModel from './chat-model';
 import usersStore from './users-store';
 
@@ -17,7 +19,7 @@ class ChatsStore {
     }
 
     constructor() {
-        RPC.addListener('newMessage', this.onNewMessage);
+        RPC.addListener(Events.NEW_MESSAGE, this.onNewMessage);
     }
 
     public init() {

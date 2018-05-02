@@ -1,6 +1,7 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
 import { User } from '../../models';
+import { Events } from '../../../shared/events';
 
 export default async function updateCurrentUser(
     request: Request<{ user: User }>,
@@ -15,6 +16,6 @@ export default async function updateCurrentUser(
     currentUser.bio = update.bio;
 
     await currentUser!.save();
-    response.notification(`profile_${currentUser.id}`, 'update', currentUser);
+    response.notification(`profile_${currentUser.id}`, Events.UPDATE_PROFILE, currentUser);
     response.success(currentUser);
 }

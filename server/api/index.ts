@@ -1,4 +1,5 @@
 import { RpcHandler } from '../rpc/server';
+import { Methods } from '../../shared/methods';
 
 import hello from './echo';
 
@@ -18,7 +19,7 @@ import subscribeToChat from './chat/subscribeToChat';
 import addMember from './chat/addMember';
 import removeMember from './chat/removeMember';
 
-export const getMethods = (): Record<string, RpcHandler> => ({
+export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     hello,
 
     getCurrentUser,
