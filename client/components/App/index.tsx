@@ -27,7 +27,6 @@ class App extends React.Component {
                 {uiStore.displays.contacts && <Contacts />}
                 {uiStore.displays.profile && <ProfileSettings />}
                 {uiStore.displays.userInfo && <ProfileView />}
-
             </React.Fragment>
         );
     }

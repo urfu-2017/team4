@@ -3,21 +3,34 @@ import React from 'react';
 import Textarea from 'react-textarea-autosize';
 import b_ from 'b_';
 
+import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';
 import OGData from '../OGData';
 import Preloader from '../Preloader';
-
-import './MessageInput.css';
 
 import ChatsStore from '../../domain/chats-store';
 import ogStore from '../../domain/og-store';
 import urlParser from '../../utils/url-parser';
 
+import './MessageInput.css';
 const b = b_.with('message-input');
 
+interface State {
+    showSmiles: boolean;
+}
+
 @observer
-class MessageInput extends React.Component {
+class MessageInput extends React.Component<{}, State> {
+
     private messageInput: HTMLTextAreaElement;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showSmiles: false
+        }
+    }
 
     public onSend = async () => {
         const text = this.messageInput.value.trim();
@@ -37,6 +50,22 @@ class MessageInput extends React.Component {
             this.messageInput.focus();
         }
     };
+
+    public onShowSmiles = () => {
+        this.setState(prev => ({
+            showSmiles: !prev.showSmiles
+        }));
+    };
+
+    public onCloseSmiles = () => {
+        this.setState({
+            showSmiles: false
+        });
+    }
+
+    public addSmile = smile => {
+        this.messageInput.value += smile;
+    }
 
     public onKeyUp = event => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -59,7 +88,7 @@ class MessageInput extends React.Component {
 
     public render() {
         return (
-            <section className={b()}>
+            <section className="message-input">
                 <Textarea
                     minRows={3}
                     maxRows={6}
@@ -72,6 +101,17 @@ class MessageInput extends React.Component {
                 <Button className={b('send')} onClick={this.onSend}>
                     Отправить
                 </Button>
+                <div className="message-input__smiles">
+                    <Button onClick={this.onShowSmiles}>Смайлы</Button>
+                    {this.state.showSmiles && (
+                        <EmojiPicker
+                            className="message-input__smiles-picker"
+                            addSmile={this.addSmile}
+                            closeSmiles={this.onCloseSmiles}
+                        />
+                    )}
+                </div>
+
                 {ogStore.state === 'loading' ? (
                     <Preloader className={b('preloader')} size={40} />
                 ) : (
