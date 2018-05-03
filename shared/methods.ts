@@ -13,8 +13,11 @@ export interface Methods {
     createChat: any;
     getChatInfo: any;
     getChatMessages: any;
-    sendMessage: any
-    subscribeToChat: any
-    addMember: any
-    removeMember: any
+    sendMessage: any;
+    subscribeToChat: any;
+    addMember: any;
+    removeMember: any;
+
+    getUrlMeta: any;
+    getWeather: any;
 }

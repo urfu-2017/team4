@@ -1,4 +1,4 @@
-import { computed } from 'mobx';
+import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
@@ -11,8 +11,10 @@ import formatDate from '../../utils/format-date';
 import markdown from '../../utils/markdown';
 import { initContainer } from '../../utils/weather';
 
-import './Chat.css';
+import getUrlMeta from '../../utils/url-meta';
+import urlParser from '../../utils/url-parser';
 
+import './Chat.css';
 const b = b_.with('message');
 
 interface Props {
@@ -21,9 +23,22 @@ interface Props {
 
 @observer
 class Message extends React.Component<Props> {
+
     private messageText: HTMLElement;
 
+    @observable.ref
+    private meta: any = null;
+
     public componentDidMount() {
+        const { text, id } = this.props.message;
+        const url = urlParser(text);
+
+        if (url) {
+            getUrlMeta(url, id).then(meta => {
+               this.meta = meta;
+            });
+        }
+
         initContainer(this.messageText);
     }
 
@@ -41,9 +56,7 @@ class Message extends React.Component<Props> {
     public render() {
         const { from, text, createdAt, ogData } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
-        const avatar = this.user
-            ? this.user.avatar
-            : 'https://server.adorable.io/avatars/128/abott@adorable.png';
+        const avatar = this.user.avatar;
 
         return (
             <div className={b()}>
@@ -64,7 +77,7 @@ class Message extends React.Component<Props> {
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
                 </div>
-                {ogData && <OGData isInMessage={true} {...ogData} />}
+                {this.meta && <OGData isInMessage={true} {...this.meta} />}
             </div>
         );
     }

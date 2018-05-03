@@ -20,3 +20,5 @@ export const GITHUB_AUTH_CALLBACK = isDevelopment
     : `${backendHostProd}/auth/callback`;
 export const UPLOADS_SERVER_PATH = './static/uploads';
 export const UPLOADS_URL_PATH = '/uploads';
+
+export const WEATHER_API_TOKEN = process.env.WEATHER_API_TOKEN;
