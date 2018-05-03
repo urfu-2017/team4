@@ -18,3 +18,5 @@ export const AUTH_REDIRECT_URL = isDevelopment ? frontendHostDev : frontendHostP
 export const GITHUB_AUTH_CALLBACK = isDevelopment
     ? `${backendHostDev}/auth/callback`
     : `${backendHostProd}/auth/callback`;
+export const UPLOADS_SERVER_PATH = './static/uploads';
+export const UPLOADS_URL_PATH = '/uploads';

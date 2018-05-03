@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as express from 'express';
 import * as compression from 'compression';
 import * as expressSession from 'express-session';
+import * as multer from 'multer';
 
 import * as config from './config';
 import { configurePassport } from './passport';
@@ -13,8 +14,11 @@ import { configureModels, User } from './models';
 import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
 import { generateAvatar } from './helpers/generateAvatar';
+import { uploadStorage, uploadHandler } from './helpers/fileUpload';
 
 const app = express();
+const upload = multer({ storage: uploadStorage });
+
 const sessionStore = new expressSession.MemoryStore();
 const { passport, router } = configurePassport(createUser);
 
@@ -38,9 +42,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', router);
+
+// FIXME нужны только для тестирования
 app.get('/rpccat', (req, res) => {
     res.sendFile(path.resolve(__dirname, './rpccat.html'));
 });
+app.get('/upload', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './upload.html'));
+});
+
+app.post('/upload', upload.single('file'), uploadHandler);
 
 (async () => {
     await configureModels(sequelize);
