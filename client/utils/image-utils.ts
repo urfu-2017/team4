@@ -7,7 +7,7 @@ export const getDataUrlFromBlob = (blob: Blob) => new Promise<string>((resolve) 
 
 export const getImageFromDataUrl = (dataUrl: string) => new Promise<HTMLImageElement>((resolve) => {
     const image = new Image();
-    
+
     image.src = dataUrl;
     image.onload = () => resolve(image);
 });
@@ -20,10 +20,10 @@ export const resizeImage = (file: File, optimalSize: number) => new Promise<Blob
 
     if (newSize.width !== image.naturalWidth || newSize.height !== image.naturalHeight) {
         const canvas = document.createElement('canvas');
-        
+
         canvas.width = newSize.width;
         canvas.height = newSize.height;
-      
+
         const context = canvas.getContext('2d');
 
         context.drawImage(image, 0, 0, newSize.width, newSize.height);
@@ -55,6 +55,6 @@ function getOptimalSize(width: number, height: number, maxSize: number) {
       newWidth = maxSize;
       newHeight = maxSize;
     }
-    
+
     return { width: newWidth, height: newHeight };
   }
