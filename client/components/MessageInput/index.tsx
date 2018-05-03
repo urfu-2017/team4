@@ -9,6 +9,8 @@ import Button from '../Button';
 
 import SendIcon from './SendIcon';
 import AttachIcon from './AttachIcon';
+import EmojiIcon from './EmojiIcon';
+
 import Dropzone from '../Dropzone';
 
 import ChatsStore from '../../domain/chats-store';
@@ -66,11 +68,11 @@ class MessageInput extends React.Component<{}, State> {
         this.setState({
             showSmiles: false
         });
-    }
+    };
 
     public addSmile = smile => {
         this.messageInput.value += smile;
-    }
+    };
 
     public onKeyUp = event => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -102,7 +104,9 @@ class MessageInput extends React.Component<{}, State> {
                     inputRef={input => (this.messageInput = input) /* tslint:disable-line */}
                 />
                 <div className={b('smiles')}>
-                    <Button onClick={this.onShowSmiles}>Смайлы</Button>
+                    <Button onClick={this.onShowSmiles} className={b('button')}>
+                        <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`}/>
+                    </Button>
                     {this.state.showSmiles && (
                         <EmojiPicker
                             className={b('smiles-picker')}

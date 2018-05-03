@@ -5,7 +5,7 @@ interface Props {
 }
 
 const AttachIcon: React.SFC<Props> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -2 19 19" className={className}>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 18 18" className={className}>
         <g>
             <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1" />
         </g>
