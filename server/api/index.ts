@@ -20,6 +20,8 @@ import subscribeToChat from './chat/subscribeToChat';
 import addMember from './chat/addMember';
 import removeMember from './chat/removeMember';
 
+import getUrlMeta from './getUrlMeta';
+
 export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     hello,
 
@@ -38,5 +40,7 @@ export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     sendMessage,
     subscribeToChat,
     addMember,
-    removeMember
+    removeMember,
+
+    getUrlMeta
 });

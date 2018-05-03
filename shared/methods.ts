@@ -16,5 +16,7 @@ export interface Methods {
     sendMessage: any
     subscribeToChat: any
     addMember: any
-    removeMember: any
+    removeMember: any,
+
+    getUrlMeta: any
 }

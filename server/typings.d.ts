@@ -10,6 +10,8 @@ declare module 'uuid' {
     export function v4(): any;
 }
 
+declare module 'metascraper';
+
 declare module 'jsonrpc-lite' {
     export interface JsonRpcObject {
         jsonrpc: '2.0';

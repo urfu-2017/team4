@@ -5,12 +5,9 @@ import b_ from 'b_';
 
 import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';
-import OGData from '../OGData';
-import Preloader from '../Preloader';
 
 import ChatsStore from '../../domain/chats-store';
 import ogStore from '../../domain/og-store';
-import urlParser from '../../utils/url-parser';
 
 import './MessageInput.css';
 const b = b_.with('message-input');
@@ -74,18 +71,6 @@ class MessageInput extends React.Component<{}, State> {
         }
     };
 
-    public onInput = event => {
-        const url = urlParser(event.target.value);
-
-        if (url) {
-            ogStore.setUrl(url);
-        }
-    };
-
-    public renderOG() {
-        return ogStore.state === 'loaded' && <OGData {...ogStore.data} />;
-    }
-
     public render() {
         return (
             <section className="message-input">
@@ -95,7 +80,6 @@ class MessageInput extends React.Component<{}, State> {
                     className={b('message')}
                     placeholder="Введите сообщение..."
                     onKeyPress={this.onKeyUp}
-                    onInput={this.onInput}
                     inputRef={input => (this.messageInput = input) /* tslint:disable-line */}
                 />
                 <Button className={b('send')} onClick={this.onSend}>
@@ -111,12 +95,6 @@ class MessageInput extends React.Component<{}, State> {
                         />
                     )}
                 </div>
-
-                {ogStore.state === 'loading' ? (
-                    <Preloader className={b('preloader')} size={40} />
-                ) : (
-                    this.renderOG()
-                )}
             </section>
         );
     }
