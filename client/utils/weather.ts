@@ -25,8 +25,7 @@ const loadWeather = async event => {
     weatherBox.dataset.loading = true;
 
     try {
-        const weather = null;
-        // const weather: any = await RPC.request('fetchWeather', { city });
+        const weather: any = await RPC.request('getWeather', { city });
         resultBox.textContent =
             weather !== null
                 ? `Сегодня в ${city} ${weather.temperature}℃`

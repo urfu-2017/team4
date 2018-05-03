@@ -21,6 +21,7 @@ import addMember from './chat/addMember';
 import removeMember from './chat/removeMember';
 
 import getUrlMeta from './getUrlMeta';
+import getWeather from './getWeather';
 
 export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     hello,
@@ -42,5 +43,6 @@ export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     addMember,
     removeMember,
 
-    getUrlMeta
+    getUrlMeta,
+    getWeather
 });
