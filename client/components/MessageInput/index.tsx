@@ -16,7 +16,7 @@ import Dropzone from '../Dropzone';
 
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
-import { getImageFromFile } from '../../utils/image-utils';
+import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 
 import './MessageInput.css';
 const b = b_.with('message-input');
@@ -157,21 +157,29 @@ class MessageInput extends React.Component<{}, State> {
     };
 
     private onDrop = (accepted: File[]): void => {
-        getImageFromFile(accepted[0]).then(image => {
-            this.uploadStore.upload(accepted[0])
-                .then(({ path }) => {
-                    // FIXME изменить путь до файла
-                    this.attachment = `http://localhost:8080${path}`;
+        let resize;
+
+        if (accepted[0].type === 'image/svg+xml') {
+            resize = Promise.resolve(accepted[0]);
+        } else {
+            resize = resizeImage(accepted[0], 720);
+        }
+
+        resize.then(file => getImageFromFile(file).then(image => {
+                this.uploadStore.upload(file)
+                    .then(({ path }) => {
+                        // FIXME изменить путь до файла
+                        this.attachment = `http://localhost:8080${path}`;
+                    });
+
+                runInAction(() => {
+                    if (this.preview) {
+                        return;
+                    }
+
+                    this.preview = image;
                 });
-
-            runInAction(() => {
-                if (this.preview) {
-                    return;
-                }
-
-                this.preview = image;
-            });
-        });
+            }));
     };
 
     private onUploadCancel = ():void => {
