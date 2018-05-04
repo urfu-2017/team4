@@ -4,11 +4,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import b_ from 'b_';
 
+import markdown from '../../../utils/markdown';
+import getPlainText from '../../../utils/plain-text';
+
 import ChatsStore from '../../../domain/chats-store';
 import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
-import './ChatItem.css';
 
+import './ChatItem.css';
 const b = b_.with('dialog-list');
 
 interface Props {
@@ -73,7 +76,7 @@ class ChatItem extends React.Component<Props> {
                     {this.message && (
                         <div className={b('last-msg')}>
                             <span className={b('last-msg-mine')}>{isMine && 'Вы: '}</span>
-                            {this.message.text}
+                            {getPlainText(markdown(this.message.text))}
                         </div>
                     )}
                 </div>
