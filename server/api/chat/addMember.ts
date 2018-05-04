@@ -2,9 +2,8 @@ import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
 import { Members } from '../../models';
 
-import findChat from './findChat';
-import { JsonRpcError } from 'jsonrpc-lite';
 import { Events } from '../../../shared/events';
+import { findChat } from './helpers/findChat';
 
 interface Params {
     chatId: string;
@@ -13,16 +12,23 @@ interface Params {
 
 export default async function(request: Request<Params>, response: Response) {
     const { chatId, userId } = request.params;
-    const chat = await findChat(request.user, chatId);
+    const chat = await findChat(chatId);
 
     if (chat.type === 'dialog') {
-        // TODO: Придумать сообщение об ошибке
-        throw new JsonRpcError('Chat is dialog', 400);
+        return response.error(400, 'Chat is dialog');
+    }
+
+    if (chat.members.find(user => user.id === userId)) {
+        return response.error(409, 'User is already a chat member');
+    }
+
+    if (!chat.hasMember(request.user) && userId !== request.user) {
+        return response.error(403, 'Permission denied');
     }
 
     await Members.create<Members>({ userId, chatId });
 
-    response.notification(chatId, Events.ADD_MEMBER, { chatId, userId });
     await request.server.subscribeUser(userId, chatId);
-    response.success(null);
+    response.notification(chatId, Events.ADD_MEMBER, { userId, chatId });
+    response.success(chat);
 }

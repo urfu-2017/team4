@@ -2,6 +2,7 @@ import { computed, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import UserModel from './user-model';
+import UsersStore from './users-store';
 
 export default class ChatModel {
     @observable.shallow public messages = [];
@@ -53,6 +54,9 @@ export default class ChatModel {
                 15000
             );
 
+            await Promise.all(
+                messages.map(message => UsersStore.fetchUser(message.senderId)));
+
             this.messages = messages.concat(this.messages.slice());
         } finally {
             this.isFetching = false;
@@ -89,7 +93,8 @@ export default class ChatModel {
         this.members = this.members.filter(member => member.id !== user.id);
     }
 
-    public onReceiveMessage(message) {
+    public async onReceiveMessage(message) {
+        await UsersStore.fetchUser(message.senderId);
         this.messages.push(message);
     }
 }

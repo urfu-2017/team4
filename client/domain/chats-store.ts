@@ -85,16 +85,20 @@ class ChatsStore {
 
     private onNewChat = async chat => {
         await this.saveChat(chat);
-    }
+    };
 
     private onAddMember = async ({ userId, chatId }) => {
-        const chat = this.chatsMap.get(chatId);
+        let chat = this.chatsMap.get(chatId);
 
         if (chat) {
             const user = await usersStore.fetchUser(userId);
             chat.members.push(user);
+        } else {
+            chat = await RPC.request('getChatInfo', { chatId, subscribe: true }, 5000);
+            const chatModel = this.saveChat(chat);
+            await chatModel.loadNextHistoryFrame();
         }
-    }
+    };
 
     private onRemoveMember = async ({ userId, chatId }) => {
         const chat = this.chatsMap.get(chatId);
