@@ -22,7 +22,7 @@ body {
 
 .split {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 48px);
     overflow: hidden;
 
     display: flex;
@@ -37,4 +37,6 @@ body {
 .content {
     overflow: hidden;
     flex: 0 0 70%;
+    display: flex;
+    flex-direction: column;
 }

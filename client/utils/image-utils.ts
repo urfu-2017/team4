@@ -9,7 +9,6 @@ const supportedExtensions = {
 export const getDataUrlFromBlob = (blob: Blob) =>
     new Promise<string>(resolve => {
         const fileReader = new FileReader();
-        console.log(blob);
 
         fileReader.onload = () => resolve(fileReader.result);
         fileReader.readAsDataURL(blob);
@@ -18,7 +17,6 @@ export const getDataUrlFromBlob = (blob: Blob) =>
 export const getImageFromDataUrl = (dataUrl: string) =>
     new Promise<HTMLImageElement>(resolve => {
         const image = new Image();
-        console.log(dataUrl);
 
         image.src = dataUrl;
         image.onload = () => resolve(image);
@@ -29,7 +27,6 @@ export const getImageFromFile = (file: File) => getDataUrlFromBlob(file).then(ge
 export const resizeImage = (file: File, optimalSize: number) =>
     new Promise<File>(async (resolve, reject) => {
         const image = await getImageFromFile(file);
-        console.log(image);
         const newSize = getOptimalSize(image.naturalWidth, image.naturalHeight, optimalSize);
 
         if (newSize.width !== image.naturalWidth || newSize.height !== image.naturalHeight) {
@@ -49,8 +46,6 @@ export const resizeImage = (file: File, optimalSize: number) =>
                 const imgFile = new File([result], `image.${supportedExtensions[file.type]}`, {
                     type: file.type
                 });
-
-                console.log(imgFile, 'canvas');
 
                 resolve(imgFile);
             });

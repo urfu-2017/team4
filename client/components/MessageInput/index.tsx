@@ -31,8 +31,9 @@ class MessageInput extends React.Component<{}, State> {
     private imageCaptionInput: HTMLInputElement;
     private messageInput: HTMLTextAreaElement;
     private dropzone: ReactDropzone;
+
     // FIXME изменить ссылку
-    private uploadStore: UploadStore = new UploadStore(`http://localhost:8080/upload`);
+    private uploadStore: UploadStore = new UploadStore();
     private attachment: string;
 
     constructor(props) {

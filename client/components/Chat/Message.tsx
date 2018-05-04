@@ -80,9 +80,9 @@ class Message extends React.Component<Props> {
                         className={b('text')}
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
+                    {attachment && <img src={attachment} className={b('attachment')}/>}
+                    {this.meta && <OGData isInMessage={true} {...this.meta} />}
                 </div>
-                {attachment && <img src={attachment} className={b('attachment')}/>}
-                {this.meta && <OGData isInMessage={true} {...this.meta} />}
             </div>
         );
     }

@@ -7,8 +7,8 @@
     box-sizing: border-box;
     overflow-y: auto;
     user-select: none;
-
-    border-right: 2px solid rgba(234, 227, 252, 0.55);
+    z-index: 1;
+    box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
 }
 
 .dialogs::-webkit-scrollbar-track {

@@ -32,6 +32,14 @@ class UIStore {
     }
 
     @action
+    public closeAllPopups = () => {
+        this.userInfo = null;
+        Object.keys(this.displays).forEach(key => {
+            this.displays[key] = false;
+        });
+    }
+
+    @action
     public toggleLeftPanel = () => {
         this.isMenuShown = !this.isMenuShown;
     };
@@ -48,6 +56,7 @@ class UIStore {
 
     @action
     public togglePopup = name => () => {
+        this.userInfo = null; // FIXME: Костыль (переписать логику работы с попами)
         this.displays[name] = !this.displays[name];
     };
 

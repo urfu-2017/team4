@@ -42,8 +42,6 @@ class ChatInfo extends React.Component {
                 member => member.id !== usersStore.currentUser.id
             ) || usersStore.currentUser;
 
-        console.info('USER INFO', user);
-
         return (
             <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup}>
                 <h3 className={b('title') + ' header3'}>Информация о пользователе</h3>

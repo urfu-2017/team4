@@ -74,6 +74,15 @@
     overflow: hidden;
 }
 
+.message__attachment {
+    max-width: 100%;
+    height: auto;
+}
+
+.message__text:not(:empty) + .message__attachment {
+    margin-top: 12px;
+}
+
 .message__text p {
     margin: 0 0 12px;
 }

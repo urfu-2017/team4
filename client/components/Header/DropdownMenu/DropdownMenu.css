@@ -2,10 +2,12 @@
     box-sizing: border-box;
     position: absolute;
     top: 48px;
-    width: 350px;
+    width: 100%;
     background-color: #fff;
     text-decoration: none;
     border: 1px solid #808080;
+
+    z-index: 10;
 }
 
 .menu__item {

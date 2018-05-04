@@ -51,15 +51,15 @@ const UploadPreview: React.SFC<Props> = observer(
                     innerRef={inputRef}
                 />
                 <div className={b('buttons')}>
+                    <Button className={b('cancel-button')} onClick={closeHandler}>
+                        Отменить
+                    </Button>
                     <Button
                         disabled={loading || error}
                         className={b('send-button')}
                         onClick={onSend}
                     >
                         Отправить
-                    </Button>
-                    <Button className={b('cancel-button')} onClick={closeHandler}>
-                        Отменить
                     </Button>
                 </div>
             </Popup>
