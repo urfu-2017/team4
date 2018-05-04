@@ -6,9 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 export const uploadHandler: express.RequestHandler = (req, res) => {
     if (!req.session || !req.session.passport || !req.session.passport.user) {
-        res.sendStatus(403);
-
-        return;
+        return res.sendStatus(403);
     }
 
     res.json({

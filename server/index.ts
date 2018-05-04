@@ -16,7 +16,6 @@ import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
 import { generateAvatar } from './helpers/generateAvatar';
 import { uploadStorage, uploadHandler } from './helpers/fileUpload';
-import { process } from 'ts-jest/dist/preprocessor';
 
 const app = express();
 const upload = multer({ storage: uploadStorage });
@@ -32,7 +31,7 @@ app.use(compression());
 
 // FIXME обратить внимание на то, что static/uploads не создается автоматом
 app.use(
-    express.static(path.resolve(__dirname, '../static'), {
+    express.static(path.resolve(__dirname, 'static'), {
         redirect: false
     })
 );
@@ -51,13 +50,11 @@ app.use(passport.session());
 
 app.use('/auth', router);
 
-// FIXME нужны только для тестирования
-app.get('/rpccat', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './rpccat.html'));
-});
-app.get('/upload', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './upload.html'));
-});
+if (config.NODE_ENV === 'development') {
+    app.get('/rpccat', (req, res) => {
+        res.sendFile(path.resolve(__dirname, './rpccat.html'));
+    });
+}
 
 app.post('/upload', upload.single('file'), uploadHandler);
 
