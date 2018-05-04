@@ -16,12 +16,14 @@ class UsersStore {
 
     public async fetchUser(userId) {
         if (this.users.has(userId)) {
-            return;
+            return this.users.get(userId);
         }
 
         const userModel = new UserModel(userId);
         this.users.set(userId, userModel);
         await userModel.fetch();
+
+        return userModel;
     }
 
     public saveUser(userFromJson, force: boolean = false): UserModel {

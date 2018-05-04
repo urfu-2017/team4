@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 interface Props {
@@ -31,9 +30,5 @@ const Logo: React.SFC<Props> = ({ className = '' }) => (
         />
     </svg>
 );
-
-Logo.propTypes = {
-    className: PropTypes.string.isRequired
-};
 
 export default Logo;

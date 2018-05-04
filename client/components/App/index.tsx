@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
+import Notificator from '../Notificator';
 import ChatWrapper from '../Chat/ChatWrapper';
 import Contacts from '../Contacts';
 import Chats from '../Chats';
@@ -36,15 +37,18 @@ class App extends React.Component {
             <HashRouter>
                 <div className="app">
                     <Header />
-                    <Chats />
-                    <div className="content">
-                        <Switch>
-                            <Route path="/chats/:id" component={ChatWrapper} />
-                            <Route path="/" component={stubComponent} />
-                            <Redirect from="*" to="/" />
-                        </Switch>
+                    <div className="split">
+                        <Chats />
+                        <div className="content">
+                            <Switch>
+                                <Route path="/chats/:id" component={ChatWrapper} />
+                                <Route path="/" component={stubComponent} />
+                                <Redirect from="*" to="/" />
+                            </Switch>
+                        </div>
                     </div>
                     {this.renderModals()}
+                    <Notificator/>
                 </div>
             </HashRouter>
         );

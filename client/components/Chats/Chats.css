@@ -8,7 +8,7 @@
     overflow-y: auto;
     user-select: none;
 
-    border-right: 2px solid #e9ebed;
+    border-right: 2px solid rgba(234, 227, 252, 0.55);
 }
 
 .dialogs::-webkit-scrollbar-track {

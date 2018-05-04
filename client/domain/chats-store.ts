@@ -8,7 +8,7 @@ import usersStore from './users-store';
 
 class ChatsStore {
     @observable
-    public chatsMap = new Map();
+    public chatsMap: Map<string, ChatModel> = new Map();
 
     @observable
     public currentChat = null;
@@ -20,6 +20,9 @@ class ChatsStore {
 
     constructor() {
         RPC.addListener(Events.NEW_MESSAGE, this.onNewMessage);
+        RPC.addListener(Events.NEW_CHAT, this.onNewChat);
+        RPC.addListener(Events.ADD_MEMBER, this.onAddMember);
+        RPC.addListener(Events.REMOVE_MEMBER, this.onRemoveMember);
     }
 
     public init() {
@@ -76,17 +79,30 @@ class ChatsStore {
         const chat = this.chatsMap.get(chatId);
 
         if (chat) {
-            // Добавляем сообщение в существующий чат
             chat.onReceiveMessage(message);
-        } else {
-            // Добавляем новый чат
-            const newChat = await RPC.request('getChatInfo', { chatId, subscribe: true });
-
-            if (newChat) {
-                await this.saveChat(newChat);
-            }
         }
     };
+
+    private onNewChat = async chat => {
+        await this.saveChat(chat);
+    }
+
+    private onAddMember = async ({ userId, chatId }) => {
+        const chat = this.chatsMap.get(chatId);
+
+        if (chat) {
+            const user = await usersStore.fetchUser(userId);
+            chat.members.push(user);
+        }
+    }
+
+    private onRemoveMember = async ({ userId, chatId }) => {
+        const chat = this.chatsMap.get(chatId);
+
+        if (chat) {
+            chat.members = chat.members.filter(member => member.id !== userId);
+        }
+    }
 }
 
 export default new ChatsStore();

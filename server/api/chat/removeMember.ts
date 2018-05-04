@@ -22,7 +22,7 @@ export default async function(request: Request<Params>, response: Response) {
 
     await Members.destroy({ where: { userId, chatId } });
 
-    response.notification(chatId, Events.REMOVE_MEMBER, { userId });
+    response.notification(chatId, Events.REMOVE_MEMBER, { chatId, userId });
     await request.server.unsubscribeUser(userId, chatId);
     response.success(null);
 }

@@ -22,7 +22,7 @@ export default async function(request: Request<Params>, response: Response) {
 
     await Members.create<Members>({ userId, chatId });
 
-    response.notification(chatId, Events.ADD_MEMBER, { userId });
+    response.notification(chatId, Events.ADD_MEMBER, { chatId, userId });
     await request.server.subscribeUser(userId, chatId);
     response.success(null);
 }
