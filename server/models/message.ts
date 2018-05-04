@@ -11,7 +11,7 @@ import { User } from './user';
     ]
 })
 export class Message extends Model<Message> {
-    @Column({ type: DataType.UUIDV4, primaryKey: true, allowNull: false })
+    @Column({ type: DataType.UUID, primaryKey: true, allowNull: false })
     public id: string;
 
     @ForeignKey(() => User)
@@ -19,7 +19,7 @@ export class Message extends Model<Message> {
     public senderId: number;
 
     @ForeignKey(() => Chat)
-    @Column({ type: DataType.UUIDV4, allowNull: false })
+    @Column({ type: DataType.UUID, allowNull: false })
     public chatId: string;
 
     @Column({ type: DataType.TEXT })

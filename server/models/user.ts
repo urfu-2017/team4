@@ -6,6 +6,9 @@ import { Members } from './members';
 
 @Table({ timestamps: true, tableName: 'user' })
 export class User extends Model<User> {
+    @Column({ type: DataType.INTEGER, primaryKey: true })
+    public id: number;
+
     @Column({ type: DataType.STRING, unique: true, allowNull: false })
     public username: string;
 
@@ -15,7 +18,7 @@ export class User extends Model<User> {
     @Column({ type: DataType.STRING })
     public lastName: string;
 
-    @Column({ type: DataType.STRING, defaultValue: null })
+    @Column({ type: DataType.TEXT, defaultValue: null })
     public avatar: string;
 
     @Column({ type: DataType.STRING, defaultValue: null })

@@ -5,7 +5,7 @@ import { Message } from './message';
 
 @Table({ timestamps: true })
 export class Chat extends Model<Chat> {
-    @Column({ type: DataType.UUIDV4, primaryKey: true, allowNull: false })
+    @Column({ type: DataType.UUID, primaryKey: true, allowNull: false })
     public id: string;
 
     @IsIn([['room', 'dialog']])
