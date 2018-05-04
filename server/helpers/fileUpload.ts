@@ -10,6 +10,7 @@ export const uploadHandler: express.RequestHandler = (req, res) => {
 
         return;
     }
+
     res.json({
         path: `${UPLOADS_URL_PATH}/${req.file.filename}`
     });

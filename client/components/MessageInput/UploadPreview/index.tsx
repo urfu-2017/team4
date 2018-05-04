@@ -1,9 +1,11 @@
 import React from 'react';
 import b_ from 'b_';
 import { observer } from 'mobx-react';
-import { observable, action } from 'mobx';
 
 import Preloader from '../../Preloader/index';
+import Popup from '../../Popup';
+import Input from '../../Input';
+import Button from '../../Button';
 
 import './UploadPreview.css';
 
@@ -13,44 +15,56 @@ interface Props {
     className?: string;
     loading?: boolean;
     image: HTMLImageElement;
-    closeHandler?: () => void;
     error?: boolean;
+
+    inputRef?: (node: HTMLInputElement) => void;
+    closeHandler: () => void;
+    onSend: () => void;
 }
 
-@observer
-class UploadPreview extends React.Component<Props> {
-    @observable private collapsed: boolean = false;
-
-    public render() {
-        const { className = '', image, closeHandler, loading = false, error } = this.props;
+const UploadPreview: React.SFC<Props> = observer(
+    ({ className = '', loading = false, image, closeHandler, error, onSend, inputRef }) => {
         const ImageElement = React.createElement('img', {
             src: image.src,
             className: b('image')
         });
 
         return (
-            <div className={`${b({ collapsed: this.collapsed })} ${className}`}>
-                {ImageElement}
-                <button onClick={this.onCollapse} className={b('collapse')} title="Свернуть" />
-                <button onClick={closeHandler} className={b('close')} title="Отменить" />
-                {loading && (
-                    <div className={b('overlay', { display: !this.collapsed })}>
-                        <Preloader size={50} className={b('preloader')} />
-                    </div>
-                )}
-                {error && (
-                    <div className={b('overlay', { display: !this.collapsed })}>
-                        <p className={b('message')}>При загрузке картинки произошла ошибка</p>
-                    </div>
-                )}
-            </div>
+            <Popup className={`${b()} ${className}`} closeHandler={closeHandler} zIndex={100}>
+                <div className={b('image-container')}>
+                    {ImageElement}
+                    {loading && (
+                        <div className={b('overlay')}>
+                            <Preloader size={50} className={b('preloader')} />
+                        </div>
+                    )}
+                    {error && (
+                        <div className={b('overlay')}>
+                            <p className={b('error')}>При загрузке картинки произошла ошибка</p>
+                        </div>
+                    )}
+                </div>
+                <Input
+                    type="text"
+                    className={b('message')}
+                    placeholder="Добавьте подпись..."
+                    innerRef={inputRef}
+                />
+                <div className={b('buttons')}>
+                    <Button
+                        disabled={loading || error}
+                        className={b('send-button')}
+                        onClick={onSend}
+                    >
+                        Отправить
+                    </Button>
+                    <Button className={b('cancel-button')} onClick={closeHandler}>
+                        Отменить
+                    </Button>
+                </div>
+            </Popup>
         );
     }
-
-    @action
-    private onCollapse = () => {
-        this.collapsed = !this.collapsed;
-    };
-}
+);
 
 export default UploadPreview;

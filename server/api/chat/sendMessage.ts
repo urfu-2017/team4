@@ -7,11 +7,11 @@ import { Events } from '../../../shared/events';
 interface Params {
     chatId: string;
     text: string;
-    meta?: any;
+    attachment?: string;
 }
 
 export default async function sendMessage(request: Request<Params>, response: Response) {
-    const { chatId, text, meta } = request.params;
+    const { chatId, text, attachment } = request.params;
     const members = await Members.findOne({
         where: {
             userId: request.user,
@@ -28,7 +28,7 @@ export default async function sendMessage(request: Request<Params>, response: Re
         senderId: request.user,
         chatId,
         text,
-        meta
+        attachment
     });
 
     response.notification(chatId, Events.NEW_MESSAGE, message);

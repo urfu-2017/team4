@@ -10,11 +10,13 @@ import { createUser } from './helpers/createUser';
 
 import { sequelize } from './sequelize';
 import { configureModels, User } from './models';
+import * as cors from 'cors';
 
 import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
 import { generateAvatar } from './helpers/generateAvatar';
 import { uploadStorage, uploadHandler } from './helpers/fileUpload';
+import { process } from 'ts-jest/dist/preprocessor';
 
 const app = express();
 const upload = multer({ storage: uploadStorage });
@@ -22,9 +24,13 @@ const upload = multer({ storage: uploadStorage });
 const sessionStore = new expressSession.MemoryStore();
 const { passport, router } = configurePassport(createUser);
 
+if (config.NODE_ENV === 'development') {
+    app.use(cors( { origin: 'http://localhost:3000', credentials: true }));
+}
+
 app.use(compression());
 app.use(
-    express.static(path.resolve(__dirname, './static'), {
+    express.static(path.resolve(__dirname, '../static'), {
         redirect: false
     })
 );

@@ -54,7 +54,7 @@ class Message extends React.Component<Props> {
     };
 
     public render() {
-        const { from, text, createdAt, ogData } = this.props.message;
+        const { from, text, createdAt, attachment } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user.avatar;
 
@@ -77,6 +77,7 @@ class Message extends React.Component<Props> {
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
                 </div>
+                {attachment && <img src={attachment} className={b('attachment')}/>}
                 {this.meta && <OGData isInMessage={true} {...this.meta} />}
             </div>
         );

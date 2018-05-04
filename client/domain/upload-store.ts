@@ -16,30 +16,50 @@ class UploadStore {
     }
 
     @action public upload = async (file: File) => {
+        if (file.size > 20000000) {
+            this.state = 'error';
+
+            return;
+        }
+
         if (this.isFetching) {
             return;
         }
 
         this.state = 'loading';
 
-        const response = await fetch(this.url, {
-            method: 'POST',
-            body: file,
-            signal: this.controller.signal
-        });
+        const body = new FormData();
+        body.append('file', file);
 
-        if (response.status === 200) {
-            runInAction(() => {
-                this.state = 'success';
+        let response;
+
+        try {
+            response = await fetch(this.url, {
+                method: 'POST',
+                body,
+                signal: this.controller.signal,
+                credentials: 'include'
             });
 
-            return;
-        }
+            if (response.ok) {
+                runInAction(() => {
+                    this.state = 'success';
+                });
 
-        runInAction(() => {
-            this.state = 'error';
-        });
-        console.error('Failed to upload image');
+                return response.json();
+            }
+
+            runInAction(() => {
+                this.state = 'error';
+            });
+            console.error('Failed to upload image');
+
+        } catch (e) {
+            runInAction(() => {
+                this.state = 'error';
+            });
+            console.error('Failed to upload image');
+        }
     };
 
     @action public cancel = () => {

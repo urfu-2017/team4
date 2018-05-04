@@ -1,27 +1,46 @@
 .preview {
-    position: absolute;
-    right: 0;
+    top: 5vh;
 
-    padding: 30px 10px 10px;
-    box-sizing: border-box;
-    width: 200px;
-    height: 200px;
-    bottom: 100%;
-    border: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    max-width: 80vw;
+    padding: 20px 20px 10px;
 
     background: #fff;
 }
 
-.preview_collapsed {
-    padding: 15px 0;
-    height: 30px;
+.preview__message {
+    margin: 0 0 10px;
+    padding-left: 10px;
+}
+
+.preview__buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.preview__send-button:disabled {
+    cursor: not-allowed;
+}
+
+.preview__send-button:disabled:hover {
+    background: initial;
+}
+
+.preview__image-container {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    min-width: 300px;
+    margin: 0 auto 10px;
 }
 
 .preview__image {
     display: block;
-    max-width: 100%;
-    max-height: 100%;
-    margin: 0 auto;
+    max-height: 50vh;
+    max-width: 80vw;
 }
 
 .preview__overlay {
@@ -32,25 +51,20 @@
     left: 0;
     z-index: 10;
 
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
 
     background: rgba(255, 255, 255, 0.9);
 }
 
-.preview__overlay_display {
-    display: flex;
-}
-
-.preview__message {
+.preview__error {
     text-align: center;
     color: #f00;
     font-weight: bold;
 }
 
-.preview__close,
-.preview__collapse {
+.preview__close {
     z-index: 20;
     position: absolute;
     top: 7px;
@@ -63,25 +77,6 @@
     background: transparent;
     cursor: pointer;
     outline: none;
-}
-
-.preview__collapse {
-    right: 25px;
-}
-
-.preview__collapse::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 12px;
-    height: 2px;
-
-    background: #515151;
-
-    transition: background-color 0.2s;
-    transform: translate(-50%, -50%);
 }
 
 .preview__close::before,
@@ -100,8 +95,7 @@
 }
 
 .preview__close:hover::before,
-.preview__close:hover::after,
-.preview__collapse:hover::before {
+.preview__close:hover::after {
     background: #ccc;
 }
 

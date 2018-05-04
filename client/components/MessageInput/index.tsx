@@ -12,13 +12,10 @@ import UploadPreview from './UploadPreview';
 import SendIcon from './SendIcon';
 import AttachIcon from './AttachIcon';
 import EmojiIcon from './EmojiIcon';
-
 import Dropzone from '../Dropzone';
 
 import ChatsStore from '../../domain/chats-store';
-import ogStore from '../../domain/og-store';
 import UploadStore from '../../domain/upload-store';
-import urlParser from '../../utils/url-parser';
 import { getImageFromFile } from '../../utils/image-utils';
 
 import './MessageInput.css';
@@ -31,9 +28,12 @@ interface State {
 @observer
 class MessageInput extends React.Component<{}, State> {
     @observable private preview: HTMLImageElement;
+    private imageCaptionInput: HTMLInputElement;
     private messageInput: HTMLTextAreaElement;
     private dropzone: ReactDropzone;
-    private uploadStore: UploadStore = new UploadStore(`${window.location.origin}/upload`);
+    // FIXME изменить ссылку
+    private uploadStore: UploadStore = new UploadStore(`http://localhost:8080/upload`);
+    private attachment: string;
 
     constructor(props) {
         super(props);
@@ -45,7 +45,6 @@ class MessageInput extends React.Component<{}, State> {
 
     public onSend = async () => {
         const text = this.messageInput.value.trim();
-        const ogData = ogStore.data;
 
         if (!text) {
             return;
@@ -53,8 +52,7 @@ class MessageInput extends React.Component<{}, State> {
 
         try {
             this.messageInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text, ogData);
-            ogStore.clear();
+            await ChatsStore.currentChat.sendMessage(text);
             this.messageInput.value = null;
         } finally {
             this.messageInput.disabled = false;
@@ -82,14 +80,6 @@ class MessageInput extends React.Component<{}, State> {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();
             this.onSend();
-        }
-    };
-
-    public onInput = event => {
-        const url = urlParser(event.target.value);
-
-        if (url) {
-            ogStore.setUrl(url);
         }
     };
 
@@ -122,7 +112,6 @@ class MessageInput extends React.Component<{}, State> {
                 <Button className={`${b('button')} ${b('send')}`} onClick={this.onSend}>
                     <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
                 </Button>
-                {/* TODO запилить обработчики на перехват файлов */}
                 <Dropzone
                     // tslint:disable-next-line
                     dropzoneRef={node => {
@@ -140,11 +129,28 @@ class MessageInput extends React.Component<{}, State> {
                         loading={this.uploadStore.isFetching}
                         error={this.uploadStore.isError}
                         closeHandler={this.onUploadCancel}
+                        onSend={this.onImageSend}
+                        // tslint:disable-next-line
+                        inputRef={(node) => { this.imageCaptionInput = node }}
                     />
                 )}
             </section>
         );
     }
+
+    private onImageSend = async () => {
+        const text = this.imageCaptionInput.value.trim();
+
+        try {
+            this.imageCaptionInput.disabled = true;
+            await ChatsStore.currentChat.sendMessage(text, this.attachment);
+            this.imageCaptionInput.value = '';
+        } finally {
+            this.imageCaptionInput.disabled = false;
+            this.imageCaptionInput.focus();
+            this.onUploadCancel();
+        }
+    };
 
     private dropzoneOpen = (): void => {
         this.dropzone.open();
@@ -152,7 +158,11 @@ class MessageInput extends React.Component<{}, State> {
 
     private onDrop = (accepted: File[]): void => {
         getImageFromFile(accepted[0]).then(image => {
-            this.uploadStore.upload(accepted[0]);
+            this.uploadStore.upload(accepted[0])
+                .then(({ path }) => {
+                    // FIXME изменить путь до файла
+                    this.attachment = `http://localhost:8080${path}`;
+                });
 
             runInAction(() => {
                 if (this.preview) {
@@ -165,6 +175,7 @@ class MessageInput extends React.Component<{}, State> {
     };
 
     private onUploadCancel = ():void => {
+        this.attachment = undefined;
         this.preview = undefined;
         this.uploadStore.cancel();
     }
