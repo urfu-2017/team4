@@ -1,18 +1,12 @@
-.user-full {
+.user-full__left {
     display: flex;
-    flex-direction: column;
-    padding: 16px 32px 0;
+    margin-bottom: 24px;
 }
 
 .user-full__avatar {
     width: 72px;
     height: 72px;
     margin-right: 20px;
-}
-
-.user-full__data {
-    display: flex;
-    margin-bottom: 12px;
 }
 
 .user-full__info {
@@ -30,4 +24,23 @@
 .user-full__username {
     font-size: 12px;
     color: #91a6ba;
+}
+
+.user-full__actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+}
+
+.user-full__action {
+    font-size: 12px;
+    margin-bottom: 12px;
+    color: #3757c5;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+}
+
+.user-full__action:hover {
+    text-decoration-color: currentColor;
 }
