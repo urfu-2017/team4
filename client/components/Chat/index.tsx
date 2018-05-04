@@ -33,11 +33,16 @@ class Chat extends React.Component<Props> {
                 flipped={true}
                 reversed={true}
             >
-                {ChatsStore.currentChat.messages.map(message => (
-                    <Message key={message.id} message={message} />
-                ))}
+                {ChatsStore.currentChat.messages.map(this.renderMessage)}
             </ChatView>
         );
+    }
+
+    private renderMessage = (message, index, messages) => {
+        const prevMessage = messages[index - 1] || null;
+        const isStartChain = prevMessage === null || prevMessage.senderId !== message.senderId;
+
+        return (<Message key={message.id} isChain={!isStartChain} message={message} />)
     }
 }
 

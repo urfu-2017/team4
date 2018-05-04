@@ -5,8 +5,8 @@ import b_ from 'b_';
 
 import OGData from '../OGData';
 
-import UIStore from '../../domain/ui-store';
-import UsersStore from '../../domain/users-store';
+import uiStore from '../../domain/ui-store';
+import usersStore from '../../domain/users-store';
 import formatDate from '../../utils/format-date';
 import markdown from '../../utils/markdown';
 import { initContainer } from '../../utils/weather';
@@ -19,6 +19,7 @@ const b = b_.with('message');
 
 interface Props {
     message: any;
+    isChain?: boolean;
 }
 
 @observer
@@ -45,12 +46,12 @@ class Message extends React.Component<Props> {
     @computed
     get user() {
         const userId = this.props.message.senderId;
-        return UsersStore.users.get(userId);
+        return usersStore.users.get(userId);
     }
 
     public showUserProfile = event => {
         event.preventDefault();
-        UIStore.toggleUserInfoPopup(this.user);
+        uiStore.toggleUserInfoPopup(this.user);
     };
 
     public render() {
@@ -58,8 +59,10 @@ class Message extends React.Component<Props> {
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user.avatar;
 
+        const isMine = this.user.id === usersStore.currentUser.id;
+
         return (
-            <div className={b()}>
+            <div className={b({ mine: isMine, chain: this.props.isChain })}>
                 <div className={b('meta')}>
                     <img
                         onClick={this.showUserProfile}

@@ -14,7 +14,7 @@
 
 .dialog-list__item:hover,
 .dialog-list__item_active {
-    background: #e9ebed;
+    background: rgba(234, 227, 252, 0.55);
     color: #333;
 }
 

@@ -1,5 +1,7 @@
 body {
-    background: #e7ebf0;
+    background: #d3cce3;
+    background: -webkit-linear-gradient(to bottom, #E9E4F0, #D3CCE3);
+    background: linear-gradient(to bottom, #E9E4F0, #D3CCE3);
 }
 
 .app {
@@ -9,6 +11,8 @@ body {
 
     background: #fff;
     overflow: hidden;
+
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
 }
 
 .header {

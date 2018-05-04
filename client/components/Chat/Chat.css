@@ -18,7 +18,7 @@
     flex: 1;
     padding: 12px 5%;
 
-    background: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png) fixed;
+    background: #ECE9E6;
 }
 
 .chat__preloader {
@@ -34,7 +34,7 @@
     align-items: flex-start;
     overflow: hidden;
 
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .message__meta {
@@ -44,8 +44,8 @@
 }
 
 .message__avatar {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
     border-radius: 4px;
@@ -54,7 +54,7 @@
 .message__date {
     margin-top: 6px;
     font-size: 12px;
-    color: #515151;
+    color: #74669b;
 }
 
 .message__body {
@@ -62,10 +62,10 @@
     margin-left: 10px;
     overflow: hidden;
     background: #fff;
-    padding: 12px;
-    border-radius: 4px;
-    flex: 1;
+    padding: 6px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
+    font-size: 14px;
+    border-radius: 3px;
 }
 
 .message__text {
@@ -89,7 +89,7 @@
     font-size: 14px;
     background: rgba(245, 245, 245, 0.7);
     border-radius: 4px;
-    padding: 8px 16px;
+    padding: 4px 8px;
 
     overflow-x: auto;
 }
@@ -97,4 +97,17 @@
 .message__text strong {
     display: block;
     font-weight: bold;
+}
+
+.message_mine {
+    flex-direction: row-reverse;
+}
+
+.message_mine .message__body {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.message_chain .message__avatar {
+    display: none;
 }

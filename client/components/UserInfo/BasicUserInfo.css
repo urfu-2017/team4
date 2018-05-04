@@ -15,12 +15,12 @@
 }
 
 .user:hover {
-    background: #f2f6fa;
+    background: rgba(234, 227, 252, 0.55);
 }
 
 .user_selected,
 .user_selected:hover {
-    background: rgba(8, 174, 234, 0.2);
+    background: rgba(234, 227, 252, 0.55);
 }
 
 .user__avatar {
