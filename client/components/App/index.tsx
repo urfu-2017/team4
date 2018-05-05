@@ -15,6 +15,7 @@ import ChatInfo from '../ChatInfo';
 import uiStore from '../../domain/ui-store';
 
 import './App.css';
+import ChatInvite from '../ChatInvite/index';
 
 const stubComponent: React.SFC = () => <div />;
 
@@ -41,6 +42,7 @@ class App extends React.Component {
                         <Chats />
                         <div className="content">
                             <Switch>
+                                <Route path="/join/:invite" component={ChatInvite}/>
                                 <Route path="/chats/:id" component={ChatWrapper} />
                                 <Route path="/" component={stubComponent} />
                                 <Redirect from="*" to="/" />

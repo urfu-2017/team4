@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import b_ from 'b_';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import UserModel from '../../domain/user-model';
 import contactsStore from '../../domain/contacts-store';
@@ -21,6 +22,9 @@ interface State {
 
 @observer
 class FullUserInfo extends React.Component<Props, State> {
+    private static getInviteLink(username) {
+        return `${location.origin + location.pathname}#/join/@${username}`;
+    }
 
     public state: State = { isCreating: false };
 
@@ -50,7 +54,9 @@ class FullUserInfo extends React.Component<Props, State> {
                 {!isContact ? (
                     <span className={b('action')} onClick={this.addToContact}>Добавить в контакты</span>
                 ) : (
-                    <span className={b('action')}>Скопировать ссылку на контакт</span>
+                    <CopyToClipboard text={FullUserInfo.getInviteLink(username)}>
+                        <span className={b('action')}>Скопировать ссылку на контакт</span>
+                    </CopyToClipboard>
                 )}
                 <span className={b('action')} onClick={this.goToChat}>Перейти в чат</span>
             </div>

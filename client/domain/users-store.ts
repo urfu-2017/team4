@@ -26,6 +26,23 @@ class UsersStore {
         return userModel;
     }
 
+    public async fetchUserByUsername(username) {
+        username = username.toLowerCase();
+
+        const savedUser = Array.from(this.users.values())
+            .find(user => user.username.toLowerCase() === username);
+        if (savedUser) {
+            return savedUser;
+        }
+
+        const users = await RPC.request('findUsers', { username });
+        const newUser = users.find(user => user.username.toLowerCase() === username);
+        if (!newUser) {
+            return null;
+        }
+        return this.saveUser(newUser);
+    }
+
     public saveUser(userFromJson, force: boolean = false): UserModel {
         if (this.users.has(userFromJson.id) && !force) {
             return this.users.get(userFromJson.id);
