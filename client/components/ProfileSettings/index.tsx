@@ -105,6 +105,10 @@ class Profile extends React.Component<{}, State> {
     }
 
     private onDrop = async (accepted: File[]) => {
+        if (!accepted[0]) {
+            return;
+        }
+
         let image: File = accepted[0];
 
         const { width, height } = await getImageSize(image);

@@ -125,7 +125,7 @@ class MessageInput extends React.Component<{}, State> {
                     onDrop={this.onDrop}
                     accept="image/jpeg, image/gif, image/png, image/webp, image/svg+xml"
                 >
-                    Перетащите фото рамером менее 20мб для отправки.
+                    Перетащите фото рамером не более 20мб для отправки.
                 </Dropzone>
                 {this.preview && (
                     <UploadPreview
