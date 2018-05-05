@@ -24,4 +24,8 @@ export class Chat extends Model<Chat> {
 
     @HasMany(() => Message, 'chatId')
     public messages: Message[];
+
+    public hasMember(userId: number) {
+        return this.members.some(user => user.id === userId);
+    }
 }

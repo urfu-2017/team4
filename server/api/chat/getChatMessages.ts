@@ -3,14 +3,14 @@ import { Sequelize } from 'sequelize-typescript';
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
 import { Message } from '../../models';
-import findChat from './findChat';
+import { findUserChat } from './helpers/findChat';
 
 export default async function getChatMessages(
     request: Request<{ chatId: string; from?: Date; limit?: number }>,
     response: Response
 ) {
     const { chatId, from, limit } = request.params;
-    await findChat(request.user, chatId);
+    await findUserChat(request.user, chatId);
 
     const messages = await Message.findAll({
         where: {
