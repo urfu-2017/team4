@@ -43,9 +43,13 @@ export const resizeImage = (file: File, optimalSize: number) =>
                     return reject();
                 }
 
-                const imgFile = new File([result], `image.${supportedExtensions[file.type]}`, {
-                    type: file.type
-                });
+                const imgFile = new File(
+                    [result],
+                    `image.${supportedExtensions[file.type] || 'png'}`,
+                    {
+                        type: supportedExtensions[file.type] ? file.type : 'image/png'
+                    }
+                );
 
                 resolve(imgFile);
             });
