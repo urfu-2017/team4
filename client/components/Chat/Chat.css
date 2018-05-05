@@ -72,7 +72,6 @@
 
 .message__text {
     word-break: break-all;
-    overflow: hidden;
 }
 
 .message__attachment {
@@ -148,4 +147,12 @@
 .message_mine .reactions__picker {
     left: initial;
     right: 0;
+}
+
+.message .weather__result {
+    transform: translate(-25%, -125%);
+}
+
+.message_mine .weather__result {
+    transform: translate(-75%, -125%);
 }
