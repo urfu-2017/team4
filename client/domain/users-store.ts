@@ -14,7 +14,7 @@ class UsersStore {
         RPC.addListener(Events.UPDATE_PROFILE, this.onProfileUpdate);
     }
 
-    public async fetchUser(userId) {
+    public async fetchUser(userId): Promise<UserModel> {
         if (this.users.has(userId)) {
             return this.users.get(userId);
         }
