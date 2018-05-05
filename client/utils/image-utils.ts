@@ -66,6 +66,40 @@ export const getImageSize = async (file: File) => {
     return { width: image.naturalWidth, height: image.naturalHeight };
 };
 
+export const cropToSquare = async (file: File) => {
+    const image = await getImageFromFile(file);
+    const { naturalWidth: width, naturalHeight: height } = image;
+
+    if (width === height) {
+        return file;
+    }
+
+    const size = Math.min(width, height);
+
+    const canvas = document.createElement('canvas');
+
+    canvas.width = size;
+    canvas.height = size;
+
+    const context = canvas.getContext('2d');
+
+    context.drawImage(image, 0, 0, width, height);
+
+    return new Promise<File>((resolve, reject) => {
+        canvas.toBlob(result => {
+            if (result === null) {
+                return reject();
+            }
+
+            const newImage = new File([result], 'image.png', {
+                type: 'image/png'
+            });
+
+            resolve(newImage);
+        });
+    });
+};
+
 function getOptimalSize(width: number, height: number, maxSize: number) {
     let newWidth = 0;
     let newHeight = 0;

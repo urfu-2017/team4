@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
+import { action, observable, runInAction } from 'mobx';
 
 import Input from '../Input';
 import Button from '../Button';
@@ -11,7 +12,7 @@ import Preloader from '../Preloader';
 
 import uiStore from '../../domain/ui-store';
 import UsersStore from '../../domain/users-store';
-import { getImageSize, resizeImage } from '../../utils/image-utils';
+import { getImageSize, resizeImage, cropToSquare } from '../../utils/image-utils';
 import { BASE_URL, MAX_AVATAR_SIZE } from '../../config';
 import UploadStore from '../../domain/upload-store';
 
@@ -28,6 +29,7 @@ interface State {
 
 @observer
 class Profile extends React.Component<{}, State> {
+    @observable private isProcessing: boolean = false;
     private uploadStore: UploadStore = new UploadStore();
 
     constructor(props) {
@@ -70,12 +72,12 @@ class Profile extends React.Component<{}, State> {
                     overClassName={b('dropzone', { over: true })}
                     onWindowClassName={b('dropzone', { active: true })}
                     onDrop={this.onDrop}
-                    accept="image/png"
+                    accept="image/png, image/jpeg"
                     disabled={isFetching}
                 >
                     <img className={b('avatar')} src={avatar} alt="Аватар" />
                     <div className={b('hover-indicator')} />
-                    {isFetching && (
+                    {(isFetching || this.isProcessing) && (
                         <div className={b('loading-overlay')}>
                             <Preloader size={30} />
                         </div>
@@ -104,23 +106,25 @@ class Profile extends React.Component<{}, State> {
         );
     }
 
+    @action
     private onDrop = async (accepted: File[]) => {
         if (!accepted[0]) {
             return;
         }
 
-        let image: File = accepted[0];
+        this.isProcessing = true;
+
+        let image: File = await cropToSquare(accepted[0]);
 
         const { width, height } = await getImageSize(image);
 
-        // Аватар должен быть квадратным
-        if (width !== height) {
-            return;
-        }
-
-        if (width > MAX_AVATAR_SIZE) {
+        if (width > MAX_AVATAR_SIZE || height > MAX_AVATAR_SIZE) {
             image = await resizeImage(image, MAX_AVATAR_SIZE);
         }
+
+        runInAction(() => {
+            this.isProcessing = false;
+        });
 
         const response = await this.uploadStore.upload(image);
 
