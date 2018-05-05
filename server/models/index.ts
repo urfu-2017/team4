@@ -9,7 +9,7 @@ import { Reaction } from './reaction';
 
 async function configureModels(sequilize: Sequelize) {
     sequilize.addModels([User, Chat, Message, Members, Contacts, Reaction]);
-    await sequilize.sync({ force: true });
+    await sequilize.sync();
 }
 
 export { User, Contacts, Chat, Members, Message, Reaction, configureModels };

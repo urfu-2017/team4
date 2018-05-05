@@ -1,4 +1,4 @@
-import { BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { User } from './user';
 import { Message } from './message';
 
@@ -18,7 +18,7 @@ export class Reaction extends Model<Reaction> {
     public userId: number;
 
     @ForeignKey(() => Message)
-    @Column({ allowNull: false })
+    @Column({ allowNull: false, type: DataType.UUID })
     public messageId: string;
 
     @BelongsTo(() => Message)

@@ -134,3 +134,7 @@
 .message_chain .message__avatar {
     display: none;
 }
+
+.message_chain .message__body {
+    margin-bottom: 1px;
+}
