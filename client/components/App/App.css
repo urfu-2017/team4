@@ -1,7 +1,5 @@
 body {
-    background: #d3cce3;
-    background: -webkit-linear-gradient(to bottom, #E9E4F0, #D3CCE3);
-    background: linear-gradient(to bottom, #E9E4F0, #D3CCE3);
+    background: #f2f6fa;
 }
 
 .app {

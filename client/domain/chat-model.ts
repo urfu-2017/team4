@@ -18,6 +18,9 @@ export default class ChatModel {
     public owner;
     public type: 'room' | 'dialog';
 
+    @observable
+    public canLoadNextHistoryFrame: boolean = true;
+
     @computed
     get lastMessage() {
         return this.messages[this.messages.length - 1] || null;
@@ -49,10 +52,15 @@ export default class ChatModel {
                 'getChatMessages',
                 {
                     chatId: this.id,
-                    from: oldestMessage ? oldestMessage.creationDate : null
+                    from: oldestMessage ? oldestMessage.createdAt : null
                 },
                 15000
             );
+
+            if (messages.length === 0) {
+                this.canLoadNextHistoryFrame = false;
+                return;
+            }
 
             await Promise.all(
                 messages.map(message => UsersStore.fetchUser(message.senderId)));

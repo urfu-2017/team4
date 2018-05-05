@@ -30,7 +30,7 @@ if (config.NODE_ENV === 'development') {
 app.use(compression());
 
 app.use(
-    express.static(path.resolve(__dirname, '../static'), {
+    express.static(path.resolve(__dirname, 'static'), {
         redirect: false
     })
 );
