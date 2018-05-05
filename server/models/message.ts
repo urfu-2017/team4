@@ -26,7 +26,7 @@ export class Message extends Model<Message> {
     @BelongsTo(() => Chat)
     public chat: Chat;
 
-    @Column({ type: DataType.TEXT, allowNull: false })
+    @Column({ type: DataType.TEXT })
     public text: string;
 
     @Column({ type: DataType.JSONB })
