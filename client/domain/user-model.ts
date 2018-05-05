@@ -51,6 +51,7 @@ class UserModel {
             });
 
             runInAction(() => {
+                this.username = user.username;
                 this.firstName = user.firstName;
                 this.lastName = user.lastName;
                 this.avatar = user.avatar;

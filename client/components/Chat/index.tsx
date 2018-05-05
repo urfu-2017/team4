@@ -38,11 +38,8 @@ class Chat extends React.Component<Props> {
         );
     }
 
-    private renderMessage = (message, index, messages) => {
-        const prevMessage = messages[index - 1] || null;
-        const isStartChain = prevMessage === null || prevMessage.senderId !== message.senderId;
-
-        return (<Message key={message.id} isChain={!isStartChain} message={message} />)
+    private renderMessage = (message) => {
+        return (<Message key={message.id} isChain={false} message={message} />)
     }
 }
 
