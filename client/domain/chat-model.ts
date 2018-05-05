@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { computed, observable, action } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import UserModel from './user-model';
