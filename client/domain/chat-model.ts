@@ -5,7 +5,7 @@ import UserModel from './user-model';
 import UsersStore from './users-store';
 
 export default class ChatModel {
-    @observable.shallow public messages = [];
+    @observable public messages = [];
 
     @observable public isFetching = false;
 
@@ -71,8 +71,21 @@ export default class ChatModel {
         };
 
         const response = await RPC.request('sendMessage', params, 15000);
-
         this.messages.push(response);
+    }
+
+    public async addReaction(smile, messageId) {
+        const reaction = await RPC.request('addReaction', { reaction: smile, messageId });
+        const message = this.messages.find(msg => msg.id === messageId);
+
+        message.reactions.push(reaction);
+    }
+
+    public async removeReaction(reactionId, messageId) {
+        await RPC.request('removeReaction', { reactionId });
+        const message = this.messages.find(msg => msg.id === messageId);
+
+        message.reactions = message.reactions.filter(reaction => reaction.id !== reactionId);
     }
 
     public async addMember(user: UserModel) {

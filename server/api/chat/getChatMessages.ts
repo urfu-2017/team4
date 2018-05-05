@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize-typescript';
 
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { Message } from '../../models';
+import { Message, Reaction } from '../../models';
 import { findUserChat } from './helpers/findChat';
 
 export default async function getChatMessages(
@@ -18,7 +18,8 @@ export default async function getChatMessages(
             ...(from ? { createdAt: { [Sequelize.Op.lt]: from } } : {})
         },
         order: [['createdAt', 'DESC']],
-        limit: limit || 30
+        limit: limit || 30,
+        include: [Reaction]
     });
 
     response.success(messages.reverse());

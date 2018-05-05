@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { config } from 'dotenv';
 
 config();
@@ -18,7 +19,7 @@ export const AUTH_REDIRECT_URL = isDevelopment ? frontendHostDev : frontendHostP
 export const GITHUB_AUTH_CALLBACK = isDevelopment
     ? `${backendHostDev}/auth/callback`
     : `${backendHostProd}/auth/callback`;
-export const UPLOADS_SERVER_PATH = './static/uploads';
+export const UPLOADS_SERVER_PATH = path.resolve(__dirname, 'static/uploads');
 export const UPLOADS_URL_PATH = '/uploads';
 
 export const WEATHER_API_TOKEN = process.env.WEATHER_API_TOKEN;

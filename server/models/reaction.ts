@@ -26,4 +26,6 @@ export class Reaction extends Model<Reaction> {
 
     @Column
     public reaction: string;
+
+    public chatId: string;
 }

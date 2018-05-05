@@ -1,6 +1,7 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
 import { Message, Reaction, Chat, Members, User } from '../../models';
+import { Events } from '../../../shared/events';
 
 interface Params {
     messageId: string;
@@ -28,9 +29,10 @@ export default async function(request: Request<Params>, response: Response) {
     const reaction = await Reaction.create<Reaction>({
         userId,
         messageId,
+        chatId: message.chatId,
         reaction: name
     });
 
     response.success(true);
-    response.notification(message.chatId, 'NEW_REACTION', reaction.toJSON());
+    response.notification(message.chatId, Events.ADD_REACTION, reaction.toJSON());
 }
