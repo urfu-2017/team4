@@ -102,7 +102,6 @@ class ChatsStore {
 
         if (chat) {
             const user = await usersStore.fetchUser(userId);
-            console.info()
             chat.members.push(user);
         } else {
             chat = await RPC.request('getChatInfo', { chatId, subscribe: true }, 5000);
