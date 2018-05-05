@@ -20,6 +20,9 @@ import subscribeToChat from './chat/subscribeToChat';
 import addMember from './chat/addMember';
 import removeMember from './chat/removeMember';
 
+import addReaction from './reactions/add';
+import removeReaction from './reactions/delete';
+
 import getUrlMeta from './getUrlMeta';
 import getWeather from './getWeather';
 
@@ -42,6 +45,9 @@ export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     subscribeToChat,
     addMember,
     removeMember,
+
+    addReaction,
+    removeReaction,
 
     getUrlMeta,
     getWeather

@@ -19,6 +19,8 @@ import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 import { BASE_URL } from '../../config';
 
+import { BASE_URL } from '../../config';
+
 import './MessageInput.css';
 const b = b_.with('message-input');
 
@@ -54,7 +56,7 @@ class MessageInput extends React.Component<{}, State> {
 
         try {
             this.messageInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text);
+            await ChatsStore.currentChat.sendMessage(text, null);
             this.messageInput.value = null;
         } finally {
             this.messageInput.disabled = false;
@@ -176,7 +178,6 @@ class MessageInput extends React.Component<{}, State> {
                 this.uploadStore.upload(file).then(({ path }) => {
                     this.attachment = `${BASE_URL}${path}`;
                 });
-
                 runInAction(() => {
                     if (this.preview) {
                         return;

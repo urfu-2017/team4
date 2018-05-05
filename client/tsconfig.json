@@ -20,5 +20,6 @@
         "strictNullChecks": false,
         "suppressImplicitAnyIndexErrors": true,
         "forceConsistentCasingInFileNames": true
-    }
+    },
+    "exclude": ["../build"]
 }

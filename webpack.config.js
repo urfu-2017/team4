@@ -100,7 +100,7 @@ module.exports = {
         historyApiFallback: true,
         clientLogLevel: 'none',
         contentBase: clientSrcPath,
-        host: '0.0.0.0',
+        host: 'localhost',
         publicPath: '/',
         watchOptions: { ignored: /node_modules/ },
         port: process.env.PORT ? Number(process.env.PORT) : 3000

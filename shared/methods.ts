@@ -18,6 +18,9 @@ export interface Methods {
     addMember: any;
     removeMember: any;
 
+    addReaction: any;
+    removeReaction: any;
+
     getUrlMeta: any;
     getWeather: any;
 }
