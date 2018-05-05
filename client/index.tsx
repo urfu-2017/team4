@@ -1,3 +1,5 @@
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';

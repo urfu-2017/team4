@@ -61,7 +61,7 @@ class FullUserInfo extends React.Component<Props, State> {
 
     private goToChat = async () => {
         if (this.state.isCreating) return;
-        const id = this.props.user.id;
+        const { id } = this.props.user;
         let chat = chatsStore.findDialog(id);
 
         if (!chat) {
@@ -70,8 +70,8 @@ class FullUserInfo extends React.Component<Props, State> {
             this.setState({ isCreating: false });
         }
 
+        uiStore.closeAllPopups();
         this.props.history.push(`/chats/${chat.id}`);
-        uiStore.togglePopup('userInfo')();
     };
 }
 

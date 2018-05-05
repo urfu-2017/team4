@@ -10,6 +10,7 @@ import { createUser } from './helpers/createUser';
 
 import { sequelize } from './sequelize';
 import { configureModels, User } from './models';
+import * as cors from 'cors';
 
 import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
@@ -22,9 +23,15 @@ const upload = multer({ storage: uploadStorage });
 const sessionStore = new expressSession.MemoryStore();
 const { passport, router } = configurePassport(createUser);
 
+if (config.NODE_ENV === 'development') {
+    app.use(cors( { origin: 'http://localhost:3000', credentials: true }));
+}
+
 app.use(compression());
+
+// FIXME обратить внимание на то, что static/uploads не создается автоматом
 app.use(
-    express.static(path.resolve(__dirname, './static'), {
+    express.static(path.resolve(__dirname, 'static'), {
         redirect: false
     })
 );
@@ -43,13 +50,11 @@ app.use(passport.session());
 
 app.use('/auth', router);
 
-// FIXME нужны только для тестирования
-app.get('/rpccat', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './rpccat.html'));
-});
-app.get('/upload', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './upload.html'));
-});
+if (config.NODE_ENV === 'development') {
+    app.get('/rpccat', (req, res) => {
+        res.sendFile(path.resolve(__dirname, './rpccat.html'));
+    });
+}
 
 app.post('/upload', upload.single('file'), uploadHandler);
 

@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -83,7 +84,12 @@ module.exports = {
                 minifyURLs: true
             }
         }),
-        new ExtractTextPlugin({ filename: 'bundle.css', disable: isDevelopment })
+        new ExtractTextPlugin({ filename: 'bundle.css', disable: isDevelopment }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(NODE_ENV)
+            }
+        })
     ],
 
     devServer: {

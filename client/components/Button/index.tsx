@@ -14,6 +14,7 @@ interface Props {
     type?: 'main' | 'heading';
     disabled?: boolean;
     onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
+    tabIndex?: number;
 }
 
 const Button: React.SFC<Props> = ({
@@ -21,9 +22,10 @@ const Button: React.SFC<Props> = ({
     onClick,
     className = '',
     type = 'main',
-    disabled
+    disabled,
+    tabIndex
 }) => (
-    <button className={`${className} ${b(modifiers[type])}`} onClick={onClick} disabled={disabled}>
+    <button className={`${className} ${b(modifiers[type])}`} onClick={onClick} disabled={disabled} tabIndex={tabIndex}>
         {children}
     </button>
 );

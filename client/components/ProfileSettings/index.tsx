@@ -2,10 +2,11 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import Input from '../Input/index';
+import Input from '../Input';
 import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
+import Dropzone from '../Dropzone';
 
 import uiStore from '../../domain/ui-store';
 import UsersStore from '../../domain/users-store';
@@ -58,7 +59,18 @@ class Profile extends React.Component<{}, State> {
                 closeHandler={closeHandler}
                 headContent={<Head closeHandler={closeHandler} />}
             >
-                <img className={b('avatar')} src={this.state.avatar} alt="Аватар" />
+                {/* TODO запилить обработчики на перехват файлов */}
+                <Dropzone
+                    blockName={b()}
+                    onWindowModifier="active"
+                >
+                    <img
+                        className={b('avatar')}
+                        src={this.state.avatar}
+                        alt="Аватар"
+                    />
+                    <div className={b('hover-indicator')}/>
+                </Dropzone>
                 <div className={b('username')}>{`@${this.state.username}`}</div>
                 <div className={b('fields')}>
                     <Input

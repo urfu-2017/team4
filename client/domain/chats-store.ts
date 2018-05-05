@@ -58,9 +58,17 @@ class ChatsStore {
     }
 
     public findDialog(userId) {
-        const dialog = Array.from(this.chatsMap.values()).find(
-            chat => chat.type === 'dialog' && chat.members.map(member => member.id).includes(userId)
-        );
+        const currentUser = usersStore.currentUser;
+        const dialog = this.chats.find(chat => {
+            if (chat.type === 'dialog') {
+                const members = chat.members.filter(member => member.id !== currentUser.id);
+                const isSelf = userId === usersStore.currentUser.id && members.length === 0;
+
+                return isSelf || !!members.find(member => member.id === userId);
+            }
+
+            return false;
+        });
 
         return dialog || null;
     }

@@ -4,6 +4,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    background: #eee;
 
     overflow: hidden;
 }
@@ -71,6 +72,28 @@
 .message__text {
     word-break: break-all;
     overflow: hidden;
+}
+
+.message__attachment {
+    max-width: 100%;
+    max-height: 400px;
+    height: auto;
+}
+
+@media (min-height: 768px) {
+    .message__attachment {
+        max-height: 500px;
+    }
+}
+
+@media (min-height: 1080px) {
+    .message__attachment {
+        max-height: 700px;
+    }
+}
+
+.message__text:not(:empty) + .message__attachment {
+    margin-top: 12px;
 }
 
 .message__text p {

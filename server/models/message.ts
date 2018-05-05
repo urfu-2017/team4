@@ -22,11 +22,14 @@ export class Message extends Model<Message> {
     @Column({ type: DataType.UUIDV4, allowNull: false })
     public chatId: string;
 
-    @Column({ type: DataType.TEXT, allowNull: false })
+    @Column({ type: DataType.TEXT })
     public text: string;
 
     @Column({ type: DataType.JSONB })
     public meta: any;
+
+    @Column({ type: DataType.TEXT })
+    public attachment: string
 
     // TODO: Добавить реакции
 }

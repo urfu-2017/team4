@@ -14,7 +14,6 @@
 
 .og-data_in-message {
     width: calc(100% - 48px);
-    margin-left: 68px;
     border: none;
     border-left: 2px solid #74669b;
 
@@ -41,6 +40,7 @@
 
 .og-data__title {
     margin: 0;
+    font-size: 16px;
 }
 
 .og-data__close {

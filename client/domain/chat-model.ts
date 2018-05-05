@@ -59,11 +59,11 @@ export default class ChatModel {
         }
     }
 
-    public async sendMessage(text, ogData) {
+    public async sendMessage(text, attachment) {
         const params = {
             chatId: this.id,
             text,
-            meta: ogData
+            attachment
         };
 
         const response = await RPC.request('sendMessage', params, 15000);
