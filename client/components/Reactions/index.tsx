@@ -22,7 +22,16 @@ class Reactions extends React.Component<Props> {
 
     @computed
     private get reactions(): any[] {
-        return this.props.reactions;
+        const reactions: Record<string, { count: number }> = {};
+
+        for (const reaction of this.props.reactions) {
+            const rcn = reactions[reaction.reaction] || { smile: reaction.reaction, count: 0, id: reaction.id };
+            rcn.count++;
+            reactions[reaction.reaction] = rcn;
+        }
+
+        return Object.values(reactions)
+            .sort((r1, r2) => r1.count - r2.count);
     }
 
     public render(): React.ReactNode {

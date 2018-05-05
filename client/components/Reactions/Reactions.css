@@ -20,7 +20,7 @@
 }
 
 .reactions__item {
-    border: 1px solid #000;
+    border: 1px solid #999;
     color: #000;
     border-radius: 4px;
     padding: 4px;
@@ -41,4 +41,8 @@
 .reactions__item:hover {
     background: #74669b;
     color: #fff;
+}
+
+.reactions__item-count {
+    margin-right: 3px;
 }

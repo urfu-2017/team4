@@ -71,11 +71,11 @@ export default class ChatModel {
         };
 
         const response = await RPC.request('sendMessage', params, 15000);
-        this.messages.push(response);
+        this.messages.push({ ...response, reactions: [] });
     }
 
     public async addReaction(smile, messageId) {
-        const reaction = await RPC.request('addReaction', { reaction: smile, messageId });
+        const reaction = await RPC.request('addReaction', { name: smile, messageId });
         const message = this.messages.find(msg => msg.id === messageId);
 
         message.reactions.push(reaction);
@@ -108,6 +108,6 @@ export default class ChatModel {
 
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
-        this.messages.push(message);
+        this.messages.push({ ...message, reactions: [] });
     }
 }

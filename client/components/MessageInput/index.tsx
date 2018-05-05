@@ -53,7 +53,7 @@ class MessageInput extends React.Component<{}, State> {
 
         try {
             this.messageInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text);
+            await ChatsStore.currentChat.sendMessage(text, null);
             this.messageInput.value = null;
         } finally {
             this.messageInput.disabled = false;

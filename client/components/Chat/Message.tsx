@@ -8,6 +8,7 @@ import Reactions from '../Reactions';
 
 import uiStore from '../../domain/ui-store';
 import usersStore from '../../domain/users-store';
+import chatsStore from '../../domain/chats-store';
 import formatDate from '../../utils/format-date';
 import markdown from '../../utils/markdown';
 import { initContainer } from '../../utils/weather';
@@ -30,6 +31,7 @@ class Message extends React.Component<Props> {
 
     @observable.ref
     private meta: any = null;
+
 
     public componentDidMount() {
         const { text, id } = this.props.message;
@@ -56,11 +58,12 @@ class Message extends React.Component<Props> {
     };
 
     public render() {
-        const { from, text, createdAt, attachment } = this.props.message;
+        const { from, text, createdAt, attachment, reactions } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user.avatar;
 
         const isMine = this.user.id === usersStore.currentUser.id;
+        const isGroupChat = chatsStore.currentChat && chatsStore.currentChat.type === 'room';
 
         return (
             <div className={b({ mine: isMine, chain: this.props.isChain })}>
@@ -83,14 +86,27 @@ class Message extends React.Component<Props> {
                     />
                     {attachment && <img src={attachment} className={b('attachment')}/>}
                     {this.meta && <OGData isInMessage={true} {...this.meta} />}
-                    <Reactions reactions={[]} onClick={this.onClickReaction}/>
+                    {isGroupChat && <Reactions reactions={reactions} onClick={this.onClickReaction}/>}
                 </div>
             </div>
         );
     }
 
-    private onClickReaction = (smile) => {
-        console.info(smile);
+    private onClickReaction = async (smile) => {
+        try {
+            const { reactions, id } = this.props.message;
+            const userId = usersStore.currentUser.id;
+
+            const reaction = reactions.find(rcn => rcn.reaction === smile && rcn.userId === userId);
+
+            if (reaction) {
+                await chatsStore.currentChat.removeReaction(reaction.id, reaction.messageId);
+            } else {
+                await chatsStore.currentChat.addReaction(smile, id);
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
 

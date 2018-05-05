@@ -29,10 +29,11 @@ export default async function(request: Request<Params>, response: Response) {
     const reaction = await Reaction.create<Reaction>({
         userId,
         messageId,
-        chatId: message.chatId,
         reaction: name
     });
 
-    response.success(true);
-    response.notification(message.chatId, Events.ADD_REACTION, reaction.toJSON());
+    const reactionJSON = { ...reaction.toJSON(), chatId: message.chatId };
+
+    response.success(reactionJSON);
+    response.notification(message.chatId, Events.ADD_REACTION, reactionJSON);
 }

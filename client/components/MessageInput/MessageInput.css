@@ -79,7 +79,7 @@
 }
 
 .message-input__button:hover path {
-    fill: #515151;
+    fill: #74669b;
 }
 
 .message-input__dropzone {
@@ -93,7 +93,7 @@
 
     height: 200px;
     box-sizing: border-box;
-    border: 2px dashed #ccc;
+    border: 2px dashed #74669b;
 
     color: #aaa;
     background: #e9ebed;

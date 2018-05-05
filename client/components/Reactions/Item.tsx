@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-const b = b_.with('reaction');
+const b = b_.with('reactions');
 
 interface Props {
     reaction: any;

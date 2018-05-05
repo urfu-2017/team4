@@ -11,7 +11,7 @@ class ChatsStore {
     public chatsMap: Map<string, ChatModel> = new Map();
 
     @observable
-    public currentChat = null;
+    public currentChat: ChatModel = null;
 
     @computed
     get chats() {
@@ -23,6 +23,8 @@ class ChatsStore {
         RPC.addListener(Events.NEW_CHAT, this.onNewChat);
         RPC.addListener(Events.ADD_MEMBER, this.onAddMember);
         RPC.addListener(Events.REMOVE_MEMBER, this.onRemoveMember);
+        RPC.addListener(Events.ADD_REACTION, this.onAddReaction);
+        RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction)
     }
 
     public init() {
@@ -115,6 +117,26 @@ class ChatsStore {
             chat.members = chat.members.filter(member => member.id !== userId);
         }
     }
+
+    private onAddReaction = (reaction) => {
+        const chat = this.chatsMap.get(reaction.chatId);
+        if (!chat) return;
+
+        const message = chat.messages.find(msg => msg.id === reaction.messageId);
+        if (!message) return;
+
+        message.reactions.push(reaction);
+    }
+
+    private onRemoveReaction = (event) => {
+        const chat = this.chatsMap.get(event.chatId);
+        if (!chat) return;
+
+        const message = chat.messages.find(msg => msg.id === event.messageId);
+        if (!message) return;
+
+        message.reactions = message.reactions.filter(reaction => reaction.id !== event.reaction);
+    };
 }
 
 export default new ChatsStore();
