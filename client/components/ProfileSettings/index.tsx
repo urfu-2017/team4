@@ -7,9 +7,13 @@ import Button from '../Button';
 import Popup from '../Popup';
 import Head from './Head';
 import Dropzone from '../Dropzone';
+import Preloader from '../Preloader';
 
 import uiStore from '../../domain/ui-store';
 import UsersStore from '../../domain/users-store';
+import { getImageSize, resizeImage } from '../../utils/image-utils';
+import { BASE_URL } from '../../config';
+import UploadStore from '../../domain/upload-store';
 
 import './Profile.css';
 
@@ -24,33 +28,35 @@ interface State {
 
 @observer
 class Profile extends React.Component<{}, State> {
+    private uploadStore: UploadStore = new UploadStore();
+
     constructor(props) {
         super(props);
 
         this.state = { ...UsersStore.currentUser };
-        this.onChangeFirstName = this.onChangeFirstName.bind(this);
-        this.onChangeSecondName = this.onChangeSecondName.bind(this);
-        this.saveUser = this.saveUser.bind(this);
     }
 
-    public onChangeFirstName(event) {
+    public onChangeFirstName = event => {
         this.setState({
             firstName: event.target.value
         });
-    }
+    };
 
-    public onChangeSecondName(event) {
+    public onChangeSecondName = event => {
         this.setState({
             lastName: event.target.value
         });
-    }
+    };
 
-    public async saveUser() {
+    public saveUser = async () => {
         await UsersStore.updateCurrentUser(this.state);
-    }
+        this.uploadStore.clear();
+    };
 
     public render() {
         const closeHandler = uiStore.togglePopup('profile');
+        const { avatar, username, firstName, lastName } = this.state;
+        const isFetching = this.uploadStore.isFetching;
 
         return (
             <Popup
@@ -59,40 +65,69 @@ class Profile extends React.Component<{}, State> {
                 closeHandler={closeHandler}
                 headContent={<Head closeHandler={closeHandler} />}
             >
-                {/* TODO запилить обработчики на перехват файлов */}
                 <Dropzone
-                    blockName={b()}
-                    onWindowModifier="active"
+                    className={b('dropzone', { disabled: isFetching })}
+                    overClassName={b('dropzone', { over: true })}
+                    onWindowClassName={b('dropzone', { active: true })}
+                    onDrop={this.onDrop}
+                    accept="image/png"
+                    disabled={isFetching}
                 >
-                    <img
-                        className={b('avatar')}
-                        src={this.state.avatar}
-                        alt="Аватар"
-                    />
-                    <div className={b('hover-indicator')}/>
+                    <img className={b('avatar')} src={avatar} alt="Аватар" />
+                    <div className={b('hover-indicator')} />
+                    {isFetching && (
+                        <div className={b('loading-overlay')}>
+                            <Preloader size={30} />
+                        </div>
+                    )}
                 </Dropzone>
-                <div className={b('username')}>{`@${this.state.username}`}</div>
+                <div className={b('username')}>{`@${username}`}</div>
                 <div className={b('fields')}>
                     <Input
                         className={b('input')}
                         onChange={this.onChangeFirstName}
                         type="text"
-                        value={this.state.firstName}
+                        value={firstName}
                         placeholder="Имя"
                     />
                     <Input
                         onChange={this.onChangeSecondName}
                         type="text"
-                        value={this.state.lastName}
+                        value={lastName}
                         placeholder="Фамилия"
                     />
                 </div>
-                <Button className={b('save')} onClick={this.saveUser}>
+                <Button className={b('save')} onClick={this.saveUser} disabled={isFetching}>
                     Сохранить
                 </Button>
             </Popup>
         );
     }
+
+    private onDrop = async (accepted: File[]) => {
+        let image: File = accepted[0];
+
+        const { width, height } = await getImageSize(image);
+
+        // Аватар должен быть квадратным
+        if (width !== height) {
+            return;
+        }
+
+        if (width > 256) {
+            image = await resizeImage(image, 256);
+        }
+
+        const response = await this.uploadStore.upload(image);
+
+        if(!response) {
+            return;
+        }
+
+        this.setState({
+            avatar: `${BASE_URL}${response.path}`
+        });
+    };
 }
 
 export default Profile;

@@ -56,6 +56,10 @@
     transition: border-color 0.2s;
 }
 
+.profile__dropzone_disabled {
+    pointer-events: none;
+}
+
 .profile__dropzone:hover,
 .profile__dropzone_active {
     border-color: #e4e4e4;
@@ -108,4 +112,18 @@
 
 .profile__hover-indicator::after {
     transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.profile__loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.8);
 }

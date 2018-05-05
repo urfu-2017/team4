@@ -60,6 +60,12 @@ export const resizeImage = (file: File, optimalSize: number) =>
         resolve(file);
     });
 
+export const getImageSize = async (file: File) => {
+    const image: HTMLImageElement = await getImageFromFile(file);
+
+    return { width: image.naturalWidth, height: image.naturalHeight };
+};
+
 function getOptimalSize(width: number, height: number, maxSize: number) {
     let newWidth = 0;
     let newHeight = 0;

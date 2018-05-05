@@ -31,7 +31,7 @@ app.use(compression());
 
 // FIXME обратить внимание на то, что static/uploads не создается автоматом
 app.use(
-    express.static(path.resolve(__dirname, 'static'), {
+    express.static(path.resolve(__dirname, '../static'), {
         redirect: false
     })
 );

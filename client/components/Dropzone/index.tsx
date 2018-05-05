@@ -1,17 +1,19 @@
 import React from 'react';
 import { action, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
-import b from 'b_';
+import classNames from 'classnames';
 import ReactDropzone from 'react-dropzone';
 
 interface Props {
-    blockName?: string; // Имя блока, использующего зону
+    className?: string;
+    overClassName?: string;
+    onWindowClassName?: string;
     children?: React.ReactNode;
-    overModifier?: string; // Какой модификатор будет присутствовать при имени класса при переносе файла на зону
-    onWindowModifier?: string; // Модификатор при переносе файла в окно браузера
+    accept?: string;
+    disabled?: boolean;
+
     dropzoneRef?: (Dropzone) => void;
     onDrop?: (accepted: File[], rejected?: File[]) => void;
-    accept?: string
 }
 
 @observer
@@ -34,26 +36,29 @@ class Dropzone extends React.Component<Props> {
 
     public render() {
         const {
-            blockName,
+            className,
+            overClassName,
+            onWindowClassName,
             children,
-            overModifier,
-            onWindowModifier,
             dropzoneRef,
             onDrop,
-            accept
+            accept,
+            disabled
         } = this.props;
 
         return (
             <ReactDropzone
                 ref={dropzoneRef}
-                className={b(blockName, 'dropzone', {
-                    [overModifier || 'over']: this.isDragOnZone,
-                    [onWindowModifier || 'display']: this.displayDropzone
-                })}
+                className={classNames(
+                    className,
+                    { [overClassName]: this.isDragOnZone },
+                    { [onWindowClassName]: this.displayDropzone }
+                )}
                 onDragEnter={this.onDragEnter}
                 onDragLeave={this.onDragLeave}
                 onDrop={onDrop}
                 accept={accept}
+                disabled={disabled}
             >
                 {children}
             </ReactDropzone>
@@ -97,6 +102,7 @@ class Dropzone extends React.Component<Props> {
 
         runInAction(() => {
             this.displayDropzone = false;
+            this.isDragOnZone = false;
         });
         this.childrenDepth = 0;
     };
