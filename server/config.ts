@@ -3,8 +3,8 @@ import { config } from 'dotenv';
 config();
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-const frontendHostProd = 'https://k1logram.now.sh';
-const backendHostProd = 'https://k1logram.now.sh';
+const frontendHostProd = 'http://kilogram.online:4000';
+const backendHostProd = 'http://kilogram.online:4000';
 
 const frontendHostDev = 'http://localhost:3000';
 const backendHostDev = 'http://localhost:8080';
