@@ -35,7 +35,17 @@ export default class ChatModel {
     }
 
     public async join() {
-        await this.loadNextHistoryFrame();
+        const currentUserId = UsersStore.currentUser.id;
+        if (!this.members.find(user => user.id === currentUserId)) {
+            const chat = await RPC.request('addMember', {
+                chatId: this.id,
+                userId: currentUserId
+            });
+            this.members.push(UsersStore.currentUser);
+        }
+        if (!this.messages.length) {
+            await this.loadNextHistoryFrame();
+        }
         await RPC.request('subscribeToChat', { chatId: this.id }, 15000);
     }
 

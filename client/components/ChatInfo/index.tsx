@@ -1,7 +1,8 @@
 import React from 'react';
 import b_ from 'b_';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
+import { computed, observable } from 'mobx';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import Popup from '../Popup';
 import FullUserInfo from '../UserInfo/Full';
@@ -20,6 +21,10 @@ const b = b_.with('chat-info');
 class ChatInfo extends React.Component {
     private static closePopup() {
         uiStore.togglePopup('chatInfo')();
+    }
+
+    private static getInviteLink(chatId) {
+        return `${location.origin + location.pathname}#/join/${chatId}`;
     }
 
     @observable private isAddMode: boolean = false;
@@ -61,9 +66,11 @@ class ChatInfo extends React.Component {
                         <span className={b('action')} onClick={this.enableAddMode}>
                             Добавить участника
                         </span>
-                        <span className={b('action')}>
-                            Скопировать invite-ссылку
-                        </span>
+                        <CopyToClipboard text={ChatInfo.getInviteLink(chat.id)}>
+                            <span className={b('action')}>
+                                Скопировать invite-ссылку
+                            </span>
+                        </CopyToClipboard>
                         <span onClick={this.leaveChat} className={b('action', { danger: true })}>
                             Покинуть группу
                         </span>

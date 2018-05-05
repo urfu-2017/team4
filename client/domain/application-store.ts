@@ -15,10 +15,10 @@ class ApplicationStore {
             await RPC.connect();
             const { chats, contacts, ...currentUser } = await RPC.request('getCurrentUser');
 
-            runInAction(() => {
+            runInAction(async () => {
                 usersStore.currentUser = usersStore.saveUser(currentUser);
                 contactsStore.setList(contacts.map(contact => usersStore.saveUser(contact)));
-                chats.forEach(chat => chatsStore.saveChat(chat));
+                await Promise.all(chats.map(chat => chatsStore.saveChat(chat)));
                 this.isAppLoaded = true;
             });
         } catch (e) {

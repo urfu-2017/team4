@@ -27,27 +27,30 @@ class ChatsStore {
         RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction)
     }
 
-    public init() {
-        const chats = usersStore.currentUser.chats;
-
-        chats.filter(chat => chat !== null).forEach(chat => {
-            const chatModel = this.saveChat(chat);
-            chatModel.join();
-        });
-    }
-
     public async createChat(type, members, name = '') {
         const chat = await RPC.request('createChat', { type, members, name }, 15000);
-        const chatModel = this.saveChat(chat);
-        await chatModel.join();
+        const chatModel = await this.saveChat(chat);
 
         return chatModel;
     }
 
-    public saveChat(chat): ChatModel {
+    public async fetchChat(chatId) {
+        const chatModel = this.chatsMap.get(chatId);
+        if (chatModel) {
+            return chatModel;
+        }
+        const chat = await RPC.request('getChatInfo', { chatId });
+        if (chat) {
+            return await this.saveChat(chat);
+        }
+
+        return null;
+    }
+
+    public async saveChat(chat): Promise<ChatModel> {
         const chatModel = new ChatModel(chat);
         chatModel.members = chatModel.members.map(user => usersStore.saveUser(user));
-        chatModel.join();
+        await chatModel.join();
 
         this.chatsMap.set(chat.id, chatModel);
 
@@ -102,11 +105,12 @@ class ChatsStore {
 
         if (chat) {
             const user = await usersStore.fetchUser(userId);
-            chat.members.push(user);
+            if (!chat.members.find(member => member.id === user.id)) {
+                chat.members.push(user);
+            }
         } else {
             chat = await RPC.request('getChatInfo', { chatId, subscribe: true }, 5000);
-            const chatModel = this.saveChat(chat);
-            await chatModel.loadNextHistoryFrame();
+            const chatModel = await this.saveChat(chat);
         }
     };
 
@@ -116,7 +120,7 @@ class ChatsStore {
         if (chat) {
             chat.members = chat.members.filter(member => member.id !== userId);
         }
-    }
+    };
 
     private onAddReaction = (reaction) => {
         const chat = this.chatsMap.get(reaction.chatId);
