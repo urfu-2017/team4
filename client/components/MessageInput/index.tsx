@@ -19,8 +19,6 @@ import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 import { BASE_URL } from '../../config';
 
-import { BASE_URL } from '../../config';
-
 import './MessageInput.css';
 const b = b_.with('message-input');
 
