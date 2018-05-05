@@ -10,6 +10,6 @@ export class Members extends Model<Members> {
     public userId: number;
 
     @ForeignKey(() => Chat)
-    @Column({ type: DataType.UUIDV4, primaryKey: true })
+    @Column({ type: DataType.UUID, primaryKey: true })
     public chatId: string;
 }

@@ -1,6 +1,7 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
 import { Chat } from './chat';
 import { User } from './user';
+import { Reaction } from './reaction';
 
 @Table({
     timestamps: true,
@@ -11,7 +12,7 @@ import { User } from './user';
     ]
 })
 export class Message extends Model<Message> {
-    @Column({ type: DataType.UUIDV4, primaryKey: true, allowNull: false })
+    @Column({ type: DataType.UUID, primaryKey: true, allowNull: false })
     public id: string;
 
     @ForeignKey(() => User)
@@ -19,8 +20,11 @@ export class Message extends Model<Message> {
     public senderId: number;
 
     @ForeignKey(() => Chat)
-    @Column({ type: DataType.UUIDV4, allowNull: false })
+    @Column({ type: DataType.UUID, allowNull: false })
     public chatId: string;
+
+    @BelongsTo(() => Chat)
+    public chat: Chat;
 
     @Column({ type: DataType.TEXT })
     public text: string;
@@ -31,5 +35,6 @@ export class Message extends Model<Message> {
     @Column({ type: DataType.TEXT })
     public attachment: string
 
-    // TODO: Добавить реакции
+    @HasMany(() => Reaction, 'messageId')
+    public reactions: Reaction;
 }

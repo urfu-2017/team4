@@ -5,7 +5,7 @@
         "strict": true,
         "strictPropertyInitialization": false,
         "sourceMap": false,
-        "lib": ["es6", "es7", "esnext", "dom"],
+        "lib": ["es6", "es7", "dom"],
         "rootDir": "..",
         "outDir": "../build",
         "noEmitOnError": true,

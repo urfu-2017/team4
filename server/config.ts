@@ -1,10 +1,11 @@
+import * as path from 'path';
 import { config } from 'dotenv';
 
 config();
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-const frontendHostProd = 'https://k1logram.now.sh';
-const backendHostProd = 'https://k1logram.now.sh';
+const frontendHostProd = 'http://kilogram.online:4000';
+const backendHostProd = 'http://kilogram.online:4000';
 
 const frontendHostDev = 'http://localhost:3000';
 const backendHostDev = 'http://localhost:8080';
@@ -18,7 +19,15 @@ export const AUTH_REDIRECT_URL = isDevelopment ? frontendHostDev : frontendHostP
 export const GITHUB_AUTH_CALLBACK = isDevelopment
     ? `${backendHostDev}/auth/callback`
     : `${backendHostProd}/auth/callback`;
-export const UPLOADS_SERVER_PATH = './static/uploads';
+export const UPLOADS_SERVER_PATH = path.resolve(__dirname, 'static/uploads');
 export const UPLOADS_URL_PATH = '/uploads';
 
 export const WEATHER_API_TOKEN = process.env.WEATHER_API_TOKEN;
+
+export const POSTGRES = {
+    HOST: process.env.POSTGRES_HOST!,
+    PORT: process.env.POSTGRES_PORT!,
+    USERNAME: process.env.POSTGRES_USERNAME!,
+    PASSWORD: process.env.POSTGRES_PASSWORD!,
+    DATABASE: process.env.POSTGRES_DATABASE!
+};

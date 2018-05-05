@@ -29,7 +29,6 @@ if (config.NODE_ENV === 'development') {
 
 app.use(compression());
 
-// FIXME обратить внимание на то, что static/uploads не создается автоматом
 app.use(
     express.static(path.resolve(__dirname, 'static'), {
         redirect: false
@@ -60,17 +59,6 @@ app.post('/upload', upload.single('file'), uploadHandler);
 
 (async () => {
     await configureModels(sequelize);
-    const users = await Promise.all(
-        new Array(12).fill(0).map(async (_, i) => ({
-            id: i,
-            username: `user${i}`,
-            firstName: 'User',
-            lastName: i,
-            avatar: 'data:image/png;base64,' + (await generateAvatar(`user${i}`))
-        }))
-    );
-
-    await User.bulkCreate<User>(users as any);
 
     const server = app.listen(8080, () => {
         const { address, port } = server.address();

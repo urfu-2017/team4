@@ -33,7 +33,6 @@
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: flex-start;
-    overflow: hidden;
 
     margin-bottom: 16px;
 }
@@ -61,12 +60,13 @@
 .message__body {
     box-sizing: border-box;
     margin-left: 10px;
-    overflow: hidden;
     background: #fff;
     padding: 6px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
     font-size: 14px;
     border-radius: 3px;
+
+    position: relative;
 }
 
 .message__text {
@@ -113,6 +113,7 @@
     background: rgba(245, 245, 245, 0.7);
     border-radius: 4px;
     padding: 4px 8px;
+    white-space: pre-wrap;
 
     overflow-x: auto;
 }
@@ -133,4 +134,17 @@
 
 .message_chain .message__avatar {
     display: none;
+}
+
+.message_chain .message__body {
+    margin-bottom: 1px;
+}
+
+.reactions__picker {
+    left: 0;
+}
+
+.message_mine .reactions__picker {
+    left: initial;
+    right: 0;
 }
