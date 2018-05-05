@@ -20,7 +20,7 @@
 }
 
 .reactions__item {
-    border: 1px solid #999;
+    border: 1px solid rgba(116, 102, 155, 0.5);
     color: #000;
     border-radius: 4px;
     padding: 4px;

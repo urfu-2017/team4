@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import b_ from 'b_';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
@@ -18,6 +19,7 @@ interface State {
     isCreating: boolean;
 }
 
+@observer
 class FullUserInfo extends React.Component<Props, State> {
 
     public state: State = { isCreating: false };
@@ -41,7 +43,7 @@ class FullUserInfo extends React.Component<Props, State> {
 
     private renderActions = () => {
         const username = this.props.user.username;
-        const isContact = contactsStore.has(username);
+        const isContact = !!contactsStore.list.find(user => user.username === username);
 
         return (
             <div className={b('actions')}>

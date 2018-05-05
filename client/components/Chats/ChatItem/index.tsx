@@ -57,14 +57,15 @@ class ChatItem extends React.Component<Props> {
             return this.user.avatar;
         }
 
-        const letter = this.props.chat.type === 'dialog' ? 'D' : 'R';
-        return `https://via.placeholder.com/64x64?text=${letter}`;
+        const letters = this.displayName.split(' ').slice(0, 2).map(word =>  word[0]).join('');
+        return `https://via.placeholder.com/64x64/74669b/ffffff?text=${letters}`;
     }
 
     public render() {
         const { chat } = this.props;
         const isActiveModifier = { active: ChatsStore.currentChat === chat };
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
+        const isAttachment = this.message && this.message.attachment;
 
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>
@@ -76,6 +77,7 @@ class ChatItem extends React.Component<Props> {
                     {this.message && (
                         <div className={b('last-msg')}>
                             <span className={b('last-msg-mine')}>{isMine && 'Вы: '}</span>
+                            {isAttachment && 'Фотография'}
                             {getPlainText(markdown(this.message.text))}
                         </div>
                     )}

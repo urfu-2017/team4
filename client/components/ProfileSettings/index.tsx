@@ -53,6 +53,7 @@ class Profile extends React.Component<{}, State> {
     public saveUser = async () => {
         await UsersStore.updateCurrentUser(this.state);
         this.uploadStore.clear();
+        uiStore.closeAllPopups();
     };
 
     public render() {

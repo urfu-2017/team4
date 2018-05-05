@@ -44,8 +44,8 @@
 }
 
 .message__avatar {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
     border-radius: 4px;
@@ -58,10 +58,11 @@
 }
 
 .message__body {
+    min-width: 80px;
     box-sizing: border-box;
     margin-left: 10px;
     background: #fff;
-    padding: 6px;
+    padding: 6px 10px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14);
     font-size: 14px;
     border-radius: 3px;
@@ -71,7 +72,6 @@
 
 .message__text {
     word-break: break-all;
-    overflow: hidden;
 }
 
 .message__attachment {
@@ -147,4 +147,12 @@
 .message_mine .reactions__picker {
     left: initial;
     right: 0;
+}
+
+.message .weather__result {
+    transform: translate(-25%, -125%);
+}
+
+.message_mine .weather__result {
+    transform: translate(-75%, -125%);
 }
