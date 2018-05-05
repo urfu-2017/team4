@@ -13,6 +13,7 @@ export default async function updateCurrentUser(
 
     currentUser.firstName = update.firstName;
     currentUser.lastName = update.lastName;
+    currentUser.avatar = update.avatar;
     currentUser.bio = update.bio;
 
     await currentUser!.save();

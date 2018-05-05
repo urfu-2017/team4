@@ -17,7 +17,6 @@ import Dropzone from '../Dropzone';
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
-
 import { BASE_URL } from '../../config';
 
 import './MessageInput.css';
@@ -120,11 +119,13 @@ class MessageInput extends React.Component<{}, State> {
                     dropzoneRef={node => {
                         this.dropzone = node;
                     }}
-                    blockName={b()}
+                    className={b('dropzone')}
+                    onWindowClassName={b('dropzone', { display: true })}
+                    overClassName={b('dropzone', { over: true })}
                     onDrop={this.onDrop}
                     accept="image/jpeg, image/gif, image/png, image/webp, image/svg+xml"
                 >
-                    Перетащите фото для отправки
+                    Перетащите фото рамером не более 20мб для отправки.
                 </Dropzone>
                 {this.preview && (
                     <UploadPreview
@@ -134,7 +135,9 @@ class MessageInput extends React.Component<{}, State> {
                         closeHandler={this.onUploadCancel}
                         onSend={this.onImageSend}
                         // tslint:disable-next-line
-                        inputRef={(node) => { this.imageCaptionInput = node }}
+                        inputRef={node => {
+                            this.imageCaptionInput = node;
+                        }}
                     />
                 )}
             </section>
@@ -168,12 +171,11 @@ class MessageInput extends React.Component<{}, State> {
             resize = resizeImage(accepted[0], 720);
         }
 
-        resize.then(file => getImageFromFile(file).then(image => {
-                this.uploadStore.upload(file)
-                    .then(({ path }) => {
-                        this.attachment = `${BASE_URL}${path}`;
-                    });
-
+        resize.then(file =>
+            getImageFromFile(file).then(image => {
+                this.uploadStore.upload(file).then(({ path }) => {
+                    this.attachment = `${BASE_URL}${path}`;
+                });
                 runInAction(() => {
                     if (this.preview) {
                         return;
@@ -181,14 +183,15 @@ class MessageInput extends React.Component<{}, State> {
 
                     this.preview = image;
                 });
-            }));
+            })
+        );
     };
 
-    private onUploadCancel = ():void => {
+    private onUploadCancel = (): void => {
         this.attachment = undefined;
         this.preview = undefined;
-        this.uploadStore.cancel();
-    }
+        this.uploadStore.clear();
+    };
 }
 
 export default MessageInput;

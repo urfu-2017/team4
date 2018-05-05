@@ -34,3 +34,11 @@
 .button_theme_main:hover {
     background: #f2f6fa;
 }
+
+.button_theme_main:disabled {
+    cursor: not-allowed;
+}
+
+.button_theme_main:disabled:hover {
+    background: initial;
+}

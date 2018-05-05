@@ -61,7 +61,7 @@ class UploadStore {
         }
     };
 
-    @action public cancel = () => {
+    @action public clear = () => {
         this.controller.abort();
         this.controller = new AbortController();
 

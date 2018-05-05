@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import b_ from 'b_';
 import './Button.css';
 
@@ -17,7 +18,7 @@ interface Props {
     tabIndex?: number;
 }
 
-const Button: React.SFC<Props> = ({
+const Button: React.SFC<Props> = observer(({
     children,
     onClick,
     className = '',
@@ -28,6 +29,6 @@ const Button: React.SFC<Props> = ({
     <button className={`${className} ${b(modifiers[type])}`} onClick={onClick} disabled={disabled} tabIndex={tabIndex}>
         {children}
     </button>
-);
+));
 
 export default Button;
