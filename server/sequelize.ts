@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize-typescript';
 import { POSTGRES, isDevelopment } from './config';
 
-export let sequelize;
+export let sequelize: Sequelize;
 
 if (isDevelopment) {
     sequelize = new Sequelize({

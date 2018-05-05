@@ -4,8 +4,8 @@ import { config } from 'dotenv';
 config();
 
 export const isDevelopment = process.env.NODE_ENV === 'development';
-const frontendHostProd = 'http://kilogram.online';
-const backendHostProd = 'http://kilogram.online';
+const frontendHostProd = 'https://kilogram.online';
+const backendHostProd = 'https://kilogram.online';
 
 const frontendHostDev = 'http://localhost:3000';
 const backendHostDev = 'http://localhost:8080';
