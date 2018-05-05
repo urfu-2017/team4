@@ -1,12 +1,10 @@
 import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import b_ from 'b_';
 
 import OGData from '../OGData';
-import Reaction from '../Reaction';
-import EmojiPicker from '../EmojiPicker';
+import Reactions from '../Reactions';
 
 import uiStore from '../../domain/ui-store';
 import usersStore from '../../domain/users-store';
@@ -17,44 +15,21 @@ import { initContainer } from '../../utils/weather';
 import getUrlMeta from '../../utils/url-meta';
 import urlParser from '../../utils/url-parser';
 import './Chat.css';
-import Button from '../Button';
 
 import './Chat.css';
 const b = b_.with('message');
-
-let idSmile = 2; // потом убрать
-const list = [
-    {
-        id: 1,
-        count: 2,
-        smile: '😀'
-    }
-]; // потом убрать
 
 interface Props {
     message: any;
     isChain?: boolean;
 }
 
-interface State {
-    showSmiles: boolean;
-}
-
 @observer
-class Message extends React.Component<Props, State> {
+class Message extends React.Component<Props> {
     private messageText: HTMLElement;
-    private reaction: HTMLElement;
 
     @observable.ref
     private meta: any = null;
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            showSmiles: false
-        }
-    }
 
     public componentDidMount() {
         const { text, id } = this.props.message;
@@ -79,31 +54,6 @@ class Message extends React.Component<Props, State> {
         event.preventDefault();
         uiStore.toggleUserInfoPopup(this.user);
     };
-
-    public onShowSmiles = () => {
-        this.setState(prev => ({
-            showSmiles: !prev.showSmiles
-        }));
-    };
-
-    public onCloseSmiles = () => {
-        this.setState({
-            showSmiles: false
-        });
-    }
-
-    public addSmile = smile => {
-        // this.props.message.reactionList === list
-        const indexSmile = list.findIndex(reactionItem => reactionItem.smile === smile);
-        if (indexSmile !== -1) {
-            list[indexSmile].count++;
-        } else {
-            const reaction = { id: idSmile, count: 0, smile };
-            idSmile++; // потом убрать
-            reaction.count++;
-            list.push(reaction);
-        }
-    }
 
     public render() {
         const { from, text, createdAt, attachment } = this.props.message;
@@ -133,30 +83,14 @@ class Message extends React.Component<Props, State> {
                     />
                     {attachment && <img src={attachment} className={b('attachment')}/>}
                     {this.meta && <OGData isInMessage={true} {...this.meta} />}
-                    <div className="message__reactions">
-                        <div className="message__reactions-list">
-                            {
-                                list.map(reaction =>
-                                    <Reaction
-                                        key={reaction.id}
-                                        messageId={this.props.message.id}
-                                        reaction={reaction}
-                                    />
-                                )
-                            }
-                        </div>
-                    <Button onClick={this.onShowSmiles}>Reactions</Button>
-                    </div>
-                    {this.state.showSmiles && (
-                        <EmojiPicker
-                            className="message__smiles-picker"
-                            addSmile={this.addSmile}
-                            closeSmiles={this.onCloseSmiles}
-                        />
-                    )}
+                    <Reactions reactions={[]} onClick={this.onClickReaction}/>
                 </div>
             </div>
         );
+    }
+
+    private onClickReaction = (smile) => {
+        console.info(smile);
     }
 }
 
