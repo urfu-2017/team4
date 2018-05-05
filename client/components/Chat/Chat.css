@@ -76,7 +76,20 @@
 
 .message__attachment {
     max-width: 100%;
+    max-height: 400px;
     height: auto;
+}
+
+@media (min-height: 768px) {
+    .message__attachment {
+        max-height: 500px;
+    }
+}
+
+@media (min-height: 1080px) {
+    .message__attachment {
+        max-height: 700px;
+    }
 }
 
 .message__text:not(:empty) + .message__attachment {

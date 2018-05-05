@@ -170,7 +170,7 @@ class MessageInput extends React.Component<{}, State> {
                 this.uploadStore.upload(file)
                     .then(({ path }) => {
                         // FIXME изменить путь до файла
-                        this.attachment = `http://kilogram.online:4000${path}`;
+                        this.attachment = `http://localhost:8080${path}`;
                     });
 
                 runInAction(() => {
