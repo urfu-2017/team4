@@ -12,7 +12,7 @@ import Preloader from '../Preloader';
 import uiStore from '../../domain/ui-store';
 import UsersStore from '../../domain/users-store';
 import { getImageSize, resizeImage } from '../../utils/image-utils';
-import { BASE_URL } from '../../config';
+import { BASE_URL, MAX_AVATAR_SIZE } from '../../config';
 import UploadStore from '../../domain/upload-store';
 
 import './Profile.css';
@@ -118,8 +118,8 @@ class Profile extends React.Component<{}, State> {
             return;
         }
 
-        if (width > 256) {
-            image = await resizeImage(image, 256);
+        if (width > MAX_AVATAR_SIZE) {
+            image = await resizeImage(image, MAX_AVATAR_SIZE);
         }
 
         const response = await this.uploadStore.upload(image);
