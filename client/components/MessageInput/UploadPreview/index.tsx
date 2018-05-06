@@ -22,8 +22,29 @@ interface Props {
     onSend: () => void;
 }
 
-const UploadPreview: React.SFC<Props> = observer(
-    ({ className = '', loading = false, image, closeHandler, error, onSend, inputRef }) => {
+@observer
+class UploadPreview extends React.Component<Props> {
+    private input: HTMLInputElement;
+
+    public componentDidMount() {
+        window.addEventListener('keypress', this.onEnterPress, true);
+        this.input.focus();
+    }
+
+    public componentWillUnmount() {
+        window.addEventListener('keypress', this.onEnterPress);
+    }
+
+    public render() {
+        const {
+            className = '',
+            loading = false,
+            image,
+            closeHandler,
+            error,
+            onSend
+        } = this.props;
+
         const ImageElement = React.createElement('img', {
             src: image.src,
             className: b('image')
@@ -48,7 +69,7 @@ const UploadPreview: React.SFC<Props> = observer(
                     type="text"
                     className={b('message')}
                     placeholder="Добавьте подпись..."
-                    innerRef={inputRef}
+                    innerRef={this.ref}
                 />
                 <div className={b('buttons')}>
                     <Button className={b('cancel-button')} onClick={closeHandler}>
@@ -65,6 +86,18 @@ const UploadPreview: React.SFC<Props> = observer(
             </Popup>
         );
     }
-);
+
+    private ref = (node) => {
+        this.input = node;
+        this.props.inputRef(node);
+    };
+
+    private onEnterPress = (event) => {
+        event.stopPropagation();
+        if (event.key === 'Enter') {
+            this.props.onSend();
+        }
+    };
+}
 
 export default UploadPreview;
