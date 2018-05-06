@@ -22,13 +22,13 @@ class OGData extends React.Component<Props> {
         return (
             <section className={b({ 'in-message': true })}>
                 {image && (
-                    <a href={url} className={b('image-link')}>
+                    <a href={url} target="_blank" className={b('image-link')}>
                         <img className={b('image')} src={image} alt={title} />
                     </a>
                 )}
                 <div className={b('info')}>
                     <h2 className={b('title')}>
-                        <a href={url}>{title}</a>
+                        <a href={url} target="_blank">{title}</a>
                     </h2>
                     <p className={b('description')}>
                         {description || 'Описание не указано'}

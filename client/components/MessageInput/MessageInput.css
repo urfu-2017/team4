@@ -12,8 +12,7 @@
 }
 
 .message-input__message {
-    margin: 0 20px;
-    width: calc(100% - 160px);
+    width: 100%;
     box-sizing: border-box;
     border: none;
 
@@ -64,6 +63,7 @@
 }
 
 .message-input__button {
+    flex: 1 0 auto;
     padding: 0;
     margin: 5px;
     width: 30px;
@@ -72,6 +72,10 @@
 
 .message-input__button:hover {
     background: initial;
+}
+
+.message-input__icon {
+    vertical-align: middle;
 }
 
 .message-input__button path {
@@ -107,4 +111,23 @@
 
 .message-input__dropzone_display {
     display: flex;
+}
+
+@media screen and (max-width: 700px) {
+    .message-input__button {
+        width: 24px;
+        height: 24px;
+        margin: 3px;
+    }
+
+    .message-input__icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .message-input__message {
+        box-sizing: border-box;
+        width: 100%;
+        font-size: 12px;
+    }
 }

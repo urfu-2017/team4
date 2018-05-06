@@ -22,7 +22,6 @@ class ApplicationStore {
                 this.isAppLoaded = true;
             });
         } catch (e) {
-            console.error(e);
             this.isAuthRequired = true;
             this.isAppLoaded = true;
         }
