@@ -104,7 +104,14 @@ module.exports = {
         host: 'localhost',
         publicPath: '/',
         watchOptions: { ignored: /node_modules/ },
-        port: process.env.PORT ? Number(process.env.PORT) : 3000
+        port: 3000,
+        proxy: {
+            '/socket.io': {
+                target: 'http://localhost:8080/socket.io',
+                ws: true
+            },
+            '*': 'http://localhost:8080'
+        }
     },
 
     devtool: isDevelopment ? 'cheap-module-eval-source-map' : 'source-map'

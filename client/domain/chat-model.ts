@@ -37,7 +37,7 @@ export default class ChatModel {
     public async join() {
         const currentUserId = UsersStore.currentUser.id;
         if (!this.members.find(user => user.id === currentUserId)) {
-            const chat = await RPC.request('addMember', {
+            await RPC.request('addMember', {
                 chatId: this.id,
                 userId: currentUserId
             });
@@ -56,7 +56,7 @@ export default class ChatModel {
 
         try {
             this.isFetching = true;
-            const oldestMessage = this.messages[0];
+            const oldestMessage = this.messages.length ? this.messages[0] : undefined;
 
             const messages = await RPC.request(
                 'getChatMessages',

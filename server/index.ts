@@ -9,12 +9,11 @@ import { configurePassport } from './passport';
 import { createUser } from './helpers/createUser';
 
 import { sequelize } from './sequelize';
-import { configureModels, User } from './models';
+import { configureModels } from './models';
 import * as cors from 'cors';
 
 import { Server as RpcServer } from './rpc/server';
 import { getMethods } from './api';
-import { generateAvatar } from './helpers/generateAvatar';
 import { uploadStorage, uploadHandler } from './helpers/fileUpload';
 
 const app = express();
