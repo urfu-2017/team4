@@ -18,8 +18,12 @@ interface Props {
 
 @observer
 class Dropzone extends React.Component<Props> {
-    @observable private displayDropzone: boolean = false;
-    @observable private isDragOnZone: boolean = false;
+    @observable
+    private displayDropzone: boolean = false;
+
+    @observable
+    private isDragOnZone: boolean = false;
+
     private childrenDepth: number = 0;
 
     public componentDidMount() {
@@ -103,13 +107,12 @@ class Dropzone extends React.Component<Props> {
         event.preventDefault();
     };
 
+    @action
     private onWindowDrop = event => {
         event.preventDefault();
 
-        runInAction(() => {
-            this.displayDropzone = false;
-            this.isDragOnZone = false;
-        });
+        this.displayDropzone = false;
+        this.isDragOnZone = false;
         this.childrenDepth = 0;
     };
 }

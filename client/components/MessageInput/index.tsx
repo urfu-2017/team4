@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import { observable, runInAction } from 'mobx';
+import { action, observable, runInAction } from 'mobx';
 import React from 'react';
 import Textarea from 'react-textarea-autosize';
 import b_ from 'b_';
@@ -22,15 +22,13 @@ import { BASE_URL } from '../../config';
 import './MessageInput.css';
 const b = b_.with('message-input');
 
-interface State {
-    showSmiles: boolean;
-}
-
 @observer
-class MessageInput extends React.Component<{}, State> {
+class MessageInput extends React.Component {
     @observable private preview: HTMLImageElement;
+    @observable private showSmiles: boolean = false;
+    @observable private message: string = '';
+
     private imageCaptionInput: HTMLInputElement;
-    private messageInput: HTMLTextAreaElement;
     private dropzone: ReactDropzone;
 
     private uploadStore: UploadStore = new UploadStore();
@@ -38,42 +36,18 @@ class MessageInput extends React.Component<{}, State> {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            showSmiles: false
-        };
     }
 
     public onSend = async () => {
-        const text = this.messageInput.value.trim();
+        const text = this.message.trim();
 
         if (!text) {
             return;
         }
 
-        try {
-            this.messageInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text, null);
-            this.messageInput.value = null;
-        } finally {
-            this.messageInput.disabled = false;
-        }
-    };
-
-    public onShowSmiles = () => {
-        this.setState(prev => ({
-            showSmiles: !prev.showSmiles
-        }));
-    };
-
-    public onCloseSmiles = () => {
-        this.setState({
-            showSmiles: false
-        });
-    };
-
-    public addSmile = smile => {
-        this.messageInput.value += smile;
+        // TODO: Обработать неудачу
+        await ChatsStore.currentChat.sendMessage(text, null);
+        this.setMessage('');
     };
 
     public onKeyUp = event => {
@@ -95,16 +69,17 @@ class MessageInput extends React.Component<{}, State> {
                     className={b('message')}
                     placeholder="Введите сообщение..."
                     onKeyPress={this.onKeyUp}
-                    inputRef={input => (this.messageInput = input) /* tslint:disable-line */}
+                    onChange={this.onChangeText}
+                    value={this.message}
                 />
                 <div className={b('smiles')}>
                     <Button onClick={this.onShowSmiles} className={b('button')}>
                         <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
                     </Button>
-                    {this.state.showSmiles && (
+                    {this.showSmiles && (
                         <EmojiPicker
                             className={b('smiles-picker')}
-                            addSmile={this.addSmile}
+                            addSmile={this.onAddSmile}
                             closeSmiles={this.onCloseSmiles}
                         />
                     )}
@@ -174,22 +149,40 @@ class MessageInput extends React.Component<{}, State> {
                 this.uploadStore.upload(file).then(({ path }) => {
                     this.attachment = `${BASE_URL}${path}`;
                 });
-                runInAction(() => {
-                    if (this.preview) {
-                        return;
-                    }
 
+                if (this.preview) {
+                    return;
+                }
+
+                runInAction(() => {
                     this.preview = image;
                 });
             })
         );
     };
 
+    private onChangeText = (event: React.FormEvent<HTMLTextAreaElement>) => {
+        this.setMessage(event.currentTarget.value);
+    }
+
+    @action
     private onUploadCancel = (): void => {
         this.attachment = undefined;
         this.preview = undefined;
         this.uploadStore.clear();
     };
+
+    @action
+    private onShowSmiles = () => this.showSmiles = true;
+
+    @action
+    private onCloseSmiles = () => this.showSmiles = false;
+
+    @action
+    private setMessage = (value: string) => this.message = value;
+
+    @action
+    private onAddSmile = (text: string) => this.message += text;
 }
 
 export default MessageInput;

@@ -1,13 +1,15 @@
-import { computed, observable, action } from 'mobx';
+import { computed, observable, action, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import UserModel from './user-model';
 import UsersStore from './users-store';
 
 export default class ChatModel {
-    @observable public messages = [];
+    @observable
+    public messages = [];
 
-    @observable public isFetching = false;
+    @observable
+    public isFetching: boolean = false;
 
     public id;
     public name;
@@ -36,6 +38,7 @@ export default class ChatModel {
 
     public async join() {
         const currentUserId = UsersStore.currentUser.id;
+
         if (!this.members.find(user => user.id === currentUserId)) {
             await RPC.request('addMember', {
                 chatId: this.id,
@@ -43,10 +46,12 @@ export default class ChatModel {
             });
             this.members.push(UsersStore.currentUser);
         }
+
         if (!this.messages.length) {
             await this.loadNextHistoryFrame();
         }
-        await RPC.request('subscribeToChat', { chatId: this.id }, 15000);
+
+        await RPC.request('subscribeToChat', { chatId: this.id });
     }
 
     public async loadNextHistoryFrame() {
@@ -55,7 +60,7 @@ export default class ChatModel {
         }
 
         try {
-            this.isFetching = true;
+            this.setFetching(true);
             const oldestMessage = this.messages.length ? this.messages[0] : undefined;
 
             const messages = await RPC.request(
@@ -63,8 +68,7 @@ export default class ChatModel {
                 {
                     chatId: this.id,
                     from: oldestMessage ? oldestMessage.createdAt : null
-                },
-                15000
+                }
             );
 
             if (messages.length === 0) {
@@ -75,9 +79,13 @@ export default class ChatModel {
             await Promise.all(
                 messages.map(message => UsersStore.fetchUser(message.senderId)));
 
-            this.messages = messages.concat(this.messages.slice());
-        } finally {
-            this.isFetching = false;
+            runInAction(() => {
+                this.messages = messages.concat(this.messages.slice());
+                this.setFetching(false);
+            })
+        } catch (e) {
+            // TODO: Use logger
+            this.setFetching(false);
         }
     }
 
@@ -88,22 +96,26 @@ export default class ChatModel {
             attachment
         };
 
-        const response = await RPC.request('sendMessage', params, 15000);
-        this.messages.push({ ...response, reactions: [] });
+        const response = await RPC.request('sendMessage', params);
+        this.addMessage(response);
     }
 
     public async addReaction(smile, messageId) {
         const reaction = await RPC.request('addReaction', { name: smile, messageId });
         const message = this.messages.find(msg => msg.id === messageId);
 
-        message.reactions.push(reaction);
+        runInAction(() => {
+            message.reactions.push(reaction);
+        });
     }
 
     public async removeReaction(reactionId, messageId) {
         await RPC.request('removeReaction', { reactionId });
         const message = this.messages.find(msg => msg.id === messageId);
 
-        message.reactions = message.reactions.filter(reaction => reaction.id !== reactionId);
+        runInAction(() => {
+            message.reactions = message.reactions.filter(reaction => reaction.id !== reactionId);
+        });
     }
 
     public async addMember(user: UserModel) {
@@ -112,7 +124,10 @@ export default class ChatModel {
         }
 
         await RPC.request('addMember', { chatId: this.id, userId: user.id });
-        this.members.push(user);
+
+        runInAction(() => {
+            this.members.push(user);
+        });
     }
 
     public async removeMember(user: UserModel) {
@@ -121,11 +136,23 @@ export default class ChatModel {
         }
 
         await RPC.request('removeMember', { chatId: this.id, userId: user.id });
-        this.members = this.members.filter(member => member.id !== user.id);
+
+        runInAction(() => {
+            this.members = this.members.filter(member => member.id !== user.id);
+        });
     }
 
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
+        this.addMessage(message);
+    }
+
+    @action
+    private addMessage(message: any) {
         this.messages.push({ ...message, reactions: [] });
+    }
+
+    private setFetching(fetching: boolean) {
+        this.isFetching = fetching;
     }
 }

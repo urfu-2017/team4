@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { observable, computed } from 'mobx';
+import { observable, computed, action } from 'mobx';
 import b_ from 'b_';
 
 import EmojiPicker from '../EmojiPicker';
@@ -62,7 +62,10 @@ class Reactions extends React.Component<Props> {
         );
     }
 
+    @action
     private onShowPicker = () => this.showPicker = true;
+
+    @action
     private onHidePicker = () => this.showPicker = false;
 
     private onClick = smile => {

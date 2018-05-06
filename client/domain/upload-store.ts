@@ -2,15 +2,20 @@ import { observable, computed, action, runInAction } from 'mobx';
 import { UPLOADS_URL } from '../config';
 
 class UploadStore {
-    @observable public state: string = 'initial';
+
+    @observable
+    public state: string = 'initial';
+
     private controller: AbortController = new AbortController();
     private url: string = UPLOADS_URL;
 
-    @computed get isFetching(): boolean {
+    @computed
+    public get isFetching(): boolean {
         return this.state === 'loading';
     }
 
-    @computed get isError(): boolean {
+    @computed
+    public get isError(): boolean {
         return this.state === 'error';
     }
 

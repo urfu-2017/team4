@@ -1,16 +1,15 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import UserModel from './user-model';
 
-const TIMEOUT_ERROR = 5000;
-
 class UIStore {
-    @observable public userInfo: UserModel = null;
+    @observable
+    public userInfo: UserModel = null;
 
-    @observable public isMenuShown: boolean = false;
+    @observable
+    public isMenuShown: boolean = false;
 
-    @observable public error = null;
-
-    @observable public popupStack = [];
+    @observable
+    public popupStack = [];
 
     @observable
     public displays = {
@@ -24,11 +23,6 @@ class UIStore {
     @computed
     get topPopup() {
         return this.popupStack[this.popupStack.length - 1] || null;
-    }
-
-    @computed
-    get hasError() {
-        return this.error !== null;
     }
 
     @action
@@ -54,11 +48,10 @@ class UIStore {
         this.popupStack.pop();
     }
 
-    @action
-    public togglePopup = name => () => {
+    public togglePopup = name => action(() => {
         this.userInfo = null; // FIXME: Костыль (переписать логику работы с попами)
         this.displays[name] = !this.displays[name];
-    };
+    });
 
     @action
     public toggleUserInfoPopup(user: UserModel) {
@@ -71,17 +64,6 @@ class UIStore {
         }
 
         this.isMenuShown = false;
-    }
-
-    @action
-    public showError(message) {
-        this.error = message;
-        setTimeout(
-            runInAction(() => {
-                this.error = null;
-            }),
-            TIMEOUT_ERROR
-        );
     }
 }
 

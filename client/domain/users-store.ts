@@ -5,6 +5,7 @@ import UserModel from './user-model';
 import { Events } from '../../shared/events';
 
 class UsersStore {
+
     @observable
     public currentUser = null;
 
@@ -21,7 +22,7 @@ class UsersStore {
         }
 
         const userModel = new UserModel(userId);
-        this.users.set(userId, userModel);
+        this.setUser(userModel);
         await userModel.fetch();
 
         return userModel;
@@ -32,15 +33,18 @@ class UsersStore {
 
         const savedUser = Array.from(this.users.values())
             .find(user => user.username.toLowerCase() === username);
+
         if (savedUser) {
             return savedUser;
         }
 
         const users = await RPC.request('findUsers', { username });
         const newUser = users.find(user => user.username.toLowerCase() === username);
+
         if (!newUser) {
             return null;
         }
+
         return this.saveUser(newUser);
     }
 
@@ -50,7 +54,7 @@ class UsersStore {
         }
 
         const userModel = UserModel.fromJSON(userFromJson);
-        this.users.set(userModel.id, userModel);
+        this.setUser(userModel);
         RPC.request('subscribeToUser', { userId: userFromJson.id });
 
         return userModel;
@@ -61,6 +65,11 @@ class UsersStore {
         const userModel = this.users.get(user.id);
 
         userModel.update(user);
+        this.setCurrentUser(user);
+    }
+
+    @action
+    public setCurrentUser(userModel: UserModel) {
         this.currentUser = userModel;
     }
 
@@ -84,6 +93,11 @@ class UsersStore {
             user.bio = update.bio;
             user.avatar = update.avatar;
         }
+    }
+
+    @action
+    private setUser(userModel: UserModel) {
+        this.users.set(userModel.id, userModel);
     }
 }
 

@@ -1,4 +1,4 @@
-import { action, observable, runInAction } from 'mobx';
+import { action, observable } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 class UserModel {
@@ -43,7 +43,8 @@ class UserModel {
             return;
         }
 
-        this.isFetching = true;
+        this.setFetching(true);
+
         try {
             const user: any = await RPC.request('getUserInfo', {
                 userId: this.id,
@@ -52,9 +53,7 @@ class UserModel {
 
             this.update(user);
         } finally {
-            runInAction(() => {
-                this.isFetching = false;
-            });
+            this.setFetching(false);
         }
     }
 
@@ -65,6 +64,11 @@ class UserModel {
         this.lastName = user.lastName;
         this.avatar = user.avatar;
         this.bio = user.bio;
+    }
+
+    @action
+    private setFetching(fetching: boolean) {
+        this.isFetching = fetching;
     }
 }
 

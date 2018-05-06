@@ -28,7 +28,7 @@ class ChatsStore {
     }
 
     public async createChat(type, members, name = '') {
-        const chat = await RPC.request('createChat', { type, members, name }, 15000);
+        const chat = await RPC.request('createChat', { type, members, name });
         const chatModel = await this.saveChat(chat);
 
         return chatModel;

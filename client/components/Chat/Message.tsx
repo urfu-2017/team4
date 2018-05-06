@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
@@ -32,15 +32,12 @@ class Message extends React.Component<Props> {
     @observable.ref
     private meta: any = null;
 
-
     public componentDidMount() {
         const { text, id } = this.props.message;
         const url = urlParser(text);
 
         if (url) {
-            getUrlMeta(url, id).then(meta => {
-               this.meta = meta;
-            });
+            getUrlMeta(url, id).then(this.setMeta);
         }
 
         initContainer(this.messageText);
@@ -107,6 +104,11 @@ class Message extends React.Component<Props> {
         } catch (e) {
             // TODO: Use logger
         }
+    }
+
+    @action
+    private setMeta = (meta: any) => {
+        this.meta = meta;
     }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import b_ from 'b_';
 import { observer } from 'mobx-react';
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import Popup from '../Popup';
@@ -27,7 +27,8 @@ class ChatInfo extends React.Component {
         return `${location.origin + location.pathname}#/join/${chatId}`;
     }
 
-    @observable private isAddMode: boolean = false;
+    @observable
+    private isAddMode: boolean = false;
 
     public render(): React.ReactNode {
         if (!chatsStore.currentChat) {
@@ -88,10 +89,12 @@ class ChatInfo extends React.Component {
         );
     }
 
+    @action
     private enableAddMode = () => {
         this.isAddMode = true;
     };
 
+    @action
     private disableAddMode = () => {
         this.isAddMode = false;
     };

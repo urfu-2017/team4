@@ -21,12 +21,16 @@ class ContactsStore {
 
         try {
             const contact = await RPC.request('addContact', { contactId: user.id });
+
             runInAction(() => {
                 this.list.push(usersStore.saveUser(contact));
                 this.state = 'loaded';
             });
         } catch (e) {
-            // TODO: Use logger
+            runInAction(() => {
+                // TODO: Use logger
+                this.state = 'error';
+            });
         }
     }
 

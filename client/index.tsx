@@ -1,5 +1,6 @@
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
+import { configure } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,6 +13,8 @@ import LoginPage from './components/LoginPage';
 import applicationStore from './domain/application-store';
 
 import './index.css';
+
+configure({ enforceActions: 'strict' });
 
 @observer
 class Application extends React.Component {

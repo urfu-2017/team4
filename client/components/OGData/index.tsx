@@ -2,9 +2,6 @@ import React from 'react';
 import b_ from 'b_';
 
 import './OGData.css';
-
-import ogStore from '../../domain/og-store';
-
 const b = b_.with('og-data');
 
 interface Props {
