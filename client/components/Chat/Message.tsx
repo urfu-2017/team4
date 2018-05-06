@@ -105,7 +105,7 @@ class Message extends React.Component<Props> {
                 await chatsStore.currentChat.addReaction(smile, id);
             }
         } catch (e) {
-            console.error(e);
+            // TODO: Use logger
         }
     }
 }

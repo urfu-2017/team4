@@ -12,7 +12,7 @@
 }
 
 .message-input__message {
-    width: calc(100% - 160px);
+    width: 100%;
     box-sizing: border-box;
     border: none;
 
@@ -63,6 +63,7 @@
 }
 
 .message-input__button {
+    flex: 1 0 auto;
     padding: 0;
     margin: 5px;
     width: 30px;
@@ -71,6 +72,10 @@
 
 .message-input__button:hover {
     background: initial;
+}
+
+.message-input__icon {
+    vertical-align: middle;
 }
 
 .message-input__button path {
