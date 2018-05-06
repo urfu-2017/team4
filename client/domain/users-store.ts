@@ -5,9 +5,10 @@ import UserModel from './user-model';
 import { Events } from '../../shared/events';
 
 class UsersStore {
-    @observable public currentUser = null;
+    @observable
+    public currentUser = null;
 
-    @observable.shallow
+    @observable
     public users: Map<number, UserModel> = new Map();
 
     public constructor() {
@@ -57,9 +58,9 @@ class UsersStore {
 
     public async updateCurrentUser(user) {
         await RPC.request('updateCurrentUser', { user });
+        const userModel = this.users.get(user.id);
 
-        const userModel = UserModel.fromJSON(user);
-        this.users.set(userModel.id, userModel);
+        userModel.update(user);
         this.currentUser = userModel;
     }
 

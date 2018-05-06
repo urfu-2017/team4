@@ -6,9 +6,9 @@ import BasicUserInfo from '../UserInfo/Basic';
 import Search from './Search';
 
 import UserModel from '../../domain/user-model';
+import usersStore from '../../domain/users-store';
 
 import './UsersList.css';
-
 const b = b_.with('users');
 
 interface Props {
@@ -28,6 +28,13 @@ class ContactsList extends React.Component<Props> {
 
     @computed
     private get filteredUsers(): UserModel[] {
+        this.props.users.forEach(user => {
+            console.info(
+                user === usersStore.users.get(user.id)
+            );
+        });
+
+
         if (!this.query) {
             return this.props.users;
         }

@@ -33,7 +33,6 @@ class MessageInput extends React.Component<{}, State> {
     private messageInput: HTMLTextAreaElement;
     private dropzone: ReactDropzone;
 
-    // FIXME изменить ссылку
     private uploadStore: UploadStore = new UploadStore();
     private attachment: string;
 
@@ -58,7 +57,6 @@ class MessageInput extends React.Component<{}, State> {
             this.messageInput.value = null;
         } finally {
             this.messageInput.disabled = false;
-            this.messageInput.focus();
         }
     };
 

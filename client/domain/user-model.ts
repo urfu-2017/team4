@@ -50,18 +50,21 @@ class UserModel {
                 subscribe: true
             });
 
-            runInAction(() => {
-                this.username = user.username;
-                this.firstName = user.firstName;
-                this.lastName = user.lastName;
-                this.avatar = user.avatar;
-                this.bio = user.bio;
-            });
+            this.update(user);
         } finally {
             runInAction(() => {
                 this.isFetching = false;
             });
         }
+    }
+
+    @action
+    public update(user) {
+        this.username = user.username;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.avatar = user.avatar;
+        this.bio = user.bio;
     }
 }
 

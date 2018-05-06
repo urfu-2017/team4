@@ -110,7 +110,7 @@ class ChatsStore {
             }
         } else {
             chat = await RPC.request('getChatInfo', { chatId, subscribe: true }, 5000);
-            const chatModel = await this.saveChat(chat);
+            await this.saveChat(chat);
         }
     };
 
