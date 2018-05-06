@@ -86,7 +86,7 @@ class Message extends React.Component<Props> {
                     />
                     {attachment && <img src={attachment} className={b('attachment')}/>}
                     {this.meta && <OGData isInMessage={true} {...this.meta} />}
-                    {isGroupChat && <Reactions reactions={reactions} onClick={this.onClickReaction}/>}
+                    <Reactions reactions={reactions} onClick={this.onClickReaction}/>
                 </div>
             </div>
         );
