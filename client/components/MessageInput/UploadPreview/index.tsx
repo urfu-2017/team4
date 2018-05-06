@@ -27,7 +27,7 @@ class UploadPreview extends React.Component<Props> {
     private input: HTMLInputElement;
 
     public componentDidMount() {
-        window.addEventListener('keypress', this.onEnterPress, true);
+        window.addEventListener('keypress', this.onEnterPress);
         this.input.focus();
     }
 
