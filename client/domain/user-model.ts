@@ -2,19 +2,14 @@ import { action, observable } from 'mobx';
 import RPC from '../utils/rpc-client';
 
 class UserModel {
-    public static fromJSON({ id, username, firstName, lastName, avatar, bio }) {
-        const userModel = new UserModel(id);
-
-        userModel.username = username;
-        userModel.firstName = firstName;
-        userModel.lastName = lastName;
-        userModel.avatar = avatar;
-        userModel.bio = bio;
+    public static fromJSON(user) {
+        const userModel = new UserModel(user.id);
+        userModel.update(user);
 
         return userModel;
     }
 
-    @observable public isFetching = false;
+    @observable public isFetching;
 
     public id: number;
 

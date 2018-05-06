@@ -5,7 +5,7 @@ import UserModel from './user-model';
 import UsersStore from './users-store';
 
 export default class ChatModel {
-    @observable public messages = [];
+    @observable.shallow public messages = [];
 
     @observable public isFetching: boolean = false;
 

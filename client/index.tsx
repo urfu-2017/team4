@@ -14,7 +14,7 @@ import applicationStore from './domain/application-store';
 
 import './index.css';
 
-configure({ enforceActions: 'strict' });
+configure({ enforceActions: true });
 
 @observer
 class Application extends React.Component {
