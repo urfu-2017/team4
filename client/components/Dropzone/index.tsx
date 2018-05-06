@@ -26,12 +26,14 @@ class Dropzone extends React.Component<Props> {
         window.addEventListener('dragenter', this.onWindowDragEnter);
         window.addEventListener('dragleave', this.onWindowDragLeave);
         window.addEventListener('drop', this.onWindowDrop);
+        window.addEventListener('dragstart', this.onDragStart)
     }
 
     public componentWillUnmount() {
         window.removeEventListener('dragenter', this.onWindowDragEnter);
         window.removeEventListener('dragleave', this.onWindowDragLeave);
         window.removeEventListener('drop', this.onWindowDrop);
+        window.removeEventListener('dragstart', this.onDragStart)
     }
 
     public render() {
@@ -95,6 +97,10 @@ class Dropzone extends React.Component<Props> {
                 this.displayDropzone = false;
             });
         }
+    };
+
+    private onDragStart = event => {
+        event.preventDefault();
     };
 
     private onWindowDrop = event => {

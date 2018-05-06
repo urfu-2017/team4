@@ -70,11 +70,11 @@ class Profile extends React.Component<{}, State> {
             >
                 <Dropzone
                     className={b('dropzone', { disabled: isFetching })}
-                    overClassName={b('dropzone', { over: true })}
-                    onWindowClassName={b('dropzone', { active: true })}
+                    overClassName={b('dropzone', { disabled: true })}
+                    onWindowClassName={b('dropzone', { disabled: true })}
                     onDrop={this.onDrop}
                     accept="image/png, image/jpeg"
-                    disabled={isFetching}
+                    disabled={isFetching || this.isProcessing}
                 >
                     <img className={b('avatar')} src={avatar} alt="Аватар" />
                     <div className={b('hover-indicator')} />

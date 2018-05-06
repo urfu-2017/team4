@@ -60,22 +60,8 @@
     pointer-events: none;
 }
 
-.profile__dropzone:hover,
-.profile__dropzone_active {
+.profile__dropzone:hover {
     border-color: #e4e4e4;
-}
-
-.profile__dropzone_over {
-    border-color: #777;
-}
-
-.profile__dropzone_over > .profile__hover-indicator {
-    opacity: 1;
-}
-
-.profile__dropzone_over > .profile__hover-indicator::before,
-.profile__dropzone_over > .profile__hover-indicator::after {
-    background: #777;
 }
 
 .profile__dropzone:hover > .profile__hover-indicator {
