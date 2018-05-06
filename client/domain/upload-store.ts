@@ -51,13 +51,11 @@ class UploadStore {
             runInAction(() => {
                 this.state = 'error';
             });
-            console.error('Failed to upload image');
 
         } catch (e) {
             runInAction(() => {
                 this.state = 'error';
             });
-            console.error('Failed to upload image');
         }
     };
 

@@ -26,7 +26,7 @@ class ContactsStore {
                 this.state = 'loaded';
             });
         } catch (e) {
-            console.error(e.message);
+            // TODO: Use logger
         }
     }
 
