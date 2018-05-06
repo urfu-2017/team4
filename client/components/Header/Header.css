@@ -8,3 +8,23 @@
     font-size: 30px;
     user-select: none;
 }
+
+@media screen and (max-width: 700px) {
+    .header {
+        position: relative;
+    }
+
+    .header__logo {
+        display: none;
+    }
+
+    .header__logo-wrap {
+        position: static !important;
+        flex: 0 0 64px !important;
+    }
+
+    .header__main-wrap  {
+        flex: 0 0 calc(100% - 64px) !important;
+        padding-right: 0 !important;
+    }
+}

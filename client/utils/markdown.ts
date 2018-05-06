@@ -1,5 +1,6 @@
 import marked from 'marked';
 import { createContainer } from './weather';
+import { BASE_URL } from '../config';
 
 const renderer = new marked.Renderer();
 
@@ -9,6 +10,17 @@ const stubRender = (text: string) => text;
 const weatherParser = (text: string) => text.replace(weatherTag, (_, city) => {
     return createContainer(city);
 });
+
+const oldLinkRenderer = renderer.link.bind(renderer);
+
+renderer.link = (href: string, title: string, text: string) => {
+    if (href.startsWith(BASE_URL)) {
+        return oldLinkRenderer(href, title, text);
+    }
+
+    return `<a target="_blank" href="${href}" ${title && `title="${title}"`}>${text}</a>`;
+}
+
 
 renderer.paragraph = weatherParser;
 renderer.blockquote = stubRender;

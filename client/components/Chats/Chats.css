@@ -31,3 +31,17 @@
 .dialogs:hover::-webkit-scrollbar-thumb {
     background: #6a7d9bab;
 }
+
+@media screen and (max-width: 700px) {
+    .dialog-list__last-msg,
+    .dialog-list__last-msg-date,
+    .dialog-list__dialog-name,
+    .dialogs__new-dialog-btn {
+        display: none;
+    }
+
+    .dialog-list__dialog-image {
+        flex: 1 0 40px;
+        margin-right: 0;
+    }
+}

@@ -12,7 +12,6 @@
 }
 
 .message-input__message {
-    margin: 0 20px;
     width: calc(100% - 160px);
     box-sizing: border-box;
     border: none;
@@ -107,4 +106,23 @@
 
 .message-input__dropzone_display {
     display: flex;
+}
+
+@media screen and (max-width: 700px) {
+    .message-input__button {
+        width: 24px;
+        height: 24px;
+        margin: 3px;
+    }
+
+    .message-input__icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .message-input__message {
+        box-sizing: border-box;
+        width: 100%;
+        font-size: 12px;
+    }
 }
