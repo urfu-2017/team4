@@ -29,8 +29,7 @@ interface Props {
 class Message extends React.Component<Props> {
     private messageText: HTMLElement;
 
-    @observable.ref
-    private meta: any = null;
+    @observable.ref private meta: any = null;
 
     public componentDidMount() {
         const { text, id } = this.props.message;
@@ -60,7 +59,6 @@ class Message extends React.Component<Props> {
         const avatar = this.user.avatar;
 
         const isMine = this.user.id === usersStore.currentUser.id;
-        const isGroupChat = chatsStore.currentChat && chatsStore.currentChat.type === 'room';
 
         return (
             <div className={b({ mine: isMine, chain: this.props.isChain })}>
@@ -73,7 +71,6 @@ class Message extends React.Component<Props> {
                         title={displayName}
                     />
                     <span className={b('date')}>{formatDate(createdAt)}</span>
-
                 </div>
                 <div className={b('body')}>
                     <div
@@ -81,15 +78,15 @@ class Message extends React.Component<Props> {
                         className={b('text')}
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
-                    {attachment && <img src={attachment} className={b('attachment')}/>}
+                    {attachment && <img src={attachment} className={b('attachment')} />}
                     {this.meta && <OGData isInMessage={true} {...this.meta} />}
-                    <Reactions reactions={reactions} onClick={this.onClickReaction}/>
+                    <Reactions reactions={reactions} onClick={this.onClickReaction} />
                 </div>
             </div>
         );
     }
 
-    private onClickReaction = async (smile) => {
+    private onClickReaction = async smile => {
         try {
             const { reactions, id } = this.props.message;
             const userId = usersStore.currentUser.id;
@@ -104,12 +101,12 @@ class Message extends React.Component<Props> {
         } catch (e) {
             // TODO: Use logger
         }
-    }
+    };
 
     @action
     private setMeta = (meta: any) => {
         this.meta = meta;
-    }
+    };
 }
 
 export default Message;

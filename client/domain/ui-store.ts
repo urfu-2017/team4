@@ -1,15 +1,12 @@
-import { action, computed, observable, runInAction } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import UserModel from './user-model';
 
 class UIStore {
-    @observable
-    public userInfo: UserModel = null;
+    @observable public userInfo: UserModel = null;
 
-    @observable
-    public isMenuShown: boolean = false;
+    @observable public isMenuShown: boolean = false;
 
-    @observable
-    public popupStack = [];
+    @observable public popupStack = [];
 
     @observable
     public displays = {
@@ -31,7 +28,7 @@ class UIStore {
         Object.keys(this.displays).forEach(key => {
             this.displays[key] = false;
         });
-    }
+    };
 
     @action
     public toggleLeftPanel = () => {
@@ -48,10 +45,11 @@ class UIStore {
         this.popupStack.pop();
     }
 
-    public togglePopup = name => action(() => {
-        this.userInfo = null; // FIXME: Костыль (переписать логику работы с попами)
-        this.displays[name] = !this.displays[name];
-    });
+    public togglePopup = name =>
+        action(() => {
+            this.userInfo = null; // FIXME: Костыль (переписать логику работы с попами)
+            this.displays[name] = !this.displays[name];
+        });
 
     @action
     public toggleUserInfoPopup(user: UserModel) {

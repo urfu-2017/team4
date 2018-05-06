@@ -5,12 +5,9 @@ import UserModel from './user-model';
 import { Events } from '../../shared/events';
 
 class UsersStore {
+    @observable public currentUser = null;
 
-    @observable
-    public currentUser = null;
-
-    @observable
-    public users: Map<number, UserModel> = new Map();
+    @observable public users: Map<number, UserModel> = new Map();
 
     public constructor() {
         RPC.addListener(Events.UPDATE_PROFILE, this.onProfileUpdate);
@@ -31,8 +28,9 @@ class UsersStore {
     public async fetchUserByUsername(username) {
         username = username.toLowerCase();
 
-        const savedUser = Array.from(this.users.values())
-            .find(user => user.username.toLowerCase() === username);
+        const savedUser = Array.from(this.users.values()).find(
+            user => user.username.toLowerCase() === username
+        );
 
         if (savedUser) {
             return savedUser;
@@ -93,7 +91,7 @@ class UsersStore {
             user.bio = update.bio;
             user.avatar = update.avatar;
         }
-    }
+    };
 
     @action
     private setUser(userModel: UserModel) {

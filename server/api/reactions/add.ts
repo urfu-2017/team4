@@ -1,6 +1,6 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { Message, Reaction, Chat, Members, User } from '../../models';
+import { Message, Reaction, Members } from '../../models';
 import { Events } from '../../../shared/events';
 
 interface Params {
@@ -13,7 +13,7 @@ export default async function(request: Request<Params>, response: Response) {
     const userId = Number(request.user);
 
     const message = await Message.findById(messageId, {
-        attributes: ['id', 'chatId'],
+        attributes: ['id', 'chatId']
     });
 
     if (!message) {

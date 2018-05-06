@@ -25,11 +25,11 @@ class OGData extends React.Component<Props> {
                 )}
                 <div className={b('info')}>
                     <h2 className={b('title')}>
-                        <a href={url} target="_blank">{title}</a>
+                        <a href={url} target="_blank">
+                            {title}
+                        </a>
                     </h2>
-                    <p className={b('description')}>
-                        {description || 'Описание не указано'}
-                    </p>
+                    <p className={b('description')}>{description || 'Описание не указано'}</p>
                 </div>
             </section>
         );

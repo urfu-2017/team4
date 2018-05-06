@@ -6,7 +6,6 @@ import BasicUserInfo from '../UserInfo/Basic';
 import Search from './Search';
 
 import UserModel from '../../domain/user-model';
-import usersStore from '../../domain/users-store';
 
 import './UsersList.css';
 const b = b_.with('users');
@@ -51,9 +50,7 @@ class ContactsList extends React.Component<Props> {
         } = this.props;
 
         if (users.length === 0) {
-            return (
-                <p className={`${b('empty')} text`}>{emptyMessage}</p>
-            );
+            return <p className={`${b('empty')} text`}>{emptyMessage}</p>;
         }
 
         return (

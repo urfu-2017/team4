@@ -129,7 +129,7 @@ class Profile extends React.Component<{}, State> {
 
         const response = await this.uploadStore.upload(image);
 
-        if(!response) {
+        if (!response) {
             return;
         }
 

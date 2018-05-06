@@ -34,7 +34,6 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     }
 
     public render(): React.ReactNode {
-
         return (
             <React.Fragment>
                 <Popup className={b()} zIndex={100} closeHandler={CreateRoom.closePopup}>
@@ -106,11 +105,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
             return;
         }
 
-        const chat = await chatsStore.createChat(
-            'room',
-            this.members,
-            this.name.trim(),
-        );
+        const chat = await chatsStore.createChat('room', this.members, this.name.trim());
 
         this.props.history.push(`/chats/${chat.id}`);
         CreateRoom.closePopup();

@@ -52,20 +52,24 @@ class FullUserInfo extends React.Component<Props, State> {
         return (
             <div className={b('actions')}>
                 {!isContact ? (
-                    <span className={b('action')} onClick={this.addToContact}>Добавить в контакты</span>
+                    <span className={b('action')} onClick={this.addToContact}>
+                        Добавить в контакты
+                    </span>
                 ) : (
                     <CopyToClipboard text={FullUserInfo.getInviteLink(username)}>
                         <span className={b('action')}>Скопировать ссылку на контакт</span>
                     </CopyToClipboard>
                 )}
-                <span className={b('action')} onClick={this.goToChat}>Перейти в чат</span>
+                <span className={b('action')} onClick={this.goToChat}>
+                    Перейти в чат
+                </span>
             </div>
         );
-    }
+    };
 
     private addToContact = () => {
         contactsStore.add(this.props.user);
-    }
+    };
 
     private goToChat = async () => {
         if (this.state.isCreating) return;

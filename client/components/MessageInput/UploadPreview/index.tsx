@@ -36,14 +36,7 @@ class UploadPreview extends React.Component<Props> {
     }
 
     public render() {
-        const {
-            className = '',
-            loading = false,
-            image,
-            closeHandler,
-            error,
-            onSend
-        } = this.props;
+        const { className = '', loading = false, image, closeHandler, error, onSend } = this.props;
 
         const ImageElement = React.createElement('img', {
             src: image.src,
@@ -87,12 +80,12 @@ class UploadPreview extends React.Component<Props> {
         );
     }
 
-    private ref = (node) => {
+    private ref = node => {
         this.input = node;
         this.props.inputRef(node);
     };
 
-    private onEnterPress = (event) => {
+    private onEnterPress = event => {
         event.stopPropagation();
         if (event.key === 'Enter') {
             this.props.onSend();

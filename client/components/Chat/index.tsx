@@ -38,9 +38,9 @@ class Chat extends React.Component<Props> {
         );
     }
 
-    private renderMessage = (message) => {
-        return (<Message key={message.id} isChain={false} message={message} />)
-    }
+    private renderMessage = message => {
+        return <Message key={message.id} isChain={false} message={message} />;
+    };
 }
 
 export default Chat;

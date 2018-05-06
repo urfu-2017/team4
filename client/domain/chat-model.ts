@@ -5,23 +5,19 @@ import UserModel from './user-model';
 import UsersStore from './users-store';
 
 export default class ChatModel {
-    @observable
-    public messages = [];
+    @observable public messages = [];
 
-    @observable
-    public isFetching: boolean = false;
+    @observable public isFetching: boolean = false;
 
     public id;
     public name;
 
-    @observable
-    public members: UserModel[] = [];
+    @observable public members: UserModel[] = [];
 
     public owner;
     public type: 'room' | 'dialog';
 
-    @observable
-    public canLoadNextHistoryFrame: boolean = true;
+    @observable public canLoadNextHistoryFrame: boolean = true;
 
     @computed
     get lastMessage() {
@@ -63,26 +59,22 @@ export default class ChatModel {
             this.setFetching(true);
             const oldestMessage = this.messages.length ? this.messages[0] : undefined;
 
-            const messages = await RPC.request(
-                'getChatMessages',
-                {
-                    chatId: this.id,
-                    from: oldestMessage ? oldestMessage.createdAt : null
-                }
-            );
+            const messages = await RPC.request('getChatMessages', {
+                chatId: this.id,
+                from: oldestMessage ? oldestMessage.createdAt : null
+            });
 
             if (messages.length === 0) {
                 this.canLoadNextHistoryFrame = false;
                 return;
             }
 
-            await Promise.all(
-                messages.map(message => UsersStore.fetchUser(message.senderId)));
+            await Promise.all(messages.map(message => UsersStore.fetchUser(message.senderId)));
 
             runInAction(() => {
                 this.messages = messages.concat(this.messages.slice());
                 this.setFetching(false);
-            })
+            });
         } catch (e) {
             // TODO: Use logger
             this.setFetching(false);

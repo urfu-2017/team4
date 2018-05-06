@@ -1,4 +1,4 @@
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 
 import { configure } from 'mobx';
 import { observer } from 'mobx-react';

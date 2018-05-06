@@ -45,7 +45,7 @@ class ChatWrapper extends React.Component<Props> {
 
     public render() {
         if (this.chat === null) {
-            return (<Redirect to={'/'}/>);
+            return <Redirect to={'/'} />;
         }
 
         return (

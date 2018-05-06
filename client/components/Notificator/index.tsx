@@ -8,7 +8,6 @@ import sound from './notification.mp3';
 
 @observer
 class Notificator extends React.Component {
-
     private audioPlayer: HTMLAudioElement;
 
     public componentDidMount() {
@@ -23,7 +22,7 @@ class Notificator extends React.Component {
         return (
             <audio
                 style={{ display: 'none' }}
-                ref={audio => this.audioPlayer = audio}
+                ref={audio => (this.audioPlayer = audio)}
                 src={sound}
                 autoPlay={false}
                 controls={false}
@@ -31,14 +30,13 @@ class Notificator extends React.Component {
         );
     }
 
-    private playSound = (message) => {
+    private playSound = message => {
         const chat = chatsStore.currentChat;
         if (chat && chat.id !== message.chatId) {
             this.audioPlayer.currentTime = 0;
             this.audioPlayer.play();
         }
     };
-
 }
 
 export default Notificator;

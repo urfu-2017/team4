@@ -18,17 +18,17 @@ interface Props {
     tabIndex?: number;
 }
 
-const Button: React.SFC<Props> = observer(({
-    children,
-    onClick,
-    className = '',
-    type = 'main',
-    disabled,
-    tabIndex
-}) => (
-    <button className={`${className} ${b(modifiers[type])}`} onClick={onClick} disabled={disabled} tabIndex={tabIndex}>
-        {children}
-    </button>
-));
+const Button: React.SFC<Props> = observer(
+    ({ children, onClick, className = '', type = 'main', disabled, tabIndex }) => (
+        <button
+            className={`${className} ${b(modifiers[type])}`}
+            onClick={onClick}
+            disabled={disabled}
+            tabIndex={tabIndex}
+        >
+            {children}
+        </button>
+    )
+);
 
 export default Button;

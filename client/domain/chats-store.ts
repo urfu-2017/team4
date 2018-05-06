@@ -7,11 +7,9 @@ import ChatModel from './chat-model';
 import usersStore from './users-store';
 
 class ChatsStore {
-    @observable
-    public chatsMap: Map<string, ChatModel> = new Map();
+    @observable public chatsMap: Map<string, ChatModel> = new Map();
 
-    @observable
-    public currentChat: ChatModel = null;
+    @observable public currentChat: ChatModel = null;
 
     @computed
     get chats() {
@@ -24,14 +22,12 @@ class ChatsStore {
         RPC.addListener(Events.ADD_MEMBER, this.onAddMember);
         RPC.addListener(Events.REMOVE_MEMBER, this.onRemoveMember);
         RPC.addListener(Events.ADD_REACTION, this.onAddReaction);
-        RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction)
+        RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction);
     }
 
     public async createChat(type, members, name = '') {
         const chat = await RPC.request('createChat', { type, members, name });
-        const chatModel = await this.saveChat(chat);
-
-        return chatModel;
+        return await this.saveChat(chat);
     }
 
     public async fetchChat(chatId) {
@@ -122,7 +118,7 @@ class ChatsStore {
         }
     };
 
-    private onAddReaction = (reaction) => {
+    private onAddReaction = reaction => {
         const chat = this.chatsMap.get(reaction.chatId);
         if (!chat) return;
 
@@ -130,9 +126,9 @@ class ChatsStore {
         if (!message) return;
 
         message.reactions.push(reaction);
-    }
+    };
 
-    private onRemoveReaction = (event) => {
+    private onRemoveReaction = event => {
         const chat = this.chatsMap.get(event.chatId);
         if (!chat) return;
 

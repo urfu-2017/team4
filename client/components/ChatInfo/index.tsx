@@ -1,7 +1,7 @@
 import React from 'react';
 import b_ from 'b_';
 import { observer } from 'mobx-react';
-import { action, computed, observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 import Popup from '../Popup';
@@ -27,8 +27,7 @@ class ChatInfo extends React.Component {
         return `${location.origin + location.pathname}#/join/${chatId}`;
     }
 
-    @observable
-    private isAddMode: boolean = false;
+    @observable private isAddMode: boolean = false;
 
     public render(): React.ReactNode {
         if (!chatsStore.currentChat) {
@@ -68,9 +67,7 @@ class ChatInfo extends React.Component {
                             Добавить участника
                         </span>
                         <CopyToClipboard text={ChatInfo.getInviteLink(chat.id)}>
-                            <span className={b('action')}>
-                                Скопировать invite-ссылку
-                            </span>
+                            <span className={b('action')}>Скопировать invite-ссылку</span>
                         </CopyToClipboard>
                         <span onClick={this.leaveChat} className={b('action', { danger: true })}>
                             Покинуть группу
@@ -108,10 +105,10 @@ class ChatInfo extends React.Component {
         }
     };
 
-    private leaveChat = async() => {
+    private leaveChat = async () => {
         await chatsStore.leave(chatsStore.currentChat);
         uiStore.togglePopup('chatInfo')();
-    }
+    };
 }
 
 export default ChatInfo;

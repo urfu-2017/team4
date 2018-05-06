@@ -1,4 +1,4 @@
-import { action, observable, runInAction } from 'mobx';
+import { action, observable } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import usersStore from './users-store';
@@ -6,11 +6,9 @@ import contactsStore from './contacts-store';
 import chatsStore from './chats-store';
 
 class ApplicationStore {
-    @observable
-    public isAppLoaded = false;
+    @observable public isAppLoaded = false;
 
-    @observable
-    public isAuthRequired = false;
+    @observable public isAuthRequired = false;
 
     public async init() {
         try {
@@ -23,7 +21,7 @@ class ApplicationStore {
 
             this.setLoaded(false);
         } catch (e) {
-            this.setLoaded(true)
+            this.setLoaded(true);
         }
     }
 

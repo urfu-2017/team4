@@ -7,9 +7,10 @@ const renderer = new marked.Renderer();
 const weatherTag = /\[([a-zA-Zа-яА-ЯеёЕЁ]+)\]/g;
 
 const stubRender = (text: string) => text;
-const weatherParser = (text: string) => text.replace(weatherTag, (_, city) => {
-    return createContainer(city);
-});
+const weatherParser = (text: string) =>
+    text.replace(weatherTag, (_, city) => {
+        return createContainer(city);
+    });
 
 const oldLinkRenderer = renderer.link.bind(renderer);
 
@@ -19,8 +20,7 @@ renderer.link = (href: string, title: string, text: string) => {
     }
 
     return `<a target="_blank" href="${href}" ${title && `title="${title}"`}>${text}</a>`;
-}
-
+};
 
 renderer.paragraph = weatherParser;
 renderer.blockquote = stubRender;

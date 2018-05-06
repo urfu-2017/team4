@@ -57,7 +57,11 @@ class ChatItem extends React.Component<Props> {
             return this.user.avatar;
         }
 
-        const letters = this.displayName.split(' ').slice(0, 2).map(word =>  word[0]).join('');
+        const letters = this.displayName
+            .split(' ')
+            .slice(0, 2)
+            .map(word => word[0])
+            .join('');
         return `https://via.placeholder.com/64x64/74669b/ffffff?text=${letters}`;
     }
 

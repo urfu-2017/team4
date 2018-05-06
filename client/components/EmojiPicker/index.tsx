@@ -12,7 +12,6 @@ interface Props {
 }
 
 class EmojiPicker extends React.Component<Props, any> {
-
     public componentWillUnmount() {
         document.removeEventListener('click', this.handleClickOutside, false);
     }
@@ -28,11 +27,11 @@ class EmojiPicker extends React.Component<Props, any> {
             <React.Fragment>
                 <div className={className}>
                     <Picker
-                        set='google'
+                        set="google"
                         showPreview={false}
                         showSkinTones={false}
                         onSelect={this.getEmoji}
-                        color='#515151'
+                        color="#515151"
                         emojiSize={24}
                     />
                 </div>
@@ -40,18 +39,17 @@ class EmojiPicker extends React.Component<Props, any> {
         );
     }
 
-    private getEmoji = (emoji) => {
+    private getEmoji = emoji => {
         return this.props.addSmile(emoji.native);
-    }
+    };
 
-    private handleClickOutside = (event) => {
+    private handleClickOutside = event => {
         const domNode = ReactDOM.findDOMNode(this);
 
-        if ((!domNode || !domNode.contains(event.target))) {
+        if (!domNode || !domNode.contains(event.target)) {
             this.props.closeSmiles();
         }
-    }
+    };
 }
 
 export default EmojiPicker;
-

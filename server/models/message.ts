@@ -1,4 +1,12 @@
-import { BelongsTo, Column, DataType, ForeignKey, HasMany, Model, Table } from 'sequelize-typescript';
+import {
+    BelongsTo,
+    Column,
+    DataType,
+    ForeignKey,
+    HasMany,
+    Model,
+    Table
+} from 'sequelize-typescript';
 import { Chat } from './chat';
 import { User } from './user';
 import { Reaction } from './reaction';
@@ -33,7 +41,7 @@ export class Message extends Model<Message> {
     public meta: any;
 
     @Column({ type: DataType.TEXT })
-    public attachment: string
+    public attachment: string;
 
     @HasMany(() => Reaction, 'messageId')
     public reactions: Reaction;

@@ -163,7 +163,7 @@ class MessageInput extends React.Component {
 
     private onChangeText = (event: React.FormEvent<HTMLTextAreaElement>) => {
         this.setMessage(event.currentTarget.value);
-    }
+    };
 
     @action
     private onUploadCancel = (): void => {
@@ -172,17 +172,13 @@ class MessageInput extends React.Component {
         this.uploadStore.clear();
     };
 
-    @action
-    private onShowSmiles = () => this.showSmiles = true;
+    @action private onShowSmiles = () => (this.showSmiles = true);
 
-    @action
-    private onCloseSmiles = () => this.showSmiles = false;
+    @action private onCloseSmiles = () => (this.showSmiles = false);
 
-    @action
-    private setMessage = (value: string) => this.message = value;
+    @action private setMessage = (value: string) => (this.message = value);
 
-    @action
-    private onAddSmile = (text: string) => this.message += text;
+    @action private onAddSmile = (text: string) => (this.message += text);
 }
 
 export default MessageInput;

@@ -23,7 +23,7 @@
         flex: 0 0 64px !important;
     }
 
-    .header__main-wrap  {
+    .header__main-wrap {
         flex: 0 0 calc(100% - 64px) !important;
         padding-right: 0 !important;
     }
