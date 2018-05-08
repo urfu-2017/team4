@@ -8,6 +8,7 @@ import ReactDropzone from 'react-dropzone';
 import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';
 
+import ForwardedContainer from '../ForwardedMessage/Container';
 import UploadPreview from './UploadPreview';
 import SendIcon from './SendIcon';
 import AttachIcon from './AttachIcon';
@@ -20,6 +21,7 @@ import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 import { BASE_URL } from '../../config';
 
 import './MessageInput.css';
+import uiStore from '../../domain/ui-store';
 const b = b_.with('message-input');
 
 @observer
@@ -63,34 +65,37 @@ class MessageInput extends React.Component {
     public render() {
         return (
             <section className={b()}>
-                <Button className={b('button')} onClick={this.dropzoneOpen}>
-                    <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
-                </Button>
-                <Textarea
-                    maxRows={6}
-                    style={{ padding: '10px' }}
-                    className={b('message')}
-                    placeholder="Введите сообщение..."
-                    onKeyPress={this.onKeyUp}
-                    onChange={this.onChangeText}
-                    value={this.message}
-                    ref={el => this.messageInput = el}
-                />
-                <div className={b('smiles')}>
-                    <Button onClick={this.onShowSmiles} className={b('button')}>
-                        <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
+                {this.renderForwardedContainer()}
+                <div className={b('container')}>
+                    <Button className={b('button')} onClick={this.dropzoneOpen}>
+                        <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
                     </Button>
-                    {this.showSmiles && (
-                        <EmojiPicker
-                            className={b('smiles-picker')}
-                            addSmile={this.onAddSmile}
-                            closeSmiles={this.onCloseSmiles}
-                        />
-                    )}
+                    <Textarea
+                        maxRows={6}
+                        style={{ padding: '10px' }}
+                        className={b('message')}
+                        placeholder="Введите сообщение..."
+                        onKeyPress={this.onKeyUp}
+                        onChange={this.onChangeText}
+                        value={this.message}
+                        ref={el => this.messageInput = el}
+                    />
+                    <div className={b('smiles')}>
+                        <Button onClick={this.onShowSmiles} className={b('button')}>
+                            <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
+                        </Button>
+                        {this.showSmiles && (
+                            <EmojiPicker
+                                className={b('smiles-picker')}
+                                addSmile={this.onAddSmile}
+                                closeSmiles={this.onCloseSmiles}
+                            />
+                        )}
+                    </div>
+                    <Button className={`${b('button')} ${b('send')}`} onClick={this.onSend}>
+                        <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
+                    </Button>
                 </div>
-                <Button className={`${b('button')} ${b('send')}`} onClick={this.onSend}>
-                    <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
-                </Button>
                 <Dropzone
                     // tslint:disable-next-line
                     dropzoneRef={node => {
@@ -118,6 +123,18 @@ class MessageInput extends React.Component {
                     />
                 )}
             </section>
+        );
+    }
+
+    private renderForwardedContainer() {
+        if (!uiStore.forwardMessage) {
+            return null;
+        }
+
+        return (
+            <div className={b('forwarded')}>
+                <ForwardedContainer message={uiStore.forwardMessage}/>
+            </div>
         );
     }
 

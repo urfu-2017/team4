@@ -127,3 +127,39 @@
 .message_mine .weather__result {
     transform: translate(-75%, -125%);
 }
+
+.message__actions {
+    margin-left: 10px;
+}
+
+.message_mine .message__actions {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.message__action {
+    visibility: hidden;
+    pointer-events: none;
+
+    cursor: pointer;
+}
+
+.message__icon {
+    width: 24px;
+    height: 24px;
+    color: rgba(0, 0, 0, 0.2);
+}
+
+.message__icon:hover {
+    color: #74669b;
+}
+
+.message:hover .message__action,
+.message_selected .message__action_type_forward {
+    visibility: visible;
+    pointer-events: initial;
+}
+
+.message_selected .message__action_type_forward > .message__icon {
+    color: #74669b;
+}

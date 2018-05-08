@@ -8,6 +8,8 @@ class UIStore {
 
     @observable public popupStack = [];
 
+    @observable.ref public forwardMessage = null;
+
     @observable
     public displays = {
         contacts: false,
@@ -20,6 +22,11 @@ class UIStore {
     @computed
     get topPopup() {
         return this.popupStack[this.popupStack.length - 1] || null;
+    }
+
+    @action
+    public setForwardMessage(message: any) {
+        this.forwardMessage = message;
     }
 
     @action

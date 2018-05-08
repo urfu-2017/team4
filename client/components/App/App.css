@@ -30,6 +30,7 @@ body {
 
 .dialogs {
     flex: 0 0 30%;
+    z-index: 50;
 }
 
 .content {

@@ -1,14 +1,18 @@
 .message-input {
-    position: relative;
+    background: #fff;
+}
+
+.message-input__forwarded {
+    width: 100%;
+}
+
+.message-input__container {
     box-sizing: border-box;
     width: 100%;
     padding: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background: #fff;
-    text-align: right;
 }
 
 .message-input__message {

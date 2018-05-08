@@ -1,4 +1,5 @@
 export const BASE_URL = '';
+export const APP_URL = location.hostname;
 
 export const AUTH_URL = BASE_URL + '/auth';
 export const WEB_SOCK_URL = BASE_URL + '/';
