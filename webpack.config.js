@@ -101,7 +101,7 @@ module.exports = {
         historyApiFallback: true,
         clientLogLevel: 'none',
         contentBase: clientSrcPath,
-        host: 'localhost',
+        host: '0.0.0.0',
         publicPath: '/',
         watchOptions: { ignored: /node_modules/ },
         port: 3000,

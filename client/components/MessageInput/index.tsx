@@ -28,6 +28,8 @@ class MessageInput extends React.Component {
     @observable private showSmiles: boolean = false;
     @observable private message: string = '';
 
+
+    private messageInput: HTMLInputElement;
     private imageCaptionInput: HTMLInputElement;
     private dropzone: ReactDropzone;
 
@@ -48,6 +50,7 @@ class MessageInput extends React.Component {
         // TODO: Обработать неудачу
         await ChatsStore.currentChat.sendMessage(text, null);
         this.setMessage('');
+        this.messageInput.focus();
     };
 
     public onKeyUp = event => {
@@ -71,6 +74,7 @@ class MessageInput extends React.Component {
                     onKeyPress={this.onKeyUp}
                     onChange={this.onChangeText}
                     value={this.message}
+                    ref={el => this.messageInput = el}
                 />
                 <div className={b('smiles')}>
                     <Button onClick={this.onShowSmiles} className={b('button')}>

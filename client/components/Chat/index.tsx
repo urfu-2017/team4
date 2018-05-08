@@ -3,7 +3,7 @@ import React from 'react';
 import ChatView from 'react-chatview';
 
 import './Chat.css';
-import Message from './Message';
+import Message from '../Message';
 
 import ChatsStore from '../../domain/chats-store';
 import Preloader from '../Preloader';

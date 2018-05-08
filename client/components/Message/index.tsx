@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b_ from 'b_';
 
-import OGData from '../OGData';
-import Reactions from '../Reactions';
+import OGData from '../OGData/index';
+import Reactions from '../Reactions/index';
 
 import uiStore from '../../domain/ui-store';
 import usersStore from '../../domain/users-store';
@@ -15,9 +15,8 @@ import { initContainer } from '../../utils/weather';
 
 import getUrlMeta from '../../utils/url-meta';
 import urlParser from '../../utils/url-parser';
-import './Chat.css';
 
-import './Chat.css';
+import './Message.css';
 const b = b_.with('message');
 
 interface Props {

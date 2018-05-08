@@ -16,6 +16,10 @@ class OGData extends React.Component<Props> {
     public render() {
         const { image, url, description, title } = this.props;
 
+        if (!title && !image) {
+            return null;
+        }
+
         return (
             <section className={b({ 'in-message': true })}>
                 {image && (
