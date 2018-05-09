@@ -43,19 +43,32 @@ class ChatsStore {
         return null;
     }
 
-    public async saveChat(chat): Promise<ChatModel> {
-        const chatModel = new ChatModel(chat);
-        chatModel.members = chatModel.members.map(user => usersStore.saveUser(user));
-        await chatModel.join();
+    @action
+    public async saveChat(chat: any, force: boolean = false): Promise<ChatModel> {
+        let chatModel = this.chatsMap.get(chat.id);
 
-        this.chatsMap.set(chat.id, chatModel);
+        if (chatModel && !force) {
+            return chatModel;
+        }
 
+        // Если чат есть был запускаем процедуру восстановления
+        if (chatModel) {
+            chatModel.members = chat.members.map(user => usersStore.saveUser(user, true));
+            await chatModel.restore();
+        } else {
+            chatModel = new ChatModel(chat);
+            chatModel.members.map(user => usersStore.saveUser(user, force));
+            await chatModel.join();
+        }
+
+        this.setChat(chatModel);
         return chatModel;
     }
 
     @action
     public setCurrentChat(chatId) {
         this.currentChat = this.chatsMap.get(chatId);
+        this.currentChat.setNotification(false);
     }
 
     public findDialog(userId) {
@@ -137,6 +150,11 @@ class ChatsStore {
 
         message.reactions = message.reactions.filter(reaction => reaction.id !== event.reaction);
     };
+
+    @action
+    private setChat(chatModel: ChatModel) {
+        this.chatsMap.set(chatModel.id, chatModel);
+    }
 }
 
 export default new ChatsStore();

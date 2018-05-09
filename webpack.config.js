@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase();
 const mode = NODE_ENV === 'production' || NODE_ENV === 'development' ? NODE_ENV : 'none';
@@ -90,7 +91,10 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify(NODE_ENV)
             }
-        })
+        }),
+        new ServiceWorkerPlugin({
+            entry: path.resolve(clientSrcPath, 'sw.js'),
+        }),
     ],
 
     devServer: {

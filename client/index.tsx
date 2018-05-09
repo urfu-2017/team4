@@ -11,10 +11,13 @@ import LoaderPage from './components/LoaderPage';
 import LoginPage from './components/LoginPage';
 
 import applicationStore from './domain/application-store';
-
 import './index.css';
 
 configure({ enforceActions: true });
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+}
 
 @observer
 class Application extends React.Component {

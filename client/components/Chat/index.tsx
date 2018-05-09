@@ -7,6 +7,7 @@ import Message from '../Message';
 
 import ChatsStore from '../../domain/chats-store';
 import Preloader from '../Preloader';
+import Messages from './Messages';
 
 interface Props {
     chat: any;
@@ -33,14 +34,15 @@ class Chat extends React.Component<Props> {
                 flipped={true}
                 reversed={true}
             >
-                {ChatsStore.currentChat.messages.map(this.renderMessage)}
+                <Messages
+                    messages={[
+                        ...ChatsStore.currentChat.messages,
+                        ...ChatsStore.currentChat.sendingMessages
+                    ]}
+                />
             </ChatView>
         );
     }
-
-    private renderMessage = message => {
-        return <Message key={message.id} isChain={false} message={message} />;
-    };
 }
 
 export default Chat;

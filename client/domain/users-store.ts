@@ -5,7 +5,7 @@ import UserModel from './user-model';
 import { Events } from '../../shared/events';
 
 class UsersStore {
-    @observable public currentUser = null;
+    @observable public currentUser: UserModel = null;
 
     @observable public users: Map<number, UserModel> = new Map();
 
@@ -47,14 +47,22 @@ class UsersStore {
     }
 
     public saveUser(userFromJson, force: boolean = false): UserModel {
-        if (this.users.has(userFromJson.id) && !force) {
-            return this.users.get(userFromJson.id);
+        let userModel = this.users.get(userFromJson.id);
+
+        if (userModel && !force) {
+            return userModel;
         }
 
-        const userModel = UserModel.fromJSON(userFromJson);
-        this.setUser(userModel);
-        RPC.request('subscribeToUser', { userId: userFromJson.id });
+        // Обновляем модель пользователя,
+        // если был передан флаг force и модель сущесвует
+        if (userModel) {
+            userModel.update(userFromJson);
+        } else {
+            userModel = UserModel.fromJSON(userFromJson);
+            this.setUser(userModel);
+        }
 
+        RPC.request('subscribeToUser', { userId: userFromJson.id });
         return userModel;
     }
 

@@ -63,6 +63,8 @@ class Message extends React.Component<Props> {
         const isMine = this.user.id === usersStore.currentUser.id;
         const mods = { mine: isMine, chain: this.props.isChain, selected: isSelected };
 
+        const isReal = !!createdAt;
+
         return (
             <div className={b(mods)}>
                 <div className={b('meta')}>
@@ -73,7 +75,9 @@ class Message extends React.Component<Props> {
                         alt={displayName}
                         title={displayName}
                     />
-                    <span className={b('date')}>{formatDate(createdAt)}</span>
+                    <span className={b('date')}>
+                        {isReal ? formatDate(createdAt) : '...'}
+                    </span>
                 </div>
                 <div className={b('body')}>
                     <div
@@ -85,15 +89,21 @@ class Message extends React.Component<Props> {
                     {this.meta && <OGData isInMessage={true} {...this.meta} />}
                     <Reactions reactions={reactions} onClick={this.onClickReaction} />
                 </div>
-                <div className={b('actions')}>
+                {isReal && this.renderActions()}
+            </div>
+        );
+    }
+
+    private renderActions() {
+        return (
+            <div className={b('actions')}>
                     <span
                         onClick={this.onSetForwardMessage}
                         className={b('action', { type: 'forward' })}
-                        title="Переслать"
+                        title="Ответить"
                     >
                         <ForwardMessageIcon className={b('icon')}/>
                     </span>
-                </div>
             </div>
         );
     }

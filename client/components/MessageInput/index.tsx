@@ -31,7 +31,7 @@ class MessageInput extends React.Component {
     @observable private message: string = '';
 
 
-    private messageInput: HTMLInputElement;
+    private messageInput: HTMLTextAreaElement;
     private imageCaptionInput: HTMLInputElement;
     private dropzone: ReactDropzone;
 

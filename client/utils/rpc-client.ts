@@ -9,7 +9,7 @@ import { WEB_SOCK_URL } from '../config';
 class RPCClient {
     private listeners: Record<string, any[]> = {};
     private pendingRequests = new Map();
-    private socket: any;
+    private socket: SocketIOClient.Socket;
 
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
@@ -21,10 +21,14 @@ class RPCClient {
 
     public connect = () =>
         new Promise((resolve, reject) => {
+            if (this.socket.connected) {
+                return resolve();
+            }
+
             const connectFailed = reason => {
                 this.socket.removeAllListeners();
                 this.socket.disconnect();
-                reject(new Error(reason));
+                reject(new Error('AUTH_ERROR'));
             };
 
             const connectSuccess = () => {
@@ -50,9 +54,13 @@ class RPCClient {
 
     public request = (method: keyof Methods, params?: any, timeout = 5000): Promise<any> =>
         new Promise((resolve, reject) => {
+            if (!navigator.onLine) {
+                return reject();
+            }
+
+
             if (!method) {
-                reject(new Error('Missing method name'));
-                return;
+                return reject(new Error('Missing method name'));
             }
 
             const payload = RPCBuilder.request(uuid(), method, params);

@@ -1,8 +1,6 @@
 import React from 'react';
 import b_ from 'b_';
 
-import ClickOutside from '../../ClickOutside';
-
 import uiStore from '../../../domain/ui-store';
 import usersStore from '../../../domain/users-store';
 
@@ -36,28 +34,22 @@ class DropdownMenu extends React.Component {
         usersStore.logout();
     };
 
-    public onClickOutside = () => {
-        uiStore.toggleLeftPanel();
-    }
-
     public render() {
         return (
-            <ClickOutside onClickOutside={this.onClickOutside} className={b()}>
-                <nav>
-                    <span className={b('item')} onClick={this.onGroupClick}>
-                        Создать групповой чат
-                    </span>
-                    <span className={b('item')} onClick={this.onContactsClick}>
-                        Контакты
-                    </span>
-                    <span className={b('item')} onClick={this.onProfileClick}>
-                        Профиль
-                    </span>
-                    <span className={b('item')} onClick={this.onExitClick}>
-                        Выйти
-                    </span>
-                </nav>
-            </ClickOutside>
+            <nav>
+                <span className={b('item')} onClick={this.onGroupClick}>
+                    Создать групповой чат
+                </span>
+                <span className={b('item')} onClick={this.onContactsClick}>
+                    Контакты
+                </span>
+                <span className={b('item')} onClick={this.onProfileClick}>
+                    Профиль
+                </span>
+                <span className={b('item')} onClick={this.onExitClick}>
+                    Выйти
+                </span>
+            </nav>
         );
     }
 }

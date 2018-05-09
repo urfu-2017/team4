@@ -1,13 +1,18 @@
-import { computed, observable, action, runInAction } from 'mobx';
+import { computed, observable, action, runInAction, reaction } from 'mobx';
+import { v4 } from 'uuid';
 
 import RPC from '../utils/rpc-client';
+
 import UserModel from './user-model';
 import UsersStore from './users-store';
+import ChatsStore from './chats-store';
 
 export default class ChatModel {
     @observable.shallow public messages = [];
-
+    @observable.shallow public sendingMessages = [];
     @observable public isFetching: boolean = false;
+
+    @observable public hasNotification: boolean = false;
 
     public id;
     public name;
@@ -20,9 +25,11 @@ export default class ChatModel {
     @observable public canLoadNextHistoryFrame: boolean = true;
 
     @computed
-    get lastMessage() {
+    public get lastMessage() {
         return this.messages[this.messages.length - 1] || null;
     }
+
+    private queue: Promise<any> = Promise.resolve();
 
     constructor({ id, name, members, owner, type }) {
         this.id = id;
@@ -30,6 +37,26 @@ export default class ChatModel {
         this.members = members;
         this.owner = owner;
         this.type = type;
+
+        this.sendingMessages = JSON.parse(sessionStorage.getItem(`queue_${this.id}`)) || [];
+
+        // После каждого изменения записываем данные об очереди сообщений
+        reaction(() => this.sendingMessages, () => {
+            sessionStorage.setItem(`queue_${this.id}`, JSON.stringify(this.sendingMessages));
+        })
+    }
+
+    @action
+    public async restore() {
+        this.messages = [];
+        await this.join();
+
+        for (const sendingMessage of this.sendingMessages) {
+            this.queue = RPC.request('sendMessage', sendingMessage).then(
+                (response) => this.addMessage(response, sendingMessage.id),
+                () => Promise.resolve()
+            );
+        }
     }
 
     public async join() {
@@ -40,6 +67,7 @@ export default class ChatModel {
                 chatId: this.id,
                 userId: currentUserId
             });
+
             this.members.push(UsersStore.currentUser);
         }
 
@@ -81,15 +109,17 @@ export default class ChatModel {
         }
     }
 
-    public async sendMessage(text, attachment) {
-        const params = {
-            chatId: this.id,
-            text,
-            attachment
-        };
+    @action
+    public sendMessage(text, attachment) {
+        const senderId = UsersStore.currentUser.id;
+        const tempId = v4();
+        const message = { id: tempId, chatId: this.id, senderId, text, attachment, reactions: []};
 
-        const response = await RPC.request('sendMessage', params);
-        this.addMessage(response);
+        this.sendingMessages.push(message);
+        this.queue = RPC.request('sendMessage', message).then(
+            (response) => this.addMessage(response, tempId),
+            () => Promise.resolve()
+        );
     }
 
     public async addReaction(smile, messageId) {
@@ -137,10 +167,23 @@ export default class ChatModel {
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
         this.addMessage(message);
+
+        if (ChatsStore.currentChat !== this) {
+            this.setNotification(true);
+        }
     }
 
     @action
-    private addMessage(message: any) {
+    public setNotification(has: boolean) {
+        this.hasNotification = has;
+    }
+
+    @action
+    private addMessage(message: any, tempId?: string) {
+        if (tempId) {
+            this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== tempId);
+        }
+
         this.messages.push({ ...message, reactions: [] });
     }
 
