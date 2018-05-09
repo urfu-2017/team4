@@ -8,6 +8,7 @@ import MessageInput from '../MessageInput';
 import './Chat.css';
 
 import ChatsStore from '../../domain/chats-store';
+import ApplicationStore from '../../domain/application-store';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -52,8 +53,17 @@ class ChatWrapper extends React.Component<Props> {
             <div className="chat-wrapper">
                 <Chat chat={this.chat} />
                 <MessageInput key={this.chat.id} />
+                {ApplicationStore.isOffline && this.renderOfflineWarning()}
             </div>
         );
+    }
+
+    private renderOfflineWarning() {
+        return (
+            <div className="chat-wrapper__offline">
+                Нет соединения с сервером
+            </div>
+        )
     }
 }
 

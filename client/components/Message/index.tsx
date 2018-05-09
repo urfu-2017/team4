@@ -61,9 +61,9 @@ class Message extends React.Component<Props> {
 
         const isSelected = uiStore.forwardMessage === this.props.message;
         const isMine = this.user.id === usersStore.currentUser.id;
-        const mods = { mine: isMine, chain: this.props.isChain, selected: isSelected };
-
         const isReal = !!createdAt;
+
+        const mods = { mine: isMine, chain: this.props.isChain, selected: isSelected, sending: !isReal };
 
         return (
             <div className={b(mods)}>
@@ -86,8 +86,8 @@ class Message extends React.Component<Props> {
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
                     {attachment && <img src={attachment} className={b('attachment')} />}
-                    {this.meta && <OGData isInMessage={true} {...this.meta} />}
-                    <Reactions reactions={reactions} onClick={this.onClickReaction} />
+                    {isReal && this.meta && <OGData isInMessage={true} {...this.meta} />}
+                    {isReal && <Reactions reactions={reactions} onClick={this.onClickReaction} />}
                 </div>
                 {isReal && this.renderActions()}
             </div>

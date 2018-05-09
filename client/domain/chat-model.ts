@@ -48,8 +48,7 @@ export default class ChatModel {
 
     @action
     public async restore() {
-        this.messages = [];
-        await this.join();
+        await this.join(true);
 
         for (const sendingMessage of this.sendingMessages) {
             this.queue = RPC.request('sendMessage', sendingMessage).then(
@@ -59,7 +58,7 @@ export default class ChatModel {
         }
     }
 
-    public async join() {
+    public async join(force: boolean = false) {
         const currentUserId = UsersStore.currentUser.id;
 
         if (!this.members.find(user => user.id === currentUserId)) {
@@ -72,13 +71,13 @@ export default class ChatModel {
         }
 
         if (!this.messages.length) {
-            await this.loadNextHistoryFrame();
+            await this.loadNextHistoryFrame(force);
         }
 
         await RPC.request('subscribeToChat', { chatId: this.id });
     }
 
-    public async loadNextHistoryFrame() {
+    public async loadNextHistoryFrame(force: boolean = false) {
         if (this.isFetching) {
             return;
         }
@@ -89,7 +88,7 @@ export default class ChatModel {
 
             const messages = await RPC.request('getChatMessages', {
                 chatId: this.id,
-                from: oldestMessage ? oldestMessage.createdAt : null
+                from: oldestMessage && !force ? oldestMessage.createdAt : null
             });
 
             if (messages.length === 0) {
@@ -100,7 +99,8 @@ export default class ChatModel {
             await Promise.all(messages.map(message => UsersStore.fetchUser(message.senderId)));
 
             runInAction(() => {
-                this.messages = messages.concat(this.messages.slice());
+
+                this.messages = force ? messages : messages.concat(this.messages.slice());
                 this.setFetching(false);
             });
         } catch (e) {
