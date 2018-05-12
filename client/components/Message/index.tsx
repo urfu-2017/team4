@@ -98,7 +98,7 @@ class Message extends React.Component<Props> {
         return (
             <div className={b('actions')}>
                     <span
-                        onClick={this.onSetForwardMessage}
+                        onClick={this.onSetReplyMessage}
                         className={b('action', { type: 'forward' })}
                         title="Ответить"
                     >
@@ -130,13 +130,13 @@ class Message extends React.Component<Props> {
         this.meta = meta;
     };
 
-    private onSetForwardMessage = () => {
+    private onSetReplyMessage = () => {
         if (uiStore.forwardMessage === this.props.message) {
             uiStore.setForwardMessage(null);
             return;
         }
 
-        uiStore.setForwardMessage(this.props.message);
+        uiStore.setForwardMessage(this.props.message. true);
     }
 }
 

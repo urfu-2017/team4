@@ -9,6 +9,7 @@ import './Chat.css';
 
 import ChatsStore from '../../domain/chats-store';
 import ApplicationStore from '../../domain/application-store';
+import UIStore from '../../domain/ui-store';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -24,6 +25,7 @@ class ChatWrapper extends React.Component<Props> {
         const newChatId = nextProps.match.params.id;
 
         if (oldChatId !== newChatId) {
+            // TODO: подумать как переслать сообщение в другой чат...
             this.setCurrentChat(newChatId);
         }
     }

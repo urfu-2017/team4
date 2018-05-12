@@ -33,6 +33,7 @@ class EmojiPicker extends React.Component<Props, any> {
                         onSelect={this.getEmoji}
                         color="#515151"
                         emojiSize={24}
+                        native={true}
                     />
                 </div>
             </React.Fragment>

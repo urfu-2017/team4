@@ -7,6 +7,7 @@ import ReactDropzone from 'react-dropzone';
 
 import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';
+import Recognition from './Recognition';
 
 import ForwardedContainer from '../ForwardedMessage/Container';
 import UploadPreview from './UploadPreview';
@@ -78,8 +79,9 @@ class MessageInput extends React.Component {
                         onKeyPress={this.onKeyUp}
                         onChange={this.onChangeText}
                         value={this.message}
-                        ref={el => this.messageInput = el}
+                        inputRef={el => this.messageInput = el /* tslint:disable-line */}
                     />
+                    <Recognition onChange={this.onSpeech}/>
                     <div className={b('smiles')}>
                         <Button onClick={this.onShowSmiles} className={b('button')}>
                             <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
@@ -181,6 +183,10 @@ class MessageInput extends React.Component {
             })
         );
     };
+
+    private onSpeech = (text: string) => {
+        this.setMessage(`${this.message} ${text}`.trim());
+    }
 
     private onChangeText = (event: React.FormEvent<HTMLTextAreaElement>) => {
         this.setMessage(event.currentTarget.value);

@@ -123,11 +123,11 @@ export default class ChatModel {
     }
 
     public async addReaction(smile, messageId) {
-        const reaction = await RPC.request('addReaction', { name: smile, messageId });
+        const newReaction = await RPC.request('addReaction', { name: smile, messageId });
         const message = this.messages.find(msg => msg.id === messageId);
 
         runInAction(() => {
-            message.reactions.push(reaction);
+            message.reactions.push(newReaction);
         });
     }
 
@@ -136,7 +136,7 @@ export default class ChatModel {
         const message = this.messages.find(msg => msg.id === messageId);
 
         runInAction(() => {
-            message.reactions = message.reactions.filter(reaction => reaction.id !== reactionId);
+            message.reactions = message.reactions.filter(rcn =>rcn.id !== reactionId);
         });
     }
 

@@ -9,6 +9,7 @@ class UIStore {
     @observable public popupStack = [];
 
     @observable.ref public forwardMessage = null;
+    @observable.ref public isReplyForward = false;
 
     @observable
     public displays = {
@@ -16,7 +17,8 @@ class UIStore {
         profile: false,
         chatInfo: false,
         userInfo: false,
-        createRoom: false
+        createRoom: false,
+        chooseDialog: false,
     };
 
     @computed
@@ -25,8 +27,9 @@ class UIStore {
     }
 
     @action
-    public setForwardMessage(message: any) {
+    public setForwardMessage(message: any, isReply = false) {
         this.forwardMessage = message;
+        this.isReplyForward = message && isReply;
     }
 
     @action

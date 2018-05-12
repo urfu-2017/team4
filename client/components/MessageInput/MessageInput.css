@@ -74,12 +74,20 @@
     height: 30px;
 }
 
+.message-input__button {
+    color: #999;
+}
+
 .message-input__button:hover {
     background: initial;
 }
 
 .message-input__icon {
     vertical-align: middle;
+}
+
+.message-input__button_active {
+    color: #74669b;
 }
 
 .message-input__button path {
