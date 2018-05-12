@@ -5,6 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase();
 const mode = NODE_ENV === 'production' || NODE_ENV === 'development' ? NODE_ENV : 'none';
@@ -90,7 +91,10 @@ module.exports = {
             'process.env': {
                 NODE_ENV: JSON.stringify(NODE_ENV)
             }
-        })
+        }),
+        new ServiceWorkerPlugin({
+            entry: path.resolve(clientSrcPath, 'sw.js'),
+        }),
     ],
 
     devServer: {
@@ -101,10 +105,17 @@ module.exports = {
         historyApiFallback: true,
         clientLogLevel: 'none',
         contentBase: clientSrcPath,
-        host: 'localhost',
+        host: '0.0.0.0',
         publicPath: '/',
         watchOptions: { ignored: /node_modules/ },
-        port: process.env.PORT ? Number(process.env.PORT) : 3000
+        port: 3000,
+        proxy: {
+            '/socket.io': {
+                target: 'http://localhost:8080/socket.io',
+                ws: true
+            },
+            '*': 'http://localhost:8080'
+        }
     },
 
     devtool: isDevelopment ? 'cheap-module-eval-source-map' : 'source-map'

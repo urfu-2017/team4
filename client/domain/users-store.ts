@@ -5,11 +5,9 @@ import UserModel from './user-model';
 import { Events } from '../../shared/events';
 
 class UsersStore {
-    @observable
-    public currentUser = null;
+    @observable public currentUser: UserModel = null;
 
-    @observable
-    public users: Map<number, UserModel> = new Map();
+    @observable public users: Map<number, UserModel> = new Map();
 
     public constructor() {
         RPC.addListener(Events.UPDATE_PROFILE, this.onProfileUpdate);
@@ -21,7 +19,7 @@ class UsersStore {
         }
 
         const userModel = new UserModel(userId);
-        this.users.set(userId, userModel);
+        this.setUser(userModel);
         await userModel.fetch();
 
         return userModel;
@@ -30,29 +28,41 @@ class UsersStore {
     public async fetchUserByUsername(username) {
         username = username.toLowerCase();
 
-        const savedUser = Array.from(this.users.values())
-            .find(user => user.username.toLowerCase() === username);
+        const savedUser = Array.from(this.users.values()).find(
+            user => user.username.toLowerCase() === username
+        );
+
         if (savedUser) {
             return savedUser;
         }
 
         const users = await RPC.request('findUsers', { username });
         const newUser = users.find(user => user.username.toLowerCase() === username);
+
         if (!newUser) {
             return null;
         }
+
         return this.saveUser(newUser);
     }
 
     public saveUser(userFromJson, force: boolean = false): UserModel {
-        if (this.users.has(userFromJson.id) && !force) {
-            return this.users.get(userFromJson.id);
+        let userModel = this.users.get(userFromJson.id);
+
+        if (userModel && !force) {
+            return userModel;
         }
 
-        const userModel = UserModel.fromJSON(userFromJson);
-        this.users.set(userModel.id, userModel);
-        RPC.request('subscribeToUser', { userId: userFromJson.id });
+        // Обновляем модель пользователя,
+        // если был передан флаг force и модель сущесвует
+        if (userModel) {
+            userModel.update(userFromJson);
+        } else {
+            userModel = UserModel.fromJSON(userFromJson);
+            this.setUser(userModel);
+        }
 
+        RPC.request('subscribeToUser', { userId: userFromJson.id });
         return userModel;
     }
 
@@ -61,6 +71,11 @@ class UsersStore {
         const userModel = this.users.get(user.id);
 
         userModel.update(user);
+        this.setCurrentUser(user);
+    }
+
+    @action
+    public setCurrentUser(userModel: UserModel) {
         this.currentUser = userModel;
     }
 
@@ -84,6 +99,11 @@ class UsersStore {
             user.bio = update.bio;
             user.avatar = update.avatar;
         }
+    };
+
+    @action
+    private setUser(userModel: UserModel) {
+        this.users.set(userModel.id, userModel);
     }
 }
 

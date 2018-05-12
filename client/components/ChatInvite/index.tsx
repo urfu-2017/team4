@@ -1,12 +1,11 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import {  RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import ChatsStore from '../../domain/chats-store';
 import UsersStore from '../../domain/users-store';
 
-interface Props extends RouteComponentProps<{ invite: string }> {
-}
+interface Props extends RouteComponentProps<{ invite: string }> {}
 
 @observer
 class ChatInvite extends React.Component<Props> {
@@ -21,8 +20,9 @@ class ChatInvite extends React.Component<Props> {
             if (!user) {
                 return;
             }
-            const dialog = ChatsStore.findDialog(user.id) ||
-                await ChatsStore.createChat('dialog', [user.id]);
+            const dialog =
+                ChatsStore.findDialog(user.id) ||
+                (await ChatsStore.createChat('dialog', [user.id]));
             chatId = dialog.id;
         } else {
             if (await ChatsStore.fetchChat(invite)) {
@@ -35,7 +35,7 @@ class ChatInvite extends React.Component<Props> {
     }
 
     public render() {
-        return (<div />);
+        return <div />;
     }
 }
 

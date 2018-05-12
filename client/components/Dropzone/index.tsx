@@ -19,21 +19,23 @@ interface Props {
 @observer
 class Dropzone extends React.Component<Props> {
     @observable private displayDropzone: boolean = false;
+
     @observable private isDragOnZone: boolean = false;
+
     private childrenDepth: number = 0;
 
     public componentDidMount() {
         window.addEventListener('dragenter', this.onWindowDragEnter);
         window.addEventListener('dragleave', this.onWindowDragLeave);
         window.addEventListener('drop', this.onWindowDrop);
-        window.addEventListener('dragstart', this.onDragStart)
+        window.addEventListener('dragstart', this.onDragStart);
     }
 
     public componentWillUnmount() {
         window.removeEventListener('dragenter', this.onWindowDragEnter);
         window.removeEventListener('dragleave', this.onWindowDragLeave);
         window.removeEventListener('drop', this.onWindowDrop);
-        window.removeEventListener('dragstart', this.onDragStart)
+        window.removeEventListener('dragstart', this.onDragStart);
     }
 
     public render() {
@@ -103,13 +105,12 @@ class Dropzone extends React.Component<Props> {
         event.preventDefault();
     };
 
+    @action
     private onWindowDrop = event => {
         event.preventDefault();
 
-        runInAction(() => {
-            this.displayDropzone = false;
-            this.isDragOnZone = false;
-        });
+        this.displayDropzone = false;
+        this.isDragOnZone = false;
         this.childrenDepth = 0;
     };
 }

@@ -1,14 +1,18 @@
 .message-input {
-    position: relative;
+    background: #fff;
+}
+
+.message-input__forwarded {
+    width: 100%;
+}
+
+.message-input__container {
     box-sizing: border-box;
     width: 100%;
     padding: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background: #fff;
-    text-align: right;
 }
 
 .message-input__message {
@@ -70,12 +74,20 @@
     height: 30px;
 }
 
+.message-input__button {
+    color: #999;
+}
+
 .message-input__button:hover {
     background: initial;
 }
 
 .message-input__icon {
     vertical-align: middle;
+}
+
+.message-input__button_active {
+    color: #74669b;
 }
 
 .message-input__button path {

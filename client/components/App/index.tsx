@@ -3,6 +3,7 @@ import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Notificator from '../Notificator';
+import Toast from '../Toast';
 import ChatWrapper from '../Chat/ChatWrapper';
 import Contacts from '../Contacts';
 import Chats from '../Chats';
@@ -16,23 +17,12 @@ import uiStore from '../../domain/ui-store';
 
 import './App.css';
 import ChatInvite from '../ChatInvite/index';
+import SelectChat from '../ForwardedMessage/SelectChat';
 
 const stubComponent: React.SFC = () => <div />;
 
 @observer
 class App extends React.Component {
-    public renderModals() {
-        return (
-            <React.Fragment>
-                {uiStore.displays.chatInfo && <ChatInfo />}
-                {uiStore.displays.createRoom && <CreateRoom />}
-                {uiStore.displays.contacts && <Contacts />}
-                {uiStore.displays.profile && <ProfileSettings />}
-                {uiStore.displays.userInfo && <ProfileView />}
-            </React.Fragment>
-        );
-    }
-
     public render() {
         return (
             <HashRouter>
@@ -42,7 +32,7 @@ class App extends React.Component {
                         <Chats />
                         <div className="content">
                             <Switch>
-                                <Route path="/join/:invite" component={ChatInvite}/>
+                                <Route path="/join/:invite" component={ChatInvite} />
                                 <Route path="/chats/:id" component={ChatWrapper} />
                                 <Route path="/" component={stubComponent} />
                                 <Redirect from="*" to="/" />
@@ -50,9 +40,23 @@ class App extends React.Component {
                         </div>
                     </div>
                     {this.renderModals()}
-                    <Notificator/>
+                    <Notificator />
+                    <Toast/>
                 </div>
             </HashRouter>
+        );
+    }
+
+    private renderModals() {
+        return (
+            <React.Fragment>
+                {uiStore.displays.chatInfo && <ChatInfo />}
+                {uiStore.displays.createRoom && <CreateRoom />}
+                {uiStore.displays.contacts && <Contacts />}
+                {uiStore.displays.profile && <ProfileSettings />}
+                {uiStore.displays.userInfo && <ProfileView />}
+                {uiStore.displays.selectChat && <SelectChat/>}
+            </React.Fragment>
         );
     }
 }

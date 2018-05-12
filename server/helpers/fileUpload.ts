@@ -17,6 +17,11 @@ export const uploadHandler: express.RequestHandler = (req, res) => {
 export const uploadStorage = multer.diskStorage({
     destination: UPLOADS_SERVER_PATH,
     filename: (req, file, cb) => {
-        cb(null, uuid().split('-').join('') + path.extname(file.originalname))
+        cb(
+            null,
+            uuid()
+                .split('-')
+                .join('') + path.extname(file.originalname)
+        );
     }
 });

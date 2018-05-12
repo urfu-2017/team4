@@ -1,11 +1,10 @@
 import React from 'react';
 import b_ from 'b_';
 
-import './DropdownMenu.css';
-
 import uiStore from '../../../domain/ui-store';
 import usersStore from '../../../domain/users-store';
 
+import './DropdownMenu.css';
 const b = b_.with('menu');
 
 class DropdownMenu extends React.Component {

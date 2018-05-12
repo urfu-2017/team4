@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import { Events } from '../../shared/events';
@@ -7,11 +7,9 @@ import ChatModel from './chat-model';
 import usersStore from './users-store';
 
 class ChatsStore {
-    @observable
-    public chatsMap: Map<string, ChatModel> = new Map();
+    @observable public chatsMap: Map<string, ChatModel> = new Map();
 
-    @observable
-    public currentChat: ChatModel = null;
+    @observable public currentChat: ChatModel = null;
 
     @computed
     get chats() {
@@ -24,14 +22,12 @@ class ChatsStore {
         RPC.addListener(Events.ADD_MEMBER, this.onAddMember);
         RPC.addListener(Events.REMOVE_MEMBER, this.onRemoveMember);
         RPC.addListener(Events.ADD_REACTION, this.onAddReaction);
-        RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction)
+        RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction);
     }
 
     public async createChat(type, members, name = '') {
-        const chat = await RPC.request('createChat', { type, members, name }, 15000);
-        const chatModel = await this.saveChat(chat);
-
-        return chatModel;
+        const chat = await RPC.request('createChat', { type, members, name });
+        return await this.saveChat(chat);
     }
 
     public async fetchChat(chatId) {
@@ -47,19 +43,32 @@ class ChatsStore {
         return null;
     }
 
-    public async saveChat(chat): Promise<ChatModel> {
-        const chatModel = new ChatModel(chat);
-        chatModel.members = chatModel.members.map(user => usersStore.saveUser(user));
-        await chatModel.join();
+    @action
+    public async saveChat(chat: any, force: boolean = false): Promise<ChatModel> {
+        let chatModel = this.chatsMap.get(chat.id);
 
-        this.chatsMap.set(chat.id, chatModel);
+        if (chatModel && !force) {
+            return chatModel;
+        }
 
+        // Если чат есть был запускаем процедуру восстановления
+        if (chatModel) {
+            chatModel.members = chat.members.map(user => usersStore.saveUser(user, true));
+            await chatModel.restore();
+        } else {
+            chatModel = new ChatModel(chat);
+            chatModel.members = chatModel.members.map(user => usersStore.saveUser(user, force));
+            await chatModel.join();
+        }
+
+        this.setChat(chatModel);
         return chatModel;
     }
 
     @action
     public setCurrentChat(chatId) {
         this.currentChat = this.chatsMap.get(chatId);
+        this.currentChat.setNotification(false);
     }
 
     public findDialog(userId) {
@@ -80,11 +89,13 @@ class ChatsStore {
 
     public async leave(chat: ChatModel) {
         await chat.removeMember(usersStore.currentUser);
-        this.chatsMap.delete(chat.id);
 
-        if (this.currentChat === chat) {
-            this.currentChat = null;
-        }
+        runInAction(() => {
+            this.chatsMap.delete(chat.id);
+            if (this.currentChat === chat) {
+                this.currentChat = null;
+            }
+        });
     }
 
     private onNewMessage = async message => {
@@ -114,6 +125,7 @@ class ChatsStore {
         }
     };
 
+    @action
     private onRemoveMember = async ({ userId, chatId }) => {
         const chat = this.chatsMap.get(chatId);
 
@@ -122,7 +134,7 @@ class ChatsStore {
         }
     };
 
-    private onAddReaction = (reaction) => {
+    private onAddReaction = reaction => {
         const chat = this.chatsMap.get(reaction.chatId);
         if (!chat) return;
 
@@ -130,9 +142,9 @@ class ChatsStore {
         if (!message) return;
 
         message.reactions.push(reaction);
-    }
+    };
 
-    private onRemoveReaction = (event) => {
+    private onRemoveReaction = event => {
         const chat = this.chatsMap.get(event.chatId);
         if (!chat) return;
 
@@ -141,6 +153,11 @@ class ChatsStore {
 
         message.reactions = message.reactions.filter(reaction => reaction.id !== event.reaction);
     };
+
+    @action
+    private setChat(chatModel: ChatModel) {
+        this.chatsMap.set(chatModel.id, chatModel);
+    }
 }
 
 export default new ChatsStore();

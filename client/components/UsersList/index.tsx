@@ -1,12 +1,11 @@
 import React from 'react';
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import b_ from 'b_';
 import BasicUserInfo from '../UserInfo/Basic';
 import Search from './Search';
 
 import UserModel from '../../domain/user-model';
-import usersStore from '../../domain/users-store';
 
 import './UsersList.css';
 const b = b_.with('users');
@@ -28,13 +27,6 @@ class ContactsList extends React.Component<Props> {
 
     @computed
     private get filteredUsers(): UserModel[] {
-        this.props.users.forEach(user => {
-            console.info(
-                user === usersStore.users.get(user.id)
-            );
-        });
-
-
         if (!this.query) {
             return this.props.users;
         }
@@ -58,9 +50,7 @@ class ContactsList extends React.Component<Props> {
         } = this.props;
 
         if (users.length === 0) {
-            return (
-                <p className={`${b('empty')} text`}>{emptyMessage}</p>
-            );
+            return <p className={`${b('empty')} text`}>{emptyMessage}</p>;
         }
 
         return (
@@ -89,6 +79,7 @@ class ContactsList extends React.Component<Props> {
         );
     }
 
+    @action
     private onQueryChange = (query: string) => {
         this.query = query;
     };

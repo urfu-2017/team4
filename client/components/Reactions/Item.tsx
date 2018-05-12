@@ -24,7 +24,7 @@ class Reaction extends React.Component<Props> {
         );
     }
 
-    private onClick = () => this.props.onClick(this.props.reaction.smile)
+    private onClick = () => this.props.onClick(this.props.reaction.smile);
 }
 
 export default Reaction;

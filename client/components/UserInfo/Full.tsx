@@ -34,7 +34,7 @@ class FullUserInfo extends React.Component<Props, State> {
         return (
             <section className={b('data')}>
                 <div className={b('left')}>
-                    <img src={avatar} alt="Аватар" className={b('avatar')} />
+                    <img src={avatar} alt="" className={b('avatar')} />
                     <div className={b('info')}>
                         <span className={b('name')}>{displayName}</span>
                         <span className={b('username')}>{`@${username}`}</span>
@@ -52,20 +52,26 @@ class FullUserInfo extends React.Component<Props, State> {
         return (
             <div className={b('actions')}>
                 {!isContact ? (
-                    <span className={b('action')} onClick={this.addToContact}>Добавить в контакты</span>
+                    <span className={b('action')} onClick={this.addToContact}>
+                        Добавить в контакты
+                    </span>
                 ) : (
-                    <CopyToClipboard text={FullUserInfo.getInviteLink(username)}>
+                    <CopyToClipboard onCopy={this.onCopy} text={FullUserInfo.getInviteLink(username)}>
                         <span className={b('action')}>Скопировать ссылку на контакт</span>
                     </CopyToClipboard>
                 )}
-                <span className={b('action')} onClick={this.goToChat}>Перейти в чат</span>
+                <span className={b('action')} onClick={this.goToChat}>
+                    Перейти в чат
+                </span>
             </div>
         );
-    }
+    };
+
+    private onCopy = () => uiStore.setToast('Скопировано', 1000);
 
     private addToContact = () => {
         contactsStore.add(this.props.user);
-    }
+    };
 
     private goToChat = async () => {
         if (this.state.isCreating) return;

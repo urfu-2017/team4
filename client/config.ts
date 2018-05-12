@@ -1,7 +1,5 @@
-const isDevelopment = process.env.NODE_ENV === 'development';
-
-export const BASE_URL = isDevelopment ?
-    'http://localhost:8080' : 'https://kilogram.online';
+export const BASE_URL = '';
+export const APP_URL = `${location.protocol}//${location.hostname}`;
 
 export const AUTH_URL = BASE_URL + '/auth';
 export const WEB_SOCK_URL = BASE_URL + '/';

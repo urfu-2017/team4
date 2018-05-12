@@ -5,7 +5,6 @@ import ChatSettingsIcon from './ChatSettingsIcon';
 
 import uiStore from '../../../domain/ui-store';
 import chatsStore from '../../../domain/chats-store';
-import usersStore from '../../../domain/users-store';
 
 import './HeaderMainWrap.css';
 
@@ -16,27 +15,21 @@ class HeaderMainWrap extends React.Component {
         const chat = chatsStore.currentChat;
 
         if (chat !== null) {
-            if (chat.type === 'dialog') {
-                const currentUserId = usersStore.currentUser.id;
-                const otherUser = chat.members.find(member => member.id !== currentUserId);
-                const otherUserModel = usersStore.users.get(
-                    otherUser ? otherUser.id : currentUserId
-                );
-
-                message = otherUserModel.displayName;
-            } else {
-                message = `${chat.name} (${chat.members.length} участников)`;
-            }
+                message = chat.displayName;
+                message += (chat.type === 'room') ? ` (${chat.members.length} участников)` : '';
         }
 
         return (
             <div className="header__main-wrap">
                 <div className="header__chat-name">{message}</div>
                 {chat && (
-                    <ChatSettingsIcon
+                    <div
+                        title="Информация о чате"
                         onClick={this.openChatInfo}
-                        className="header__chat-settings"
-                    />
+                        className={'header__chat-settings'}
+                    >
+                        <ChatSettingsIcon />
+                    </div>
                 )}
             </div>
         );

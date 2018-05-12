@@ -1,4 +1,4 @@
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 
 import { observer } from 'mobx-react';
 import React from 'react';
@@ -10,8 +10,13 @@ import LoaderPage from './components/LoaderPage';
 import LoginPage from './components/LoginPage';
 
 import applicationStore from './domain/application-store';
-
 import './index.css';
+
+// Если есть сервис воркер, то запрашивает права на уведомления
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+    Notification.requestPermission();
+}
 
 @observer
 class Application extends React.Component {

@@ -8,6 +8,8 @@ import MessageInput from '../MessageInput';
 import './Chat.css';
 
 import ChatsStore from '../../domain/chats-store';
+import ApplicationStore from '../../domain/application-store';
+import UIStore from '../../domain/ui-store';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -23,6 +25,7 @@ class ChatWrapper extends React.Component<Props> {
         const newChatId = nextProps.match.params.id;
 
         if (oldChatId !== newChatId) {
+            UIStore.setForwardMessage(null);
             this.setCurrentChat(newChatId);
         }
     }
@@ -45,15 +48,24 @@ class ChatWrapper extends React.Component<Props> {
 
     public render() {
         if (this.chat === null) {
-            return (<Redirect to={'/'}/>);
+            return <Redirect to={'/'} />;
         }
 
         return (
             <div className="chat-wrapper">
                 <Chat chat={this.chat} />
                 <MessageInput key={this.chat.id} />
+                {ApplicationStore.isOffline && this.renderOfflineWarning()}
             </div>
         );
+    }
+
+    private renderOfflineWarning() {
+        return (
+            <div className="chat-wrapper__offline">
+                Нет соединения с сервером
+            </div>
+        )
     }
 }
 

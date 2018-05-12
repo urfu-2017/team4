@@ -7,7 +7,7 @@
     box-sizing: border-box;
     overflow-y: auto;
     user-select: none;
-    z-index: 1;
+    z-index: 2;
     box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
 }
 
@@ -33,15 +33,7 @@
 }
 
 @media screen and (max-width: 700px) {
-    .dialog-list__last-msg,
-    .dialog-list__last-msg-date,
-    .dialog-list__dialog-name,
     .dialogs__new-dialog-btn {
         display: none;
-    }
-
-    .dialog-list__dialog-image {
-        flex: 1 0 40px;
-        margin-right: 0;
     }
 }

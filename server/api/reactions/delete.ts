@@ -18,7 +18,7 @@ export default async function(request: Request<Params>, response: Response) {
     await reaction.destroy();
 
     const message = (await Message.findById(reaction.messageId, { attributes: ['id', 'chatId'] }))!;
-    
+
     response.success(true);
     response.notification(message.chatId, Events.REMOVE_REACTION, {
         chatId: message.chatId,

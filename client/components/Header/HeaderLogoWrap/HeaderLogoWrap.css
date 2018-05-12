@@ -91,3 +91,14 @@
     transition: bottom 75ms ease, transform 75ms cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s;
     transform: rotate(-90deg);
 }
+
+@media screen and (max-width: 700px) {
+    .header__logo {
+        display: none;
+    }
+
+    .header__logo-wrap {
+        position: static;
+        flex: 0 0 64px;
+    }
+}

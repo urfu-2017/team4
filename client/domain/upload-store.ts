@@ -3,18 +3,22 @@ import { UPLOADS_URL } from '../config';
 
 class UploadStore {
     @observable public state: string = 'initial';
+
     private controller: AbortController = new AbortController();
     private url: string = UPLOADS_URL;
 
-    @computed get isFetching(): boolean {
+    @computed
+    public get isFetching(): boolean {
         return this.state === 'loading';
     }
 
-    @computed get isError(): boolean {
+    @computed
+    public get isError(): boolean {
         return this.state === 'error';
     }
 
-    @action public upload = async (file: File) => {
+    @action
+    public upload = async (file: File) => {
         if (file.size > 20000000) {
             this.state = 'error';
 
@@ -51,7 +55,6 @@ class UploadStore {
             runInAction(() => {
                 this.state = 'error';
             });
-
         } catch (e) {
             runInAction(() => {
                 this.state = 'error';
@@ -59,11 +62,12 @@ class UploadStore {
         }
     };
 
-    @action public clear = () => {
+    @action
+    public clear = () => {
         this.controller.abort();
         this.controller = new AbortController();
 
-        this.state = 'initial'
+        this.state = 'initial';
     };
 }
 

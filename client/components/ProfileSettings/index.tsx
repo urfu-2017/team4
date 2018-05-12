@@ -35,7 +35,7 @@ class Profile extends React.Component<{}, State> {
     constructor(props) {
         super(props);
 
-        this.state = { ...UsersStore.currentUser };
+        this.state = { ...UsersStore.currentUser } as any;
     }
 
     public onChangeFirstName = event => {
@@ -51,9 +51,14 @@ class Profile extends React.Component<{}, State> {
     };
 
     public saveUser = async () => {
-        await UsersStore.updateCurrentUser(this.state);
-        this.uploadStore.clear();
-        uiStore.closeAllPopups();
+        try {
+            await UsersStore.updateCurrentUser(this.state);
+            this.uploadStore.clear();
+
+            uiStore.setToast('Профиль обновлён', 1000);
+        } catch (e) {
+            uiStore.setToast('Не удалось обновить профиль')
+        }
     };
 
     public render() {
@@ -76,7 +81,7 @@ class Profile extends React.Component<{}, State> {
                     accept="image/png, image/jpeg"
                     disabled={isFetching || this.isProcessing}
                 >
-                    <img className={b('avatar')} src={avatar} alt="Аватар" />
+                    <img className={b('avatar')} src={avatar} alt="" />
                     <div className={b('hover-indicator')} />
                     {(isFetching || this.isProcessing) && (
                         <div className={b('loading-overlay')}>
@@ -129,7 +134,7 @@ class Profile extends React.Component<{}, State> {
 
         const response = await this.uploadStore.upload(image);
 
-        if(!response) {
+        if (!response) {
             return;
         }
 

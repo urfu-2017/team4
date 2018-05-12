@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { RouteComponentProps, withRouter } from 'react-router';
 import b_ from 'b_';
 
@@ -9,7 +9,7 @@ import Button from '../Button';
 import UsersList from '../UsersList';
 import Popup from '../Popup';
 
-import UiStore from '../../domain/ui-store';
+import uiStore from '../../domain/ui-store';
 import contactsStore from '../../domain/contacts-store';
 import chatsStore from '../../domain/chats-store';
 import usersStore from '../../domain/users-store';
@@ -21,10 +21,8 @@ const b = b_.with('createRoom');
 @observer
 class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     private static closePopup() {
-        UiStore.togglePopup('createRoom')();
+        uiStore.togglePopup('createRoom')();
     }
-
-    @observable private step: number = 1;
 
     @observable private name: string = '';
 
@@ -36,7 +34,6 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     }
 
     public render(): React.ReactNode {
-
         return (
             <React.Fragment>
                 <Popup className={b()} zIndex={100} closeHandler={CreateRoom.closePopup}>
@@ -85,11 +82,13 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         );
     }
 
+    @action
     private changeName = event => {
         event.preventDefault();
         this.name = event.currentTarget.value;
     };
 
+    @action
     private toggleMember = (id: number) => {
         if (this.members.includes(id)) {
             this.members = this.members.filter(idx => idx !== id);
@@ -106,12 +105,8 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
             return;
         }
 
-        const chat = await chatsStore.createChat(
-            'room',
-            this.members,
-            this.name.trim(),
-        );
-
+        const chat = await chatsStore.createChat('room', this.members, this.name.trim());
+        uiStore.setToast('Групповой чат создан', 1000);
         this.props.history.push(`/chats/${chat.id}`);
         CreateRoom.closePopup();
     };

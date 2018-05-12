@@ -2,9 +2,6 @@ import React from 'react';
 import b_ from 'b_';
 
 import './OGData.css';
-
-import ogStore from '../../domain/og-store';
-
 const b = b_.with('og-data');
 
 interface Props {
@@ -19,20 +16,24 @@ class OGData extends React.Component<Props> {
     public render() {
         const { image, url, description, title } = this.props;
 
+        if (!title && !image) {
+            return null;
+        }
+
         return (
             <section className={b({ 'in-message': true })}>
                 {image && (
                     <a href={url} target="_blank" className={b('image-link')}>
-                        <img className={b('image')} src={image} alt={title} />
+                        <img className={b('image')} src={image} alt="" />
                     </a>
                 )}
                 <div className={b('info')}>
                     <h2 className={b('title')}>
-                        <a href={url} target="_blank">{title}</a>
+                        <a href={url} target="_blank">
+                            {title}
+                        </a>
                     </h2>
-                    <p className={b('description')}>
-                        {description || 'Описание не указано'}
-                    </p>
+                    <p className={b('description')}>{description || 'Описание не указано'}</p>
                 </div>
             </section>
         );

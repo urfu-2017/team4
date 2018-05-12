@@ -2,6 +2,7 @@ import { action, observable, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import usersStore from './users-store';
+import uiStore from './ui-store';
 
 class ContactsStore {
     @observable public list = [];
@@ -21,12 +22,17 @@ class ContactsStore {
 
         try {
             const contact = await RPC.request('addContact', { contactId: user.id });
+
             runInAction(() => {
                 this.list.push(usersStore.saveUser(contact));
                 this.state = 'loaded';
+                uiStore.setToast('Контакт добавлен', 1000);
             });
         } catch (e) {
-            // TODO: Use logger
+            runInAction(() => {
+                uiStore.setToast('Не удалось добавить контакт');
+                this.state = 'error';
+            });
         }
     }
 

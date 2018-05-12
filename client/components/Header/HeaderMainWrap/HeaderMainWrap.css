@@ -29,8 +29,21 @@
     cursor: pointer;
 }
 
+.header__chat-settings svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+}
+
 .header__user-name {
     font-size: 16px;
     margin-left: auto;
     margin-right: 10px;
+}
+
+@media screen and (max-width: 700px) {
+    .header__main-wrap {
+        flex: 0 0 calc(100% - 64px);
+        padding-right: 0;
+    }
 }

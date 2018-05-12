@@ -1,16 +1,17 @@
-import { action, computed, observable, runInAction } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import UserModel from './user-model';
-
-const TIMEOUT_ERROR = 5000;
 
 class UIStore {
     @observable public userInfo: UserModel = null;
 
     @observable public isMenuShown: boolean = false;
 
-    @observable public error = null;
-
     @observable public popupStack = [];
+
+    @observable public forwardMessage = null;
+    @observable public isReplyForward = false;
+
+    @observable public error: string = '';
 
     @observable
     public displays = {
@@ -18,17 +19,21 @@ class UIStore {
         profile: false,
         chatInfo: false,
         userInfo: false,
-        createRoom: false
+        createRoom: false,
+        selectChat: false,
     };
 
     @computed
-    get topPopup() {
+    public get topPopup() {
         return this.popupStack[this.popupStack.length - 1] || null;
     }
 
-    @computed
-    get hasError() {
-        return this.error !== null;
+    private errorTimer: any;
+
+    @action
+    public setForwardMessage(message: any, isReply: boolean = false) {
+        this.forwardMessage = message;
+        this.isReplyForward = message && isReply;
     }
 
     @action
@@ -37,7 +42,7 @@ class UIStore {
         Object.keys(this.displays).forEach(key => {
             this.displays[key] = false;
         });
-    }
+    };
 
     @action
     public toggleLeftPanel = () => {
@@ -54,11 +59,11 @@ class UIStore {
         this.popupStack.pop();
     }
 
-    @action
-    public togglePopup = name => () => {
-        this.userInfo = null; // FIXME: Костыль (переписать логику работы с попами)
-        this.displays[name] = !this.displays[name];
-    };
+    public togglePopup = name =>
+        action(() => {
+            this.userInfo = null;
+            this.displays[name] = !this.displays[name];
+        });
 
     @action
     public toggleUserInfoPopup(user: UserModel) {
@@ -74,14 +79,16 @@ class UIStore {
     }
 
     @action
-    public showError(message) {
-        this.error = message;
-        setTimeout(
-            runInAction(() => {
-                this.error = null;
-            }),
-            TIMEOUT_ERROR
-        );
+    public setToast(error: string, timeout = 3000) {
+        this.error = error;
+        clearTimeout(this.errorTimer);
+        this.errorTimer = setTimeout(this.resetError, timeout + 400);
+    }
+
+    @action.bound
+    public resetError() {
+        clearTimeout(this.errorTimer);
+        this.error = '';
     }
 }
 
