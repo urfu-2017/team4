@@ -8,10 +8,11 @@ interface Params {
     chatId: string;
     text: string;
     attachment?: string;
+    deathTime?: Date;
 }
 
 export default async function sendMessage(request: Request<Params>, response: Response) {
-    const { chatId, text, attachment } = request.params;
+    const { chatId, text, attachment, timeToDeath } = request.params;
     const members = await Members.findOne({
         where: {
             userId: request.user,
@@ -28,8 +29,11 @@ export default async function sendMessage(request: Request<Params>, response: Re
         senderId: request.user,
         chatId,
         text,
-        attachment
+        attachment,
+        deathTime: new Date(new Date().getTime() + timeToDeath)
     });
+
+    message.timeToDeath = timeToDeath;
 
     response.notification(chatId, Events.NEW_MESSAGE, message);
     response.success(message);

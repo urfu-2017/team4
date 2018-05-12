@@ -131,6 +131,8 @@ export default class ChatModel {
 
             await Promise.all(messages.map(message => UsersStore.fetchUser(message.senderId)));
 
+            messages.forEach(message => this.configureDeath(message));
+
             runInAction(() => {
 
                 this.messages = force ? messages : messages.concat(this.messages.slice());
@@ -143,10 +145,19 @@ export default class ChatModel {
     }
 
     @action
-    public sendMessage(text, attachment) {
+    public sendMessage(text, attachment, timeToDeath) {
         const senderId = UsersStore.currentUser.id;
         const tempId = v4();
-        const message = { id: tempId, chatId: this.id, senderId, text, attachment, reactions: []};
+        const message = {
+            id: tempId,
+            chatId: this.id,
+            senderId,
+            text,
+            attachment,
+            timeToDeath,
+            reactions: []
+        };
+        this.configureDeath(message);
 
         this.sendingMessages.push(message);
         this.queue = RPC.request('sendMessage', message).then(
@@ -199,6 +210,7 @@ export default class ChatModel {
 
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
+        this.configureDeath(message);
         this.addMessage(message);
 
         if (ChatsStore.currentChat !== this) {
@@ -222,5 +234,19 @@ export default class ChatModel {
 
     private setFetching(fetching: boolean) {
         this.isFetching = fetching;
+    }
+
+    private configureDeath(message) {
+        if (!message.timeToDeath) {
+            return;
+        }
+
+        const die = () => message.died = true;
+
+        if (message.timeToDeath <= 0) {
+           die();
+        } else {
+           setTimeout(die, message.timeToDeath);
+        }
     }
 }
