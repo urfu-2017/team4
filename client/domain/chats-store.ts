@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { action, computed, observable, runInAction } from 'mobx';
 
 import RPC from '../utils/rpc-client';
 import { Events } from '../../shared/events';
@@ -89,11 +89,13 @@ class ChatsStore {
 
     public async leave(chat: ChatModel) {
         await chat.removeMember(usersStore.currentUser);
-        this.chatsMap.delete(chat.id);
 
-        if (this.currentChat === chat) {
-            this.currentChat = null;
-        }
+        runInAction(() => {
+            this.chatsMap.delete(chat.id);
+            if (this.currentChat === chat) {
+                this.currentChat = null;
+            }
+        });
     }
 
     private onNewMessage = async message => {
@@ -123,6 +125,7 @@ class ChatsStore {
         }
     };
 
+    @action
     private onRemoveMember = async ({ userId, chatId }) => {
         const chat = this.chatsMap.get(chatId);
 
