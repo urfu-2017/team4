@@ -35,7 +35,7 @@ class Profile extends React.Component<{}, State> {
     constructor(props) {
         super(props);
 
-        this.state = { ...UsersStore.currentUser };
+        this.state = { ...UsersStore.currentUser } as any;
     }
 
     public onChangeFirstName = event => {
