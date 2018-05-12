@@ -28,10 +28,10 @@ class ApplicationStore {
             await Promise.all(chats.map(chat => chatsStore.saveChat(chat, isOffline)));
 
             this.setOffline(false);
-            this.setLoaded(false);
+            this.setLoaded({ requireAuth: false });
         } catch (error) {
             if (error.message === 'AUTH_ERROR') {
-                this.setLoaded(true);
+                this.setLoaded({ requireAuth: true });
             }
 
             uiStore.setToast('Произошла критическая ошибка');
@@ -39,7 +39,7 @@ class ApplicationStore {
     }
 
     @action
-    private setLoaded(requireAuth: boolean) {
+    private setLoaded({ requireAuth }: { requireAuth: boolean }) {
         this.isAppLoaded = true;
         this.isAuthRequired = requireAuth;
     }
