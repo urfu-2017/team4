@@ -27,7 +27,7 @@ class UserItem extends React.Component<Props> {
                 className={`${b({ selected, selectable })} ${this.props.className}`}
                 onClick={this.onClick}
             >
-                <img src={avatar || ''} alt="Аватар" className={b('avatar')} />
+                <img src={avatar || ''} alt="" className={b('avatar')} />
                 <div className={b('info')}>
                     <span className={b('name')}>{displayName}</span>
                     <span className={b('login')}>{`@${username}`}</span>

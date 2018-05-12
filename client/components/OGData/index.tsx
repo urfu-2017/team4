@@ -24,7 +24,7 @@ class OGData extends React.Component<Props> {
             <section className={b({ 'in-message': true })}>
                 {image && (
                     <a href={url} target="_blank" className={b('image-link')}>
-                        <img className={b('image')} src={image} alt={title} />
+                        <img className={b('image')} src={image} alt="" />
                     </a>
                 )}
                 <div className={b('info')}>

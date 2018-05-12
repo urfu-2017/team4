@@ -31,7 +31,7 @@ class SelectChat extends React.Component<RouteComponentProps<{}>> {
                 <div className={b('list')}>
                     {this.chats.map(chat => (
                         <div key={chat.id} className={b('chat')} data-chat={chat.id} onClick={this.sendMessage}>
-                            <img className={b('chat-avatar')} src={chat.avatar} alt={chat.name} />
+                            <img className={b('chat-avatar')} src={chat.avatar} alt="" />
                             <div className={b('chat-name')}>{chat.displayName}</div>
                         </div>
                     ))}

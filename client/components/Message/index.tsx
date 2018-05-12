@@ -71,7 +71,7 @@ class Message extends React.Component<Props> {
                         onClick={this.showUserProfile}
                         className={b('avatar')}
                         src={avatar}
-                        alt={displayName}
+                        alt=""
                         title={displayName}
                     />
                     <span className={b('date')}>

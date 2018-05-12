@@ -34,7 +34,7 @@ class FullUserInfo extends React.Component<Props, State> {
         return (
             <section className={b('data')}>
                 <div className={b('left')}>
-                    <img src={avatar} alt="Аватар" className={b('avatar')} />
+                    <img src={avatar} alt="" className={b('avatar')} />
                     <div className={b('info')}>
                         <span className={b('name')}>{displayName}</span>
                         <span className={b('username')}>{`@${username}`}</span>

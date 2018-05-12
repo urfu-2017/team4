@@ -39,7 +39,7 @@ class ChatItem extends React.Component<Props> {
 
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>
-                <img src={chat.avatar} alt="Аватар" className={b('dialog-image')} />
+                <img src={chat.avatar} alt="" className={b('dialog-image')} />
                 <div className={b('dialog-body')}>
                     <div className={b('dialog-name')} title={chat.displayName}>
                         {chat.displayName}

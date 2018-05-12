@@ -81,7 +81,7 @@ class Profile extends React.Component<{}, State> {
                     accept="image/png, image/jpeg"
                     disabled={isFetching || this.isProcessing}
                 >
-                    <img className={b('avatar')} src={avatar} alt="Аватар" />
+                    <img className={b('avatar')} src={avatar} alt="" />
                     <div className={b('hover-indicator')} />
                     {(isFetching || this.isProcessing) && (
                         <div className={b('loading-overlay')}>
