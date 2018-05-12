@@ -63,10 +63,13 @@ class Reactions extends React.Component<Props> {
         );
     }
 
-    @action private onShowPicker = () => (this.showPicker = true);
+    @action
+    private onShowPicker = () => this.showPicker = true;
 
-    @action private onHidePicker = () => (this.showPicker = false);
+    @action
+    private onHidePicker = () => this.showPicker = false;
 
+    @action
     private onClick = smile => {
         this.props.onClick(smile);
         this.showPicker = false;

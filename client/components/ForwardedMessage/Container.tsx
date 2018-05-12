@@ -3,7 +3,7 @@ import b_ from 'b_';
 import { observer } from 'mobx-react';
 
 import CloseIcon from './CloseIcon';
-import ForwardedIcon from '../Message/ForwardMessageIcon';
+import ForwardedIcon from '../Message/ReplyIcon';
 import usersStore from '../../domain/users-store';
 import uiStore from '../../domain/ui-store';
 

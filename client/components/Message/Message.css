@@ -129,6 +129,8 @@
 }
 
 .message__actions {
+    display: flex;
+    flex-direction: column;
     margin-left: 10px;
 }
 
@@ -154,13 +156,17 @@
     color: #74669b;
 }
 
+.message__action_type_forward {
+    transform: rotateY(-180deg);
+}
+
 .message:hover .message__action,
-.message_selected .message__action_type_forward {
+.message_selected .message__action_type_reply {
     visibility: visible;
     pointer-events: initial;
 }
 
-.message_selected .message__action_type_forward > .message__icon {
+.message_selected .message__action_type_reply > .message__icon {
     color: #74669b;
 }
 

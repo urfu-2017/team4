@@ -25,7 +25,7 @@ class ChatWrapper extends React.Component<Props> {
         const newChatId = nextProps.match.params.id;
 
         if (oldChatId !== newChatId) {
-            // TODO: подумать как переслать сообщение в другой чат...
+            UIStore.setForwardMessage(null);
             this.setCurrentChat(newChatId);
         }
     }

@@ -4,7 +4,7 @@ interface Props {
     className?: string;
 }
 
-const ForwardMessageIcon: React.SFC<Props> = ({ className = '' }) => (
+const ReplyIcon: React.SFC<Props> = ({ className = '' }) => (
     <svg className={className} viewBox="0 0 16 16">
         <path
             fill="currentColor"
@@ -14,4 +14,4 @@ const ForwardMessageIcon: React.SFC<Props> = ({ className = '' }) => (
     </svg>
 );
 
-export default ForwardMessageIcon;
+export default ReplyIcon;

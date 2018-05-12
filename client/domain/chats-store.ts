@@ -57,7 +57,7 @@ class ChatsStore {
             await chatModel.restore();
         } else {
             chatModel = new ChatModel(chat);
-            chatModel.members.map(user => usersStore.saveUser(user, force));
+            chatModel.members = chatModel.members.map(user => usersStore.saveUser(user, force));
             await chatModel.join();
         }
 

@@ -5,7 +5,7 @@ import b_ from 'b_';
 
 import OGData from '../OGData';
 import Reactions from '../Reactions';
-import ForwardMessageIcon from './ForwardMessageIcon';
+import ReplyIcon from './ReplyIcon';
 
 import { APP_URL } from '../../config';
 import uiStore from '../../domain/ui-store';
@@ -59,11 +59,10 @@ class Message extends React.Component<Props> {
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user.avatar;
 
-        const isSelected = uiStore.forwardMessage === this.props.message;
         const isMine = this.user.id === usersStore.currentUser.id;
         const isReal = !!createdAt;
 
-        const mods = { mine: isMine, chain: this.props.isChain, selected: isSelected, sending: !isReal };
+        const mods = { mine: isMine, chain: this.props.isChain, sending: !isReal };
 
         return (
             <div className={b(mods)}>
@@ -99,11 +98,18 @@ class Message extends React.Component<Props> {
             <div className={b('actions')}>
                     <span
                         onClick={this.onSetReplyMessage}
-                        className={b('action', { type: 'forward' })}
+                        className={b('action', { type: 'reply' })}
                         title="Ответить"
                     >
-                        <ForwardMessageIcon className={b('icon')}/>
+                        <ReplyIcon className={b('icon')}/>
                     </span>
+                    <span
+                        onClick={this.onSetForwardMessage}
+                        className={b('action', { type: 'forward' })}
+                        title="Переслать"
+                    >
+                            <ReplyIcon className={b('icon')}/>
+                        </span>
             </div>
         );
     }
@@ -136,7 +142,12 @@ class Message extends React.Component<Props> {
             return;
         }
 
-        uiStore.setForwardMessage(this.props.message. true);
+        uiStore.setForwardMessage(this.props.message, true);
+    }
+
+    private onSetForwardMessage = () => {
+        uiStore.setForwardMessage(this.props.message, false);
+        uiStore.togglePopup('selectChat')();
     }
 }
 

@@ -42,7 +42,10 @@ class RPCClient {
             this.socket.on('rpc', this.rpcListener);
 
             this.socket.on('disconnect', () => {
-                window.location.reload(true);
+                // Если произошёл выход из приложения
+                if (navigator.onLine) {
+                    window.location.reload(true);
+                }
             });
 
             this.socket.connect();
@@ -55,6 +58,7 @@ class RPCClient {
     public request = (method: keyof Methods, params?: any, timeout = 5000): Promise<any> =>
         new Promise((resolve, reject) => {
             if (!navigator.onLine) {
+                this.socket.disconnect();
                 return reject();
             }
 

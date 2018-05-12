@@ -8,8 +8,8 @@ import UsersStore from './users-store';
 import ChatsStore from './chats-store';
 
 export default class ChatModel {
-    @observable.shallow public messages = [];
-    @observable.shallow public sendingMessages = [];
+    @observable public messages = [];
+    @observable public sendingMessages = [];
     @observable public isFetching: boolean = false;
 
     @observable public hasNotification: boolean = false;

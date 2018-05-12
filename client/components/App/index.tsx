@@ -16,6 +16,7 @@ import uiStore from '../../domain/ui-store';
 
 import './App.css';
 import ChatInvite from '../ChatInvite/index';
+import SelectChat from '../ForwardedMessage/SelectChat';
 
 const stubComponent: React.SFC = () => <div />;
 
@@ -52,6 +53,7 @@ class App extends React.Component {
                 {uiStore.displays.contacts && <Contacts />}
                 {uiStore.displays.profile && <ProfileSettings />}
                 {uiStore.displays.userInfo && <ProfileView />}
+                {uiStore.displays.selectChat && <SelectChat/>}
             </React.Fragment>
         );
     }

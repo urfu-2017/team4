@@ -8,8 +8,8 @@ class UIStore {
 
     @observable public popupStack = [];
 
-    @observable.ref public forwardMessage = null;
-    @observable.ref public isReplyForward = false;
+    @observable public forwardMessage = null;
+    @observable public isReplyForward = false;
 
     @observable
     public displays = {
@@ -18,7 +18,7 @@ class UIStore {
         chatInfo: false,
         userInfo: false,
         createRoom: false,
-        chooseDialog: false,
+        selectChat: false,
     };
 
     @computed
@@ -27,7 +27,7 @@ class UIStore {
     }
 
     @action
-    public setForwardMessage(message: any, isReply = false) {
+    public setForwardMessage(message: any, isReply: boolean = false) {
         this.forwardMessage = message;
         this.isReplyForward = message && isReply;
     }
@@ -57,7 +57,7 @@ class UIStore {
 
     public togglePopup = name =>
         action(() => {
-            this.userInfo = null; // FIXME: Костыль (переписать логику работы с попами)
+            this.userInfo = null;
             this.displays[name] = !this.displays[name];
         });
 

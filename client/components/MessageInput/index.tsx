@@ -129,7 +129,7 @@ class MessageInput extends React.Component {
     }
 
     private renderForwardedContainer() {
-        if (!uiStore.forwardMessage) {
+        if (!uiStore.forwardMessage || uiStore.displays.selectChat) {
             return null;
         }
 
