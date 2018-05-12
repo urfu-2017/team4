@@ -29,6 +29,12 @@
     cursor: pointer;
 }
 
+.header__chat-settings svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+}
+
 .header__user-name {
     font-size: 16px;
     margin-left: auto;

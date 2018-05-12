@@ -29,7 +29,39 @@ export default class ChatModel {
         return this.messages[this.messages.length - 1] || null;
     }
 
+    @computed
+    public get displayName(): string {
+        return this.otherUser ? this.otherUser.displayName : this.name;
+    }
+
+    @computed
+    public get avatar() {
+        if (this.otherUser) {
+            return this.otherUser.avatar;
+        }
+
+        const letters = this.displayName
+            .split(' ')
+            .slice(0, 2)
+            .map(word => word[0])
+            .join('');
+        return `https://via.placeholder.com/64x64/74669b/ffffff?text=${letters}`;
+    }
+
     private queue: Promise<any> = Promise.resolve();
+
+    @computed
+    private get otherUser(): UserModel {
+        if (this.type === 'dialog') {
+            const currentUserId = UsersStore.currentUser.id;
+            const otherUser = this.members.filter(member => member.id !== currentUserId)[0];
+            const user = UsersStore.users.get(otherUser ? otherUser.id : currentUserId);
+
+            return user;
+        }
+
+        return null;
+    }
 
     constructor({ id, name, members, owner, type }) {
         this.id = id;

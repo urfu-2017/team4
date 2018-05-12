@@ -7,7 +7,6 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import Popup from '../Popup';
 import uiStore from '../../domain/ui-store';
 import chatsStore from '../../domain/chats-store';
-import usersStore from '../../domain/users-store';
 
 import './SelectChat.css';
 import Button from '../Button';
@@ -22,28 +21,7 @@ class SelectChat extends React.Component<RouteComponentProps<{}>> {
 
     @computed
     private get chats() {
-        const chats = chatsStore.chats.map(chat => {
-            let name = '';
-            let avatar = '';
-
-            if (chat.type === 'dialog') {
-                // TODO: Вынести в модель чата
-                const currentUserId = usersStore.currentUser.id;
-                const otherUser = chat.members.filter(member => member.id !== currentUserId)[0];
-                const user = usersStore.users.get(otherUser ? otherUser.id : currentUserId);
-
-                name = user.displayName;
-                avatar = user.avatar;
-            } else {
-                const letters = chat.name.split(' ').slice(0, 2).map(word => word[0]).join('');
-                name = chat.name;
-                avatar = `https://via.placeholder.com/64x64/74669b/ffffff?text=${letters}`;
-            }
-
-            return { name, avatar, id: chat.id };
-        });
-
-        return chats.sort((c1, c2) => c1.name.localeCompare(c2.name));
+        return chatsStore.chats.sort((c1, c2) => c1.name.localeCompare(c2.name));
     }
 
     public render(): React.ReactNode {
@@ -54,7 +32,7 @@ class SelectChat extends React.Component<RouteComponentProps<{}>> {
                     {this.chats.map(chat => (
                         <div key={chat.id} className={b('chat')} data-chat={chat.id} onClick={this.sendMessage}>
                             <img className={b('chat-avatar')} src={chat.avatar} alt={chat.name} />
-                            <div className={b('chat-name')}>{chat.name}</div>
+                            <div className={b('chat-name')}>{chat.displayName}</div>
                         </div>
                     ))}
                 </div>
