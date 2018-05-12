@@ -6,6 +6,7 @@ import RPC from '../utils/rpc-client';
 import UserModel from './user-model';
 import UsersStore from './users-store';
 import ChatsStore from './chats-store';
+import UIStore from './ui-store';
 
 export default class ChatModel {
     @observable public messages = [];
@@ -136,7 +137,7 @@ export default class ChatModel {
                 this.setFetching(false);
             });
         } catch (e) {
-            // TODO: Use logger
+            UIStore.setToast('Не удалось получить сообщения');
             this.setFetching(false);
         }
     }

@@ -4,6 +4,7 @@ import RPC from '../utils/rpc-client';
 import usersStore from './users-store';
 import contactsStore from './contacts-store';
 import chatsStore from './chats-store';
+import uiStore from './ui-store';
 
 class ApplicationStore {
     @observable public isAppLoaded = false;
@@ -33,8 +34,7 @@ class ApplicationStore {
                 this.setLoaded(true);
             }
 
-            // TODO: Use logger
-            console.error(error);
+            uiStore.setToast('Произошла критическая ошибка');
         }
     }
 

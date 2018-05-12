@@ -66,7 +66,7 @@ class ChatInfo extends React.Component {
                         <span className={b('action')} onClick={this.enableAddMode}>
                             Добавить участника
                         </span>
-                        <CopyToClipboard text={ChatInfo.getInviteLink(chat.id)}>
+                        <CopyToClipboard onCopy={this.onCopy} text={ChatInfo.getInviteLink(chat.id)}>
                             <span className={b('action')}>Скопировать invite-ссылку</span>
                         </CopyToClipboard>
                         <span onClick={this.leaveChat} className={b('action', { danger: true })}>
@@ -85,6 +85,8 @@ class ChatInfo extends React.Component {
             </React.Fragment>
         );
     }
+
+    private onCopy = () => uiStore.setToast('Скопировано', 1000);
 
     @action
     private enableAddMode = () => {

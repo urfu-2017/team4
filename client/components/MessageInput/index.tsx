@@ -50,7 +50,6 @@ class MessageInput extends React.Component {
             return;
         }
 
-        // TODO: Обработать неудачу
         await ChatsStore.currentChat.sendMessage(text, null);
         this.setMessage('');
         this.messageInput.focus();

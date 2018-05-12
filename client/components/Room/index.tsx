@@ -9,7 +9,7 @@ import Button from '../Button';
 import UsersList from '../UsersList';
 import Popup from '../Popup';
 
-import UiStore from '../../domain/ui-store';
+import uiStore from '../../domain/ui-store';
 import contactsStore from '../../domain/contacts-store';
 import chatsStore from '../../domain/chats-store';
 import usersStore from '../../domain/users-store';
@@ -21,7 +21,7 @@ const b = b_.with('createRoom');
 @observer
 class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     private static closePopup() {
-        UiStore.togglePopup('createRoom')();
+        uiStore.togglePopup('createRoom')();
     }
 
     @observable private name: string = '';
@@ -106,7 +106,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         }
 
         const chat = await chatsStore.createChat('room', this.members, this.name.trim());
-
+        uiStore.setToast('Групповой чат создан', 1000);
         this.props.history.push(`/chats/${chat.id}`);
         CreateRoom.closePopup();
     };

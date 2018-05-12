@@ -56,7 +56,7 @@ class FullUserInfo extends React.Component<Props, State> {
                         Добавить в контакты
                     </span>
                 ) : (
-                    <CopyToClipboard text={FullUserInfo.getInviteLink(username)}>
+                    <CopyToClipboard onCopy={this.onCopy} text={FullUserInfo.getInviteLink(username)}>
                         <span className={b('action')}>Скопировать ссылку на контакт</span>
                     </CopyToClipboard>
                 )}
@@ -66,6 +66,8 @@ class FullUserInfo extends React.Component<Props, State> {
             </div>
         );
     };
+
+    private onCopy = () => uiStore.setToast('Скопировано', 1000);
 
     private addToContact = () => {
         contactsStore.add(this.props.user);

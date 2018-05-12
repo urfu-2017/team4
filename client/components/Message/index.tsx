@@ -115,19 +115,19 @@ class Message extends React.Component<Props> {
     }
 
     private onClickReaction = async smile => {
+        const { reactions, id } = this.props.message;
+        const userId = usersStore.currentUser.id;
+
+        const reaction = reactions.find(rcn => rcn.reaction === smile && rcn.userId === userId);
+
         try {
-            const { reactions, id } = this.props.message;
-            const userId = usersStore.currentUser.id;
-
-            const reaction = reactions.find(rcn => rcn.reaction === smile && rcn.userId === userId);
-
             if (reaction) {
                 await chatsStore.currentChat.removeReaction(reaction.id, reaction.messageId);
             } else {
                 await chatsStore.currentChat.addReaction(smile, id);
             }
         } catch (e) {
-            // TODO: Use logger
+            uiStore.setToast('Не удалось среагировать на сообщение');
         }
     };
 

@@ -5,6 +5,7 @@ import b_ from 'b_';
 import Popup from '../Popup';
 import UsersList from '../UsersList';
 
+import uiStore from '../../domain/ui-store';
 import usersStore from '../../domain/users-store';
 import contactsStore from '../../domain/contacts-store';
 import ChatModel from '../../domain/chat-model';
@@ -50,6 +51,7 @@ class AddMember extends React.Component<Props> {
 
         if (user) {
             await this.props.chat.addMember(user);
+            uiStore.setToast('Участник добавлен', 1000);
             this.props.closeHandler();
         }
     };

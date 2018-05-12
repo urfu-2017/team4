@@ -11,6 +11,8 @@ class UIStore {
     @observable public forwardMessage = null;
     @observable public isReplyForward = false;
 
+    @observable public error: string = '';
+
     @observable
     public displays = {
         contacts: false,
@@ -22,9 +24,11 @@ class UIStore {
     };
 
     @computed
-    get topPopup() {
+    public get topPopup() {
         return this.popupStack[this.popupStack.length - 1] || null;
     }
+
+    private errorTimer: any;
 
     @action
     public setForwardMessage(message: any, isReply: boolean = false) {
@@ -72,6 +76,19 @@ class UIStore {
         }
 
         this.isMenuShown = false;
+    }
+
+    @action
+    public setToast(error: string, timeout = 3000) {
+        this.error = error;
+        clearTimeout(this.errorTimer);
+        this.errorTimer = setTimeout(this.resetError, timeout + 400);
+    }
+
+    @action.bound
+    public resetError() {
+        clearTimeout(this.errorTimer);
+        this.error = '';
     }
 }
 

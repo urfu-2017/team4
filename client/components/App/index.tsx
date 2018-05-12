@@ -3,6 +3,7 @@ import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import Notificator from '../Notificator';
+import Toast from '../Toast';
 import ChatWrapper from '../Chat/ChatWrapper';
 import Contacts from '../Contacts';
 import Chats from '../Chats';
@@ -40,6 +41,7 @@ class App extends React.Component {
                     </div>
                     {this.renderModals()}
                     <Notificator />
+                    <Toast/>
                 </div>
             </HashRouter>
         );

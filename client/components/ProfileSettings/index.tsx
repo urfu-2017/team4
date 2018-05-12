@@ -51,9 +51,14 @@ class Profile extends React.Component<{}, State> {
     };
 
     public saveUser = async () => {
-        await UsersStore.updateCurrentUser(this.state);
-        this.uploadStore.clear();
-        uiStore.closeAllPopups();
+        try {
+            await UsersStore.updateCurrentUser(this.state);
+            this.uploadStore.clear();
+
+            uiStore.setToast('Профиль обновлён', 1000);
+        } catch (e) {
+            uiStore.setToast('Не удалось обновить профиль')
+        }
     };
 
     public render() {
