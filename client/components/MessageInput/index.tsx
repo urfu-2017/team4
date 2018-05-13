@@ -31,7 +31,6 @@ class MessageInput extends React.Component {
     @observable private showSmiles: boolean = false;
     @observable private message: string = '';
 
-
     private messageInput: HTMLTextAreaElement;
     private imageCaptionInput: HTMLInputElement;
     private dropzone: ReactDropzone;
@@ -78,9 +77,9 @@ class MessageInput extends React.Component {
                         onKeyPress={this.onKeyUp}
                         onChange={this.onChangeText}
                         value={this.message}
-                        inputRef={el => this.messageInput = el /* tslint:disable-line */}
+                        inputRef={el => (this.messageInput = el) /* tslint:disable-line */}
                     />
-                    <Recognition onChange={this.onSpeech}/>
+                    <Recognition onChange={this.onSpeech} />
                     <div className={b('smiles')}>
                         <Button onClick={this.onShowSmiles} className={b('button')}>
                             <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
@@ -134,7 +133,7 @@ class MessageInput extends React.Component {
 
         return (
             <div className={b('forwarded')}>
-                <ForwardedContainer message={uiStore.forwardMessage}/>
+                <ForwardedContainer message={uiStore.forwardMessage} />
             </div>
         );
     }
@@ -160,32 +159,39 @@ class MessageInput extends React.Component {
     private onDrop = (accepted: File[]): void => {
         let resize;
 
+        if (accepted.length === 0) {
+            uiStore.setToast('Формат загружаемого файла не поддерживается');
+            return;
+        }
+
         if (accepted[0].type === 'image/svg+xml') {
             resize = Promise.resolve(accepted[0]);
         } else {
             resize = resizeImage(accepted[0], 720);
         }
 
-        resize.then(file =>
-            getImageFromFile(file).then(image => {
-                this.uploadStore.upload(file).then(({ path }) => {
-                    this.attachment = `${BASE_URL}${path}`;
-                });
+        resize
+            .then(file =>
+                getImageFromFile(file).then(image => {
+                    this.uploadStore.upload(file).then(({ path }) => {
+                        this.attachment = `${BASE_URL}${path}`;
+                    });
 
-                if (this.preview) {
-                    return;
-                }
+                    if (this.preview) {
+                        return;
+                    }
 
-                runInAction(() => {
-                    this.preview = image;
-                });
-            })
-        );
+                    runInAction(() => {
+                        this.preview = image;
+                    });
+                })
+            )
+            .catch(() => uiStore.setToast('Загрузка файла не удалась'));
     };
 
     private onSpeech = (text: string) => {
         this.setMessage(`${this.message} ${text}`.trim());
-    }
+    };
 
     private onChangeText = (event: React.FormEvent<HTMLTextAreaElement>) => {
         this.setMessage(event.currentTarget.value);
