@@ -6,8 +6,9 @@ self.addEventListener('notificationclick', function(event) {
     event.waitUntil(clients.matchAll({ type: 'window' }).then(function(clientList) {
         for (var i = 0; i < clientList.length; i++) {
             var client = clientList[i];
+            var shouldFocus = client.url.indexOf(url) === -1 || !client.focused;
 
-            if (client.url.indexOf(url) === -1 && 'navigate' in client) {
+            if (shouldFocus && 'navigate' in client) {
                 return client.focus().then(client => client.navigate(url));
             }
         }

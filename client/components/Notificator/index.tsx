@@ -55,7 +55,7 @@ class Notificator extends React.Component {
                 const icon = chat.avatar;
                 const data = { chatId: chat.id };
 
-                const options: any = { icon, body, vibrate: [400], tag: chat.id, renotify: true, data };
+                const options: any = { icon, body, vibrate: [800], tag: chat.id, renotify: true, data };
 
                 worker.showNotification(`Новое сообщение от ${user.displayName}`, options)
                     .then(this.vibrate);
@@ -63,7 +63,8 @@ class Notificator extends React.Component {
         });
     }
 
-    private vibrate = () => navigator.vibrate && navigator.vibrate(800);
+    private vibrate = () => setTimeout(() =>
+        navigator.vibrate && navigator.vibrate(500), 500)
 }
 
 export default Notificator;
