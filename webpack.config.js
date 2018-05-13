@@ -103,6 +103,7 @@ module.exports = {
         compress: true,
         watchContentBase: true,
         historyApiFallback: true,
+        overlay: true,
         clientLogLevel: 'none',
         contentBase: clientSrcPath,
         host: '0.0.0.0',
