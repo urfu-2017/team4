@@ -46,6 +46,9 @@ class DropdownMenu extends React.Component {
                 <span className={b('item')} onClick={this.onProfileClick}>
                     Профиль
                 </span>
+                <span className={b('item')} onClick={uiStore.toggleTheme}>
+                    Сменить тему
+                </span>
                 <span className={b('item')} onClick={this.onExitClick}>
                     Выйти
                 </span>

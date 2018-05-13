@@ -1,11 +1,14 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import classNames from 'classnames';
 import b_ from 'b_';
+
 import './Button.css';
 
 const modifiers = {
     main: { theme: 'main' },
-    heading: { theme: 'heading' }
+    heading: { theme: 'heading' },
+    dark: { theme: 'isDark '}
 };
 
 const b = b_.with('button');
@@ -21,7 +24,7 @@ interface Props {
 const Button: React.SFC<Props> = observer(
     ({ children, onClick, className = '', type = 'main', disabled, tabIndex }) => (
         <button
-            className={`${className} ${b(modifiers[type])}`}
+            className={classNames(className, b(modifiers[type]))}
             onClick={onClick}
             disabled={disabled}
             tabIndex={tabIndex}
