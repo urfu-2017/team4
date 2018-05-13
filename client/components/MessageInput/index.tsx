@@ -14,6 +14,7 @@ import UploadPreview from './UploadPreview';
 import SendIcon from './SendIcon';
 import AttachIcon from './AttachIcon';
 import EmojiIcon from './EmojiIcon';
+import MapIcon from './MapIcon';
 import Dropzone from '../Dropzone';
 
 import uiStore from '../../domain/ui-store';
@@ -22,6 +23,8 @@ import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 import { withOutsideClickHandler } from '../../hocs/withOutsideClickHandler';
 import { BASE_URL } from '../../config';
+
+import getMapUrl from '../../utils/maps-url';
 
 import './MessageInput.css';
 const b = b_.with('message-input');
@@ -84,9 +87,18 @@ class MessageInput extends React.Component {
             <section className={b({ dark })}>
                 {this.renderForwardedContainer()}
                 <div className={b('container')}>
-                    <Button className={b('button', { dark })} onClick={this.dropzoneOpen}>
+                    <Button title="Прикрепить фотографию" className={b('button', { dark })} onClick={this.dropzoneOpen}>
                         <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
                     </Button>
+                    {navigator.geolocation && (
+                        <Button
+                            onClick={this.onClickLocation}
+                            title="Отправить своё местоположение"
+                            className={`${b('button')} ${b('button_map')}`}
+                        >
+                            <MapIcon className={`${b('icon')}`} />
+                        </Button>
+                    )}
                     <Textarea
                         maxRows={6}
                         style={{ padding: '10px' }}
@@ -157,6 +169,18 @@ class MessageInput extends React.Component {
             </div>
         );
     }
+
+    private onClickLocation = () => navigator.geolocation
+        .getCurrentPosition(this.onSendLocation, this.onErrorSendLocation);
+
+    private onSendLocation = location => {
+        const { latitude, longitude } = location.coords;
+        const src = getMapUrl(latitude, longitude);
+
+        ChatsStore.currentChat.sendMessage('', src);
+    }
+
+    private onErrorSendLocation = () => uiStore.setToast('Не удалось получить ваше местоположение');
 
     private onImageSend = async () => {
         const text = this.imageCaptionInput.value.trim();

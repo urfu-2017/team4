@@ -19,24 +19,21 @@ interface Props {
     disabled?: boolean;
     onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
     tabIndex?: number;
+    title?: string;
 }
 
-const Button: React.SFC<Props> = ({
-    children,
-    onClick,
-    className = '',
-    type = 'main',
-    disabled,
-    tabIndex
-}) => (
-    <button
-        className={classNames(className, b(modifiers[type]))}
-        onClick={onClick}
-        disabled={disabled}
-        tabIndex={tabIndex}
-    >
-        {children}
-    </button>
+const Button: React.SFC<Props> = observer(
+    ({ children, onClick, className = '', type = 'main', disabled, tabIndex, title }) => (
+        <button
+            className={classNames(className, b(modifiers[type]))}
+            onClick={onClick}
+            disabled={disabled}
+            tabIndex={tabIndex}
+            title={title}
+        >
+            {children}
+        </button>
+    )
 );
 
 export default observer(Button);

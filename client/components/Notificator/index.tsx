@@ -35,10 +35,10 @@ class Notificator extends React.Component {
     private notify = message => {
         const currentChat = chatsStore.currentChat;
         const chat = chatsStore.chatsMap.get(message.chatId);
+        const isCurrentUser = usersStore.currentUser.id === message.senderId;
 
-        if (this.isActiveWindow && currentChat && currentChat.id === message.chatId) {
-            return;
-        }
+        if (isCurrentUser) return;
+        if (this.isActiveWindow && currentChat && currentChat.id === message.chatId) return;
 
         this.showNotification(message, chat);
     };
