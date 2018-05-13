@@ -139,6 +139,7 @@ export default class ChatModel {
                 this.setFetching(false);
             });
         } catch (e) {
+            console.error(e);
             UIStore.setToast('Не удалось получить сообщения');
             this.setFetching(false);
         }
@@ -210,7 +211,6 @@ export default class ChatModel {
 
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
-        this.configureDeath(message);
         this.addMessage(message);
 
         if (ChatsStore.currentChat !== this) {
@@ -225,6 +225,7 @@ export default class ChatModel {
 
     @action
     private addMessage(message: any, tempId?: string) {
+        this.configureDeath(message);
         if (tempId) {
             this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== tempId);
         }
@@ -241,7 +242,10 @@ export default class ChatModel {
             return;
         }
 
-        const die = () => message.died = true;
+        const die = () => {
+            this.messages = this.messages.filter(msg => msg.id !== message.id);
+            this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== message.id);
+        };
 
         if (message.timeToDeath <= 0) {
            die();

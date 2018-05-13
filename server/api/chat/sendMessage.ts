@@ -33,8 +33,8 @@ export default async function sendMessage(request: Request<Params>, response: Re
         deathTime: new Date(new Date().getTime() + timeToDeath)
     });
 
-    message.timeToDeath = timeToDeath;
+    const messageWithTimeToDeath = {...message.dataValues, timeToDeath};
 
-    response.notification(chatId, Events.NEW_MESSAGE, message);
-    response.success(message);
+    response.notification(chatId, Events.NEW_MESSAGE, messageWithTimeToDeath);
+    response.success(messageWithTimeToDeath);
 }
