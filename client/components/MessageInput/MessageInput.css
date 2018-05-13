@@ -3,7 +3,7 @@
     background: #fff;
 }
 
-.message-input_theme_dark {
+.message-input_dark {
     background: #373b3e;
 }
 
@@ -32,9 +32,9 @@
     transition: 0.2s box-shadow ease-in-out;
 }
 
-.message-input__message_theme_dark {
+.message-input__message_dark {
     background: #373b3e;
-    color: #808080;
+    color: #a8b5be;
 }
 
 .message-input__message::placeholder {
@@ -88,7 +88,7 @@
     color: #999;
 }
 
-.message-input__button_theme_dark {
+.message-input__button_dark {
     background: #373b3e;
 }
 

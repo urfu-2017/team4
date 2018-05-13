@@ -28,7 +28,7 @@
     color: #74669b;
 }
 
-.message__date_theme_dark {
+.message__date_dark {
     color: #a8b5be;
 }
 
@@ -45,9 +45,13 @@
     position: relative;
 }
 
-.message__body_theme_dark {
+.message__body_dark {
     background: #52575c;
     color: #eee;
+}
+
+.message__body_dark a {
+    color: cyan;
 }
 
 .message__text {

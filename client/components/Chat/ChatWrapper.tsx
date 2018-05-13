@@ -2,6 +2,7 @@ import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
+import b from 'b_';
 
 import Chat from '../Chat';
 import MessageInput from '../MessageInput';
@@ -9,7 +10,7 @@ import './Chat.css';
 
 import ChatsStore from '../../domain/chats-store';
 import ApplicationStore from '../../domain/application-store';
-import UIStore from '../../domain/ui-store';
+import uiStore from '../../domain/ui-store';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -25,7 +26,7 @@ class ChatWrapper extends React.Component<Props> {
         const newChatId = nextProps.match.params.id;
 
         if (oldChatId !== newChatId) {
-            UIStore.setForwardMessage(null);
+            uiStore.setForwardMessage(null);
             this.setCurrentChat(newChatId);
         }
     }
@@ -51,8 +52,10 @@ class ChatWrapper extends React.Component<Props> {
             return <Redirect to={'/'} />;
         }
 
+        const dark = uiStore.isDark;
+
         return (
-            <div className="chat-wrapper">
+            <div className={b('chat-wrapper', { dark })}>
                 <Chat chat={this.chat} />
                 <MessageInput key={this.chat.id} />
                 {ApplicationStore.isOffline && this.renderOfflineWarning()}

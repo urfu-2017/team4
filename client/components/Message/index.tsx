@@ -58,6 +58,7 @@ class Message extends React.Component<Props> {
         const { from, text, createdAt, attachment, reactions } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user.avatar;
+        const dark = uiStore.isDark;
 
         const isMine = this.user.id === usersStore.currentUser.id;
         const isReal = !!createdAt;
@@ -74,11 +75,11 @@ class Message extends React.Component<Props> {
                         alt=""
                         title={displayName}
                     />
-                    <span className={b('date')}>
+                    <span className={b('date', { dark })}>
                         {isReal ? formatDate(createdAt) : '...'}
                     </span>
                 </div>
-                <div className={b('body')}>
+                <div className={b('body', { dark })}>
                     <div
                         ref={el => (this.messageText = el)}
                         className={b('text')}

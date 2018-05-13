@@ -16,13 +16,13 @@ import AttachIcon from './AttachIcon';
 import EmojiIcon from './EmojiIcon';
 import Dropzone from '../Dropzone';
 
+import uiStore from '../../domain/ui-store';
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 import { BASE_URL } from '../../config';
 
 import './MessageInput.css';
-import uiStore from '../../domain/ui-store';
 const b = b_.with('message-input');
 
 @observer
@@ -62,17 +62,19 @@ class MessageInput extends React.Component {
     };
 
     public render() {
+        const dark = uiStore.isDark;
+
         return (
-            <section className={b()}>
+            <section className={b({ dark })}>
                 {this.renderForwardedContainer()}
                 <div className={b('container')}>
-                    <Button className={b('button')} onClick={this.dropzoneOpen}>
+                    <Button className={b('button', { dark })} onClick={this.dropzoneOpen}>
                         <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
                     </Button>
                     <Textarea
                         maxRows={6}
                         style={{ padding: '10px' }}
-                        className={b('message')}
+                        className={b('message', { dark })}
                         placeholder="Введите сообщение..."
                         onKeyPress={this.onKeyUp}
                         onChange={this.onChangeText}
@@ -81,7 +83,7 @@ class MessageInput extends React.Component {
                     />
                     <Recognition onChange={this.onSpeech} />
                     <div className={b('smiles')}>
-                        <Button onClick={this.onShowSmiles} className={b('button')}>
+                        <Button onClick={this.onShowSmiles} className={b('button', { dark })}>
                             <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
                         </Button>
                         {this.showSmiles && (
@@ -92,7 +94,7 @@ class MessageInput extends React.Component {
                             />
                         )}
                     </div>
-                    <Button className={`${b('button')} ${b('send')}`} onClick={this.onSend}>
+                    <Button className={`${b('button', { dark })} ${b('send')}`} onClick={this.onSend}>
                         <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
                     </Button>
                 </div>
