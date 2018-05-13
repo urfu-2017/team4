@@ -85,7 +85,6 @@ class UsersStore {
     }
 
     public async logout() {
-        await RPC.request('logout');
         RPC.disconnect(true);
         this.clear();
     }

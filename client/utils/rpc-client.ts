@@ -15,7 +15,9 @@ class RPCClient {
 
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
-            reconnection: false,
+            reconnection: true,
+            reconnectionDelay: 500,
+            reconnectionAttempts: 1,
             autoConnect: false,
             transports: ['websocket', 'polling']
         });
@@ -55,7 +57,11 @@ class RPCClient {
         });
 
     public disconnect(isExit: boolean = false) {
-        this.isExit = isExit;
+        if (isExit) {
+            this.isExit = isExit;
+            this.request('logout');
+        }
+
         this.socket.disconnect();
     }
 

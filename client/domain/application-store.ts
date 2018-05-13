@@ -13,7 +13,9 @@ class ApplicationStore {
 
     public constructor() {
         window.addEventListener('offline', () => this.setOffline(true));
-        window.addEventListener('online', () => this.init());
+        window.addEventListener('online', () =>
+            setTimeout(() => this.init(), 500)
+        );
     }
 
     public async init() {
