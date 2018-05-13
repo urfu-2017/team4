@@ -9,6 +9,10 @@
     user-select: none;
 }
 
+.header_theme_dark {
+    background: #373b3e;
+}
+
 @media screen and (max-width: 700px) {
     .header {
         position: relative;
