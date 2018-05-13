@@ -8,11 +8,7 @@ self.addEventListener('notificationclick', function(event) {
             var client = clientList[i];
 
             if (client.url.indexOf(url) === -1 && 'navigate' in client) {
-                return client.navigate(url).then(client => {
-                    if (!client.focused) {
-                        return client.focus();
-                    }
-                });
+                return client.focus().then(client => client.navigate(url));
             }
         }
     }));

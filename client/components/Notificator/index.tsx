@@ -7,6 +7,8 @@ import { Events } from '../../../shared/events';
 
 import usersStore from '../../domain/users-store';
 import chatsStore from '../../domain/chats-store';
+import getPlainText from '../../utils/plain-text';
+import markdown from '../../utils/markdown';
 
 @observer
 class Notificator extends React.Component {
@@ -46,17 +48,22 @@ class Notificator extends React.Component {
             if (permission !== 'granted') return;
 
             navigator.serviceWorker.ready.then(worker => {
-                const user = usersStore.users.get(message.senderId);
-                const body = `${message.attachment || ''} ${message.text}`.trim();
+                const { attachment, text, senderId } = message;
+
+                const user = usersStore.users.get(senderId);
+                const body = `${attachment ? 'Фотография.' : ''} ${getPlainText(markdown(text))}`.trim();
                 const icon = chat.avatar;
                 const data = { chatId: chat.id };
 
                 const options: any = { icon, body, vibrate: [400], tag: chat.id, renotify: true, data };
 
-                worker.showNotification(`Новое сообщение от ${user.displayName}`, options);
+                worker.showNotification(`Новое сообщение от ${user.displayName}`, options)
+                    .then(this.vibrate);
             });
         });
     }
+
+    private vibrate = () => navigator.vibrate && navigator.vibrate(800);
 }
 
 export default Notificator;
