@@ -3,8 +3,6 @@ import b_ from 'b_';
 
 import Input from '../Input/index';
 
-import uiStore from '../../domain/ui-store';
-
 const b = b_.with('users');
 
 interface Props {
@@ -23,7 +21,7 @@ class Search extends React.PureComponent<Props> {
     public render() {
         return (
             <Input
-                className={b('search', { type: this.props.searchType, dark: uiStore.isDark })}
+                className={b('search', { type: this.props.searchType })}
                 type="text"
                 placeholder="Поиск..."
                 onChange={this.onInput}
