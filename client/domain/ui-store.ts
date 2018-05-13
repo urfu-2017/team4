@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx';
 import UserModel from './user-model';
 
 class UIStore {
-    @observable public isDark: boolean = false;
+    @observable public isDark: boolean = localStorage.isDark === 'true';
     @observable public userInfo: UserModel = null;
 
     @observable public isMenuShown: boolean = false;
@@ -34,6 +34,14 @@ class UIStore {
     @action
     public toggleTheme = () => {
         this.isDark = !this.isDark;
+
+        if(localStorage.isDark === undefined) {
+            localStorage.isDark = this.isDark;
+
+            return;
+        }
+
+        localStorage.isDark = localStorage.isDark === 'false';
     };
 
     @action
