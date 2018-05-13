@@ -1,19 +1,25 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 
 import RPC from '../../utils/rpc-client';
 import { Events } from '../../../shared/events';
 
 import usersStore from '../../domain/users-store';
 import chatsStore from '../../domain/chats-store';
-import sound from './notification.mp3';
+import getPlainText from '../../utils/plain-text';
+import markdown from '../../utils/markdown';
 
 @observer
 class Notificator extends React.Component {
-    private audioPlayer: HTMLAudioElement;
+
+    @observable
+    private isActiveWindow: boolean = true;
 
     public componentDidMount() {
         RPC.addListener(Events.NEW_MESSAGE, this.notify);
+        window.addEventListener('focus', () => this.isActiveWindow = true);
+        window.addEventListener('blur', () => this.isActiveWindow = false);
     }
 
     public componentWillUnmount() {
@@ -22,44 +28,42 @@ class Notificator extends React.Component {
 
     public render(): React.ReactNode {
         return (
-            <audio
-                style={{ display: 'none' }}
-                ref={audio => (this.audioPlayer = audio)}
-                src={sound}
-                autoPlay={false}
-                controls={false}
-            />
+            <div style={{ display: 'none' }}/>
         );
     }
 
     private notify = message => {
-        const chat = chatsStore.currentChat;
-        if (chat && chat.id !== message.chatId) {
-            this.playSound();
-            this.showNotification(message, chat);
-        }
-    };
+        const currentChat = chatsStore.currentChat;
+        const chat = chatsStore.chatsMap.get(message.chatId);
 
-    private playSound() {
-        this.audioPlayer.currentTime = 0;
-        this.audioPlayer.play();
-    }
+        if (this.isActiveWindow && currentChat && currentChat.id === message.chatId) {
+            return;
+        }
+
+        this.showNotification(message, chat);
+    };
 
     private showNotification(message, chat) {
         Notification.requestPermission(permission => {
             if (permission !== 'granted') return;
 
             navigator.serviceWorker.ready.then(worker => {
-                const user = usersStore.users.get(message.senderId);
-                const body = `${message.attachment || ''} ${message.text}`.trim();
-                const image = chat.avatar;
+                const { attachment, text, senderId } = message;
 
-                const options: any = { image, body, vibrate: [400], tag: chat.id };
+                const user = usersStore.users.get(senderId);
+                const body = `${attachment ? 'Фотография.' : ''} ${getPlainText(markdown(text))}`.trim();
+                const icon = chat.avatar;
+                const data = { chatId: chat.id };
 
-                worker.showNotification(`Новое сообщение от ${user.displayName}`, options);
+                const options: any = { icon, body, vibrate: [400], tag: chat.id, renotify: true, data };
+
+                worker.showNotification(`Новое сообщение от ${user.displayName}`, options)
+                    .then(this.vibrate);
             });
-        })
+        });
     }
+
+    private vibrate = () => navigator.vibrate && navigator.vibrate(800);
 }
 
 export default Notificator;

@@ -33,6 +33,7 @@ class ChatItem extends React.Component<Props> {
 
     public render() {
         const { chat } = this.props;
+
         const isActiveModifier = { active: ChatsStore.currentChat === chat };
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
         const isAttachment = this.message && this.message.attachment;
@@ -47,8 +48,7 @@ class ChatItem extends React.Component<Props> {
                     {this.message && (
                         <div className={b('last-msg')}>
                             <span className={b('last-msg-mine')}>{isMine && 'Вы: '}</span>
-                            {isAttachment && 'Фотография'}
-                            {getPlainText(markdown(this.message.text))}
+                            {`${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`}
                         </div>
                     )}
                 </div>

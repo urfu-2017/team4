@@ -11,6 +11,8 @@ class RPCClient {
     private pendingRequests = new Map();
     private socket: SocketIOClient.Socket;
 
+    private isExit: boolean = false;
+
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
             reconnection: false,
@@ -41,9 +43,10 @@ class RPCClient {
             this.socket.once('connect_error', connectFailed);
             this.socket.on('rpc', this.rpcListener);
 
-            this.socket.on('disconnect', () => {
+            this.socket.on('disconnect', (event) => {
                 // Если произошёл выход из приложения
-                if (navigator.onLine) {
+                if (this.isExit) {
+                    this.isExit = true;
                     window.location.reload(true);
                 }
             });
@@ -51,7 +54,8 @@ class RPCClient {
             this.socket.connect();
         });
 
-    public disconnect() {
+    public disconnect(isExit: boolean = false) {
+        this.isExit = isExit;
         this.socket.disconnect();
     }
 
@@ -59,7 +63,7 @@ class RPCClient {
         new Promise((resolve, reject) => {
             if (!navigator.onLine) {
                 this.socket.disconnect();
-                return reject();
+                return reject(new Error('Offline'));
             }
 
 
@@ -73,7 +77,7 @@ class RPCClient {
             const timer = setTimeout(() => {
                 if (this.pendingRequests.has(payload.id)) {
                     this.pendingRequests.delete(payload.id);
-                    reject(new Error('Timeout request'));
+                    reject(new Error(`Timeout request: ${method} ${JSON.stringify(params)}`));
                 }
             }, timeout);
 
