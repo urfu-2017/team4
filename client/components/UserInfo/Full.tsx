@@ -53,15 +53,23 @@ class FullUserInfo extends React.Component<Props, State> {
         return (
             <div className={b('actions')}>
                 {!isContact ? (
-                    <span className={b('action', { dark: uiStore.isDark })} onClick={this.addToContact}>
+                    <span
+                        className={b('action', { dark: uiStore.isDark })}
+                        onClick={this.addToContact}
+                    >
                         Добавить в контакты
                     </span>
                 ) : (
-                    <CopyToClipboard onCopy={this.onCopy} text={FullUserInfo.getInviteLink(username)}>
-                        <span className={b('action')}>Скопировать ссылку на контакт</span>
+                    <CopyToClipboard
+                        onCopy={this.onCopy}
+                        text={FullUserInfo.getInviteLink(username)}
+                    >
+                        <span className={b('action', { dark: uiStore.isDark })}>
+                            Скопировать ссылку на контакт
+                        </span>
                     </CopyToClipboard>
                 )}
-                <span className={b('action')} onClick={this.goToChat}>
+                <span className={b('action', { dark: uiStore.isDark })} onClick={this.goToChat}>
                     Перейти в чат
                 </span>
             </div>

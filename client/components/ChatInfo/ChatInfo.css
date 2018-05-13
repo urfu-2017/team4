@@ -18,6 +18,11 @@
     margin: 0 0 24px;
 }
 
+.chat-info__title_dark,
+.chat-info__room-title_dark {
+    color: #fff;
+}
+
 .chat-info__label {
     color: #74669b;
     font-size: 14px;
@@ -26,6 +31,10 @@
 .chat-info__field {
     font-size: 14px;
     margin-bottom: 16px;
+}
+
+.chat-info__field_dark {
+    color: #fff;
 }
 
 .chat-info__actions {
@@ -47,6 +56,10 @@
     cursor: pointer;
     text-decoration: underline;
     text-decoration-color: transparent;
+}
+
+.chat-info__action_dark {
+    color: #a8b5be;
 }
 
 .chat-info__action:hover {

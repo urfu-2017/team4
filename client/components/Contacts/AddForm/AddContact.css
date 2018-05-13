@@ -10,12 +10,15 @@
     max-width: 350px;
     box-sizing: border-box;
 
-    background: #fff;
     transform: translateX(-50%);
 }
 
 .add-contact__heading {
     margin: 0 0 16px;
+}
+
+.add-contact__heading_dark {
+    color: #fff;
 }
 
 .add-contact__search-zone {
