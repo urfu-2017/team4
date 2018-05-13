@@ -30,13 +30,14 @@ class FullUserInfo extends React.Component<Props, State> {
 
     public render(): React.ReactNode {
         const { avatar, displayName, username } = this.props.user;
+        const dark = uiStore.isDark;
 
         return (
             <section className={b('data')}>
                 <div className={b('left')}>
                     <img src={avatar} alt="" className={b('avatar')} />
                     <div className={b('info')}>
-                        <span className={b('name')}>{displayName}</span>
+                        <span className={b('name', { dark })}>{displayName}</span>
                         <span className={b('username')}>{`@${username}`}</span>
                     </div>
                 </div>
@@ -52,7 +53,7 @@ class FullUserInfo extends React.Component<Props, State> {
         return (
             <div className={b('actions')}>
                 {!isContact ? (
-                    <span className={b('action')} onClick={this.addToContact}>
+                    <span className={b('action', { dark: uiStore.isDark })} onClick={this.addToContact}>
                         Добавить в контакты
                     </span>
                 ) : (

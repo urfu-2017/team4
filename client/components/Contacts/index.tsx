@@ -36,7 +36,7 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
 
     public render() {
         const closeHandler = uiStore.togglePopup('contacts');
-        const isDark = uiStore.isDark;
+        const dark = uiStore.isDark;
 
         return (
             <React.Fragment>
@@ -45,7 +45,7 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
                     closeHandler={closeHandler}
                     zIndex={100}
                     headContent={<Head closeHandler={closeHandler} />}
-                    dark={isDark}
+                    dark={dark}
                 >
                     {contactsStore.state === 'loading' ? (
                         <Preloader size={50} className={b('preloader')} />
@@ -59,7 +59,11 @@ class Contacts extends React.Component<RouteComponentProps<{}>, State> {
                                 />
                             </main>
                             <footer className={b('footer')}>
-                                <Button className={b('new')} onClick={this.toggleAddContact}>
+                                <Button
+                                    className={b('new')}
+                                    onClick={this.toggleAddContact}
+                                    type={dark ? 'dark' : 'main'}
+                                >
                                     Добавить контакт
                                 </Button>
                             </footer>

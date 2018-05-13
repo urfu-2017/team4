@@ -8,14 +8,14 @@ import './Button.css';
 const modifiers = {
     main: { theme: 'main' },
     heading: { theme: 'heading' },
-    dark: { theme: 'isDark '}
+    dark: { theme: 'dark'}
 };
 
 const b = b_.with('button');
 
 interface Props {
     className?: string;
-    type?: 'main' | 'heading';
+    type?: 'main' | 'heading' | 'dark';
     disabled?: boolean;
     onClick?: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
     tabIndex?: number;

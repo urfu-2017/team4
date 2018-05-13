@@ -4,6 +4,11 @@
     overflow: hidden;
 }
 
+.users_dark {
+    background: #3f4447;
+    color: #a8b5be;
+}
+
 .users__search {
     width: 100%;
     box-sizing: border-box;
@@ -19,6 +24,17 @@
 
 .users__search_type_box:focus {
     box-shadow: 0 1px 0 0 #e8e8e8;
+}
+
+.users__search_dark {
+    background: #3f4447;
+    color: #a8b5be;
+
+    box-shadow: 0 1px 0 0 #52585c;
+}
+
+.users__search_dark:focus {
+    box-shadow: 0 2px 0 0 #737d82;
 }
 
 .users__list {

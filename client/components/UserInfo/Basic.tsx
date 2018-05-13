@@ -3,6 +3,7 @@ import React from 'react';
 import b_ from 'b_';
 
 import UserModel from '../../domain/user-model';
+import uiStore from '../../domain/ui-store';
 
 import './BasicUserInfo.css';
 const b = b_.with('user');
@@ -21,6 +22,7 @@ class UserItem extends React.Component<Props> {
     public render() {
         const { user, selected, selectable } = this.props;
         const { avatar, displayName, username } = user;
+        const dark = uiStore.isDark;
 
         return (
             <div
@@ -29,7 +31,7 @@ class UserItem extends React.Component<Props> {
             >
                 <img src={avatar || ''} alt="" className={b('avatar')} />
                 <div className={b('info')}>
-                    <span className={b('name')}>{displayName}</span>
+                    <span className={b('name', { dark })}>{displayName}</span>
                     <span className={b('login')}>{`@${username}`}</span>
                 </div>
             </div>

@@ -24,6 +24,11 @@
     background: rgba(234, 227, 252, 0.55);
 }
 
+.users_dark .user_selected,
+.users_dark .user:hover {
+    background: #52585c;
+}
+
 .user__avatar {
     width: 42px;
     height: 42px;
@@ -39,6 +44,10 @@
 .user__name {
     font-weight: bold;
     margin-bottom: 6px;
+}
+
+.user__name_dark {
+    color: #a8b5be;
 }
 
 .user__login {
