@@ -30,11 +30,13 @@ export default async function getChatMessages(
         include: [Reaction]
     });
 
-    messages.forEach(message => {
-        if (message.deathTime) {
-            message.timeToDeath = new Date().getTime() - message.deathTime.getTime();
-        }
-    });
+    messages
+        .map(message => message.dataValues)
+        .forEach(message => {
+            if (message.deathTime) {
+                message.timeToDeath = new Date().getTime() - message.deathTime.getTime();
+            }
+        });
 
     response.success(messages.reverse());
 }

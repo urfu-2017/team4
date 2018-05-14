@@ -242,15 +242,16 @@ export default class ChatModel {
             return;
         }
 
-        const die = () => {
-            this.messages = this.messages.filter(msg => msg.id !== message.id);
-            this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== message.id);
-        };
-
         if (message.timeToDeath <= 0) {
-           die();
+           this.removeMessage(message);
         } else {
-           setTimeout(die, message.timeToDeath);
+           setTimeout(this.removeMessage.bind(this, message), message.timeToDeath);
         }
+    }
+
+    @action
+    private removeMessage(message) {
+        this.messages = this.messages.filter(msg => msg.id !== message.id);
+        this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== message.id);
     }
 }

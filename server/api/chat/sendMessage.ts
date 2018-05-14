@@ -8,7 +8,7 @@ interface Params {
     chatId: string;
     text: string;
     attachment?: string;
-    deathTime?: Date;
+    timeToDeath?: number;
 }
 
 export default async function sendMessage(request: Request<Params>, response: Response) {
@@ -24,13 +24,17 @@ export default async function sendMessage(request: Request<Params>, response: Re
         return response.error(404, 'No such chat');
     }
 
+    const deathTime = timeToDeath
+        ? new Date(new Date().getTime() + timeToDeath)
+        : null;
+
     const message = await Message.create({
         id: uuid(),
         senderId: request.user,
         chatId,
         text,
         attachment,
-        deathTime: new Date(new Date().getTime() + timeToDeath)
+        deathTime
     });
 
     const messageWithTimeToDeath = {...message.dataValues, timeToDeath};
