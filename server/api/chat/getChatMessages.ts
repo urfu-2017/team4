@@ -15,12 +15,28 @@ export default async function getChatMessages(
     const messages = await Message.findAll({
         where: {
             chatId,
-            ...(from ? { createdAt: { [Sequelize.Op.lt]: from } } : {})
+            ...(from ? { createdAt: { [Sequelize.Op.lt]: from } } : {}),
+            deathTime: {
+                [Sequelize.Op.or]: [
+                    null,
+                    {
+                        [Sequelize.Op.gt]: new Date()
+                    }
+                ]
+            }
         },
         order: [['createdAt', 'DESC']],
         limit: limit || 30,
         include: [Reaction]
     });
+
+    messages
+        .map(message => ({
+            ...message.dataValues,
+            timeToDeath: message.deathTime
+                ? new Date().getTime() - message.deathTime.getTime()
+                : null
+        }));
 
     response.success(messages.reverse());
 }

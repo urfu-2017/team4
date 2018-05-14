@@ -49,7 +49,13 @@ class MessageInput extends React.Component {
             return;
         }
 
-        await ChatsStore.currentChat.sendMessage(text, null);
+        let timeToDeath = null;
+        // FIXME пока нет контролов
+        if (Number(text)) {
+            timeToDeath = Number(text);
+        }
+
+        await ChatsStore.currentChat.sendMessage(text, null, timeToDeath);
         this.setMessage('');
         this.messageInput.focus();
     };
@@ -143,7 +149,7 @@ class MessageInput extends React.Component {
 
         try {
             this.imageCaptionInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text, this.attachment);
+            await ChatsStore.currentChat.sendMessage(text, this.attachment, null);
             this.imageCaptionInput.value = '';
         } finally {
             this.imageCaptionInput.disabled = false;

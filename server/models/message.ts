@@ -45,4 +45,7 @@ export class Message extends Model<Message> {
 
     @HasMany(() => Reaction, 'messageId')
     public reactions: Reaction;
+
+    @Column({ type: DataType.DATE })
+    public deathTime: Date;
 }

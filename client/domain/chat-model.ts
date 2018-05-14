@@ -131,22 +131,34 @@ export default class ChatModel {
 
             await Promise.all(messages.map(message => UsersStore.fetchUser(message.senderId)));
 
+            messages.forEach(message => this.configureDeath(message));
+
             runInAction(() => {
 
                 this.messages = force ? messages : messages.concat(this.messages.slice());
                 this.setFetching(false);
             });
         } catch (e) {
+            console.error(e);
             UIStore.setToast('Не удалось получить сообщения');
             this.setFetching(false);
         }
     }
 
     @action
-    public sendMessage(text, attachment) {
+    public sendMessage(text, attachment, timeToDeath) {
         const senderId = UsersStore.currentUser.id;
         const tempId = v4();
-        const message = { id: tempId, chatId: this.id, senderId, text, attachment, reactions: []};
+        const message = {
+            id: tempId,
+            chatId: this.id,
+            senderId,
+            text,
+            attachment,
+            timeToDeath,
+            reactions: []
+        };
+        this.configureDeath(message);
 
         this.sendingMessages.push(message);
         this.queue = RPC.request('sendMessage', message).then(
@@ -213,6 +225,7 @@ export default class ChatModel {
 
     @action
     private addMessage(message: any, tempId?: string) {
+        this.configureDeath(message);
         if (tempId) {
             this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== tempId);
         }
@@ -222,5 +235,23 @@ export default class ChatModel {
 
     private setFetching(fetching: boolean) {
         this.isFetching = fetching;
+    }
+
+    private configureDeath(message) {
+        if (!message.timeToDeath) {
+            return;
+        }
+
+        if (message.timeToDeath <= 0) {
+           this.removeMessage(message);
+        } else {
+           setTimeout(this.removeMessage.bind(this, message), message.timeToDeath);
+        }
+    }
+
+    @action
+    private removeMessage(message) {
+        this.messages = this.messages.filter(msg => msg.id !== message.id);
+        this.sendingMessages = this.sendingMessages.filter(msg => msg.id !== message.id);
     }
 }

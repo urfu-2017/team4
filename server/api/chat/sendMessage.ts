@@ -8,10 +8,11 @@ interface Params {
     chatId: string;
     text: string;
     attachment?: string;
+    timeToDeath?: number;
 }
 
 export default async function sendMessage(request: Request<Params>, response: Response) {
-    const { chatId, text, attachment } = request.params;
+    const { chatId, text, attachment, timeToDeath } = request.params;
     const members = await Members.findOne({
         where: {
             userId: request.user,
@@ -23,14 +24,21 @@ export default async function sendMessage(request: Request<Params>, response: Re
         return response.error(404, 'No such chat');
     }
 
+    const deathTime = timeToDeath
+        ? new Date(new Date().getTime() + timeToDeath)
+        : null;
+
     const message = await Message.create({
         id: uuid(),
         senderId: request.user,
         chatId,
         text,
-        attachment
+        attachment,
+        deathTime
     });
 
-    response.notification(chatId, Events.NEW_MESSAGE, message);
-    response.success(message);
+    const messageWithTimeToDeath = {...message.dataValues, timeToDeath};
+
+    response.notification(chatId, Events.NEW_MESSAGE, messageWithTimeToDeath);
+    response.success(messageWithTimeToDeath);
 }
