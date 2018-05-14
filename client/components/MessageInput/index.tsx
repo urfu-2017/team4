@@ -8,6 +8,7 @@ import ReactDropzone from 'react-dropzone';
 import EmojiPicker from '../EmojiPicker';
 import Button from '../Button';
 import Recognition from './Recognition';
+import Alarm from '../Alarm';
 
 import ForwardedContainer from '../ForwardedMessage/Container';
 import UploadPreview from './UploadPreview';
@@ -15,6 +16,7 @@ import SendIcon from './SendIcon';
 import AttachIcon from './AttachIcon';
 import EmojiIcon from './EmojiIcon';
 import Dropzone from '../Dropzone';
+import AlarmIcon from './AlarmIcon';
 
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
@@ -23,12 +25,14 @@ import { BASE_URL } from '../../config';
 
 import './MessageInput.css';
 import uiStore from '../../domain/ui-store';
+import chatsStore from '../../domain/chats-store';
 const b = b_.with('message-input');
 
 @observer
 class MessageInput extends React.Component {
     @observable private preview: HTMLImageElement;
     @observable private showSmiles: boolean = false;
+    @observable private showTimer: boolean = false;    
     @observable private message: string = '';
 
     private messageInput: HTMLTextAreaElement;
@@ -48,11 +52,10 @@ class MessageInput extends React.Component {
         if (!text) {
             return;
         }
-
         let timeToDeath = null;
-        // FIXME пока нет контролов
-        if (Number(text)) {
-            timeToDeath = Number(text);
+
+        if (ChatsStore.timeToDeathState && chatsStore.timeToDeath !== null) {
+            timeToDeath = chatsStore.timeToDeath;
         }
 
         await ChatsStore.currentChat.sendMessage(text, null, timeToDeath);
@@ -86,6 +89,14 @@ class MessageInput extends React.Component {
                         inputRef={el => (this.messageInput = el) /* tslint:disable-line */}
                     />
                     <Recognition onChange={this.onSpeech} />
+                    <div className={b('alarm')}>
+                        <Button className={b('button')} onClick={this.onTargetTimer}>
+                            <AlarmIcon className={`${b('icon')} ${b('alarm-icon')}`} />
+                        </Button>
+                        {this.showTimer && (
+                            <Alarm timeToDeath={ChatsStore.timeToDeath}/>
+                        )}
+                    </div>
                     <div className={b('smiles')}>
                         <Button onClick={this.onShowSmiles} className={b('button')}>
                             <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
@@ -217,6 +228,10 @@ class MessageInput extends React.Component {
     @action private setMessage = (value: string) => (this.message = value);
 
     @action private onAddSmile = (text: string) => (this.message += text);
+
+    @action private onTargetTimer = () => (this.showTimer = !this.showTimer);
+
+    @action private onCloseTimer = () => (this.showTimer = false);
 }
 
 export default MessageInput;

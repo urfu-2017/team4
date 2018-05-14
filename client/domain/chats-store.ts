@@ -11,6 +11,9 @@ class ChatsStore {
 
     @observable public currentChat: ChatModel = null;
 
+    @observable public timeToDeath: number = null;
+    @observable public timeToDeathState: boolean = false;
+
     @computed
     get chats() {
         return Array.from(this.chatsMap.values());
