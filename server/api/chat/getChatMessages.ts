@@ -31,12 +31,12 @@ export default async function getChatMessages(
     });
 
     messages
-        .map(message => message.dataValues)
-        .forEach(message => {
-            if (message.deathTime) {
-                message.timeToDeath = new Date().getTime() - message.deathTime.getTime();
-            }
-        });
+        .map(message => ({
+            ...message.dataValues,
+            timeToDeath: message.deathTime
+                ? new Date().getTime() - message.deathTime.getTime()
+                : null
+        }));
 
     response.success(messages.reverse());
 }

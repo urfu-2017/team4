@@ -150,7 +150,7 @@ class MessageInput extends React.Component {
 
         try {
             this.imageCaptionInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text, this.attachment);
+            await ChatsStore.currentChat.sendMessage(text, this.attachment, null);
             this.imageCaptionInput.value = '';
         } finally {
             this.imageCaptionInput.disabled = false;
