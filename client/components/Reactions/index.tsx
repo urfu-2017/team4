@@ -3,6 +3,8 @@ import { observer } from 'mobx-react';
 import { observable, computed, action } from 'mobx';
 import b_ from 'b_';
 
+import uiStore from '../../domain/ui-store';
+
 import EmojiPicker from '../EmojiPicker';
 import Reaction from './Item';
 
@@ -36,6 +38,8 @@ class Reactions extends React.Component<Props> {
     }
 
     public render(): React.ReactNode {
+        const dark = uiStore.isDark;
+
         return (
             <React.Fragment>
                 <div className={b()}>
@@ -48,7 +52,7 @@ class Reactions extends React.Component<Props> {
                             />
                         ))}
                     </div>
-                    <span onClick={this.onShowPicker} className={b('item', { plus: true })}>
+                    <span onClick={this.onShowPicker} className={b('item', { plus: true, dark })}>
                         +
                     </span>
                 </div>

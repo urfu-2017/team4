@@ -35,6 +35,12 @@ class UIStore {
     public toggleTheme = () => {
         this.isDark = !this.isDark;
 
+        if (this.isDark) {
+            document.body.style.backgroundColor = '#545b5f';
+        } else {
+            document.body.style.backgroundColor = '';
+        }
+
         if(localStorage.isDark === undefined) {
             localStorage.isDark = this.isDark;
 

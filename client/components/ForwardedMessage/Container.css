@@ -11,11 +11,19 @@
     align-items: center;
 }
 
+.forwarded-message-container_dark {
+    background: #373b3e;
+}
+
 .forwarded-message-container__icon {
     margin-right: 16px;
     width: 24px;
     height: 24px;
     color: #74669b;
+}
+
+.forwarded-message-container__icon_dark {
+    color: #999;
 }
 
 .forwarded-message-container__attachment {
@@ -41,6 +49,10 @@
     text-overflow: ellipsis;
 }
 
+.forwarded-message-container__sender_dark {
+    color: #a8b5be;
+}
+
 .forwarded-message-container__content {
     white-space: nowrap;
     overflow: hidden;
@@ -48,8 +60,12 @@
     font-size: 12px;
 }
 
+.forwarded-message-container__content_dark {
+    color: #e9e6e9;
+}
+
 .forwarded-message-container__close {
-    color: #ccc;
+    color: #999;
     width: 16px;
     height: 16px;
     vertical-align: middle;
