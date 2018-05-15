@@ -174,10 +174,13 @@ class MessageInput extends React.Component {
         .getCurrentPosition(this.onSendLocation, this.onErrorSendLocation);
 
     private onSendLocation = location => {
-        const { latitude, longitude } = location.coords;
-        const src = getMapUrl(latitude, longitude);
+        const latitude = location.coords.latitude.toFixed(6);
+        const longitude = location.coords.longitude.toFixed(6);
 
-        ChatsStore.currentChat.sendMessage('', src);
+        const src = getMapUrl(latitude, longitude);
+        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16`
+
+        ChatsStore.currentChat.sendMessage(link, src);
     }
 
     private onErrorSendLocation = () => uiStore.setToast('Не удалось получить ваше местоположение');

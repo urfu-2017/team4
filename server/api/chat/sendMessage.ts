@@ -9,10 +9,10 @@ interface Params {
     text: string;
     attachment?: string;
     timeToDeath?: number;
+    forwarded?: any;
 }
-
 export default async function sendMessage(request: Request<Params>, response: Response) {
-    const { chatId, text, attachment, timeToDeath } = request.params;
+    const { chatId, text, attachment, timeToDeath, forwarded } = request.params;
     const members = await Members.findOne({
         where: {
             userId: request.user,
@@ -34,7 +34,8 @@ export default async function sendMessage(request: Request<Params>, response: Re
         chatId,
         text,
         attachment,
-        deathTime
+        deathTime,
+        forwarded
     });
 
     const messageWithTimeToDeath = {...message.dataValues, timeToDeath};

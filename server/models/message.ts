@@ -40,6 +40,9 @@ export class Message extends Model<Message> {
     @Column({ type: DataType.JSONB })
     public meta: any;
 
+    @Column({ type: DataType.JSONB })
+    public forwarded: any;
+
     @Column({ type: DataType.TEXT })
     public attachment: string;
 
