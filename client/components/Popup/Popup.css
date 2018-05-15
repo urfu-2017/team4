@@ -12,6 +12,10 @@
     transform: translateX(-50%);
 }
 
+.popup_dark {
+    background: #3f4447;
+}
+
 .popup__head {
     display: flex;
     justify-content: space-between;
@@ -22,4 +26,8 @@
 
     background: #74669b;
     color: #fff;
+}
+
+.popup__head_dark {
+    background: #373b3e;
 }

@@ -6,6 +6,14 @@
     border-radius: 2px;
 }
 
+.button:disabled {
+    cursor: not-allowed;
+}
+
+.button:disabled:hover {
+    background: initial;
+}
+
 .button_theme_heading {
     color: #fff;
     background: transparent;
@@ -35,10 +43,18 @@
     background: #f2f6fa;
 }
 
-.button_theme_main:disabled {
-    cursor: not-allowed;
+.button_theme_dark {
+    padding: 6px 10px;
+
+    background: #3f4447;
+    font-size: 1.3rem;
+    color: #a8b5be;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    transition: background-color 0.2s;
 }
 
-.button_theme_main:disabled:hover {
-    background: initial;
+.button_theme_dark:hover {
+    background: #373b3e;
 }

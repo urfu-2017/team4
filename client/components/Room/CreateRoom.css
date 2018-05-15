@@ -14,6 +14,10 @@
     margin-bottom: 24px;
 }
 
+.createRoom__title_dark {
+    color: #fff;
+}
+
 .createRoom__inner {
     display: flex;
     flex-direction: column;
@@ -34,4 +38,8 @@
     display: block;
     font-size: 14px;
     margin-bottom: 12px;
+}
+
+.createRoom__field-label_dark {
+    color: #fff;
 }

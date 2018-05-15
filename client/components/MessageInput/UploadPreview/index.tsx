@@ -7,6 +7,8 @@ import Popup from '../../Popup';
 import Input from '../../Input';
 import Button from '../../Button';
 
+import uiStore from '../../../domain/ui-store';
+
 import './UploadPreview.css';
 
 const b = b_.with('preview');
@@ -42,9 +44,15 @@ class UploadPreview extends React.Component<Props> {
             src: image.src,
             className: b('image')
         });
+        const dark = uiStore.isDark;
 
         return (
-            <Popup className={`${b()} ${className}`} closeHandler={closeHandler} zIndex={100}>
+            <Popup
+                className={`${b()} ${className}`}
+                closeHandler={closeHandler}
+                zIndex={100}
+                dark={dark}
+            >
                 <div className={b('image-container')}>
                     {ImageElement}
                     {loading && (
@@ -65,13 +73,18 @@ class UploadPreview extends React.Component<Props> {
                     innerRef={this.ref}
                 />
                 <div className={b('buttons')}>
-                    <Button className={b('cancel-button')} onClick={closeHandler}>
+                    <Button
+                        className={b('cancel-button')}
+                        onClick={closeHandler}
+                        type={dark ? 'dark' : 'main'}
+                    >
                         Отменить
                     </Button>
                     <Button
                         disabled={loading || error}
                         className={b('send-button')}
                         onClick={onSend}
+                        type={dark ? 'dark' : 'main'}
                     >
                         Отправить
                     </Button>

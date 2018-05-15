@@ -10,6 +10,10 @@
     overflow: hidden;
 }
 
+.chat-wrapper_dark {
+    background: #3f4447;
+}
+
 .chat-wrapper__input {
     flex: 1;
 }
@@ -35,6 +39,10 @@
     padding: 12px 5%;
 
     background: #ece9e6;
+}
+
+.chat_dark {
+    background: #3f4447;
 }
 
 .chat__preloader {

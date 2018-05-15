@@ -9,8 +9,11 @@
     padding-left: 12px;
     border-left: 2px solid #74669b;
 
-    background: #ffff;
     text-align: left;
+}
+
+.og-data_dark {
+    border-left: 2px solid #3f4447;
 }
 
 .og-data__image-link {

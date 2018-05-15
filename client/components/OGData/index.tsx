@@ -1,6 +1,8 @@
 import React from 'react';
 import b_ from 'b_';
 
+import uiStore from '../../domain/ui-store';
+
 import './OGData.css';
 const b = b_.with('og-data');
 
@@ -15,13 +17,14 @@ interface Props {
 class OGData extends React.Component<Props> {
     public render() {
         const { image, url, description, title } = this.props;
+        const dark = uiStore.isDark;
 
         if (!title && !image) {
             return null;
         }
 
         return (
-            <section className={b({ 'in-message': true })}>
+            <section className={b({ 'in-message': true, dark })}>
                 {image && (
                     <a href={url} target="_blank" className={b('image-link')}>
                         <img className={b('image')} src={image} alt="" />

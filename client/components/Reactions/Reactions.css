@@ -38,6 +38,10 @@
     font-weight: bold;
 }
 
+.reactions__item_dark {
+    color: #a8b5be;
+}
+
 .reactions__item:hover {
     background: #74669b;
     color: #fff;

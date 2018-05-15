@@ -1,10 +1,14 @@
 import { observer } from 'mobx-react';
 import React from 'react';
+import b_ from 'b_';
+import classNames from 'classnames';
 
 import Overlay from '../Overlay';
 import './Popup.css';
 
 import uiStore from '../../domain/ui-store';
+
+const b = b_.with('popup');
 
 interface Props {
     closeHandler: () => void;
@@ -12,6 +16,7 @@ interface Props {
     className?: string;
     zIndex?: number;
     headContent?: React.ReactNode;
+    dark?: boolean;
 }
 
 @observer
@@ -25,19 +30,20 @@ class Popup extends React.Component<Props> {
     }
 
     public render() {
+        const { className, headContent, children, closeHandler, dark } = this.props;
+
         const zIndex = this.props.zIndex + 1;
-        const className = `popup ${this.props.className}`;
 
         return (
             <React.Fragment>
-                <section className={className} style={{ zIndex }}>
-                    {this.props.headContent && (
-                        <header className="popup__head">{this.props.headContent}</header>
+                <section className={classNames(b({ dark }), className)} style={{ zIndex }}>
+                    {headContent && (
+                        <header className={b('head', { dark })}>{headContent}</header>
                     )}
-                    {this.props.children}
+                    {children}
                 </section>
-                {uiStore.topPopup === this.props.className && (
-                    <Overlay closeHandler={this.props.closeHandler} zIndex={this.props.zIndex} />
+                {uiStore.topPopup === className && (
+                    <Overlay closeHandler={closeHandler} zIndex={this.props.zIndex} />
                 )}
             </React.Fragment>
         );

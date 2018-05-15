@@ -1,13 +1,15 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import ChatView from 'react-chatview';
-
-import './Chat.css';
-import Message from '../Message';
+import b from 'b_';
 
 import ChatsStore from '../../domain/chats-store';
 import Preloader from '../Preloader';
 import Messages from './Messages';
+
+import uiStore from '../../domain/ui-store';
+
+import './Chat.css';
 
 interface Props {
     chat: any;
@@ -24,9 +26,11 @@ class Chat extends React.Component<Props> {
     };
 
     public render() {
+        const dark = uiStore.isDark;
+
         return (
             <ChatView
-                className="chat"
+                className={b('chat', { dark })}
                 scrollLoadThreshold={100}
                 onInfiniteLoad={this.loadHistory}
                 shouldTriggerLoad={this.shouldLoadHistory}

@@ -13,6 +13,10 @@ body {
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
 }
 
+.app_dark {
+    background: #3f4447;
+}
+
 .header {
     width: 100%;
     height: 48px;

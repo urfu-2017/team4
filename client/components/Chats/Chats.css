@@ -11,6 +11,12 @@
     box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
 }
 
+.dialogs_dark {
+    background: #3f4447;
+
+    box-shadow: 0 1px 0 0 #52575c, 0 0 0 1px #52575c;
+}
+
 .dialogs__new-dialog-btn {
     padding: 17px;
 }

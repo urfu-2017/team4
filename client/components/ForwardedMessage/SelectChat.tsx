@@ -25,19 +25,28 @@ class SelectChat extends React.Component<RouteComponentProps<{}>> {
     }
 
     public render(): React.ReactNode {
+        const dark = uiStore.isDark;
+
         return (
-            <Popup zIndex={500} className={b()} closeHandler={SelectChat.closePopup}>
-                <h2 className={`${b('title')} header3`}>Выберите чат</h2>
+            <Popup zIndex={500} className={b()} closeHandler={SelectChat.closePopup} dark={dark}>
+                <h2 className={`${b('title', { dark })} header3`}>Выберите чат</h2>
                 <div className={b('list')}>
                     {this.chats.map(chat => (
-                        <div key={chat.id} className={b('chat')} data-chat={chat.id} onClick={this.sendMessage}>
+                        <div
+                            key={chat.id}
+                            className={b('chat', { dark })}
+                            data-chat={chat.id}
+                            onClick={this.sendMessage}
+                        >
                             <img className={b('chat-avatar')} src={chat.avatar} alt="" />
                             <div className={b('chat-name')}>{chat.displayName}</div>
                         </div>
                     ))}
                 </div>
                 <div className={b('actions')}>
-                    <Button onClick={SelectChat.closePopup}>Отменить</Button>
+                    <Button onClick={SelectChat.closePopup} type={dark ? 'dark' : 'main'}>
+                        Отменить
+                    </Button>
                 </div>
             </Popup>
         );
@@ -51,7 +60,7 @@ class SelectChat extends React.Component<RouteComponentProps<{}>> {
         console.info('Forward Message to', chat);
         this.props.history.push(`/chats/${chat.id}`);
         SelectChat.closePopup();
-    }
+    };
 }
 
 export default withRouter(SelectChat);

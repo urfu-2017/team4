@@ -7,6 +7,7 @@ import b_ from 'b_';
 import markdown from '../../../utils/markdown';
 import getPlainText from '../../../utils/plain-text';
 
+import uiStore from '../../../domain/ui-store';
 import ChatsStore from '../../../domain/chats-store';
 import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
@@ -34,20 +35,22 @@ class ChatItem extends React.Component<Props> {
     public render() {
         const { chat } = this.props;
 
-        const isActiveModifier = { active: ChatsStore.currentChat === chat };
+        const dark = uiStore.isDark;
+
+        const modifiers = { active: ChatsStore.currentChat === chat, dark };
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
         const isAttachment = this.message && this.message.attachment;
 
         return (
-            <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>
+            <Link to={`/chats/${chat.id}`} className={`${b('item', modifiers)}`}>
                 <img src={chat.avatar} alt="" className={b('dialog-image')} />
                 <div className={b('dialog-body')}>
-                    <div className={b('dialog-name')} title={chat.displayName}>
+                    <div className={b('dialog-name', { dark })} title={chat.displayName}>
                         {chat.displayName}
                     </div>
                     {this.message && (
                         <div className={b('last-msg')}>
-                            <span className={b('last-msg-mine')}>{isMine && 'Вы: '}</span>
+                            <span className={b('last-msg-mine', { dark })}>{isMine && 'Вы: '}</span>
                             {`${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`}
                         </div>
                     )}

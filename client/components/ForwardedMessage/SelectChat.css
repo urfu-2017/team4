@@ -16,6 +16,10 @@
     margin-bottom: 24px;
 }
 
+.select-chat__title_dark {
+    color: #fff;
+}
+
 .select-chat__list {
     overflow: auto;
 }
@@ -24,7 +28,7 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    padding: 4px 0;
+    padding: 4px;
     flex: 1;
 
     cursor: pointer;
@@ -39,6 +43,14 @@
     background: rgba(234, 227, 252, 0.55);
 }
 
+.select-chat__chat_dark {
+    background: #3f4447;
+}
+
+.select-chat__chat_dark:hover {
+    background: #52585c;
+}
+
 .select-chat__chat-avatar {
     width: 48px;
     height: 48px;
@@ -49,6 +61,10 @@
 
 .select-chat__chat-name {
     font-size: 18px;
+}
+
+.select-chat__chat_dark .select-chat__chat-name {
+    color: #a8b5be;
 }
 
 .select-chat__actions {

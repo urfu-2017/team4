@@ -16,14 +16,15 @@ class Container extends React.Component<{ message: any }> {
         const { senderId, attachment, text = '' } = this.props.message;
         const user = usersStore.users.get(senderId);
         const content = `${attachment ? 'Фотография.' : ''} ${text}`.trim();
+        const dark = uiStore.isDark;
 
         return (
-          <div className={b()}>
-              <ForwardedIcon className={b('icon')}/>
+          <div className={b({ dark })}>
+              <ForwardedIcon className={b('icon', { dark })}/>
               {attachment && <img src={attachment} className={b('attachment')}/>}
               <div className={b('body')}>
-                  <div className={b('sender')}>{user.displayName}</div>
-                  <div className={b('content')}>{content}</div>
+                  <div className={b('sender', { dark })}>{user.displayName}</div>
+                  <div className={b('content', { dark })}>{content}</div>
               </div>
               <span className={b('close')} onClick={this.clearMessage}>
                   <CloseIcon/>

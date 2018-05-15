@@ -46,10 +46,11 @@ class ChatInfo extends React.Component {
             chatsStore.currentChat.members.find(
                 member => member.id !== usersStore.currentUser.id
             ) || usersStore.currentUser;
+        const dark = uiStore.isDark;
 
         return (
-            <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup}>
-                <h3 className={b('title') + ' header3'}>Информация о пользователе</h3>
+            <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup} dark={dark}>
+                <h3 className={b('title', { dark }) + ' header3'}>Информация о пользователе</h3>
                 <FullUserInfo user={user} />
             </Popup>
         );
@@ -57,23 +58,24 @@ class ChatInfo extends React.Component {
 
     private renderRoomInfo() {
         const chat = chatsStore.currentChat;
+        const dark = uiStore.isDark;
 
         return (
             <React.Fragment>
-                <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup}>
-                    <h3 className={b('room-title') + ' header2'}>{chat.name}</h3>
+                <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup} dark={dark}>
+                    <h3 className={b('room-title', { dark }) + ' header2'}>{chat.name}</h3>
                     <div className={b('actions')}>
-                        <span className={b('action')} onClick={this.enableAddMode}>
+                        <span className={b('action', { dark })} onClick={this.enableAddMode}>
                             Добавить участника
                         </span>
                         <CopyToClipboard onCopy={this.onCopy} text={ChatInfo.getInviteLink(chat.id)}>
-                            <span className={b('action')}>Скопировать invite-ссылку</span>
+                            <span className={b('action', { dark })}>Скопировать invite-ссылку</span>
                         </CopyToClipboard>
                         <span onClick={this.leaveChat} className={b('action', { danger: true })}>
                             Покинуть группу
                         </span>
                     </div>
-                    <div className={b('field')}>{chat.members.length} участников:</div>
+                    <div className={b('field', { dark })}>{chat.members.length} участников:</div>
                     <UsersList
                         className={b('members')}
                         disableSearch={true}

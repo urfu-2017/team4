@@ -34,14 +34,25 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     }
 
     public render(): React.ReactNode {
+        const dark = uiStore.isDark;
+
         return (
             <React.Fragment>
-                <Popup className={b()} zIndex={100} closeHandler={CreateRoom.closePopup}>
-                    <h1 className={b('title') + ' header3'}>Создание группы</h1>
+                <Popup
+                    className={b()}
+                    zIndex={100}
+                    closeHandler={CreateRoom.closePopup}
+                    dark={dark}
+                >
+                    <h1 className={b('title', { dark: uiStore.isDark }) + ' header3'}>Создание группы</h1>
                     {this.renderStepOne()}
                     {this.renderStepTwo()}
                     <div className={b('actions')}>
-                        <Button disabled={this.disabled} onClick={this.createGroup}>
+                        <Button
+                            disabled={this.disabled}
+                            onClick={this.createGroup}
+                            type={dark ? 'dark' : 'main'}
+                        >
                             Создать группу
                         </Button>
                     </div>
@@ -53,7 +64,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
     private renderStepOne() {
         return (
             <label className={b('field')}>
-                <span className={b('field-label')}>Название группы:</span>
+                <span className={b('field-label', { dark: uiStore.isDark })}>Название группы:</span>
                 <Input
                     onChange={this.changeName}
                     type={'text'}
@@ -70,7 +81,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
 
         return (
             <React.Fragment>
-                <span className={b('field-label')}>Участники:</span>
+                <span className={b('field-label', { dark: uiStore.isDark })}>Участники:</span>
                 <UsersList
                     searchType={'plain'}
                     users={availableMembers}

@@ -28,6 +28,10 @@
     color: #74669b;
 }
 
+.message__date_dark {
+    color: #a8b5be;
+}
+
 .message__body {
     min-width: 80px;
     box-sizing: border-box;
@@ -39,6 +43,15 @@
     border-radius: 3px;
 
     position: relative;
+}
+
+.message__body_dark {
+    background: #52575c;
+    color: #eee;
+}
+
+.message__body_dark a {
+    color: cyan;
 }
 
 .message__text {

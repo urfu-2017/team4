@@ -4,6 +4,11 @@
     overflow: hidden;
 }
 
+.users_dark {
+    background: #3f4447;
+    color: #a8b5be;
+}
+
 .users__search {
     width: 100%;
     box-sizing: border-box;
