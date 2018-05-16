@@ -44,6 +44,7 @@ class MessageInput extends React.Component {
 
     constructor(props) {
         super(props);
+        ChatsStore.getCookies();
     }
 
     public onSend = async () => {
@@ -90,11 +91,14 @@ class MessageInput extends React.Component {
                     />
                     <Recognition onChange={this.onSpeech} />
                     <div className={b('alarm')}>
-                        <Button className={b('button')} onClick={this.onTargetTimer}>
+                        <Button className={b('button')} onClick={this.onShowTimer}>
                             <AlarmIcon className={`${b('icon')} ${b('alarm-icon')}`} />
                         </Button>
                         {this.showTimer && (
-                            <Alarm timeToDeath={ChatsStore.timeToDeath}/>
+                            <Alarm
+                                timeToDeath={ChatsStore.timeToDeath}
+                                closeTimer={this.onCloseTimer}
+                            />
                         )}
                     </div>
                     <div className={b('smiles')}>
@@ -229,9 +233,16 @@ class MessageInput extends React.Component {
 
     @action private onAddSmile = (text: string) => (this.message += text);
 
-    @action private onTargetTimer = () => (this.showTimer = !this.showTimer);
+    @action private onShowTimer = () => {
+        this.showTimer = true;
+        ChatsStore.getCookies();
+        ChatsStore.parsTimer();
+    }
 
-    @action private onCloseTimer = () => (this.showTimer = false);
+    @action private onCloseTimer = () => {
+        this.showTimer = false;
+        ChatsStore.saveCookies();
+    };
 }
 
 export default MessageInput;

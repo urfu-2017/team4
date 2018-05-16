@@ -12,6 +12,9 @@ class ChatsStore {
     @observable public currentChat: ChatModel = null;
 
     @observable public timeToDeath: number = null;
+    @observable public timeToDeathDay: number = 0;
+    @observable public timeToDeathHour: number = 0;
+    @observable public timeToDeathMin: number = 0;
     @observable public timeToDeathState: boolean = false;
 
     @computed
@@ -160,6 +163,47 @@ class ChatsStore {
     @action
     private setChat(chatModel: ChatModel) {
         this.chatsMap.set(chatModel.id, chatModel);
+    }
+
+    @action
+    public parsTimer() {
+        const msInMin = 1000 * 60;
+        const msInHour = msInMin * 60;
+        const msInDays = msInHour * 24;
+        this.timeToDeathDay = Math.floor(this.timeToDeath / msInDays);
+        const dayOst = this.timeToDeath % msInDays;
+        this.timeToDeathHour = Math.floor(dayOst / msInHour);
+        const hourOst = dayOst % msInHour;
+        this.timeToDeathMin = Math.floor(hourOst / msInMin);
+    }
+
+    @action
+    public getCookies() {
+        if (this.getCookie('timeToDeath') !== undefined) {
+            this.timeToDeath = Number(this.getCookie('timeToDeath'));
+        }
+        if (this.getCookie('timeToDeath') !== undefined) {          
+            this.timeToDeathState = this.getCookie('stateTimeToDeath') === 'true'? true : false;
+        }
+    }
+
+    @action
+    public saveCookies() {
+        const dateForCookie = new Date;
+        dateForCookie.setDate(dateForCookie.getDate() + 2);
+        document.cookie = 'stateTimeToDeath=' + this.timeToDeathState + '; expires=' + dateForCookie.toUTCString();
+        if (!this.timeToDeathState) {
+            this.timeToDeath = 0;
+        }
+        document.cookie = 'timeToDeath=' + this.timeToDeath + '; expires=' + dateForCookie.toUTCString();
+        this.timeToDeath = this.timeToDeath === 0 ? null : this.timeToDeath;
+    }
+
+    private getCookie(name) {
+        const matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 }
 

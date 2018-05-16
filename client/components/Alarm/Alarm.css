@@ -1,8 +1,8 @@
 .alarm-picker {
     width: 200px;
-    height: 116px;
+    height: 133px;
     position: absolute;
-    top: -120px;
+    top: -140px;
     left: auto;
     right: 5px;
     z-index: 9999;
