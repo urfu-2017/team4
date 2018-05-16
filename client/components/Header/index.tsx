@@ -7,18 +7,11 @@ import HeaderMainWrap from './HeaderMainWrap';
 
 import uiStore from '../../domain/ui-store';
 
-import { withOutsideClickHandler } from '../../hocs/withOutsideClickHandler';
-
 import './Header.css';
-
-const HeaderLogoWrapWithHandler = withOutsideClickHandler(
-    HeaderLogoWrap,
-    uiStore.toggleLeftPanel
-);
 
 const Header: React.SFC = observer(() => (
     <header className={b('header', { dark: uiStore.isDark })}>
-        <HeaderLogoWrapWithHandler />
+        <HeaderLogoWrap />
         <HeaderMainWrap />
     </header>
 ));

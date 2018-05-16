@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import getDisplayName from '../utils/get-display-name';
 
-export const withOutsideClickHandler = (Component, handler) =>
+export const withOutsideClickHandler = (Component, handler): React.ComponentClass<any> =>
     class extends React.Component {
         public static displayName = `WithOutsideClickHandler(${getDisplayName(Component)})`;
 

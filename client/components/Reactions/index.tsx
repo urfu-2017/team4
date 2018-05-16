@@ -62,7 +62,6 @@ class Reactions extends React.Component<Props> {
                         <EmojiPicker
                             className={b('picker')}
                             addSmile={this.onClick}
-                            closeSmiles={this.onHidePicker}
                         />
                     </Popup>
                 )}

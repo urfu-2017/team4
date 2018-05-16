@@ -1,6 +1,5 @@
 import { Picker } from 'emoji-mart';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import b from 'b_';
 
@@ -11,19 +10,10 @@ import 'emoji-mart/css/emoji-mart.css';
 
 interface Props {
     addSmile: (smile) => void;
-    closeSmiles: () => void;
     className?: string;
 }
 
-class EmojiPicker extends React.Component<Props, any> {
-    public componentWillUnmount() {
-        document.removeEventListener('click', this.handleClickOutside, false);
-    }
-
-    public componentWillMount() {
-        document.addEventListener('click', this.handleClickOutside, false);
-    }
-
+class EmojiPicker extends React.Component<Props> {
     public render() {
         const { className = '' } = this.props;
         const dark = uiStore.isDark;
@@ -45,14 +35,6 @@ class EmojiPicker extends React.Component<Props, any> {
 
     private getEmoji = emoji => {
         return this.props.addSmile(emoji.native);
-    };
-
-    private handleClickOutside = event => {
-        const domNode = ReactDOM.findDOMNode(this);
-
-        if (!domNode || !domNode.contains(event.target)) {
-            this.props.closeSmiles();
-        }
     };
 }
 
