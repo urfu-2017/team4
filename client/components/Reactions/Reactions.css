@@ -14,9 +14,8 @@
     align-items: center;
 }
 
-.reactions__picker {
-    position: absolute;
-    z-index: 99999;
+.reactions__popup {
+    background: transparent;
 }
 
 .reactions__item {

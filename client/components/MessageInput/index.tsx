@@ -20,10 +20,16 @@ import uiStore from '../../domain/ui-store';
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
+import { withOutsideClickHandler } from '../../hocs/withOutsideClickHandler';
 import { BASE_URL } from '../../config';
 
 import './MessageInput.css';
 const b = b_.with('message-input');
+
+interface PickerProps {
+    addSmile: (smile) => void;
+    className?: string;
+}
 
 @observer
 class MessageInput extends React.Component {
@@ -69,6 +75,10 @@ class MessageInput extends React.Component {
 
     public render() {
         const dark = uiStore.isDark;
+        const MessageInputEmojiPicker: React.ComponentClass<PickerProps> = withOutsideClickHandler(
+            EmojiPicker,
+            this.onCloseSmiles
+        );
 
         return (
             <section className={b({ dark })}>
@@ -93,14 +103,16 @@ class MessageInput extends React.Component {
                             <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
                         </Button>
                         {this.showSmiles && (
-                            <EmojiPicker
+                            <MessageInputEmojiPicker
                                 className={b('smiles-picker')}
                                 addSmile={this.onAddSmile}
-                                closeSmiles={this.onCloseSmiles}
                             />
                         )}
                     </div>
-                    <Button className={`${b('button', { dark })} ${b('send')}`} onClick={this.onSend}>
+                    <Button
+                        className={`${b('button', { dark })} ${b('send')}`}
+                        onClick={this.onSend}
+                    >
                         <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
                     </Button>
                 </div>

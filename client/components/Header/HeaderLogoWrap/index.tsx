@@ -2,12 +2,16 @@ import { observer } from 'mobx-react';
 import React from 'react';
 import b from 'b_';
 
+import DropdownMenu from '../DropdownMenu';
+
 import './HeaderLogoWrap.css';
 
 import UIStore from '../../../domain/ui-store';
-import DropdownMenu from '../DropdownMenu';
+import { withOutsideClickHandler} from '../../../hocs/withOutsideClickHandler';
 
-const HeaderLogoWrap = observer(() => (
+const DropdownMenuWithHandler = withOutsideClickHandler(DropdownMenu, UIStore.toggleLeftPanel);
+
+const HeaderLogoWrap = () => (
     <div className={b('header', 'logo-wrap')}>
         <div
             onClick={UIStore.toggleLeftPanel}
@@ -17,9 +21,9 @@ const HeaderLogoWrap = observer(() => (
                 <div className={b('hamburger', 'inner')} />
             </div>
         </div>
-        {UIStore.isMenuShown && <DropdownMenu />}
+        {UIStore.isMenuShown && <DropdownMenuWithHandler />}
         <div className={b('header', 'logo')}>K1logram</div>
     </div>
-));
+);
 
-export default HeaderLogoWrap;
+export default observer(HeaderLogoWrap);
