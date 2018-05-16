@@ -24,19 +24,17 @@ class EmojiPicker extends React.Component<Props, any> {
         const { className = '' } = this.props;
 
         return (
-            <React.Fragment>
-                <div className={className}>
-                    <Picker
-                        set="google"
-                        showPreview={false}
-                        showSkinTones={false}
-                        onSelect={this.getEmoji}
-                        color="#515151"
-                        emojiSize={24}
-                        native={true}
-                    />
-                </div>
-            </React.Fragment>
+            <div className={className}>
+                <Picker
+                    set="google"
+                    showPreview={false}
+                    showSkinTones={false}
+                    onSelect={this.getEmoji}
+                    color="#515151"
+                    emojiSize={24}
+                    native={true}
+                />
+            </div>
         );
     }
 
