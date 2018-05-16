@@ -8,7 +8,7 @@ import './Button.css';
 const modifiers = {
     main: { theme: 'main' },
     heading: { theme: 'heading' },
-    dark: { theme: 'dark'}
+    dark: { theme: 'dark' }
 };
 
 const b = b_.with('button');
@@ -21,17 +21,22 @@ interface Props {
     tabIndex?: number;
 }
 
-const Button: React.SFC<Props> = observer(
-    ({ children, onClick, className = '', type = 'main', disabled, tabIndex }) => (
-        <button
-            className={classNames(className, b(modifiers[type]))}
-            onClick={onClick}
-            disabled={disabled}
-            tabIndex={tabIndex}
-        >
-            {children}
-        </button>
-    )
+const Button: React.SFC<Props> = ({
+    children,
+    onClick,
+    className = '',
+    type = 'main',
+    disabled,
+    tabIndex
+}) => (
+    <button
+        className={classNames(className, b(modifiers[type]))}
+        onClick={onClick}
+        disabled={disabled}
+        tabIndex={tabIndex}
+    >
+        {children}
+    </button>
 );
 
-export default Button;
+export default observer(Button);

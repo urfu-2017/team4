@@ -7,7 +7,7 @@ import './HeaderLogoWrap.css';
 import UIStore from '../../../domain/ui-store';
 import DropdownMenu from '../DropdownMenu';
 
-const HeaderLogoWrap = observer(() => (
+const HeaderLogoWrap = () => (
     <div className={b('header', 'logo-wrap')}>
         <div
             onClick={UIStore.toggleLeftPanel}
@@ -20,6 +20,6 @@ const HeaderLogoWrap = observer(() => (
         {UIStore.isMenuShown && <DropdownMenu />}
         <div className={b('header', 'logo')}>K1logram</div>
     </div>
-));
+);
 
-export default HeaderLogoWrap;
+export default observer(HeaderLogoWrap);
