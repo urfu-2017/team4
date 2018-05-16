@@ -113,6 +113,7 @@ class CreateRoom extends React.Component<RouteComponentProps<{}>> {
         event.preventDefault();
 
         if (this.disabled) {
+            uiStore.setToast('Не введено название группы или не выбраны участники');
             return;
         }
 

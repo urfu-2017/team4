@@ -97,6 +97,7 @@ class AddContact extends React.Component<Props> {
         const hasContact = contactsStore.has(contact.username);
 
         if (hasContact) {
+            uiStore.setToast('Контакт уже добавлен');
             return;
         }
 

@@ -37,6 +37,9 @@ class RPCClient {
 
             const connectSuccess = () => {
                 this.socket.removeEventListener('error', connectFailed);
+                this.socket.addEventListener('connect_error', () => {
+                    window.location.reload(true);
+                });
                 resolve();
             };
 
@@ -65,7 +68,7 @@ class RPCClient {
         this.socket.disconnect();
     }
 
-    public request = (method: keyof Methods, params?: any, timeout = 5000): Promise<any> =>
+    public request = (method: keyof Methods, params?: any, timeout = 15000): Promise<any> =>
         new Promise((resolve, reject) => {
             if (!navigator.onLine) {
                 this.socket.disconnect();

@@ -8,6 +8,13 @@ import UsersStore from './users-store';
 import ChatsStore from './chats-store';
 import UIStore from './ui-store';
 
+interface MessageRequest {
+    text?: string;
+    attachment?: string;
+    timeToDeath?: number;
+    forwarded?: any;
+}
+
 export default class ChatModel {
     @observable public messages = [];
     @observable public sendingMessages = [];
@@ -146,7 +153,7 @@ export default class ChatModel {
     }
 
     @action
-    public sendMessage(text, attachment, timeToDeath) {
+    public sendMessage({ text = '', attachment, timeToDeath = null, forwarded }: MessageRequest) {
         const senderId = UsersStore.currentUser.id;
         const tempId = v4();
         const message = {
@@ -156,10 +163,11 @@ export default class ChatModel {
             text,
             attachment,
             timeToDeath,
-            reactions: []
+            reactions: [],
+            forwarded
         };
-        this.configureDeath(message);
 
+        this.configureDeath(message);
         this.sendingMessages.push(message);
         this.queue = RPC.request('sendMessage', message).then(
             (response) => this.addMessage(response, tempId),

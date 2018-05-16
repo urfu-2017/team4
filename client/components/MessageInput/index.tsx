@@ -22,6 +22,7 @@ import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
 import { withOutsideClickHandler } from '../../hocs/withOutsideClickHandler';
+import createForwardMessage from '../../utils/createForwardMessage';
 import { BASE_URL } from '../../config';
 
 import getMapUrl from '../../utils/maps-url';
@@ -55,6 +56,10 @@ class MessageInput extends React.Component {
         const text = this.message.trim();
 
         if (!text) {
+            if (uiStore.forwardMessage) {
+                uiStore.setToast('Нельзя ответить на сообщение пустым текстом');
+            }
+
             return;
         }
 
@@ -64,8 +69,12 @@ class MessageInput extends React.Component {
             timeToDeath = Number(text);
         }
 
-        await ChatsStore.currentChat.sendMessage(text, null, timeToDeath);
+        const forwarded = uiStore.forwardMessage ?
+            createForwardMessage(uiStore.forwardMessage, true) : null;
+
+        await ChatsStore.currentChat.sendMessage({ text, timeToDeath, forwarded });
         this.setMessage('');
+        uiStore.setForwardMessage(null);
         this.messageInput.focus();
     };
 
@@ -180,7 +189,7 @@ class MessageInput extends React.Component {
         const src = getMapUrl(latitude, longitude);
         const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16`
 
-        ChatsStore.currentChat.sendMessage(link, src);
+        ChatsStore.currentChat.sendMessage({ text: link, attachment: src });
     }
 
     private onErrorSendLocation = () => uiStore.setToast('Не удалось получить ваше местоположение');
@@ -190,7 +199,10 @@ class MessageInput extends React.Component {
 
         try {
             this.imageCaptionInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text, this.attachment, null);
+            await ChatsStore.currentChat.sendMessage({
+                text,
+                attachment: this.attachment
+            });
             this.imageCaptionInput.value = '';
         } finally {
             this.imageCaptionInput.disabled = false;

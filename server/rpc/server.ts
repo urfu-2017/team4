@@ -64,6 +64,11 @@ export class Server {
         }
     }
 
+    public isAvailableUser(userId: number) {
+        const sockets = this.sockets.get(userId);
+        return sockets && sockets.length !== 0;
+    }
+
     public logout(userId: number) {
         const sockets = this.sockets.get(userId);
 

@@ -10,6 +10,7 @@ import chatsStore from '../../domain/chats-store';
 
 import './SelectChat.css';
 import Button from '../Button';
+import createForwardMessage from '../../utils/createForwardMessage';
 const b = b_.with('select-chat');
 
 @observer
@@ -57,7 +58,9 @@ class SelectChat extends React.Component<RouteComponentProps<{}>> {
         const chatId = event.currentTarget.dataset.chat;
         const chat = chatsStore.chatsMap.get(chatId);
 
-        console.info('Forward Message to', chat);
+        const forwarded = createForwardMessage(uiStore.forwardMessage, false);
+        chat.sendMessage({ forwarded });
+
         this.props.history.push(`/chats/${chat.id}`);
         SelectChat.closePopup();
     };

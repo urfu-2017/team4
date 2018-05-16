@@ -4,6 +4,8 @@ import { Response } from '../../rpc/response';
 import { Members, Message } from '../../models';
 import { Events } from '../../../shared/events';
 
+import sendPush from '../../helpers/sendPush';
+
 interface Params {
     chatId: string;
     text: string;
@@ -40,6 +42,7 @@ export default async function sendMessage(request: Request<Params>, response: Re
 
     const messageWithTimeToDeath = {...message.dataValues, timeToDeath};
 
+    sendPush(messageWithTimeToDeath as any, request.user, request.server);
     response.notification(chatId, Events.NEW_MESSAGE, messageWithTimeToDeath);
     response.success(messageWithTimeToDeath);
 }
