@@ -41,6 +41,9 @@ class ChatItem extends React.Component<Props> {
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
         const isAttachment = this.message && this.message.attachment;
 
+        const text = this.message.forwarded && !this.message.forwarded.isReply ? 'Пересланное сообщение' :
+            `${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`;
+
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', modifiers)}`}>
                 <img src={chat.avatar} alt="" className={b('dialog-image')} />
@@ -51,7 +54,7 @@ class ChatItem extends React.Component<Props> {
                     {this.message && (
                         <div className={b('last-msg')}>
                             <span className={b('last-msg-mine', { dark })}>{isMine && 'Вы: '}</span>
-                            {`${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`}
+                            {text}
                         </div>
                     )}
                 </div>

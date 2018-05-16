@@ -38,8 +38,11 @@ class RPCClient {
             const connectSuccess = () => {
                 this.socket.removeEventListener('error', connectFailed);
                 this.socket.addEventListener('connect_error', () => {
-                    window.location.reload(true);
+                    if (navigator.onLine) {
+                        window.location.reload(true);
+                    }
                 });
+
                 resolve();
             };
 

@@ -136,12 +136,17 @@ export default class ChatModel {
                 return;
             }
 
-            await Promise.all(messages.map(message => UsersStore.fetchUser(message.senderId)));
+            await Promise.all(messages.map(message => {
+                if (message.forwarded) {
+                    UsersStore.fetchUser(message.forwarded.senderId);
+                }
+
+                return UsersStore.fetchUser(message.senderId);
+            }));
 
             messages.forEach(message => this.configureDeath(message));
 
             runInAction(() => {
-
                 this.messages = force ? messages : messages.concat(this.messages.slice());
                 this.setFetching(false);
             });
@@ -219,6 +224,12 @@ export default class ChatModel {
 
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
+
+        console.info(message.forwarded);
+        if (message.forwarded) {
+            await UsersStore.fetchUser(message.forwarded.senderId);
+        }
+
         this.addMessage(message);
 
         if (ChatsStore.currentChat !== this) {

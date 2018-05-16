@@ -15,10 +15,6 @@
     font-weight: bold;
 }
 
-.fwd__sender {
-    cursor: pointer;
-}
-
 .fwd__text {
     margin-bottom: 10px;
 }

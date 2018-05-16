@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { computed } from 'mobx';
 import b_ from 'b_';
 
 import usersStore from '../../domain/users-store';
@@ -25,6 +26,14 @@ interface Props {
 class ForwardedMessage extends React.Component<Props> {
 
     private messageArea: HTMLDivElement;
+
+    @computed
+    private get user() {
+        const { senderId } = this.props.message
+        const user = usersStore.users.get(senderId);
+
+        return user || { displayName: 'Неизвестно' }
+    }
 
     public componentDidMount() {
         if (this.props.message.text) {
@@ -52,13 +61,14 @@ class ForwardedMessage extends React.Component<Props> {
     }
 
     private renderHeader(): React.ReactNode {
-        const { senderId, isReply } = this.props.message;
-        const user = usersStore.users.get(senderId);
+        const { isReply } = this.props.message;
 
         return (
             <div className={b('header')}>
-                {isReply && <span>{user.displayName}</span>}
-                {!isReply && <span className={b('sender')}>Переслано от {user.displayName}</span>}
+                <span>
+                    {isReply && 'Переслано от '}
+                    {this.user.displayName}
+                </span>
             </div>
         )
     }

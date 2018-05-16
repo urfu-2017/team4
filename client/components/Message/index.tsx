@@ -166,8 +166,7 @@ class Message extends React.Component<Props> {
         }
 
         if (message.forwarded && !message.forwarded.isReply) {
-            const forwarded = { ...message.forwarded, senderId: message.senderId };
-            uiStore.setForwardMessage(forwarded, true);
+            uiStore.setForwardMessage(message.forwarded, true);
             return;
         }
 
