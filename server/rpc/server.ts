@@ -37,7 +37,6 @@ export class Server {
         const sockets = this.sockets.get(userId);
 
         if (sockets) {
-            console.info('Joined', userId, 'to', channel);
             await Promise.all(
                 sockets.map(
                     socket =>
@@ -131,7 +130,6 @@ export class Server {
 
             await method(request, response);
         } catch (error) {
-            console.error(error);
             if (error instanceof JsonRpc.JsonRpcError) {
                 socket.emit('rpc', JSON.stringify(error));
             } else {

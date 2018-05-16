@@ -225,7 +225,6 @@ export default class ChatModel {
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
 
-        console.info(message.forwarded);
         if (message.forwarded) {
             await UsersStore.fetchUser(message.forwarded.senderId);
         }

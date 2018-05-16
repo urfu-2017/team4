@@ -19,7 +19,7 @@ class RPCClient {
             reconnectionDelay: 500,
             reconnectionAttempts: 1,
             autoConnect: false,
-            transports: ['websocket', 'polling']
+            transports: ['websocket', 'polling'],
         });
     }
 
