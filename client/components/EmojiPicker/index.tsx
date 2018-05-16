@@ -1,8 +1,12 @@
 import { Picker } from 'emoji-mart';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
+import b from 'b_';
 
-import './index.css';
+import uiStore from '../../domain/ui-store';
+
+import './EmojiPicker.css';
 import 'emoji-mart/css/emoji-mart.css';
 
 interface Props {
@@ -22,15 +26,16 @@ class EmojiPicker extends React.Component<Props, any> {
 
     public render() {
         const { className = '' } = this.props;
+        const dark = uiStore.isDark;
 
         return (
-            <div className={className}>
+            <div className={classNames(className, b('picker', { dark }))}>
                 <Picker
                     set="google"
                     showPreview={false}
                     showSkinTones={false}
                     onSelect={this.getEmoji}
-                    color="#515151"
+                    color={dark ? '#ffffff' : '#515151'}
                     emojiSize={24}
                     native={true}
                 />

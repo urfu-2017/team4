@@ -1,0 +1,31 @@
+.emoji-mart-search {
+    display: none;
+}
+
+.emoji-mart-category-label {
+    text-align: left;
+}
+
+.picker_dark .emoji-mart {
+    background: #52575c;
+}
+
+.picker_dark .emoji-mart-category-label span {
+    background: #52575c;
+    color: #a8b5be;
+}
+
+.emoji-mart-anchor,
+.emoji-mart-emoji,
+.emoji-mart-emoji span {
+    cursor: pointer !important;
+}
+
+.picker_dark .emoji-mart-anchor:hover {
+    color: #fff;
+}
+
+.picker_dark .emoji-mart-bar,
+.picker_dark .emoji-mart {
+    border-color: #a8b5be;
+}
