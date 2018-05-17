@@ -41,8 +41,12 @@ class ChatItem extends React.Component<Props> {
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
         const isAttachment = this.message && this.message.attachment;
 
-        const text = this.message.forwarded && !this.message.forwarded.isReply ? 'Пересланное сообщение' :
-            `${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`;
+        let text = '';
+
+        if (this.message) {
+            text = this.message.forwarded && !this.message.forwarded.isReply ? 'Пересланное сообщение' :
+                `${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`;
+        }
 
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', modifiers)}`}>

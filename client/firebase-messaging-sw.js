@@ -6,10 +6,10 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
-//
-// messaging.setBackgroundMessageHandler(function(payload) {
-//     console.log('Message received. ', payload);
-// });
+
+messaging.setBackgroundMessageHandler(function(payload) {
+    console.log('Message received. ', payload);
+});
 
 // self.addEventListener('notificationclick', function(event) {
 //     event.notification.close();

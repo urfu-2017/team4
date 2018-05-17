@@ -9,11 +9,12 @@ const headers = {
 
 export default async function(message: Message, currentUserId: number, server: Server) {
     try {
-        // let options: any = { where: { chatId: message.chatId }, attributes: ['userId'] };
-        // const members = (await Members.findAll(options))
+        const { createdAt, text, attachment, forwarded, senderId, chatId } = message;
+
+        // const members = (await Members.findAll({ where: { chatId }, attributes: ['userId'] }))
         //     .map(record => record.userId)
         //     .filter((id: number) => /* !server.isAvailableUser(id) && */ id !== currentUserId);
-        //
+
         // options = { where: { userId: { $in: members } }, attributes: ['token'] };
         const tokens = (await Token.findAll()).map(x => x.token);
         //
@@ -22,28 +23,21 @@ export default async function(message: Message, currentUserId: number, server: S
         //     return;
         // }
         //
-        // const chat = (await Chat.findById(message.chatId, { attributes: ['id', 'type', 'name'] }))!;
-        //
-        // const { username, firstName, lastName, avatar }  = (await User.findById(message.senderId))!;
-        // const name = `${firstName || ''} ${lastName || ''}`.trim() || username;
-        //
-        // const text = message.forwarded && message.forwarded.isReply ? 'Пересланное сообщение'
-        //     : `${message.attachment ? 'Фотография.' : ''} ${message.text}`.trim();
+        const chat = (await Chat.findById(chatId, { attributes: ['id', 'type', 'name'] }))!;
 
-        // const data = {
-        //     id: chat.id,
-        //     type: chat.type,
-        //     name: chat.name,
-        //     sender: { avatar, name },
-        //     message: { text, createdAt: message.createdAt }
-        // };
+        const { username, firstName, lastName, avatar }  = (await User.findById(message.senderId))!;
+        const name = `${firstName || ''} ${lastName || ''}`.trim() || username;
 
-        const notification = { title: 'test' };
-        const body = { registration_ids: tokens, notification };
-        const res = await got('http://fcm.googleapis.com/fcm/send', { method: 'POST', headers, body, json: true });
+        const data = {
+            id: chat.id,
+            type: chat.type,
+            name: chat.name,
+            sender: { avatar, name },
+            message: { text, createdAt, attachment, forwarded }
+        };
 
-        console.info(res.body);
-
+        const body = { registration_ids: tokens, data };
+        await got('https://fcm.googleapis.com/fcm/send', { method: 'POST', headers, body, json: true });
     } catch (e) {
         console.error(e);
         console.info('Cannot send push');
