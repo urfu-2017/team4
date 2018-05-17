@@ -103,7 +103,7 @@ class MessageInput extends React.Component {
                         <Button
                             onClick={this.onClickLocation}
                             title="Отправить своё местоположение"
-                            className={`${b('button')} ${b('button_map')}`}
+                            className={`${b('button', { dark })} ${b('button_map')}`}
                         >
                             <MapIcon className={`${b('icon')}`} />
                         </Button>

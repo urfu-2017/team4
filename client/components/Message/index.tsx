@@ -7,6 +7,7 @@ import OGData from '../OGData';
 import Reactions from '../Reactions';
 import ReplyIcon from './ReplyIcon';
 import ForwardedMessage from './ForwardedMessage';
+import ImageViewer from '../ImageViewer';
 
 import { APP_URL } from '../../config';
 import uiStore from '../../domain/ui-store';
@@ -20,7 +21,6 @@ import getUrlMeta from '../../utils/url-meta';
 import urlParser from '../../utils/url-parser';
 
 import './Message.css';
-import ImageViewer from '../ImageViewer';
 const b = b_.with('message');
 
 interface Props {
