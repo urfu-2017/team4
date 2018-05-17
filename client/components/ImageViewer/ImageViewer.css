@@ -1,0 +1,16 @@
+.image-viewer {
+    min-width: 300px;
+    max-width: 80vw;
+    padding: 20px;
+}
+
+.image-viewer__container {
+    min-width: 300px;
+    margin: 0 auto;
+}
+
+.image-viewer__image {
+    display: block;
+    max-height: 70vh;
+    max-width: 80vw;
+}
