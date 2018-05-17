@@ -65,8 +65,8 @@ class Profile extends React.Component<{}, State> {
             >
                 <Dropzone
                     className={b('dropzone', { disabled: isFetching })}
-                    overClassName={b('dropzone', { disabled: true })}
-                    onWindowClassName={b('dropzone', { disabled: true })}
+                    overClassName="profile__dropzone_disabled"
+                    onWindowClassName="profile__dropzone_disabled"
                     onDrop={this.onDrop}
                     accept="image/png, image/jpeg"
                     disabled={isFetching || this.isProcessing}

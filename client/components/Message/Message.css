@@ -62,6 +62,8 @@
     max-width: 100%;
     max-height: 400px;
     height: auto;
+
+    cursor: pointer;
 }
 
 @media (min-height: 768px) {
@@ -100,6 +102,10 @@
     white-space: pre-wrap;
 
     overflow-x: auto;
+}
+
+.message__body_dark pre {
+    background: #52575c;
 }
 
 .message__text strong {
