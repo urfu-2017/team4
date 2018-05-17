@@ -17,4 +17,8 @@
     .header {
         position: relative;
     }
+
+    .header__chat-settings {
+        margin-right: 15px !important;
+    }
 }

@@ -66,7 +66,7 @@ class ForwardedMessage extends React.Component<Props> {
         return (
             <div className={b('header')}>
                 <span>
-                    {isReply && 'Переслано от '}
+                    {!isReply && 'Переслано от '}
                     {this.user.displayName}
                 </span>
             </div>
