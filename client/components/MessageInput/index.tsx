@@ -122,8 +122,8 @@ class MessageInput extends React.Component {
                         this.dropzone = node;
                     }}
                     className={b('dropzone')}
-                    onWindowClassName={b('dropzone', { display: true })}
-                    overClassName={b('dropzone', { over: true })}
+                    onWindowClassName={b('dropzone') + '_display'}
+                    overClassName={b('dropzone') + '_over'}
                     onDrop={this.onDrop}
                     accept="image/jpeg, image/gif, image/png, image/webp, image/svg+xml"
                 >
