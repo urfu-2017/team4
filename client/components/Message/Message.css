@@ -104,6 +104,10 @@
     overflow-x: auto;
 }
 
+.message__body_dark pre {
+    background: #52575c;
+}
+
 .message__text strong {
     display: block;
     font-weight: bold;
