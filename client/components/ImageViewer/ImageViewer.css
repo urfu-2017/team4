@@ -1,16 +1,29 @@
 .image-viewer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
     min-width: 300px;
     max-width: 80vw;
-    padding: 20px;
+    max-height: 80vh;
+    padding: 20px 20px 10px;
+    top: 5vh;
+
+    border-radius: 10px;
+}
+
+.image-viewer_dark {
+    background: #3f4447;
 }
 
 .image-viewer__container {
+    display: flex;
+    justify-content: center;
     min-width: 300px;
-    margin: 0 auto;
+    margin: 0 auto 10px;
 }
 
 .image-viewer__image {
-    display: block;
-    max-height: 70vh;
+    max-height: 80vh;
     max-width: 80vw;
 }

@@ -19,6 +19,7 @@ import getUrlMeta from '../../utils/url-meta';
 import urlParser from '../../utils/url-parser';
 
 import './Message.css';
+import ImageViewer from '../ImageViewer';
 const b = b_.with('message');
 
 interface Props {
@@ -31,6 +32,7 @@ class Message extends React.Component<Props> {
     private messageText: HTMLElement;
 
     @observable.ref private meta: any = null;
+    @observable private displayImage: boolean = false;
 
     public componentDidMount() {
         const { text, id } = this.props.message;
@@ -85,7 +87,16 @@ class Message extends React.Component<Props> {
                         className={b('text')}
                         dangerouslySetInnerHTML={{ __html: markdown(text) }}
                     />
-                    {attachment && <img src={attachment} className={b('attachment')} />}
+                    {attachment && (
+                        <img
+                            src={attachment}
+                            className={b('attachment')}
+                            onClick={this.toggleImage}
+                        />
+                    )}
+                    {this.displayImage && (
+                        <ImageViewer src={attachment} closeHandler={this.toggleImage} />
+                    )}
                     {isReal && this.meta && <OGData isInMessage={true} {...this.meta} />}
                     {isReal && <Reactions reactions={reactions} onClick={this.onClickReaction} />}
                 </div>
@@ -97,20 +108,20 @@ class Message extends React.Component<Props> {
     private renderActions() {
         return (
             <div className={b('actions')}>
-                    <span
-                        onClick={this.onSetReplyMessage}
-                        className={b('action', { type: 'reply' })}
-                        title="Ответить"
-                    >
-                        <ReplyIcon className={b('icon')}/>
-                    </span>
-                    <span
-                        onClick={this.onSetForwardMessage}
-                        className={b('action', { type: 'forward' })}
-                        title="Переслать"
-                    >
-                            <ReplyIcon className={b('icon')}/>
-                        </span>
+                <span
+                    onClick={this.onSetReplyMessage}
+                    className={b('action', { type: 'reply' })}
+                    title="Ответить"
+                >
+                    <ReplyIcon className={b('icon')} />
+                </span>
+                <span
+                    onClick={this.onSetForwardMessage}
+                    className={b('action', { type: 'forward' })}
+                    title="Переслать"
+                >
+                    <ReplyIcon className={b('icon')} />
+                </span>
             </div>
         );
     }
@@ -137,6 +148,11 @@ class Message extends React.Component<Props> {
         this.meta = meta;
     };
 
+    @action
+    private toggleImage = () => {
+        this.displayImage = !this.displayImage;
+    };
+
     private onSetReplyMessage = () => {
         if (uiStore.forwardMessage === this.props.message) {
             uiStore.setForwardMessage(null);
@@ -144,12 +160,12 @@ class Message extends React.Component<Props> {
         }
 
         uiStore.setForwardMessage(this.props.message, true);
-    }
+    };
 
     private onSetForwardMessage = () => {
         uiStore.setForwardMessage(this.props.message, false);
         uiStore.togglePopup('selectChat')();
-    }
+    };
 }
 
 export default Message;
