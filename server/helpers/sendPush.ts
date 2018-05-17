@@ -11,18 +11,17 @@ export default async function(message: Message, currentUserId: number, server: S
     try {
         const { createdAt, text, attachment, forwarded, senderId, chatId } = message;
 
-        // const members = (await Members.findAll({ where: { chatId }, attributes: ['userId'] }))
-        //     .map(record => record.userId)
-        //     .filter((id: number) => /* !server.isAvailableUser(id) && */ id !== currentUserId);
+        const members = (await Members.findAll({ where: { chatId }, attributes: ['userId'] }))
+            .map(record => record.userId)
+            .filter((id: number) => !server.isAvailableUser(id) && id !== currentUserId);
 
-        // options = { where: { userId: { $in: members } }, attributes: ['token'] };
-        const tokens = (await Token.findAll()).map(x => x.token);
-        //
-        // console.info(tokens);
-        // if (tokens.length === 0) {
-        //     return;
-        // }
-        //
+        const options = { where: { userId: members }, attributes: ['token'] };
+        const tokens = (await Token.findAll(options)).map(x => x.token);
+
+        if (tokens.length === 0) {
+            return;
+        }
+
         const chat = (await Chat.findById(chatId, { attributes: ['id', 'type', 'name'] }))!;
 
         const { username, firstName, lastName, avatar }  = (await User.findById(message.senderId))!;
