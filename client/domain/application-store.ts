@@ -6,6 +6,8 @@ import contactsStore from './contacts-store';
 import chatsStore from './chats-store';
 import uiStore from './ui-store';
 
+import sendToken from '../utils/sendToken';
+
 class ApplicationStore {
     @observable public isAppLoaded = false;
     @observable public isAuthRequired = false;
@@ -28,6 +30,7 @@ class ApplicationStore {
             usersStore.setCurrentUser(usersStore.saveUser(currentUser, isOffline));
             contactsStore.setList(contacts.map(contact => usersStore.saveUser(contact, isOffline)));
             await Promise.all(chats.map(chat => chatsStore.saveChat(chat, isOffline)));
+            sendToken();
 
             this.setOffline(false);
             this.setLoaded({ requireAuth: false });

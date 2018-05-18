@@ -10,6 +10,7 @@ import Search from './Search';
 
 import contactsStore from '../../../domain/contacts-store';
 import userSearchStore from '../../../domain/user-search-store';
+import uiStore from '../../../domain/ui-store';
 
 import './AddContact.css';
 
@@ -30,10 +31,11 @@ class AddContact extends React.Component<Props> {
         const selected = userSearchStore.users
             .filter(user => contactsStore.has(user.username))
             .map(contact => contact.id);
+        const dark = uiStore.isDark;
 
         return (
-            <Popup className={b()} closeHandler={this.props.closeHandler} zIndex={200}>
-                <h2 className={`${b('heading')} header3`}>Добавить контакт</h2>
+            <Popup className={b()} closeHandler={this.props.closeHandler} zIndex={200} dark={dark}>
+                <h2 className={`${b('heading', { dark })} header3`}>Добавить контакт</h2>
                 <div className={b('search-zone')}>
                     {userSearchStore.state === 'loaded' ? (
                         <UsersList
@@ -49,16 +51,28 @@ class AddContact extends React.Component<Props> {
                 <div className={b('buttons')}>
                     {userSearchStore.state === 'loaded' ? (
                         <React.Fragment>
-                            <Button className={b('clear-btn')} onClick={userSearchStore.clear}>
+                            <Button
+                                className={b('clear-btn')}
+                                onClick={userSearchStore.clear}
+                                type={dark ? 'dark' : 'main'}
+                            >
                                 Сбросить
                             </Button>
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            <Button className={b('cancel-btn')} onClick={this.props.closeHandler}>
+                            <Button
+                                className={b('cancel-btn')}
+                                onClick={this.props.closeHandler}
+                                type={dark ? 'dark' : 'main'}
+                            >
                                 Отмена
                             </Button>
-                            <Button className={b('find-btn')} onClick={userSearchStore.searchUser}>
+                            <Button
+                                className={b('find-btn')}
+                                onClick={userSearchStore.searchUser}
+                                type={dark ? 'dark' : 'main'}
+                            >
                                 Найти
                             </Button>
                         </React.Fragment>
@@ -83,6 +97,7 @@ class AddContact extends React.Component<Props> {
         const hasContact = contactsStore.has(contact.username);
 
         if (hasContact) {
+            uiStore.setToast('Контакт уже добавлен');
             return;
         }
 

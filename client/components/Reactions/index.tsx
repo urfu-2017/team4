@@ -3,8 +3,11 @@ import { observer } from 'mobx-react';
 import { observable, computed, action } from 'mobx';
 import b_ from 'b_';
 
+import uiStore from '../../domain/ui-store';
+
 import EmojiPicker from '../EmojiPicker';
 import Reaction from './Item';
+import Popup from '../Popup';
 
 import './Reactions.css';
 const b = b_.with('reactions');
@@ -36,6 +39,8 @@ class Reactions extends React.Component<Props> {
     }
 
     public render(): React.ReactNode {
+        const dark = uiStore.isDark;
+
         return (
             <React.Fragment>
                 <div className={b()}>
@@ -48,26 +53,25 @@ class Reactions extends React.Component<Props> {
                             />
                         ))}
                     </div>
-                    <span onClick={this.onShowPicker} className={b('item', { plus: true })}>
+                    <span onClick={this.onShowPicker} className={b('item', { plus: true, dark })}>
                         +
                     </span>
                 </div>
                 {this.showPicker && (
-                    <EmojiPicker
-                        className={b('picker')}
-                        addSmile={this.onClick}
-                        closeSmiles={this.onHidePicker}
-                    />
+                    <Popup className={b('popup')} closeHandler={this.onHidePicker} zIndex={100}>
+                        <EmojiPicker
+                            className={b('picker')}
+                            addSmile={this.onClick}
+                        />
+                    </Popup>
                 )}
             </React.Fragment>
         );
     }
 
-    @action
-    private onShowPicker = () => this.showPicker = true;
+    @action private onShowPicker = () => (this.showPicker = true);
 
-    @action
-    private onHidePicker = () => this.showPicker = false;
+    @action private onHidePicker = () => (this.showPicker = false);
 
     @action
     private onClick = smile => {

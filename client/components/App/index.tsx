@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import b from 'b_';
 
 import Notificator from '../Notificator';
 import Toast from '../Toast';
@@ -26,7 +27,7 @@ class App extends React.Component {
     public render() {
         return (
             <HashRouter>
-                <div className="app">
+                <div className={b('app', { dark: uiStore.isDark })}>
                     <Header />
                     <div className="split">
                         <Chats />

@@ -22,7 +22,7 @@ const isLocalhost = Boolean(
 export default function register() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            const swUrl = `/sw.js`;
+            const swUrl = `/firebase-messaging-sw.js`;
 
             if (isLocalhost) {
                 // This is running on localhost. Lets check if a service worker still exists or not.

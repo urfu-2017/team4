@@ -1,6 +1,7 @@
 import { computed } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
+import b from 'b_';
 
 import Button from '../Button';
 import ChatItem from './ChatItem';
@@ -31,7 +32,7 @@ class Chats extends React.Component {
         const isExists = currentChat && !!this.chats.find(chat => chat.id === currentChat.id);
 
         return (
-            <div className="dialogs">
+            <div className={b('dialogs', { dark: uiStore.isDark })}>
                 <div className="dialog-list">
                     {currentChat && !isExists && <ChatItem chat={currentChat} />}
                     {this.chats.map(dialog => <ChatItem key={dialog.id} chat={dialog} />)}
@@ -39,7 +40,7 @@ class Chats extends React.Component {
                 <Button
                     onClick={this.onContactsClick}
                     className="dialogs__new-dialog-btn"
-                    type="main"
+                    type={ uiStore.isDark ? 'dark' : 'main'}
                 >
                     Новый диалог
                 </Button>

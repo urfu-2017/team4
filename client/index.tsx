@@ -9,16 +9,23 @@ import App from './components/App';
 import LoaderPage from './components/LoaderPage';
 import LoginPage from './components/LoginPage';
 
+import uiStore from './domain/ui-store';
+
 import registerServiceWorker from './registerServiceWorker';
 import applicationStore from './domain/application-store';
 import './index.css';
 
 registerServiceWorker();
+Notification.requestPermission();
 
 @observer
 class Application extends React.Component {
     public componentDidMount() {
         applicationStore.init();
+
+        if (uiStore.isDark) {
+            document.body.style.backgroundColor = '#545b5f';
+        }
     }
 
     public render() {

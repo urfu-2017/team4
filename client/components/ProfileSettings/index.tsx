@@ -38,18 +38,6 @@ class Profile extends React.Component<{}, State> {
         this.state = { ...UsersStore.currentUser } as any;
     }
 
-    public onChangeFirstName = event => {
-        this.setState({
-            firstName: event.target.value
-        });
-    };
-
-    public onChangeSecondName = event => {
-        this.setState({
-            lastName: event.target.value
-        });
-    };
-
     public saveUser = async () => {
         try {
             await UsersStore.updateCurrentUser(this.state);
@@ -57,7 +45,7 @@ class Profile extends React.Component<{}, State> {
 
             uiStore.setToast('Профиль обновлён', 1000);
         } catch (e) {
-            uiStore.setToast('Не удалось обновить профиль')
+            uiStore.setToast('Не удалось обновить профиль');
         }
     };
 
@@ -65,6 +53,7 @@ class Profile extends React.Component<{}, State> {
         const closeHandler = uiStore.togglePopup('profile');
         const { avatar, username, firstName, lastName } = this.state;
         const isFetching = this.uploadStore.isFetching;
+        const dark = uiStore.isDark;
 
         return (
             <Popup
@@ -72,11 +61,12 @@ class Profile extends React.Component<{}, State> {
                 className={b()}
                 closeHandler={closeHandler}
                 headContent={<Head closeHandler={closeHandler} />}
+                dark={dark}
             >
                 <Dropzone
                     className={b('dropzone', { disabled: isFetching })}
-                    overClassName={b('dropzone', { disabled: true })}
-                    onWindowClassName={b('dropzone', { disabled: true })}
+                    overClassName="profile__dropzone_disabled"
+                    onWindowClassName="profile__dropzone_disabled"
                     onDrop={this.onDrop}
                     accept="image/png, image/jpeg"
                     disabled={isFetching || this.isProcessing}
@@ -89,7 +79,7 @@ class Profile extends React.Component<{}, State> {
                         </div>
                     )}
                 </Dropzone>
-                <div className={b('username')}>{`@${username}`}</div>
+                <div className={b('username', { dark })}>{`@${username}`}</div>
                 <div className={b('fields')}>
                     <Input
                         className={b('input')}
@@ -99,18 +89,36 @@ class Profile extends React.Component<{}, State> {
                         placeholder="Имя"
                     />
                     <Input
-                        onChange={this.onChangeSecondName}
+                        className={b('input')}
+                        onChange={this.onChangeLastName}
                         type="text"
                         value={lastName}
                         placeholder="Фамилия"
                     />
                 </div>
-                <Button className={b('save')} onClick={this.saveUser} disabled={isFetching}>
+                <Button
+                    className={b('save')}
+                    onClick={this.saveUser}
+                    disabled={isFetching}
+                    type={dark ? 'dark' : 'main'}
+                >
                     Сохранить
                 </Button>
             </Popup>
         );
     }
+
+    private onChangeFirstName = event => {
+        this.setState({
+            firstName: event.target.value
+        });
+    };
+
+    private onChangeLastName = event => {
+        this.setState({
+            lastName: event.target.value
+        });
+    };
 
     @action
     private onDrop = async (accepted: File[]) => {

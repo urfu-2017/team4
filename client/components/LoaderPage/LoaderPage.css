@@ -18,3 +18,11 @@
     margin-top: 24px;
     color: #555;
 }
+
+.loader-page__title_dark {
+    color: #a8b5be;
+}
+
+.loader-page__spinner_dark path {
+    fill: #a8b5be;
+}

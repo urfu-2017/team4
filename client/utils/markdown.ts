@@ -1,6 +1,6 @@
 import marked from 'marked';
 import { createContainer } from './weather';
-import { BASE_URL } from '../config';
+import { APP_URL } from '../config';
 
 const renderer = new marked.Renderer();
 
@@ -15,7 +15,7 @@ const weatherParser = (text: string) =>
 const oldLinkRenderer = renderer.link.bind(renderer);
 
 renderer.link = (href: string, title: string, text: string) => {
-    if (href.startsWith(BASE_URL)) {
+    if (href.startsWith(APP_URL)) {
         return oldLinkRenderer(href, title, text);
     }
 

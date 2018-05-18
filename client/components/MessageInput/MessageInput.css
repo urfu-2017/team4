@@ -3,6 +3,10 @@
     background: #fff;
 }
 
+.message-input_dark {
+    background: #373b3e;
+}
+
 .message-input__forwarded {
     width: 100%;
 }
@@ -26,6 +30,11 @@
 
     font-size: 14px;
     transition: 0.2s box-shadow ease-in-out;
+}
+
+.message-input__message_dark {
+    background: #373b3e;
+    color: #a8b5be;
 }
 
 .message-input__message::placeholder {
@@ -79,8 +88,17 @@
     color: #999;
 }
 
+.message-input__button_dark {
+    background: #373b3e;
+}
+
 .message-input__button:hover {
     background: initial;
+}
+
+.message-input__button_map {
+    width: 28px;
+    height: 28px;
 }
 
 .message-input__icon {

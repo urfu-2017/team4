@@ -1,7 +1,6 @@
 import React from 'react';
 import b_ from 'b_';
 
-import contactsStore from '../../domain/contacts-store';
 import Button from '../Button';
 
 const b = b_.with('contacts');

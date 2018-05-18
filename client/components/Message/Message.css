@@ -28,6 +28,10 @@
     color: #74669b;
 }
 
+.message__date_dark {
+    color: #a8b5be;
+}
+
 .message__body {
     min-width: 80px;
     box-sizing: border-box;
@@ -41,6 +45,15 @@
     position: relative;
 }
 
+.message__body_dark {
+    background: #52575c;
+    color: #eee;
+}
+
+.message__body_dark a {
+    color: cyan;
+}
+
 .message__text {
     word-break: break-all;
 }
@@ -49,6 +62,8 @@
     max-width: 100%;
     max-height: 400px;
     height: auto;
+
+    cursor: pointer;
 }
 
 @media (min-height: 768px) {
@@ -87,6 +102,10 @@
     white-space: pre-wrap;
 
     overflow-x: auto;
+}
+
+.message__body_dark pre {
+    background: #52575c;
 }
 
 .message__text strong {

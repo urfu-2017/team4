@@ -16,9 +16,16 @@ class Profile extends React.Component {
     }
 
     public render() {
+        const dark = uiStore.isDark;
+
         return (
-            <Popup zIndex={300} closeHandler={Profile.closePopup} className={b()}>
-                <h3 className={b('title') + ' header3'}>Информация о пользователе</h3>
+            <Popup
+                zIndex={300}
+                closeHandler={Profile.closePopup}
+                className={b()}
+                dark={dark}
+            >
+                <h3 className={b('title', { dark }) + ' header3'}>Информация о пользователе</h3>
                 <FullUserInfo user={uiStore.userInfo} />
             </Popup>
         );

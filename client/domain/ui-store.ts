@@ -2,6 +2,7 @@ import { action, computed, observable } from 'mobx';
 import UserModel from './user-model';
 
 class UIStore {
+    @observable public isDark: boolean = localStorage.isDark === 'true';
     @observable public userInfo: UserModel = null;
 
     @observable public isMenuShown: boolean = false;
@@ -43,6 +44,25 @@ class UIStore {
     }
 
     private errorTimer: any;
+
+    @action
+    public toggleTheme = () => {
+        this.isDark = !this.isDark;
+
+        if (this.isDark) {
+            document.body.style.backgroundColor = '#545b5f';
+        } else {
+            document.body.style.backgroundColor = '';
+        }
+
+        if(localStorage.isDark === undefined) {
+            localStorage.isDark = this.isDark;
+
+            return;
+        }
+
+        localStorage.isDark = localStorage.isDark === 'false';
+    };
 
     @action
     public setForwardMessage(message: any, isReply: boolean = false) {

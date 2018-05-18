@@ -7,15 +7,17 @@ import b_ from 'b_';
 import markdown from '../../../utils/markdown';
 import getPlainText from '../../../utils/plain-text';
 
+import uiStore from '../../../domain/ui-store';
 import ChatsStore from '../../../domain/chats-store';
 import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
 
 import './ChatItem.css';
+import ChatModel from '../../../domain/chat-model';
 const b = b_.with('dialog-list');
 
 interface Props {
-    chat: any;
+    chat: ChatModel;
 }
 
 @observer
@@ -34,21 +36,32 @@ class ChatItem extends React.Component<Props> {
     public render() {
         const { chat } = this.props;
 
-        const isActiveModifier = { active: ChatsStore.currentChat === chat };
+        const dark = uiStore.isDark;
+
+        const modifiers = { active: ChatsStore.currentChat === chat, dark };
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
         const isAttachment = this.message && this.message.attachment;
 
+        let text = '';
+
+        if (this.message) {
+            text = this.message.forwarded && !this.message.forwarded.isReply ? 'Пересланное сообщение' :
+                `${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`;
+        }
+
         return (
-            <Link to={`/chats/${chat.id}`} className={`${b('item', isActiveModifier)}`}>
-                <img src={chat.avatar} alt="" className={b('dialog-image')} />
+            <Link to={`/chats/${chat.id}`} className={`${b('item', modifiers)}`}>
+                <div className={b('dialog-image', { notify: chat.hasNotification })}>
+                    <img src={chat.avatar} alt="" />
+                </div>
                 <div className={b('dialog-body')}>
-                    <div className={b('dialog-name')} title={chat.displayName}>
+                    <div className={b('dialog-name', { dark })} title={chat.displayName}>
                         {chat.displayName}
                     </div>
                     {this.message && (
                         <div className={b('last-msg')}>
-                            <span className={b('last-msg-mine')}>{isMine && 'Вы: '}</span>
-                            {`${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`}
+                            <span className={b('last-msg-mine', { dark })}>{isMine && 'Вы: '}</span>
+                            {text}
                         </div>
                     )}
                 </div>

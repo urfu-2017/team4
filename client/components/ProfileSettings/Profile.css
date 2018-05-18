@@ -13,7 +13,6 @@
     padding-bottom: 15px;
     box-sizing: border-box;
 
-    background: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
     transform: translateX(-50%);
@@ -41,6 +40,10 @@
 .profile__username {
     margin: 0 0 12px;
     font-size: 20px;
+}
+
+.profile__username_dark {
+    color: #a8b5be;
 }
 
 /*=============================   DROPZONA   =============================*/
@@ -90,7 +93,7 @@
     left: 50%;
     width: 15px;
     height: 60px;
-    background: #ccc;
+    background: #aaa;
     border-radius: 5px;
 
     transform: translate(-50%, -50%);

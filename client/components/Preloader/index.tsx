@@ -1,4 +1,7 @@
 import React from 'react';
+import { observer } from 'mobx-react';
+
+import uiStore from '../../domain/ui-store';
 
 import './Preloader.css';
 
@@ -8,7 +11,11 @@ interface Props {
     className?: string;
 }
 
-const Preloader: React.SFC<Props> = ({ className, size, color = '#74669b' }) => (
+const Preloader: React.SFC<Props> = ({
+    className,
+    size,
+    color = uiStore.isDark ? '#a8b5be' : '#74669b'
+}) => (
     <div className={`loader ${className}`} style={{ width: size, height: size }}>
         <svg className="loader__image" viewBox="25 25 50 50">
             <circle
@@ -25,4 +32,4 @@ const Preloader: React.SFC<Props> = ({ className, size, color = '#74669b' }) => 
     </div>
 );
 
-export default Preloader;
+export default observer(Preloader);

@@ -9,15 +9,15 @@
     padding-left: 12px;
     border-left: 2px solid #74669b;
 
-    background: #ffff;
     text-align: left;
 }
 
-.og-data__image-link {
-    margin-right: 20px;
+.og-data_dark {
+    border-left: 2px solid #3f4447;
 }
 
 .og-data__image {
+    margin-right: 20px;
     max-width: 100px;
     height: auto;
     vertical-align: middle;
@@ -38,4 +38,15 @@
 .og-data__description {
     margin-top: 4px;
     margin-bottom: 0;
+}
+
+@media screen and (max-width: 700px) {
+    .og-data {
+        flex-direction: column;
+    }
+
+    .og-data__image {
+        margin-right: 0;
+        margin-bottom: 16px;
+    }
 }

@@ -10,6 +10,11 @@
     z-index: 10;
 }
 
+.menu_dark {
+    background: #373b3e;
+    border-color: #52575c;
+}
+
 .menu__item {
     box-sizing: border-box;
     display: block;
@@ -26,4 +31,12 @@
 
 .menu__item:hover {
     background: rgba(234, 227, 252, 0.55);
+}
+
+.menu__item_dark {
+    color: #a8b5be;
+}
+
+.menu__item_dark:hover {
+    background: #52585c;
 }

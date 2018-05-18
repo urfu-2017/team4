@@ -11,3 +11,7 @@
 .user-profile__title {
     margin: 0 0 24px;
 }
+
+.user-profile__title_dark {
+    color: #fff;
+}

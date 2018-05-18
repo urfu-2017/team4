@@ -2,10 +2,12 @@ import React from 'react';
 import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import b_ from 'b_';
+import classNames from 'classnames';
 import BasicUserInfo from '../UserInfo/Basic';
 import Search from './Search';
 
 import UserModel from '../../domain/user-model';
+import uiStore from '../../domain/ui-store';
 
 import './UsersList.css';
 const b = b_.with('users');
@@ -49,12 +51,14 @@ class ContactsList extends React.Component<Props> {
             emptyMessage = 'Список пользователей пуст'
         } = this.props;
 
+        const dark = uiStore.isDark;
+
         if (users.length === 0) {
-            return <p className={`${b('empty')} text`}>{emptyMessage}</p>;
+            return <p className={`${b('empty', { dark })} text`}>{emptyMessage}</p>;
         }
 
         return (
-            <div className={`${b()} ${className}`.trim()}>
+            <div className={classNames(className, b({ dark }))}>
                 {users.length !== 0 &&
                     !disableSearch && (
                         <Search

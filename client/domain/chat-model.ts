@@ -8,6 +8,13 @@ import UsersStore from './users-store';
 import ChatsStore from './chats-store';
 import UIStore from './ui-store';
 
+interface MessageRequest {
+    text?: string;
+    attachment?: string;
+    timeToDeath?: number;
+    forwarded?: any;
+}
+
 export default class ChatModel {
     @observable public messages = [];
     @observable public sendingMessages = [];
@@ -129,12 +136,17 @@ export default class ChatModel {
                 return;
             }
 
-            await Promise.all(messages.map(message => UsersStore.fetchUser(message.senderId)));
+            await Promise.all(messages.map(message => {
+                if (message.forwarded) {
+                    UsersStore.fetchUser(message.forwarded.senderId);
+                }
+
+                return UsersStore.fetchUser(message.senderId);
+            }));
 
             messages.forEach(message => this.configureDeath(message));
 
             runInAction(() => {
-
                 this.messages = force ? messages : messages.concat(this.messages.slice());
                 this.setFetching(false);
             });
@@ -146,7 +158,7 @@ export default class ChatModel {
     }
 
     @action
-    public sendMessage(text, attachment, timeToDeath) {
+    public sendMessage({ text = '', attachment, timeToDeath = null, forwarded }: MessageRequest) {
         const senderId = UsersStore.currentUser.id;
         const tempId = v4();
         const message = {
@@ -156,10 +168,11 @@ export default class ChatModel {
             text,
             attachment,
             timeToDeath,
-            reactions: []
+            reactions: [],
+            forwarded
         };
-        this.configureDeath(message);
 
+        this.configureDeath(message);
         this.sendingMessages.push(message);
         this.queue = RPC.request('sendMessage', message).then(
             (response) => this.addMessage(response, tempId),
@@ -211,6 +224,11 @@ export default class ChatModel {
 
     public async onReceiveMessage(message) {
         await UsersStore.fetchUser(message.senderId);
+
+        if (message.forwarded) {
+            await UsersStore.fetchUser(message.forwarded.senderId);
+        }
+
         this.addMessage(message);
 
         if (ChatsStore.currentChat !== this) {

@@ -15,18 +15,27 @@ import UploadPreview from './UploadPreview';
 import SendIcon from './SendIcon';
 import AttachIcon from './AttachIcon';
 import EmojiIcon from './EmojiIcon';
+import MapIcon from './MapIcon';
 import Dropzone from '../Dropzone';
 import AlarmIcon from './AlarmIcon';
 
+import uiStore from '../../domain/ui-store';
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
+import { withOutsideClickHandler } from '../../hocs/withOutsideClickHandler';
+import createForwardMessage from '../../utils/createForwardMessage';
 import { BASE_URL } from '../../config';
 
+import getMapUrl from '../../utils/maps-url';
+
 import './MessageInput.css';
-import uiStore from '../../domain/ui-store';
-import chatsStore from '../../domain/chats-store';
 const b = b_.with('message-input');
+
+interface PickerProps {
+    addSmile: (smile) => void;
+    className?: string;
+}
 
 @observer
 class MessageInput extends React.Component {
@@ -51,6 +60,10 @@ class MessageInput extends React.Component {
         const text = this.message.trim();
 
         if (!text) {
+            if (uiStore.forwardMessage) {
+                uiStore.setToast('Нельзя ответить на сообщение пустым текстом');
+            }
+
             return;
         }
         let timeToDeath = {};
@@ -59,8 +72,12 @@ class MessageInput extends React.Component {
             timeToDeath = uiStore.timeToDeath;
         }
 
-        await ChatsStore.currentChat.sendMessage(text, null, timeToDeath);
+        const forwarded = uiStore.forwardMessage ?
+            createForwardMessage(uiStore.forwardMessage, true) : null;
+
+        await ChatsStore.currentChat.sendMessage({ text, timeToDeath, forwarded });
         this.setMessage('');
+        uiStore.setForwardMessage(null);
         this.messageInput.focus();
     };
 
@@ -72,17 +89,32 @@ class MessageInput extends React.Component {
     };
 
     public render() {
+        const dark = uiStore.isDark;
+        const MessageInputEmojiPicker: React.ComponentClass<PickerProps> = withOutsideClickHandler(
+            EmojiPicker,
+            this.onCloseSmiles
+        );
+
         return (
-            <section className={b()}>
+            <section className={b({ dark })}>
                 {this.renderForwardedContainer()}
                 <div className={b('container')}>
-                    <Button className={b('button')} onClick={this.dropzoneOpen}>
+                    <Button title="Прикрепить фотографию" className={b('button', { dark })} onClick={this.dropzoneOpen}>
                         <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
                     </Button>
+                    {navigator.geolocation && (
+                        <Button
+                            onClick={this.onClickLocation}
+                            title="Отправить своё местоположение"
+                            className={`${b('button', { dark })} ${b('button_map')}`}
+                        >
+                            <MapIcon className={`${b('icon')}`} />
+                        </Button>
+                    )}
                     <Textarea
                         maxRows={6}
                         style={{ padding: '10px' }}
-                        className={b('message')}
+                        className={b('message', { dark })}
                         placeholder="Введите сообщение..."
                         onKeyPress={this.onKeyUp}
                         onChange={this.onChangeText}
@@ -102,18 +134,20 @@ class MessageInput extends React.Component {
                         )}
                     </div>
                     <div className={b('smiles')}>
-                        <Button onClick={this.onShowSmiles} className={b('button')}>
+                        <Button onClick={this.onShowSmiles} className={b('button', { dark })}>
                             <EmojiIcon className={`${b('icon')} ${b('emoji-icon')}`} />
                         </Button>
                         {this.showSmiles && (
-                            <EmojiPicker
+                            <MessageInputEmojiPicker
                                 className={b('smiles-picker')}
                                 addSmile={this.onAddSmile}
-                                closeSmiles={this.onCloseSmiles}
                             />
                         )}
                     </div>
-                    <Button className={`${b('button')} ${b('send')}`} onClick={this.onSend}>
+                    <Button
+                        className={`${b('button', { dark })} ${b('send')}`}
+                        onClick={this.onSend}
+                    >
                         <SendIcon className={`${b('icon')} ${b('send-icon')}`} />
                     </Button>
                 </div>
@@ -123,8 +157,8 @@ class MessageInput extends React.Component {
                         this.dropzone = node;
                     }}
                     className={b('dropzone')}
-                    onWindowClassName={b('dropzone', { display: true })}
-                    overClassName={b('dropzone', { over: true })}
+                    onWindowClassName={b('dropzone') + '_display'}
+                    overClassName={b('dropzone') + '_over'}
                     onDrop={this.onDrop}
                     accept="image/jpeg, image/gif, image/png, image/webp, image/svg+xml"
                 >
@@ -159,12 +193,30 @@ class MessageInput extends React.Component {
         );
     }
 
+    private onClickLocation = () => navigator.geolocation
+        .getCurrentPosition(this.onSendLocation, this.onErrorSendLocation);
+
+    private onSendLocation = location => {
+        const latitude = location.coords.latitude.toFixed(6);
+        const longitude = location.coords.longitude.toFixed(6);
+
+        const src = getMapUrl(latitude, longitude);
+        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16`
+
+        ChatsStore.currentChat.sendMessage({ text: link, attachment: src });
+    }
+
+    private onErrorSendLocation = () => uiStore.setToast('Не удалось получить ваше местоположение');
+
     private onImageSend = async () => {
         const text = this.imageCaptionInput.value.trim();
 
         try {
             this.imageCaptionInput.disabled = true;
-            await ChatsStore.currentChat.sendMessage(text, this.attachment, null);
+            await ChatsStore.currentChat.sendMessage({
+                text,
+                attachment: this.attachment
+            });
             this.imageCaptionInput.value = '';
         } finally {
             this.imageCaptionInput.disabled = false;
