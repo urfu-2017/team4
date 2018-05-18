@@ -18,7 +18,6 @@ export default async function() {
 
         await RPC.request('setToken', { token });
     } catch (e) {
-        console.error(e);
-        console.info('Не удалось получить токен');
+        // ignored
     }
 }

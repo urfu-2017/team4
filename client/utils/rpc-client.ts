@@ -34,11 +34,8 @@ class RPCClient {
 
             const connectSuccess = () => {
                 this.socket.removeEventListener('error', connectFailed);
-                this.socket.addEventListener('connect_error', () => {
-                    if (navigator.onLine) {
-                        window.location.reload(true);
-                    }
-                });
+                this.socket.addEventListener('connect_error', this.onConnectionAbort);
+                this.socket.addEventListener('reconnect_failed', this.onConnectionAbort)
 
                 resolve();
             };
@@ -157,6 +154,12 @@ class RPCClient {
             this.pendingRequests.delete(payload.id);
         }
     };
+
+    private onConnectionAbort = () => {
+        if (navigator.onLine) {
+            window.location.reload(true);
+        }
+    }
 }
 
 export default new RPCClient();

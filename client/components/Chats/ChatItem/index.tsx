@@ -13,10 +13,11 @@ import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
 
 import './ChatItem.css';
+import ChatModel from '../../../domain/chat-model';
 const b = b_.with('dialog-list');
 
 interface Props {
-    chat: any;
+    chat: ChatModel;
 }
 
 @observer
@@ -50,7 +51,9 @@ class ChatItem extends React.Component<Props> {
 
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', modifiers)}`}>
-                <img src={chat.avatar} alt="" className={b('dialog-image')} />
+                <div className={b('dialog-image', { notify: chat.hasNotification })}>
+                    <img src={chat.avatar} alt="" />
+                </div>
                 <div className={b('dialog-body')}>
                     <div className={b('dialog-name', { dark })} title={chat.displayName}>
                         {chat.displayName}
