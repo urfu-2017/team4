@@ -20,7 +20,7 @@ class Empty extends React.Component {
         return (
             <div className={className}>
                 <h2 className="empty__header header2">
-                    {chatsStore.chats.length !== 0 ? (
+                    {chatsStore.chats.length === 0 ? (
                         <span className="empty__action" onClick={this.onOpenContacts}>
                             Создайте свой первый диалог с кем-нибудь из своих контактов
                         </span>
