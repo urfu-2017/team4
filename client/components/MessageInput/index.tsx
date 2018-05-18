@@ -66,10 +66,10 @@ class MessageInput extends React.Component {
 
             return;
         }
-        let timeToDeath = {};
+        let timeToDeath = null;
 
         if (uiStore.timeToDeath.state && uiStore.timeToDeath.ms !== null) {
-            timeToDeath = uiStore.timeToDeath;
+            timeToDeath = uiStore.timeToDeath.ms;
         }
 
         const forwarded = uiStore.forwardMessage ?
