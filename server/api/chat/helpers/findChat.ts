@@ -31,7 +31,8 @@ export const findChat = async (chatId: string): Promise<Chat> => {
     const chat = await Chat.findById<Chat>(chatId, {
         include: [
             {
-                model: User
+                model: User,
+                through: { attributes: [] }
             }
         ]
     });

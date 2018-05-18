@@ -20,6 +20,7 @@ import sendMessage from './chat/sendMessage';
 import subscribeToChat from './chat/subscribeToChat';
 import addMember from './chat/addMember';
 import removeMember from './chat/removeMember';
+import setMute from './chat/setMute';
 
 import addReaction from './reactions/add';
 import removeReaction from './reactions/delete';
@@ -47,6 +48,7 @@ export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
     subscribeToChat,
     addMember,
     removeMember,
+    setMute,
 
     addReaction,
     removeReaction,

@@ -12,4 +12,7 @@ export class Members extends Model<Members> {
     @ForeignKey(() => Chat)
     @Column({ type: DataType.UUID, primaryKey: true })
     public chatId: string;
+
+    @Column({ type: DataType.BOOLEAN })
+    public mute: boolean;
 }

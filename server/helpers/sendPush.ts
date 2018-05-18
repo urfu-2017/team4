@@ -7,11 +7,12 @@ const headers = {
     'Authorization': `key=${PM_KEY}`,
 };
 
-export default async function(message: Message, currentUserId: number, server: Server) {
+export default async function(message: Message, currentUserId: number, forcedUserIds: number[], server: Server) {
     try {
         const { createdAt, text, attachment, forwarded, senderId, chatId } = message;
 
-        const members = (await Members.findAll({ where: { chatId }, attributes: ['userId'] }))
+        const members = (await Members.findAll({ where: { chatId }, attributes: ['userId', 'mute'] }))
+            .filter(record => !record.mute || forcedUserIds.includes(record.userId))
             .map(record => record.userId)
             .filter((id: number) => !server.isAvailableUser(id) && id !== currentUserId);
 

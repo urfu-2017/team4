@@ -18,6 +18,7 @@ export interface Methods {
     subscribeToChat: any;
     addMember: any;
     removeMember: any;
+    setMute: any;
 
     addReaction: any;
     removeReaction: any;
