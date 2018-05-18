@@ -15,9 +15,6 @@ class RPCClient {
 
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
-            reconnection: true,
-            reconnectionDelay: 500,
-            reconnectionAttempts: 1,
             autoConnect: false,
             transports: ['websocket', 'polling'],
         });
@@ -51,12 +48,14 @@ class RPCClient {
             this.socket.once('connect_error', connectFailed);
             this.socket.on('rpc', this.rpcListener);
 
-            this.socket.on('disconnect', (event) => {
+            this.socket.on('disconnect', () => {
                 // Если произошёл выход из приложения
                 if (this.isExit) {
                     this.isExit = true;
                     window.location.reload(true);
                 }
+
+                this.socket.removeAllListeners();
             });
 
             this.socket.connect();
