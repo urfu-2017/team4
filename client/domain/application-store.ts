@@ -36,11 +36,20 @@ class ApplicationStore {
             this.setLoaded({ requireAuth: false });
         } catch (error) {
             if (error.message === 'AUTH_ERROR') {
+                this.saveRedirect(location.hash.slice(1));
                 this.setLoaded({ requireAuth: true });
                 return;
             }
 
             uiStore.setToast('Произошла критическая ошибка');
+        }
+    }
+
+    private saveRedirect(url: string) {
+        try {
+            localStorage.setItem('redirect', url);
+        } catch (e) {
+            // ignored
         }
     }
 
