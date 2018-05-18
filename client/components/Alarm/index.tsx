@@ -39,19 +39,19 @@ class Alarm extends React.Component<Props, any> {
                     <div className={b('days')}>
                         <small>Day</small>
                         <Button className={b('button-up')} onClick={this.addDays}>+</Button>
-                        <input type='number' value={uiStore.timeToDeath.day} disabled/>
+                        <input type='number' value={uiStore.timeToDeath.day} disabled={true}/>
                         <Button className={b('button-down')} onClick={this.deleteDays}>-</Button>
                     </div>
                     <div className={b('hour')}>
                         <small>Hour</small>
                         <Button className={b('button-up')} onClick={this.addHour}>+</Button>
-                        <input type='number' value={uiStore.timeToDeath.hour} disabled/>
+                        <input type='number' value={uiStore.timeToDeath.hour} disabled={true}/>
                         <Button className={b('button-down')} onClick={this.deleteHour}>-</Button>
                     </div>
                     <div className={b('minutes')}>
                         <small>Min</small>                    
                         <Button className={b('button-up')} onClick={this.addMinutes}>+</Button>
-                        <input type='number' value={uiStore.timeToDeath.min} disabled/>
+                        <input type='number' value={uiStore.timeToDeath.min} disabled={true}/>
                         <Button className={b('button-down')} onClick={this.deleteMinutes}>-</Button>
                     </div>
                 </div>
