@@ -59,6 +59,7 @@ class Alarm extends React.Component<Props, any> {
         );
     }
 
+    @action
     private createState() {
         ChatsStore.timeToDeathState = !ChatsStore.timeToDeathState;
         ChatsStore.saveCookies();
@@ -74,6 +75,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.parsTimer();
     }
 
+    @action
     private deleteDays() {
         if (!isNaN(ChatsStore.timeToDeath)) {
             ChatsStore.timeToDeath += ChatsStore.timeToDeath - msInDays <= 0
@@ -83,6 +85,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.parsTimer();
     }
 
+    @action
     private addHour() {
         if (isNaN(ChatsStore.timeToDeath)) {
             ChatsStore.timeToDeath = msInHour;
@@ -92,6 +95,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.parsTimer();
     }
 
+    @action
     private deleteHour() {
         if (!isNaN(ChatsStore.timeToDeath)) {
             ChatsStore.timeToDeath += ChatsStore.timeToDeath - msInHour <= 0
@@ -101,6 +105,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.parsTimer();
     }
 
+    @action
     private addMinutes() {
         if (isNaN(ChatsStore.timeToDeath)) {
             ChatsStore.timeToDeath = msInMin;
@@ -110,6 +115,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.parsTimer();
     }
 
+    @action
     private deleteMinutes() {
         if (!isNaN(ChatsStore.timeToDeath)) {
             ChatsStore.timeToDeath += ChatsStore.timeToDeath - msInMin <= 0
@@ -119,6 +125,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.parsTimer();
     }
 
+    @action
     private handleClickOutside = event => {
         const domNode = ReactDOM.findDOMNode(this);
 
