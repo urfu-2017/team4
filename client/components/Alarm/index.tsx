@@ -5,7 +5,7 @@ import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 
 import Button from '../Button';
-import ChatsStore from '../../domain/chats-store';
+import uiStore from '../../domain/ui-store';
 
 import './Alarm.css';
 
@@ -15,7 +15,7 @@ const msInHour = msInMin * 60;
 const msInDays = msInHour * 24;
 
 interface Props {
-    timeToDeath: number;
+    timeToDeath: any;
     closeTimer: () => void;
 }
 
@@ -33,25 +33,25 @@ class Alarm extends React.Component<Props, any> {
         return (
             <div className={b()}>
                 <Button className={b('button-state')} onClick={this.createState}>{
-                    ChatsStore.timeToDeathState ? 'OFF' : 'ON'
+                    uiStore.timeToDeath.state ? 'OFF' : 'ON'
                 }</Button>
                 <div className={b('timer')}>
                     <div className={b('days')}>
                         <small>Day</small>
                         <Button className={b('button-up')} onClick={this.addDays}>+</Button>
-                        <input type='number' value={ChatsStore.timeToDeathDay} disabled/>
+                        <input type='number' value={uiStore.timeToDeath.day} disabled/>
                         <Button className={b('button-down')} onClick={this.deleteDays}>-</Button>
                     </div>
                     <div className={b('hour')}>
                         <small>Hour</small>
                         <Button className={b('button-up')} onClick={this.addHour}>+</Button>
-                        <input type='number' value={ChatsStore.timeToDeathHour} disabled/>
+                        <input type='number' value={uiStore.timeToDeath.hour} disabled/>
                         <Button className={b('button-down')} onClick={this.deleteHour}>-</Button>
                     </div>
                     <div className={b('minutes')}>
                         <small>Min</small>                    
                         <Button className={b('button-up')} onClick={this.addMinutes}>+</Button>
-                        <input type='number' value={ChatsStore.timeToDeathMin} disabled/>
+                        <input type='number' value={uiStore.timeToDeath.min} disabled/>
                         <Button className={b('button-down')} onClick={this.deleteMinutes}>-</Button>
                     </div>
                 </div>
@@ -61,68 +61,68 @@ class Alarm extends React.Component<Props, any> {
 
     @action
     private createState() {
-        ChatsStore.timeToDeathState = !ChatsStore.timeToDeathState;
-        ChatsStore.saveCookies();
+        uiStore.timeToDeath.state = !uiStore.timeToDeath.state;
+        uiStore.saveCookies();
     }
 
     @action
     private addDays() {
-        if (isNaN(ChatsStore.timeToDeath)) {
-            ChatsStore.timeToDeath = msInDays;
+        if (isNaN(uiStore.timeToDeath.ms)) {
+            uiStore.timeToDeath.ms = msInDays;
         } else {
-            ChatsStore.timeToDeath += msInDays;
+            uiStore.timeToDeath.ms += msInDays;
         }
-        ChatsStore.parsTimer();
+        uiStore.parsTimer();
     }
 
     @action
     private deleteDays() {
-        if (!isNaN(ChatsStore.timeToDeath)) {
-            ChatsStore.timeToDeath += ChatsStore.timeToDeath - msInDays <= 0
+        if (!isNaN(uiStore.timeToDeath.ms)) {
+            uiStore.timeToDeath.ms += uiStore.timeToDeath.ms - msInDays <= 0
                 ? 0
                 : -1 * msInDays;
         }
-        ChatsStore.parsTimer();
+        uiStore.parsTimer();
     }
 
     @action
     private addHour() {
-        if (isNaN(ChatsStore.timeToDeath)) {
-            ChatsStore.timeToDeath = msInHour;
+        if (isNaN(uiStore.timeToDeath.ms)) {
+            uiStore.timeToDeath.ms = msInHour;
         } else {
-            ChatsStore.timeToDeath += msInHour;
+            uiStore.timeToDeath.ms += msInHour;
         }
-        ChatsStore.parsTimer();
+        uiStore.parsTimer();
     }
 
     @action
     private deleteHour() {
-        if (!isNaN(ChatsStore.timeToDeath)) {
-            ChatsStore.timeToDeath += ChatsStore.timeToDeath - msInHour <= 0
+        if (!isNaN(uiStore.timeToDeath.ms)) {
+            uiStore.timeToDeath.ms += uiStore.timeToDeath.ms - msInHour <= 0
                 ? 0
                 : -1 * msInHour;
         }
-        ChatsStore.parsTimer();
+        uiStore.parsTimer();
     }
 
     @action
     private addMinutes() {
-        if (isNaN(ChatsStore.timeToDeath)) {
-            ChatsStore.timeToDeath = msInMin;
+        if (isNaN(uiStore.timeToDeath.ms)) {
+            uiStore.timeToDeath.ms = msInMin;
         } else {
-            ChatsStore.timeToDeath += msInMin;
+            uiStore.timeToDeath.ms += msInMin;
         }
-        ChatsStore.parsTimer();
+        uiStore.parsTimer();
     }
 
     @action
     private deleteMinutes() {
-        if (!isNaN(ChatsStore.timeToDeath)) {
-            ChatsStore.timeToDeath += ChatsStore.timeToDeath - msInMin <= 0
+        if (!isNaN(uiStore.timeToDeath.ms)) {
+            uiStore.timeToDeath.ms += uiStore.timeToDeath.ms - msInMin <= 0
                 ? 0
                 : -1 * msInMin;
         }
-        ChatsStore.parsTimer();
+        uiStore.parsTimer();
     }
 
     @action

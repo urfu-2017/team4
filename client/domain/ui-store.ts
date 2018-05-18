@@ -13,6 +13,20 @@ class UIStore {
 
     @observable public error: string = '';
 
+    // @observable public timeToDeath: number = null;
+    // @observable public timeToDeathDay: number = 0;
+    // @observable public timeToDeathHour: number = 0;
+    // @observable public timeToDeathMin: number = 0;
+    // @observable public timeToDeathState: boolean = false;    
+    @observable
+    public timeToDeath = {
+        ms: null,
+        state: false,
+        min: 0,
+        hour: 0,
+        day: 0
+    };
+
     @observable
     public displays = {
         contacts: false,
@@ -89,6 +103,47 @@ class UIStore {
     public resetError() {
         clearTimeout(this.errorTimer);
         this.error = '';
+    }
+
+    @action
+    public parsTimer() {
+        const msInMin = 1000 * 60;
+        const msInHour = msInMin * 60;
+        const msInDays = msInHour * 24;
+        this.timeToDeath.day = Math.floor(this.timeToDeath.ms / msInDays);
+        const dayOst = this.timeToDeath.ms % msInDays;
+        this.timeToDeath.hour = Math.floor(dayOst / msInHour);
+        const hourOst = dayOst % msInHour;
+        this.timeToDeath.min = Math.floor(hourOst / msInMin);
+    }
+
+    @action
+    public getCookies() {
+        if (this.getCookie('timeToDeath') !== undefined) {
+            this.timeToDeath.ms = Number(this.getCookie('timeToDeath'));
+        }
+        if (this.getCookie('timeToDeath') !== undefined) {          
+            this.timeToDeath.state = this.getCookie('stateTimeToDeath') === 'true';
+        }
+    }
+
+    @action
+    public saveCookies() {
+        const dateForCookie = new Date;
+        dateForCookie.setDate(dateForCookie.getDate() + 2);
+        document.cookie = 'stateTimeToDeath=' + this.timeToDeath.state + '; expires=' + dateForCookie.toUTCString();
+        if (!this.timeToDeath.state) {
+            this.timeToDeath.ms = 0;
+        }
+        document.cookie = 'timeToDeath=' + this.timeToDeath.ms + '; expires=' + dateForCookie.toUTCString();
+        this.timeToDeath.ms = this.timeToDeath.ms === 0 ? null : this.timeToDeath;
+    }
+
+    private getCookie(name) {
+        const matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
     }
 }
 

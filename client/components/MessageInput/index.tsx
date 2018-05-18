@@ -44,7 +44,7 @@ class MessageInput extends React.Component {
 
     constructor(props) {
         super(props);
-        ChatsStore.getCookies();
+        uiStore.getCookies();
     }
 
     public onSend = async () => {
@@ -53,10 +53,10 @@ class MessageInput extends React.Component {
         if (!text) {
             return;
         }
-        let timeToDeath = null;
+        let timeToDeath = {};
 
-        if (ChatsStore.timeToDeathState && chatsStore.timeToDeath !== null) {
-            timeToDeath = chatsStore.timeToDeath;
+        if (uiStore.timeToDeath.state && uiStore.timeToDeath.ms !== null) {
+            timeToDeath = uiStore.timeToDeath;
         }
 
         await ChatsStore.currentChat.sendMessage(text, null, timeToDeath);
@@ -96,7 +96,7 @@ class MessageInput extends React.Component {
                         </Button>
                         {this.showTimer && (
                             <Alarm
-                                timeToDeath={ChatsStore.timeToDeath}
+                                timeToDeath={uiStore.timeToDeath}
                                 closeTimer={this.onCloseTimer}
                             />
                         )}
@@ -235,13 +235,13 @@ class MessageInput extends React.Component {
 
     @action private onShowTimer = () => {
         this.showTimer = true;
-        ChatsStore.getCookies();
-        ChatsStore.parsTimer();
+        uiStore.getCookies();
+        uiStore.parsTimer();
     }
 
     @action private onCloseTimer = () => {
         this.showTimer = false;
-        ChatsStore.saveCookies();
+        uiStore.saveCookies();
     };
 }
 

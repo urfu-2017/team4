@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatsStore from '../../domain/chats-store';
+import uiStore from '../../domain/ui-store';
 
 interface Props {
     className?: string;
@@ -7,7 +7,7 @@ interface Props {
 
 const AlarmIcon: React.SFC<Props> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24">
-        <path fill={ChatsStore.timeToDeathState 
+        <path fill={uiStore.timeToDeath.state 
             ? 'green'
             : 'currentColor'} d={"M12,20A7,7 0 0,1 5,13A7,7 0 0,1 12,6A7,7 0 0,1 19,13A7,7 "
         + "0 0,1 12,20M12,4A9,9 0 0,0 3,13A9,9 0 0,0 12,22A9,9 0 0,0 21,13A9,9 0 0,0 "
