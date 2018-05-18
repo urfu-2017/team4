@@ -35,10 +35,10 @@ class Notificator extends React.Component {
     private notify = message => {
         const currentChat = chatsStore.currentChat;
         const chat = chatsStore.chatsMap.get(message.chatId);
+        const isCurrentUser = usersStore.currentUser.id === message.senderId;
 
-        if (this.isActiveWindow && currentChat && currentChat.id === message.chatId) {
-            return;
-        }
+        if (isCurrentUser) return;
+        if (this.isActiveWindow && currentChat && currentChat.id === message.chatId) return;
 
         this.showNotification(message, chat);
     };
@@ -51,20 +51,20 @@ class Notificator extends React.Component {
                 const { attachment, text, senderId } = message;
 
                 const user = usersStore.users.get(senderId);
-                const body = `${attachment ? 'Фотография.' : ''} ${getPlainText(markdown(text))}`.trim();
+                const title = 'Новое сообщение ' + (chat.type === 'dialog' ? 'от ' + user.displayName : 'в ' + chat.name);
+                const prefix = chat.type === 'dialog' ? '' : user.displayName + ': ';
+                const body = prefix + (message.forwarded ? 'Пересланное сообщение' :
+                    (message.attachment ? 'Фотография. ' : '') + message.text);
+
                 const icon = chat.avatar;
                 const data = { chatId: chat.id };
 
                 const options: any = { icon, body, vibrate: [800], tag: chat.id, renotify: true, data };
 
-                worker.showNotification(`Новое сообщение от ${user.displayName}`, options)
-                    .then(this.vibrate);
+                worker.showNotification(title, options);
             });
         });
     }
-
-    private vibrate = () => setTimeout(() =>
-        navigator.vibrate && navigator.vibrate(500), 500)
 }
 
 export default Notificator;

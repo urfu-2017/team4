@@ -15,11 +15,8 @@ class RPCClient {
 
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
-            reconnection: true,
-            reconnectionDelay: 500,
-            reconnectionAttempts: 1,
             autoConnect: false,
-            transports: ['websocket', 'polling']
+            transports: ['websocket', 'polling'],
         });
     }
 
@@ -37,6 +34,9 @@ class RPCClient {
 
             const connectSuccess = () => {
                 this.socket.removeEventListener('error', connectFailed);
+                this.socket.addEventListener('connect_error', this.onConnectionAbort);
+                this.socket.addEventListener('reconnect_failed', this.onConnectionAbort)
+
                 resolve();
             };
 
@@ -45,12 +45,14 @@ class RPCClient {
             this.socket.once('connect_error', connectFailed);
             this.socket.on('rpc', this.rpcListener);
 
-            this.socket.on('disconnect', (event) => {
+            this.socket.on('disconnect', () => {
                 // Если произошёл выход из приложения
                 if (this.isExit) {
                     this.isExit = true;
                     window.location.reload(true);
                 }
+
+                this.socket.removeAllListeners();
             });
 
             this.socket.connect();
@@ -65,7 +67,7 @@ class RPCClient {
         this.socket.disconnect();
     }
 
-    public request = (method: keyof Methods, params?: any, timeout = 5000): Promise<any> =>
+    public request = (method: keyof Methods, params?: any, timeout = 15000): Promise<any> =>
         new Promise((resolve, reject) => {
             if (!navigator.onLine) {
                 this.socket.disconnect();
@@ -152,6 +154,12 @@ class RPCClient {
             this.pendingRequests.delete(payload.id);
         }
     };
+
+    private onConnectionAbort = () => {
+        if (navigator.onLine) {
+            window.location.reload(true);
+        }
+    }
 }
 
 export default new RPCClient();

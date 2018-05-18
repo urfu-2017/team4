@@ -96,6 +96,11 @@
     background: initial;
 }
 
+.message-input__button_map {
+    width: 28px;
+    height: 28px;
+}
+
 .message-input__icon {
     vertical-align: middle;
 }

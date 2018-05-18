@@ -6,6 +6,8 @@ import b_ from 'b_';
 import OGData from '../OGData';
 import Reactions from '../Reactions';
 import ReplyIcon from './ReplyIcon';
+import ForwardedMessage from './ForwardedMessage';
+import ImageViewer from '../ImageViewer';
 
 import { APP_URL } from '../../config';
 import uiStore from '../../domain/ui-store';
@@ -19,7 +21,6 @@ import getUrlMeta from '../../utils/url-meta';
 import urlParser from '../../utils/url-parser';
 
 import './Message.css';
-import ImageViewer from '../ImageViewer';
 const b = b_.with('message');
 
 interface Props {
@@ -34,21 +35,23 @@ class Message extends React.Component<Props> {
     @observable.ref private meta: any = null;
     @observable private displayImage: boolean = false;
 
+    @computed
+    private get user() {
+        const userId = this.props.message.senderId;
+        return usersStore.users.get(userId);
+    }
+
     public componentDidMount() {
         const { text, id } = this.props.message;
-        const url = urlParser(text);
+        const url = urlParser(text || '');
 
         if (url && !url.startsWith(APP_URL)) {
             getUrlMeta(url, id).then(this.setMeta);
         }
 
-        initContainer(this.messageText);
-    }
-
-    @computed
-    get user() {
-        const userId = this.props.message.senderId;
-        return usersStore.users.get(userId);
+        if (this.messageText) {
+            initContainer(this.messageText);
+        }
     }
 
     public showUserProfile = event => {
@@ -57,7 +60,7 @@ class Message extends React.Component<Props> {
     };
 
     public render() {
-        const { from, text, createdAt, attachment, reactions } = this.props.message;
+        const { from, text, createdAt, attachment, reactions, forwarded } = this.props.message;
         const displayName = this.user ? this.user.displayName : from;
         const avatar = this.user.avatar;
         const dark = uiStore.isDark;
@@ -98,6 +101,7 @@ class Message extends React.Component<Props> {
                         <ImageViewer src={attachment} closeHandler={this.toggleImage} />
                     )}
                     {isReal && this.meta && <OGData isInMessage={true} {...this.meta} />}
+                    {forwarded && <ForwardedMessage message={forwarded} />}
                     {isReal && <Reactions reactions={reactions} onClick={this.onClickReaction} />}
                 </div>
                 {isReal && this.renderActions()}
@@ -154,16 +158,28 @@ class Message extends React.Component<Props> {
     };
 
     private onSetReplyMessage = () => {
-        if (uiStore.forwardMessage === this.props.message) {
+        const { message } = this.props;
+
+        if (uiStore.forwardMessage === message) {
             uiStore.setForwardMessage(null);
             return;
         }
 
-        uiStore.setForwardMessage(this.props.message, true);
+        if (message.forwarded && !message.forwarded.isReply) {
+            uiStore.setForwardMessage(message.forwarded, true);
+            return;
+        }
+
+        uiStore.setForwardMessage(message, true);
     };
 
     private onSetForwardMessage = () => {
-        uiStore.setForwardMessage(this.props.message, false);
+        const message = this.props.message;
+        // Пересылаем пересланное сообщение
+        const target =
+            message.forwarded && !message.forwarded.isReply ? message.forwarded : message;
+
+        uiStore.setForwardMessage(target, false);
         uiStore.togglePopup('selectChat')();
     };
 }

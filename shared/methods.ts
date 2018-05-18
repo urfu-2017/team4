@@ -4,6 +4,7 @@ export interface Methods {
     getCurrentUser: any;
     addContact: any;
     updateCurrentUser: any;
+    setToken: any;
     logout: any;
 
     subscribeToUser: any;

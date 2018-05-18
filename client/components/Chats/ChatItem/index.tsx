@@ -13,10 +13,11 @@ import UsersStore from '../../../domain/users-store';
 import formatDate from '../../../utils/format-date';
 
 import './ChatItem.css';
+import ChatModel from '../../../domain/chat-model';
 const b = b_.with('dialog-list');
 
 interface Props {
-    chat: any;
+    chat: ChatModel;
 }
 
 @observer
@@ -41,9 +42,18 @@ class ChatItem extends React.Component<Props> {
         const isMine = this.message && this.message.senderId === UsersStore.currentUser.id;
         const isAttachment = this.message && this.message.attachment;
 
+        let text = '';
+
+        if (this.message) {
+            text = this.message.forwarded && !this.message.forwarded.isReply ? 'Пересланное сообщение' :
+                `${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`;
+        }
+
         return (
             <Link to={`/chats/${chat.id}`} className={`${b('item', modifiers)}`}>
-                <img src={chat.avatar} alt="" className={b('dialog-image')} />
+                <div className={b('dialog-image', { notify: chat.hasNotification })}>
+                    <img src={chat.avatar} alt="" />
+                </div>
                 <div className={b('dialog-body')}>
                     <div className={b('dialog-name', { dark })} title={chat.displayName}>
                         {chat.displayName}
@@ -51,7 +61,7 @@ class ChatItem extends React.Component<Props> {
                     {this.message && (
                         <div className={b('last-msg')}>
                             <span className={b('last-msg-mine', { dark })}>{isMine && 'Вы: '}</span>
-                            {`${isAttachment ? 'Фотография.' : ''} ${getPlainText(markdown(this.message.text))}`}
+                            {text}
                         </div>
                     )}
                 </div>

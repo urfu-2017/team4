@@ -5,6 +5,7 @@ import hello from './echo';
 
 import getCurrentUser from './session/getCurrentUser';
 import addContact from './session/addContact';
+import setToken from './session/setToken';
 import updateCurrentUser from './session/updateCurrentUser';
 import logout from './session/logout';
 
@@ -31,6 +32,7 @@ export const getMethods = (): Record<keyof Methods, RpcHandler> => ({
 
     getCurrentUser,
     addContact,
+    setToken,
     updateCurrentUser,
     logout,
 

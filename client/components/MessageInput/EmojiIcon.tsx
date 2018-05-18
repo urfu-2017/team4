@@ -6,8 +6,6 @@ interface Props {
 
 const EmojiIcon: React.SFC<Props> = ({ className }) => (
     <svg
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
         viewBox="-100 -100 1200 1200"
         className={className}
     >
