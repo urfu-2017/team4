@@ -33,7 +33,7 @@ class Alarm extends React.Component<Props, any> {
         return (
             <div className={b()}>
                 <Button className={b('button-state')} onClick={this.createState}>{
-                    ChatsStore.timeToDeathState ? 'ON' : 'OFF'
+                    ChatsStore.timeToDeathState ? 'OFF' : 'ON'
                 }</Button>
                 <div className={b('timer')}>
                     <div className={b('days')}>
@@ -64,6 +64,7 @@ class Alarm extends React.Component<Props, any> {
         ChatsStore.saveCookies();
     }
 
+    @action
     private addDays() {
         if (isNaN(ChatsStore.timeToDeath)) {
             ChatsStore.timeToDeath = msInDays;
