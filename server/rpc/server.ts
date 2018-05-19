@@ -130,6 +130,7 @@ export class Server {
 
             await method(request, response);
         } catch (error) {
+            console.error(error);
             if (error instanceof JsonRpc.JsonRpcError) {
                 socket.emit('rpc', JSON.stringify(error));
             } else {

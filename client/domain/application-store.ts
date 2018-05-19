@@ -41,8 +41,9 @@ class ApplicationStore {
                 return;
             }
 
+            console.error(error);
             uiStore.setToast('Произошла критическая ошибка. Приложение будет перезагружено');
-            setTimeout(() => window.location.reload(true), 2000);
+            setTimeout(() => window.location.reload(true), 3000);
         }
     }
 

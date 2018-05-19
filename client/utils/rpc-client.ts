@@ -47,7 +47,7 @@ class RPCClient {
 
             this.socket.on('disconnect', () => {
                 // Если произошёл выход из приложения
-                if (this.isExit || window.navigator.onLine) {
+                if (this.isExit) {
                     this.isExit = true;
                     window.location.reload(true);
                 }
