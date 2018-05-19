@@ -2,7 +2,7 @@ import { action, computed, observable } from 'mobx';
 import UserModel from './user-model';
 
 class UIStore {
-    @observable public isDark: boolean = localStorage.isDark === 'true';
+    @observable public isDark: boolean = this.getCurrentTheme() === 'true';
     @observable public userInfo: UserModel = null;
 
     @observable public isMenuShown: boolean = false;
@@ -31,9 +31,19 @@ class UIStore {
 
     private errorTimer: any;
 
+    public getCurrentTheme() {
+        try {
+            return localStorage.isDark;
+        } catch (e) {
+            // В сафари в приватном режиме может упасть из-за обращения к localstorage
+            return 'false';
+        }
+    }
+
     @action
     public toggleTheme = () => {
         this.isDark = !this.isDark;
+        this.isMenuShown = false;
 
         if (this.isDark) {
             document.body.style.backgroundColor = '#545b5f';
@@ -41,13 +51,17 @@ class UIStore {
             document.body.style.backgroundColor = '';
         }
 
-        if(localStorage.isDark === undefined) {
-            localStorage.isDark = this.isDark;
+        try {
+            if (localStorage.isDark === undefined) {
+                localStorage.isDark = this.isDark;
 
-            return;
+                return;
+            }
+
+            localStorage.isDark = localStorage.isDark === 'false';
+        } catch (e) {
+            // В сафари в приватном режиме может упасть из-за обращения к localstorage
         }
-
-        localStorage.isDark = localStorage.isDark === 'false';
     };
 
     @action

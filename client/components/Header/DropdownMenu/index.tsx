@@ -51,7 +51,7 @@ class DropdownMenu extends React.Component {
                     Профиль
                 </span>
                 <span className={b('item', { dark })} onClick={uiStore.toggleTheme}>
-                    Сменить тему
+                    Переключить на {uiStore.isDark ? 'дневную' : 'ночную'} тему
                 </span>
                 <span className={b('item', { dark })} onClick={this.onExitClick}>
                     Выйти
