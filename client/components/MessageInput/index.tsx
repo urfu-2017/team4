@@ -20,6 +20,7 @@ import Dropzone from '../Dropzone';
 import AlarmIcon from './AlarmIcon';
 
 import uiStore from '../../domain/ui-store';
+import deathtimerStore from '../../domain/deathtimer-store';
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
 import { getImageFromFile, resizeImage } from '../../utils/image-utils';
@@ -41,7 +42,7 @@ interface PickerProps {
 class MessageInput extends React.Component {
     @observable private preview: HTMLImageElement;
     @observable private showSmiles: boolean = false;
-    @observable private showTimer: boolean = false;    
+    @observable private showTimer: boolean = false;
     @observable private message: string = '';
 
     private messageInput: HTMLTextAreaElement;
@@ -50,11 +51,6 @@ class MessageInput extends React.Component {
 
     private uploadStore: UploadStore = new UploadStore();
     private attachment: string;
-
-    constructor(props) {
-        super(props);
-        uiStore.getCookies();
-    }
 
     public onSend = async () => {
         const text = this.message.trim();
@@ -68,12 +64,13 @@ class MessageInput extends React.Component {
         }
         let timeToDeath = null;
 
-        if (uiStore.timeToDeath.state && uiStore.timeToDeath.ms !== null) {
-            timeToDeath = uiStore.timeToDeath.ms;
+        if (deathtimerStore.isActive && deathtimerStore.timeToDeath) {
+            timeToDeath = deathtimerStore.timeToDeath;
         }
 
-        const forwarded = uiStore.forwardMessage ?
-            createForwardMessage(uiStore.forwardMessage, true) : null;
+        const forwarded = uiStore.forwardMessage
+            ? createForwardMessage(uiStore.forwardMessage, true)
+            : null;
 
         await ChatsStore.currentChat.sendMessage({ text, timeToDeath, forwarded });
         this.setMessage('');
@@ -88,18 +85,30 @@ class MessageInput extends React.Component {
         }
     };
 
+    public componentDidMount() {
+        deathtimerStore.getState();
+    }
+
     public render() {
         const dark = uiStore.isDark;
         const MessageInputEmojiPicker: React.ComponentClass<PickerProps> = withOutsideClickHandler(
             EmojiPicker,
             this.onCloseSmiles
         );
+        const MessageInputAlarm: React.ComponentClass = withOutsideClickHandler(
+            Alarm,
+            this.onCloseTimer
+        );
 
         return (
             <section className={b({ dark })}>
                 {this.renderForwardedContainer()}
                 <div className={b('container')}>
-                    <Button title="Прикрепить фотографию" className={b('button', { dark })} onClick={this.dropzoneOpen}>
+                    <Button
+                        title="Прикрепить фотографию"
+                        className={b('button', { dark })}
+                        onClick={this.dropzoneOpen}
+                    >
                         <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
                     </Button>
                     {navigator.geolocation && (
@@ -123,15 +132,10 @@ class MessageInput extends React.Component {
                     />
                     <Recognition onChange={this.onSpeech} />
                     <div className={b('alarm')}>
-                        <Button className={b('button')} onClick={this.onShowTimer}>
+                        <Button className={b('button', { dark })} onClick={this.onShowTimer}>
                             <AlarmIcon className={`${b('icon')} ${b('alarm-icon')}`} />
                         </Button>
-                        {this.showTimer && (
-                            <Alarm
-                                timeToDeath={uiStore.timeToDeath}
-                                closeTimer={this.onCloseTimer}
-                            />
-                        )}
+                        {this.showTimer && <MessageInputAlarm />}
                     </div>
                     <div className={b('smiles')}>
                         <Button onClick={this.onShowSmiles} className={b('button', { dark })}>
@@ -193,18 +197,18 @@ class MessageInput extends React.Component {
         );
     }
 
-    private onClickLocation = () => navigator.geolocation
-        .getCurrentPosition(this.onSendLocation, this.onErrorSendLocation);
+    private onClickLocation = () =>
+        navigator.geolocation.getCurrentPosition(this.onSendLocation, this.onErrorSendLocation);
 
     private onSendLocation = location => {
         const latitude = location.coords.latitude.toFixed(6);
         const longitude = location.coords.longitude.toFixed(6);
 
         const src = getMapUrl(latitude, longitude);
-        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16`
+        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16`;
 
         ChatsStore.currentChat.sendMessage({ text: link, attachment: src });
-    }
+    };
 
     private onErrorSendLocation = () => uiStore.setToast('Не удалось получить ваше местоположение');
 
@@ -285,15 +289,16 @@ class MessageInput extends React.Component {
 
     @action private onAddSmile = (text: string) => (this.message += text);
 
-    @action private onShowTimer = () => {
+    @action
+    private onShowTimer = () => {
         this.showTimer = true;
-        uiStore.getCookies();
-        uiStore.parsTimer();
-    }
+        deathtimerStore.getState();
+    };
 
-    @action private onCloseTimer = () => {
+    @action
+    private onCloseTimer = () => {
         this.showTimer = false;
-        uiStore.saveCookies();
+        deathtimerStore.saveState();
     };
 }
 
