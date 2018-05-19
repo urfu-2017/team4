@@ -161,4 +161,8 @@
         width: 100%;
         font-size: 12px;
     }
+
+    .message-input__button:hover path {
+        fill: #999;
+    }
 }

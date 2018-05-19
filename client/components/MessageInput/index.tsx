@@ -20,6 +20,7 @@ import Dropzone from '../Dropzone';
 import AlarmIcon from './AlarmIcon';
 
 import uiStore from '../../domain/ui-store';
+import applicationStore from '../../domain/application-store';
 import deathtimerStore from '../../domain/deathtimer-store';
 import ChatsStore from '../../domain/chats-store';
 import UploadStore from '../../domain/upload-store';
@@ -51,6 +52,17 @@ class MessageInput extends React.Component {
 
     private uploadStore: UploadStore = new UploadStore();
     private attachment: string;
+
+    private emojiPicker: React.ComponentClass<PickerProps>;
+
+    private alarmPicker: React.ComponentClass;
+
+    public constructor(props) {
+        super(props);
+
+        this.emojiPicker = withOutsideClickHandler(EmojiPicker, this.onCloseSmiles);
+        this.alarmPicker = withOutsideClickHandler(Alarm, this.onCloseTimer);
+    }
 
     public onSend = async () => {
         const text = this.message.trim();
@@ -91,26 +103,21 @@ class MessageInput extends React.Component {
 
     public render() {
         const dark = uiStore.isDark;
-        const MessageInputEmojiPicker: React.ComponentClass<PickerProps> = withOutsideClickHandler(
-            EmojiPicker,
-            this.onCloseSmiles
-        );
-        const MessageInputAlarm: React.ComponentClass = withOutsideClickHandler(
-            Alarm,
-            this.onCloseTimer
-        );
+        const offline = applicationStore.isOffline;
+        const MessageInputAlarm = this.alarmPicker;
+        const MessageInputEmojiPicker = this.emojiPicker;
 
         return (
             <section className={b({ dark })}>
                 {this.renderForwardedContainer()}
                 <div className={b('container')}>
-                    <Button
+                    {!offline && <Button
                         title="Прикрепить фотографию"
                         className={b('button', { dark })}
                         onClick={this.dropzoneOpen}
                     >
                         <AttachIcon className={`${b('icon')} ${b('attach-icon')}`} />
-                    </Button>
+                    </Button>}
                     {navigator.geolocation && (
                         <Button
                             onClick={this.onClickLocation}
@@ -283,15 +290,11 @@ class MessageInput extends React.Component {
 
     @action
     private onShowSmiles = () => {
-        // FIXME Убрать логи
-        console.log('showed smiles');
         this.showSmiles = true;
     };
 
     @action
     private onCloseSmiles = () => {
-        // FIXME Убрать логи
-        console.log('hid smiles');
         this.showSmiles = false;
     };
 
@@ -307,16 +310,12 @@ class MessageInput extends React.Component {
 
     @action
     private onShowTimer = () => {
-        // FIXME Убрать логи
-        console.log('showed timer');
         this.showTimer = true;
         deathtimerStore.getState();
     };
 
     @action
     private onCloseTimer = () => {
-        // FIXME Убрать логи
-        console.log('hid timer');
         this.showTimer = false;
         deathtimerStore.saveState();
     };

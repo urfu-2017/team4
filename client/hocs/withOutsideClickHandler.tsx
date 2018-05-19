@@ -9,14 +9,10 @@ export const withOutsideClickHandler = (Component, handler): React.ComponentClas
 
         public componentDidMount() {
             document.addEventListener('click', this.handleClickOutside, false);
-            // FIXME УБрать логи
-            console.log('Mount ' + getDisplayName(Component));
         }
 
         public componentWillUnmount() {
             document.removeEventListener('click', this.handleClickOutside, false);
-            // FIXME УБрать логи
-            console.log('Unmount ' + getDisplayName(Component));
         }
 
         public render() {
@@ -27,6 +23,7 @@ export const withOutsideClickHandler = (Component, handler): React.ComponentClas
             const domNode = ReactDOM.findDOMNode(this);
 
             if (!domNode || !domNode.contains(event.target)) {
+                console.info('handle');
                 handler();
             }
         };

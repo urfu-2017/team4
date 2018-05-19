@@ -1,3 +1,4 @@
+
 declare module 'retricon-without-canvas' {
     export const methods: any;
 }
@@ -11,6 +12,7 @@ declare module 'uuid' {
 }
 
 declare module 'metascraper';
+declare module 'html-to-utf8';
 
 declare module 'jsonrpc-lite' {
     export interface JsonRpcObject {

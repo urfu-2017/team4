@@ -1,5 +1,6 @@
 import * as got from 'got';
 import * as metascraper from 'metascraper';
+import * as htmlToUtf8 from 'html-to-utf8';
 
 import { Request } from '../rpc/request';
 import { Response } from '../rpc/response';
@@ -16,8 +17,11 @@ export default async function(request: Request<Params>, response: Response) {
         throw JsonRpcError.invalidParams('url is empty');
     }
 
-    const htmlResponse = await got(url);
-    const meta = await metascraper({ html: htmlResponse.body, url: htmlResponse.url });
+    const { body, headers, url: responseUrl } = await got(url);
+    console.info( headers['content-type']);
+    const html = htmlToUtf8(body, headers['content-type']);
+
+    const meta = await metascraper({ html, url: responseUrl });
 
     response.success(meta);
 }

@@ -1,5 +1,6 @@
 .fwd {
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .fwd_reply {

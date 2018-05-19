@@ -14,8 +14,7 @@ export default async function findUsers(
         await User.findAll({
             where: {
                 username: {
-                    // FIXME iLike для Postgres
-                    [sequelize.Op.like]: sequelize.literal(`${likeQuery} ESCAPE '\\'`)
+                    [sequelize.Op.iLike]: sequelize.literal(`${likeQuery} ESCAPE '\\'`)
                 }
             }
         })

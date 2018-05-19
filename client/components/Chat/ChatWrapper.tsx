@@ -11,6 +11,7 @@ import './Chat.css';
 import ChatsStore from '../../domain/chats-store';
 import ApplicationStore from '../../domain/application-store';
 import uiStore from '../../domain/ui-store';
+import deathtimerStore from '../../domain/deathtimer-store';
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
@@ -44,6 +45,8 @@ class ChatWrapper extends React.Component<Props> {
             return;
         }
 
+        deathtimerStore.isActive = false;
+        deathtimerStore.saveState();
         ChatsStore.setCurrentChat(chatId);
     }
 
