@@ -15,6 +15,9 @@ class RPCClient {
 
     constructor() {
         this.socket = io.connect(WEB_SOCK_URL, {
+            reconnection: true,
+            reconnectionAttempts: 3,
+            reconnectionDelay: 1000,
             autoConnect: false,
             transports: ['websocket', 'polling'],
         });

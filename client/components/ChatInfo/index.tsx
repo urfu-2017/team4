@@ -14,11 +14,15 @@ import usersStore from '../../domain/users-store';
 
 import './ChatInfo.css';
 import AddMember from './AddMember';
+import HeaderMainWrap from '../Header/HeaderMainWrap';
+import { declOfNum } from '../../utils/decOfNum';
 
 const b = b_.with('chat-info');
 
 @observer
 class ChatInfo extends React.Component {
+    private static strings = ['участник', 'участника', 'участников'];
+
     private static closePopup() {
         uiStore.togglePopup('chatInfo')();
     }
@@ -80,11 +84,13 @@ class ChatInfo extends React.Component {
                         >
                             <span className={b('action', { dark })}>Скопировать invite-ссылку</span>
                         </CopyToClipboard>
-                        <span onClick={this.leaveChat} className={b('action', { danger: true })}>
+                        <span onClick={this.leaveChat} className={b('action', { danger: true, dark })}>
                             Покинуть группу
                         </span>
                     </div>
-                    <div className={b('field', { dark })}>{chat.members.length} участников:</div>
+                    <div className={b('field', { dark })}>
+                        {chat.members.length} {declOfNum(chat.members.length, ChatInfo.strings)}:
+                    </div>
                     <UsersList
                         className={b('members')}
                         disableSearch={true}

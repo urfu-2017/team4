@@ -70,6 +70,10 @@
     color: #ed0000;
 }
 
+.chat-info__action_danger.chat-info__action_dark {
+    color: cyan;
+}
+
 .chat-info__members {
     max-height: 40vh;
 }

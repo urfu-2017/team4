@@ -17,8 +17,7 @@ export default async function(request: Request<Params>, response: Response) {
         throw JsonRpcError.invalidParams('url is empty');
     }
 
-    const { body, headers, url: responseUrl } = await got(url);
-    console.info( headers['content-type']);
+    const { body, headers, url: responseUrl } = await got(url, { encoding: null });
     const html = htmlToUtf8(body, headers['content-type']);
 
     const meta = await metascraper({ html, url: responseUrl });

@@ -5,18 +5,23 @@ import ChatSettingsIcon from './ChatSettingsIcon';
 
 import uiStore from '../../../domain/ui-store';
 import chatsStore from '../../../domain/chats-store';
+import { declOfNum } from '../../../utils/decOfNum';
 
 import './HeaderMainWrap.css';
 
 @observer
 class HeaderMainWrap extends React.Component {
+
+    private static strings = ['участник', 'участника', 'участников'];
+
     public render(): React.ReactNode {
         let message = 'Выберите чат';
         const chat = chatsStore.currentChat;
 
         if (chat !== null) {
-                message = chat.displayName;
-                message += (chat.type === 'room') ? ` (${chat.members.length} участников)` : '';
+            const members = chat.members.length;
+            message = chat.displayName;
+            message += (chat.type === 'room') ? ` (${members} ${declOfNum(members, HeaderMainWrap.strings)})` : '';
         }
 
         return (
