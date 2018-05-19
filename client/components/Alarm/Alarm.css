@@ -1,0 +1,48 @@
+.alarm-picker {
+    padding: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #d9d9d9;
+
+    position: absolute;
+    bottom: 100%;
+    right: 25px;
+    z-index: 9999;
+
+    background: #fff;
+    border-radius: 3px;
+}
+
+.alarm-picker_dark {
+    background: #3f4447;
+    border-color: #52575c;
+    color: #a8b5be;
+}
+
+.alarm-picker input {
+    padding: 3px;
+    box-sizing: border-box;
+    width: 100%;
+
+    text-align: center;
+}
+
+.alarm-picker_dark input {
+    background: #3f4447;
+    border: 1px solid #52575c;
+    color: #a8b5be;
+}
+
+.alarm-picker__days,
+.alarm-picker__hour,
+.alarm-picker__minutes {
+    display: flex;
+    flex-direction: column;
+    width: 53px;
+    margin: 0 5px;
+}
+
+.alarm-picker__timer {
+    display: flex;
+    flex-direction: row;
+}

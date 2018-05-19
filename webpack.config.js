@@ -111,7 +111,7 @@ module.exports = {
         overlay: true,
         clientLogLevel: 'none',
         contentBase: clientSrcPath,
-        host: '0.0.0.0',
+        host: 'localhost',
         publicPath: '/',
         watchOptions: { ignored: /node_modules/ },
         port: 3000,
