@@ -19,6 +19,9 @@ renderer.link = (href: string, title: string, text: string) => {
         return oldLinkRenderer(href, title, text);
     }
 
+    href = href.replace('&amp;kgsystem=true', '');
+    text = text.replace('&amp;kgsystem=true', '');
+
     return `<a target="_blank" href="${href}" ${title && `title="${title}"`}>${text}</a>`;
 };
 
