@@ -17,6 +17,7 @@ class EmojiPicker extends React.Component<Props> {
     public render() {
         const { className = '' } = this.props;
         const dark = uiStore.isDark;
+        const windowWidth = window.innerWidth;
 
         return (
             <div className={classNames(className, b('picker', { dark }))}>
@@ -26,8 +27,10 @@ class EmojiPicker extends React.Component<Props> {
                     showSkinTones={false}
                     onSelect={this.getEmoji}
                     color={dark ? '#ffffff' : '#515151'}
-                    emojiSize={24}
+                    emojiSize={windowWidth < 470 ? 20 : 24}
+                    perLine={windowWidth < 470 ? 6 : 9}
                     native={true}
+                    include={['recent', 'people']}
                 />
             </div>
         );

@@ -65,13 +65,19 @@ class ChatInfo extends React.Component {
                 <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup} dark={dark}>
                     <h3 className={b('room-title', { dark }) + ' header2'}>{chat.name}</h3>
                     <div className={b('actions')}>
-                        <span onClick={chat.toggleMute.bind(chat)} className={b('action')}>
-                            { (chat.muted) ? "Включить" : "Отключить" } уведомления
+                        <span
+                            onClick={chat.toggleMute}
+                            className={b('action', { dark })}
+                        >
+                            {chat.muted ? 'Включить' : 'Отключить'} уведомления
                         </span>
                         <span className={b('action', { dark })} onClick={this.enableAddMode}>
                             Добавить участника
                         </span>
-                        <CopyToClipboard onCopy={this.onCopy} text={ChatInfo.getInviteLink(chat.id)}>
+                        <CopyToClipboard
+                            onCopy={this.onCopy}
+                            text={ChatInfo.getInviteLink(chat.id)}
+                        >
                             <span className={b('action', { dark })}>Скопировать invite-ссылку</span>
                         </CopyToClipboard>
                         <span onClick={this.leaveChat} className={b('action', { danger: true })}>

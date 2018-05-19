@@ -205,7 +205,7 @@ class MessageInput extends React.Component {
         const longitude = location.coords.longitude.toFixed(6);
 
         const src = getMapUrl(latitude, longitude);
-        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16&kgsystem=true`
+        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16&kgsystem=true`;
 
         ChatsStore.currentChat.sendMessage({ text: link, attachment: src });
     };
@@ -281,22 +281,42 @@ class MessageInput extends React.Component {
         this.uploadStore.clear();
     };
 
-    @action private onShowSmiles = () => (this.showSmiles = true);
+    @action
+    private onShowSmiles = () => {
+        // FIXME Убрать логи
+        console.log('showed smiles');
+        this.showSmiles = true;
+    };
 
-    @action private onCloseSmiles = () => (this.showSmiles = false);
+    @action
+    private onCloseSmiles = () => {
+        // FIXME Убрать логи
+        console.log('hid smiles');
+        this.showSmiles = false;
+    };
 
-    @action private setMessage = (value: string) => (this.message = value);
+    @action
+    private setMessage = (value: string) => {
+        this.message = value;
+    };
 
-    @action private onAddSmile = (text: string) => (this.message += text);
+    @action
+    private onAddSmile = (text: string) => {
+        this.message += text;
+    };
 
     @action
     private onShowTimer = () => {
+        // FIXME Убрать логи
+        console.log('showed timer');
         this.showTimer = true;
         deathtimerStore.getState();
     };
 
     @action
     private onCloseTimer = () => {
+        // FIXME Убрать логи
+        console.log('hid timer');
         this.showTimer = false;
         deathtimerStore.saveState();
     };

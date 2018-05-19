@@ -244,12 +244,14 @@ export default class ChatModel {
     }
 
     @action
-    public async toggleMute() {
+    public toggleMute = async () => {
         this.muted = await RPC.request('setMute', {
             chatId: this.id,
             mute: !this.muted
         });
-    }
+
+        UIStore.setToast(`Уведомления ${this.muted ? 'отключены' : 'включены'}`);
+    };
 
     @action
     private addMessage(message: any, tempId?: string) {
