@@ -2,16 +2,26 @@ import { Chat, Members, Message, Token, User } from '../models';
 import { Server } from '../rpc/server';
 import * as got from 'got';
 import { PM_KEY } from '../config';
+import findMentions from '../../shared/utils/findMentions';
+import { findUserChat } from '../api/chat/helpers/findChat';
 
 const headers = {
     'Authorization': `key=${PM_KEY}`,
 };
 
-export default async function(message: Message, currentUserId: number, server: Server) {
+export default async function(message: any, currentUserId: number, server: Server) {
     try {
-        const { createdAt, text, attachment, forwarded, senderId, chatId } = message;
+        const { createdAt, text, attachment, forwarded, senderId, chatId, timeToDeath } = message;
 
-        const members = (await Members.findAll({ where: { chatId }, attributes: ['userId'] }))
+        const chat = await findUserChat(currentUserId, chatId);
+
+        const mentions = findMentions(text);
+        const mentionedUserIds = chat.members
+            .filter(user => mentions.includes(user.username.toLowerCase()))
+            .map(user => user.id);
+
+        const members = (await Members.findAll({ where: { chatId }, attributes: ['userId', 'mute'] }))
+            .filter(record => !record.mute || mentionedUserIds.includes(record.userId))
             .map(record => record.userId)
             .filter((id: number) => !server.isAvailableUser(id) && id !== currentUserId);
 
@@ -21,8 +31,6 @@ export default async function(message: Message, currentUserId: number, server: S
         if (tokens.length === 0) {
             return;
         }
-
-        const chat = (await Chat.findById(chatId, { attributes: ['id', 'type', 'name'] }))!;
 
         const { username, firstName, lastName, avatar }  = (await User.findById(message.senderId))!;
         const name = `${firstName || ''} ${lastName || ''}`.trim() || username;
@@ -35,7 +43,11 @@ export default async function(message: Message, currentUserId: number, server: S
             message: { text, createdAt, attachment, forwarded }
         };
 
-        const body = { registration_ids: tokens, data };
+        const body = {
+            registration_ids: tokens,
+            data,
+            time_to_live: Math.round(timeToDeath / 1000)
+        };
         await got('https://fcm.googleapis.com/fcm/send', { method: 'POST', headers, body, json: true });
     } catch (e) {
         console.error(e);

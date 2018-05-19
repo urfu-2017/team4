@@ -20,6 +20,7 @@ export default class ChatModel {
     @observable public sendingMessages = [];
     @observable public isFetching: boolean = false;
 
+    @observable public muted: boolean = false;
     @observable public hasNotification: boolean = false;
 
     public id;
@@ -71,12 +72,13 @@ export default class ChatModel {
         return null;
     }
 
-    constructor({ id, name, members, owner, type }) {
+    constructor({ id, name, members, owner, type, memberData = null }) {
         this.id = id;
         this.name = name;
         this.members = members;
         this.owner = owner;
         this.type = type;
+        this.muted = memberData ? memberData.mute : false;
 
         this.sendingMessages = JSON.parse(sessionStorage.getItem(`queue_${this.id}`)) || [];
 
@@ -239,6 +241,14 @@ export default class ChatModel {
     @action
     public setNotification(has: boolean) {
         this.hasNotification = has;
+    }
+
+    @action
+    public async toggleMute() {
+        this.muted = await RPC.request('setMute', {
+            chatId: this.id,
+            mute: !this.muted
+        });
     }
 
     @action

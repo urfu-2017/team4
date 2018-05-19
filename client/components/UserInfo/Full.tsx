@@ -48,10 +48,17 @@ class FullUserInfo extends React.Component<Props, State> {
 
     private renderActions = () => {
         const username = this.props.user.username;
+        const chat = chatsStore.findDialog(this.props.user.id);
         const isContact = !!contactsStore.list.find(user => user.username === username);
 
         return (
             <div className={b('actions')}>
+                { chat ? (
+                    <span onClick={chat.toggleMute.bind(chat)} className={b('action')}>
+                    { (chat.muted) ? "Включить" : "Отключить" } уведомления
+                    </span>
+                ) : ("")}
+
                 {!isContact ? (
                     <span
                         className={b('action', { dark: uiStore.isDark })}

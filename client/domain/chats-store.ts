@@ -23,6 +23,7 @@ class ChatsStore {
         RPC.addListener(Events.REMOVE_MEMBER, this.onRemoveMember);
         RPC.addListener(Events.ADD_REACTION, this.onAddReaction);
         RPC.addListener(Events.REMOVE_REACTION, this.onRemoveReaction);
+        RPC.addListener(Events.MUTE_CHANGED, this.onMuteChanged);
     }
 
     public async createChat(type, members, name = '') {
@@ -152,6 +153,13 @@ class ChatsStore {
         if (!message) return;
 
         message.reactions = message.reactions.filter(reaction => reaction.id !== event.reaction);
+    };
+
+    private onMuteChanged = event => {
+        const chat = this.chatsMap.get(event.chatId);
+        if (!chat) return;
+
+        chat.muted = event.mute;
     };
 
     @action

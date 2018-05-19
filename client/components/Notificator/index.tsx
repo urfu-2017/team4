@@ -9,6 +9,7 @@ import usersStore from '../../domain/users-store';
 import chatsStore from '../../domain/chats-store';
 import getPlainText from '../../utils/plain-text';
 import markdown from '../../utils/markdown';
+import findMentions from '../../../shared/utils/findMentions';
 
 @observer
 class Notificator extends React.Component {
@@ -36,9 +37,11 @@ class Notificator extends React.Component {
         const currentChat = chatsStore.currentChat;
         const chat = chatsStore.chatsMap.get(message.chatId);
         const isCurrentUser = usersStore.currentUser.id === message.senderId;
+        const mentions = findMentions(message.text);
 
         if (isCurrentUser) return;
         if (this.isActiveWindow && currentChat && currentChat.id === message.chatId) return;
+        if (chat.muted && !mentions.includes(usersStore.currentUser.username.toLowerCase())) return;
 
         this.showNotification(message, chat);
     };

@@ -1,10 +1,11 @@
 import { v4 as uuid } from 'uuid';
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { Members, Message } from '../../models';
+import { Message } from '../../models';
 import { Events } from '../../../shared/events';
 
 import sendPush from '../../helpers/sendPush';
+import { Members } from '../../models/members';
 
 interface Params {
     chatId: string;
@@ -15,14 +16,15 @@ interface Params {
 }
 export default async function sendMessage(request: Request<Params>, response: Response) {
     const { chatId, text, attachment, timeToDeath, forwarded } = request.params;
-    const members = await Members.findOne({
+
+    const memberData = await Members.findOne({
         where: {
             userId: request.user,
-            chatId
+            chatId: request.params.chatId
         }
     });
 
-    if (!members) {
+    if (!memberData) {
         return response.error(404, 'No such chat');
     }
 
@@ -30,7 +32,7 @@ export default async function sendMessage(request: Request<Params>, response: Re
         ? new Date(new Date().getTime() + timeToDeath)
         : null;
 
-    const message = await Message.create({
+    const dbMessage = await Message.create({
         id: uuid(),
         senderId: request.user,
         chatId,
@@ -40,9 +42,9 @@ export default async function sendMessage(request: Request<Params>, response: Re
         forwarded
     });
 
-    const messageWithTimeToDeath = {...message.dataValues, timeToDeath};
+    const message = {...dbMessage.dataValues, timeToDeath};
 
-    sendPush(messageWithTimeToDeath as any, request.user, request.server);
-    response.notification(chatId, Events.NEW_MESSAGE, messageWithTimeToDeath);
-    response.success(messageWithTimeToDeath);
+    sendPush(message, request.user, request.server);
+    response.notification(chatId, Events.NEW_MESSAGE, message);
+    response.success(message);
 }
