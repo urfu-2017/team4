@@ -1,5 +1,5 @@
 import React from 'react';
-import { action, observable, runInAction } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import ReactDropzone from 'react-dropzone';
@@ -80,13 +80,21 @@ class Dropzone extends React.Component<Props> {
     };
 
     @action
-    private onWindowDragEnter = event => {
+    private onWindowDragEnter = (event: DragEvent) => {
         event.preventDefault();
         this.childrenDepth++;
 
-        runInAction(() => {
+        if (!event.dataTransfer.items) {
+            return;
+        }
+
+        const items = Array.from(event.dataTransfer.items);
+
+        if (items.some(({ kind }) => kind === 'file')) {
             this.displayDropzone = true;
-        });
+
+            return;
+        }
     };
 
     @action
@@ -95,9 +103,7 @@ class Dropzone extends React.Component<Props> {
         this.childrenDepth--;
 
         if (this.childrenDepth === 0) {
-            runInAction(() => {
-                this.displayDropzone = false;
-            });
+            this.displayDropzone = false;
         }
     };
 
