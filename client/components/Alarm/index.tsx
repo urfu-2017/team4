@@ -16,13 +16,22 @@ const Alarm = () => {
 
     return (
         <div className={b({ dark })}>
-            <Button
-                className={b('button-state')}
-                onClick={deathtimerStore.toggleActive}
-                type={dark ? 'dark' : 'main'}
-            >
-                {deathtimerStore.isActive ? 'OFF' : 'ON'}
-            </Button>
+            <div className={b('buttons')}>
+                <Button
+                    className={b('button')}
+                    onClick={deathtimerStore.toggleActive}
+                    type={dark ? 'dark' : 'main'}
+                >
+                    {deathtimerStore.isActive ? 'Выкл' : 'Вкл'}
+                </Button>
+                <Button
+                    className={b('button')}
+                    onClick={deathtimerStore.clear}
+                    type={dark ? 'dark' : 'main'}
+                >
+                    Сбросить
+                </Button>
+            </div>
             <div className={b('timer')}>
                 <div className={b('days')}>
                     <small>Часы</small>

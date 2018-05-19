@@ -38,6 +38,11 @@ class DeathtimerStore {
         return action(() => {
             const amount = milliseconds[unit];
 
+            // Если удаляется больше чем установлено, то ничего не делаем
+            if (amount > this.timeToDeath && !isInc) {
+                return;
+            }
+
             this.timeToDeath += isInc ? amount : -amount;
 
             console.log(this.timeToDeath);
@@ -49,6 +54,12 @@ class DeathtimerStore {
 
             this.saveState();
         });
+    };
+
+    @action
+    public clear = () => {
+        this.timeToDeath = 0;
+        this.isActive = false;
     };
 
     @action

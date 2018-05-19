@@ -11,6 +11,7 @@
 
     background: #fff;
     border-radius: 3px;
+    text-align: center;
 }
 
 .alarm-picker_dark {
@@ -31,6 +32,11 @@
     background: #3f4447;
     border: 1px solid #52575c;
     color: #a8b5be;
+}
+
+.alarm-picker__buttons {
+    display: flex;
+    justify-content: space-between;
 }
 
 .alarm-picker__days,

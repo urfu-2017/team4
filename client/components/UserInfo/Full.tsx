@@ -53,11 +53,14 @@ class FullUserInfo extends React.Component<Props, State> {
 
         return (
             <div className={b('actions')}>
-                { chat ? (
-                    <span onClick={chat.toggleMute.bind(chat)} className={b('action')}>
-                    { (chat.muted) ? "Включить" : "Отключить" } уведомления
+                {chat && (
+                    <span
+                        onClick={chat.toggleMute.bind(chat)}
+                        className={b('action', { dark: uiStore.isDark })}
+                    >
+                        {chat.muted ? 'Включить' : 'Отключить'} уведомления
                     </span>
-                ) : ("")}
+                )}
 
                 {!isContact ? (
                     <span
