@@ -23,7 +23,6 @@ export const withOutsideClickHandler = (Component, handler): React.ComponentClas
             const domNode = ReactDOM.findDOMNode(this);
 
             if (!domNode || !domNode.contains(event.target)) {
-                console.info('handle');
                 handler();
             }
         };
