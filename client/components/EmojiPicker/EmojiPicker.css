@@ -2,6 +2,10 @@
     display: none;
 }
 
+.emoji-mart-bar {
+    display: none;
+}
+
 .emoji-mart-category-label {
     text-align: left;
 }
