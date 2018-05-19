@@ -26,7 +26,7 @@ export default async function setMute(request: Request<Params>, response: Respon
 
     await memberRecord.save();
 
-    response.notification(request.user, Events.MUTE_CHANGED, {
+    response.notification(String(request.user), Events.MUTE_CHANGED, {
         chatId,
         mute: memberRecord.mute
     });
