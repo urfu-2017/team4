@@ -57,12 +57,12 @@ class Notificator extends React.Component {
                 const title = 'Новое сообщение ' + (chat.type === 'dialog' ? 'от ' + user.displayName : 'в ' + chat.name);
                 const prefix = chat.type === 'dialog' ? '' : user.displayName + ': ';
                 const body = prefix + (message.forwarded ? 'Пересланное сообщение' :
-                    (message.attachment ? 'Фотография. ' : '') + message.text);
+                    (attachment ? 'Фотография. ' : '') + text);
 
                 const icon = chat.avatar;
                 const data = { chatId: chat.id };
 
-                const options: any = { icon, body, vibrate: [800], tag: chat.id, renotify: true, data };
+                const options: any = { icon, body, vibrate: [600, 200, 600], tag: chat.id, renotify: true, data };
 
                 worker.showNotification(title, options);
             });

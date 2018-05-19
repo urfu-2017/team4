@@ -106,7 +106,11 @@
 }
 
 .message-input__button_active {
-    color: #74669b;
+    color: #74669b !important;
+}
+
+.message-input__button_active path {
+    color: #74669b !important;
 }
 
 .message-input__button path {
