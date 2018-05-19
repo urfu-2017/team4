@@ -84,13 +84,13 @@ class Dropzone extends React.Component<Props> {
         event.preventDefault();
         this.childrenDepth++;
 
-        const items = event.dataTransfer.items;
-
-        if (!items) {
+        if (!event.dataTransfer || !event.dataTransfer.items) {
             this.displayDropzone = true;
 
             return;
         }
+
+        const items = event.dataTransfer.items;
 
         for (const item of Array.from(items)) {
             if (item.kind === 'file') {
