@@ -16,7 +16,7 @@ class ApplicationStore {
     public constructor() {
         window.addEventListener('offline', () => this.setOffline(true));
         window.addEventListener('online', () =>
-            setTimeout(() => this.init(), 500)
+            setTimeout(() => this.init(), 1500)
         );
     }
 
@@ -36,11 +36,22 @@ class ApplicationStore {
             this.setLoaded({ requireAuth: false });
         } catch (error) {
             if (error.message === 'AUTH_ERROR') {
+                this.saveRedirect(location.hash.slice(1));
                 this.setLoaded({ requireAuth: true });
                 return;
             }
 
-            uiStore.setToast('Произошла критическая ошибка');
+            console.error(error);
+            uiStore.setToast('Произошла критическая ошибка. Приложение будет перезагружено');
+            setTimeout(() => window.location.reload(true), 3000);
+        }
+    }
+
+    private saveRedirect(url: string) {
+        try {
+            localStorage.setItem('redirect', url);
+        } catch (e) {
+            // ignored
         }
     }
 

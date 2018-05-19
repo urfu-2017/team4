@@ -65,6 +65,9 @@ class ChatInfo extends React.Component {
                 <Popup className={b()} zIndex={300} closeHandler={ChatInfo.closePopup} dark={dark}>
                     <h3 className={b('room-title', { dark }) + ' header2'}>{chat.name}</h3>
                     <div className={b('actions')}>
+                        <span onClick={chat.toggleMute.bind(chat)} className={b('action')}>
+                            { (chat.muted) ? "Включить" : "Отключить" } уведомления
+                        </span>
                         <span className={b('action', { dark })} onClick={this.enableAddMode}>
                             Добавить участника
                         </span>

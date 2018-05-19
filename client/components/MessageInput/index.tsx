@@ -205,7 +205,7 @@ class MessageInput extends React.Component {
         const longitude = location.coords.longitude.toFixed(6);
 
         const src = getMapUrl(latitude, longitude);
-        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16`;
+        const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16&kgsystem=true`
 
         ChatsStore.currentChat.sendMessage({ text: link, attachment: src });
     };

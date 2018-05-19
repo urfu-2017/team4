@@ -1,13 +1,23 @@
 import { Request } from '../../rpc/request';
 import { Response } from '../../rpc/response';
-import { findUserChat } from './helpers/findChat';
+import { Members } from '../../models';
 
 export default async function subscribeToChat(
     request: Request<{ chatId: string }>,
     response: Response
 ) {
-    const chat = await findUserChat(request.user, request.params.chatId);
-    await request.server.subscribeUser(request.user, chat!.id);
+    const memberData = await Members.findOne({
+        where: {
+            userId: request.user,
+            chatId: request.params.chatId
+        }
+    });
 
-    response.success(chat);
+    if (!memberData) {
+        return response.error(404, 'No such chat');
+    }
+
+    await request.server.subscribeUser(request.user, request.params.chatId);
+
+    response.success(null);
 }

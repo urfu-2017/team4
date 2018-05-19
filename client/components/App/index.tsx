@@ -17,10 +17,10 @@ import ChatInfo from '../ChatInfo';
 import uiStore from '../../domain/ui-store';
 
 import './App.css';
+
+import Empty from './Empty'
 import ChatInvite from '../ChatInvite/index';
 import SelectChat from '../ForwardedMessage/SelectChat';
-
-const stubComponent: React.SFC = () => <div />;
 
 @observer
 class App extends React.Component {
@@ -35,7 +35,7 @@ class App extends React.Component {
                             <Switch>
                                 <Route path="/join/:invite" component={ChatInvite} />
                                 <Route path="/chats/:id" component={ChatWrapper} />
-                                <Route path="/" component={stubComponent} />
+                                <Route path="/" component={Empty} />
                                 <Redirect from="*" to="/" />
                             </Switch>
                         </div>
