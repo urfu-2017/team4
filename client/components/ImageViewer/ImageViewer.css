@@ -8,6 +8,7 @@
     max-height: 80vh;
     padding: 20px 20px 10px;
     top: 5vh;
+    box-sizing: border-box;
 
     border-radius: 10px;
 }
@@ -20,11 +21,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 300px;
+    min-width: 250px;
     margin: 0 auto 10px;
 }
 
 .image-viewer__image {
-    max-height: 70vh;
+    max-height: 60vh;
     max-width: 80vw;
 }
