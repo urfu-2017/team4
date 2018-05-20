@@ -12,7 +12,7 @@ export default async function getChatMessages(
     const { chatId, from, limit } = request.params;
     await findUserChat(request.user, chatId);
 
-    const messages = await Message.findAll({
+    const dbMessages = await Message.findAll({
         where: {
             chatId,
             ...(from ? { createdAt: { [Sequelize.Op.lt]: from } } : {}),
@@ -30,11 +30,11 @@ export default async function getChatMessages(
         include: [Reaction]
     });
 
-    messages
+    const messages = dbMessages
         .map(message => ({
             ...message.dataValues,
             timeToDeath: message.deathTime
-                ? new Date().getTime() - message.deathTime.getTime()
+                ? (message.deathTime.getTime() - new Date().getTimezoneOffset()*60*1000) - new Date().getTime()
                 : null
         }));
 
