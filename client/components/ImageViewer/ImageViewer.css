@@ -19,6 +19,7 @@
 .image-viewer__container {
     display: flex;
     justify-content: center;
+    align-items: center;
     min-width: 300px;
     margin: 0 auto 10px;
 }
