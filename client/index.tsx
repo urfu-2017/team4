@@ -16,7 +16,11 @@ import applicationStore from './domain/application-store';
 import './index.css';
 
 registerServiceWorker();
-Notification.requestPermission();
+
+if ('Notification' in window) {
+    Notification.requestPermission();
+}
+
 
 @observer
 class Application extends React.Component {

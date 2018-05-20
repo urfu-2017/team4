@@ -47,6 +47,8 @@ class Notificator extends React.Component {
     };
 
     private showNotification(message, chat) {
+        if (!('Notification' in window)) return;
+
         Notification.requestPermission(permission => {
             if (permission !== 'granted') return;
 
