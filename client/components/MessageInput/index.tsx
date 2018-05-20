@@ -128,6 +128,7 @@ class MessageInput extends React.Component {
                         </Button>
                     )}
                     <Textarea
+                        maxLength={800}
                         maxRows={6}
                         style={{ padding: '10px' }}
                         className={b('message', { dark })}

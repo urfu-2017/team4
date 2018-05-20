@@ -110,7 +110,7 @@
 }
 
 .message-input__button_active path {
-    color: #74669b !important;
+    color: inherit;
 }
 
 .message-input__button path {
@@ -168,5 +168,9 @@
 
     .message-input__button:hover path {
         fill: #999;
+    }
+
+    .message-input__button_active path {
+        fill: #74669b !important;
     }
 }

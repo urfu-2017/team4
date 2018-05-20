@@ -50,20 +50,20 @@ class Notificator extends React.Component {
         Notification.requestPermission(permission => {
             if (permission !== 'granted') return;
 
+            const { attachment, text, senderId } = message;
+
+            const user = usersStore.users.get(senderId);
+            const title = 'Новое сообщение ' + (chat.type === 'dialog' ? 'от ' + user.displayName : 'в ' + chat.name);
+            const prefix = chat.type === 'dialog' ? '' : user.displayName + ': ';
+            const body = prefix + (message.forwarded ? 'Пересланное сообщение' :
+                (attachment ? 'Фотография. ' : '') + text);
+
+            const icon = chat.avatar;
+            const data = { chatId: chat.id };
+
+            const options: any = { icon, body, vibrate: [600, 200, 600], tag: chat.id, renotify: true, data };
+
             navigator.serviceWorker.ready.then(worker => {
-                const { attachment, text, senderId } = message;
-
-                const user = usersStore.users.get(senderId);
-                const title = 'Новое сообщение ' + (chat.type === 'dialog' ? 'от ' + user.displayName : 'в ' + chat.name);
-                const prefix = chat.type === 'dialog' ? '' : user.displayName + ': ';
-                const body = prefix + (message.forwarded ? 'Пересланное сообщение' :
-                    (attachment ? 'Фотография. ' : '') + text);
-
-                const icon = chat.avatar;
-                const data = { chatId: chat.id };
-
-                const options: any = { icon, body, vibrate: [600, 200, 600], tag: chat.id, renotify: true, data };
-
                 worker.showNotification(title, options);
             });
         });
