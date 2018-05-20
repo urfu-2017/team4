@@ -7,6 +7,12 @@
     padding: 20px 20px 10px;
 }
 
+@media (min-width: 425px) {
+    .preview {
+        min-width: 300px;
+    }
+}
+
 .preview__message {
     margin: 0 0 10px;
     padding-left: 10px;
