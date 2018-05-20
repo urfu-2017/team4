@@ -215,7 +215,13 @@ class MessageInput extends React.Component {
         const src = getMapUrl(latitude, longitude);
         const link = `https://yandex.ru/maps/?ll=${longitude},${latitude}&z=16&kgsystem=true`;
 
-        ChatsStore.currentChat.sendMessage({ text: link, attachment: src });
+        let timeToDeath = null;
+
+        if (deathtimerStore.isActive && deathtimerStore.timeToDeath) {
+            timeToDeath = deathtimerStore.timeToDeath;
+        }
+
+        ChatsStore.currentChat.sendMessage({ text: link, attachment: src, timeToDeath });
     };
 
     private onErrorSendLocation = () => uiStore.setToast('Не удалось получить ваше местоположение');
@@ -223,11 +229,18 @@ class MessageInput extends React.Component {
     private onImageSend = async () => {
         const text = this.imageCaptionInput.value.trim();
 
+        let timeToDeath = null;
+
+        if (deathtimerStore.isActive && deathtimerStore.timeToDeath) {
+            timeToDeath = deathtimerStore.timeToDeath;
+        }
+
         try {
             this.imageCaptionInput.disabled = true;
             await ChatsStore.currentChat.sendMessage({
                 text,
-                attachment: this.attachment
+                attachment: this.attachment,
+                timeToDeath
             });
             this.imageCaptionInput.value = '';
         } finally {
