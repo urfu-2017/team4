@@ -46,7 +46,7 @@ class Message extends React.Component<Props> {
         const url = urlParser(text || '');
 
         if (url && !url.startsWith(APP_URL)) {
-            getUrlMeta(url, id).then(this.setMeta);
+            getUrlMeta(url, id).then(this.setMeta, () => {});
         }
 
         if (this.messageText) {
